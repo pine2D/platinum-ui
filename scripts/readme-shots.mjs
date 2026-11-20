@@ -1,15 +1,17 @@
 #!/usr/bin/env node
-// Generates deterministic 2x Retina real-CSS screenshots for README.md
-// directly from dist/platinum.css using headless Chromium (zero moire resampling,
-// lossless WebP encoding for razor-sharp 1px bevels and 2px pinstripes).
+// Generates deterministic 2x Retina real-CSS screenshots for README.md (en)
+// and README.zh-CN.md (zh-CN) directly from dist/platinum.css using headless
+// Chromium (zero moire resampling, lossless WebP encoding for razor-sharp
+// 1px bevels, 2px pinstripes, and 15px 3-ridge scrollbars).
 //
 // Usage:
-//   node scripts/readme-shots.mjs
+//   node scripts/readme-shots.mjs                  # build both en and zh-CN
+//   node scripts/readme-shots.mjs --locale en      # build en only
 
 import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { createRequire } from "node:module";
 import { dirname, join, resolve } from "node:path";
-import { fileURLToPath, pathToFileURL } from "node:url";
+import { fileURLToPath } from "node:url";
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const OUT_DIR = join(ROOT, "docs/screenshots");
@@ -109,10 +111,87 @@ const SHARED_STAGE_CSS = `
   }
 `;
 
-function heroHtml() {
+const COPY = {
+  en: {
+    htmlLang: "en",
+    suffix: "",
+    hero: {
+      darkSegActive: "Dark Metallic",
+      darkFocusVal: "Zero-cast grays · AA >= 4.5:1",
+      darkSwitch: "Lock R = G = B neutral ramp",
+      regularBtn: "Push Button",
+      dangerBtn: "Delete",
+      miniNote: "20×20px mini-bevel cluster (24×24 hit box):",
+      fieldVal: "Sunken paper well · Crisp 1px frame",
+      selectOpt: "Gray (Default)",
+      checkLabel: "Offline Cache",
+      switchLabel: "0ms Instant"
+    },
+    variants: {
+      grayBadge: "Default · No Purple",
+      grayDesc: "Silver scrollbar · Charcoal menu · Slate blue focus",
+      graySel: "#b8b8b8 neutral silver",
+      grayThumb: "Thumb: Monochrome silver 3-ridge (#cccccc)",
+      lavDesc: "Lavender selection & scrollbar · Indigo menu/focus",
+      lavSel: "#ccccff classic lavender",
+      lavThumb: "Thumb: Mac OS 9 lavender 3-ridge (#9999ff)",
+      wellLead: "Selection:",
+      wellMid: "with high-contrast",
+      wellLink: "accent links",
+      focusVal: "Focus ring tracks --pt-accent while buttons and chips stay neutral gray",
+      regularBtn: "Push Button"
+    },
+    prose: {
+      heading: "Cross-Project Consumption Channels",
+      introHtml: "Reading views use <code>13.5px / 1.56</code> typography inside a sunken paper well (<code>.pt-well</code>):",
+      compactMeta: "26px button · 20px mini-bevel (24px hit)",
+      comfortableMeta: "32px button · 24px small (form layouts)",
+      inactiveBodyHtml: "Inactive windows (<code>data-inactive=\"true\"</code>) hide titlebar pinstripes and dim the title."
+    }
+  },
+  "zh-CN": {
+    htmlLang: "zh-CN",
+    suffix: ".zh-CN",
+    hero: {
+      darkSegActive: "Dark 深碳金属",
+      darkFocusVal: "零偏色深碳灰 · AA >= 4.5:1",
+      darkSwitch: "锁定纯中性灰阶底盘",
+      regularBtn: "常规按钮",
+      dangerBtn: "删除",
+      miniNote: "20×20px 迷你斜面簇（24×24 热区）：",
+      fieldVal: "下凹白底输入井 · CJK 与西文混排",
+      selectOpt: "Gray · 纯银灰",
+      checkLabel: "离线快照",
+      switchLabel: "0ms 瞬切"
+    },
+    variants: {
+      grayBadge: "默认 · 零紫色",
+      grayDesc: "纯银灰滚动条 + 深炭反白菜单 + 深石板蓝焦点",
+      graySel: "#b8b8b8 中性银灰高亮",
+      grayThumb: "右侧滑块：纯正银灰三横脊（#cccccc）",
+      lavDesc: "经典薰衣草选区/滚动条 + 深靛蓝菜单/焦点",
+      lavSel: "#ccccff 经典薰衣草高亮",
+      lavThumb: "右侧滑块：Mac OS 9 薰衣草三横脊（#9999ff）",
+      wellLead: "文本选区：",
+      wellMid: "，支持高对比",
+      wellLink: "语义强调链接",
+      focusVal: "聚焦边框跟随 --pt-accent，按钮与芯片始终保持纯粹中性铂金灰",
+      regularBtn: "常规按钮"
+    },
+    prose: {
+      heading: "跨项目双通道接入规范",
+      introHtml: "阅读视图采用 <code>13.5px / 1.56</code> 高密度排版，在下凹白底井（<code>.pt-well</code>）内嵌代码窗与实框表：",
+      compactMeta: "26px 主钮 · 20px 迷你钮（24px 热区）",
+      comfortableMeta: "32px 主钮 · 24px 小号钮（表单舒展态）",
+      inactiveBodyHtml: "窗口失焦（<code>data-inactive=\"true\"</code>）自动收起标题栏细横纹并弱化标题文字。"
+    }
+  }
+};
+
+function heroHtml(c) {
+  const t = c.hero;
   return `
   <div class="stage" style="background: linear-gradient(136deg, #171717 0%, #171717 48.5%, #262626 48.5%, #262626 48.8%, #b8b8b8 48.8%, #b8b8b8 100%);">
-    <!-- Subtle retro stipple overlay on both desktop halves -->
     <div style="position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,0.06) 1px, transparent 1px);background-size:4px 4px;clip-path:polygon(0 0, 100% 0, 0 97%);pointer-events:none;"></div>
     <div style="position:absolute;inset:0;background-image:radial-gradient(rgba(0,0,0,0.10) 1px, transparent 1px);background-size:4px 4px;clip-path:polygon(100% 0, 100% 100%, 0 100%);pointer-events:none;"></div>
 
@@ -128,7 +207,7 @@ function heroHtml() {
         <div class="row">
           <div class="pt-segmented">
             <button type="button" class="pt-btn pt-btn-sm" aria-pressed="false">Light</button>
-            <button type="button" class="pt-btn pt-btn-sm" aria-pressed="true">Dark 深碳金属</button>
+            <button type="button" class="pt-btn pt-btn-sm" aria-pressed="true">${t.darkSegActive}</button>
           </div>
           <span class="pt-chip">#2c2c2c window</span>
           <span class="pt-chip">#3b3b3b face</span>
@@ -153,11 +232,11 @@ function heroHtml() {
                 <button type="button" class="pt-btn">Inspect</button>
                 <button type="button" class="pt-btn pt-btn-danger">Reset</button>
               </div>
-              <input type="text" class="pt-field focus-demo" value="零偏色深碳灰 · AA >= 4.5:1" readonly />
+              <input type="text" class="pt-field focus-demo" value="${t.darkFocusVal}" readonly />
               <label class="pt-switch">
                 <input type="checkbox" class="pt-switch-input" checked readonly />
                 <span class="pt-switch-track"></span>
-                <span>锁定纯中性灰阶底盘</span>
+                <span>${t.darkSwitch}</span>
               </label>
             </div>
           </fieldset>
@@ -209,19 +288,18 @@ function heroHtml() {
       </div>
 
       <div class="pt-window-body" style="display:grid; grid-template-columns: 432px 1fr; gap:14px; align-items:start;">
-        <!-- Left Column: Buttons, Fields, Select, Choices -->
         <div class="stack">
           <fieldset class="pt-groupbox">
             <legend>Buttons &amp; Compact Mini-Bevel Cluster</legend>
             <div class="stack">
               <div class="pt-actions">
                 <button type="button" class="pt-btn pt-btn-primary">Save Default</button>
-                <button type="button" class="pt-btn">常规按钮</button>
+                <button type="button" class="pt-btn">${t.regularBtn}</button>
                 <button type="button" class="pt-btn" aria-pressed="true">Pressed</button>
-                <button type="button" class="pt-btn pt-btn-danger">删除</button>
+                <button type="button" class="pt-btn pt-btn-danger">${t.dangerBtn}</button>
               </div>
               <div class="row" style="justify-content:space-between;">
-                <span style="font-size:11px; color:var(--pt-ink-muted);">20×20px 迷你斜面簇（24×24 热区）：</span>
+                <span style="font-size:11px; color:var(--pt-ink-muted);">${t.miniNote}</span>
                 <div class="pt-icon-cluster">
                   <button type="button" class="pt-btn pt-btn-sm pt-btn-icon" aria-label="Copy">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="1"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/></svg>
@@ -241,20 +319,20 @@ function heroHtml() {
             <legend>Sunken Field, Pop-Up Select &amp; Choices</legend>
             <div class="stack">
               <div class="row" style="flex-wrap:nowrap;">
-                <input type="text" class="pt-field" style="flex:1;" value="下凹白底输入井 · CJK 与西文混排" readonly />
+                <input type="text" class="pt-field" style="flex:1;" value="${t.fieldVal}" readonly />
                 <select class="pt-select" style="width:148px;">
-                  <option>Gray · 纯银灰</option>
+                  <option>${t.selectOpt}</option>
                 </select>
               </div>
               <div class="row" style="justify-content:space-between;">
                 <div class="row" style="gap:12px;">
-                  <label class="row" style="gap:5px;"><input type="checkbox" class="pt-checkbox" checked readonly /><span>离线快照</span></label>
+                  <label class="row" style="gap:5px;"><input type="checkbox" class="pt-checkbox" checked readonly /><span>${t.checkLabel}</span></label>
                   <label class="row" style="gap:5px;"><input type="radio" class="pt-radio" checked readonly /><span>Scoped</span></label>
                 </div>
                 <label class="pt-switch">
                   <input type="checkbox" class="pt-switch-input" checked readonly />
                   <span class="pt-switch-track"></span>
-                  <span>0ms 瞬切</span>
+                  <span>${t.switchLabel}</span>
                 </label>
               </div>
             </div>
@@ -267,7 +345,6 @@ function heroHtml() {
           </div>
         </div>
 
-        <!-- Right Column: Popup Menu + 15px 3-Ridge Scrollbar Well -->
         <div class="stack">
           <nav class="pt-menu">
             <button type="button" class="pt-menu-item"><span>New Workspace</span><span class="pt-menu-shortcut">⌘N</span></button>
@@ -297,7 +374,9 @@ function heroHtml() {
   </div>`;
 }
 
-function variantCard({ accent, title, badgeText, desc, selSample, scrollNote }) {
+function variantCard({ accent, title, badgeText, desc, selSample, scrollNote, v }) {
+  const sepSpace = v.wellMid.startsWith("，") ? "" : " ";
+  const endPunct = v.wellMid.startsWith("，") ? "。" : ".";
   return `
     <section class="pt-window" data-platinum data-platinum-scheme="light" data-platinum-accent="${accent}" data-platinum-density="compact" style="flex:1; min-width:0;">
       <header class="pt-titlebar">
@@ -320,7 +399,7 @@ function variantCard({ accent, title, badgeText, desc, selSample, scrollNote }) 
 
           <div class="pt-well pt-scroll" style="height: 126px; overflow-y: scroll; padding: 8px 10px; font-size:12.5px; line-height:1.55;">
             <div style="margin-bottom:6px;">
-              文本选区：<span class="sel-mark">${selSample}</span>，支持高对比 <a href="#v" class="pt-link">语义强调链接</a>。
+              ${v.wellLead} <span class="sel-mark">${selSample}</span>${sepSpace}${v.wellMid} <a href="#v" class="pt-link">${v.wellLink}</a>${endPunct}
             </div>
             <div style="color:var(--pt-ink-muted); font-size:11.5px; margin-bottom:5px;">${scrollNote}</div>
             <div style="color:var(--pt-ink-muted); font-size:11.5px; margin-bottom:4px;">03 · R=G=B neutral metallic chassis</div>
@@ -334,11 +413,11 @@ function variantCard({ accent, title, badgeText, desc, selSample, scrollNote }) 
         <fieldset class="pt-groupbox">
           <legend>Focus Ring vs Neutral Buttons (Zero Purple Bleed)</legend>
           <div class="stack" style="gap:8px;">
-            <input type="text" class="pt-field focus-demo" value="聚焦边框跟随 --pt-accent，按钮与芯片始终保持纯粹中性铂金灰" readonly />
+            <input type="text" class="pt-field focus-demo" value="${v.focusVal}" readonly />
             <div class="row" style="justify-content:space-between;">
               <div class="pt-actions">
                 <button type="button" class="pt-btn pt-btn-primary">Confirm</button>
-                <button type="button" class="pt-btn">常规按钮</button>
+                <button type="button" class="pt-btn">${v.regularBtn}</button>
               </div>
               <div class="row" style="gap:5px;">
                 <span class="pt-chip">neutral-chip</span>
@@ -351,24 +430,27 @@ function variantCard({ accent, title, badgeText, desc, selSample, scrollNote }) 
     </section>`;
 }
 
-function variantsHtml() {
+function variantsHtml(c) {
+  const v = c.variants;
   return `
   <div class="stage stage-light-stipple" style="padding: 24px; display:flex; gap:20px; align-items:stretch;">
     ${variantCard({
       accent: "gray",
       title: "Appearance — Gray (Default)",
-      badgeText: "默认 · 零紫色",
-      desc: "纯银灰滚动条 + 深炭反白菜单 + 深石板蓝焦点",
-      selSample: "#b8b8b8 中性银灰高亮",
-      scrollNote: "右侧滑块：纯正银灰三横脊（#cccccc）"
+      badgeText: v.grayBadge,
+      desc: v.grayDesc,
+      selSample: v.graySel,
+      scrollNote: v.grayThumb,
+      v
     })}
     ${variantCard({
       accent: "lavender",
       title: "Appearance — Lavender (Opt-in)",
       badgeText: 'data-platinum-accent="lavender"',
-      desc: "经典薰衣草选区/滚动条 + 深靛蓝菜单/焦点",
-      selSample: "#ccccff 经典薰衣草高亮",
-      scrollNote: "右侧滑块：Mac OS 9 薰衣草三横脊（#9999ff）"
+      desc: v.lavDesc,
+      selSample: v.lavSel,
+      scrollNote: v.lavThumb,
+      v
     })}
   </div>`;
 }
@@ -412,10 +494,10 @@ function densityWindow({ density, title, meta }) {
     </section>`;
 }
 
-function proseAndDensityHtml() {
+function proseAndDensityHtml(c) {
+  const p = c.prose;
   return `
   <div class="stage stage-light-stipple" style="padding: 24px; display:grid; grid-template-columns: 644px 1fr; gap:20px; align-items:start;">
-    <!-- Left: SimpleText Prose, Code Window & Hard-Bordered Table -->
     <section class="pt-window" data-platinum data-platinum-scheme="light" data-platinum-accent="gray" data-platinum-density="compact">
       <header class="pt-titlebar">
         <button type="button" class="pt-tbox" aria-label="Close">${CLOSE_BOX_SVG}</button>
@@ -424,8 +506,8 @@ function proseAndDensityHtml() {
       </header>
       <div class="pt-window-body">
         <article class="pt-well pt-prose" style="padding: 12px 14px;">
-          <h2 style="margin-top:0;">跨项目双通道接入规范</h2>
-          <p>阅读视图采用 <code>13.5px / 1.56</code> 高密度排版，在下凹白底井（<code>.pt-well</code>）内嵌代码窗与实框表：</p>
+          <h2 style="margin-top:0;">${p.heading}</h2>
+          <p>${p.introHtml}</p>
           <div class="pt-code-window">
             <div class="pt-code-window-head">
               <span>shell — sync single-file CSS with SHA-256 lock</span>
@@ -450,17 +532,16 @@ npx platinum-check --css ./src/app.css --forbid-purple</code></pre>
       </div>
     </section>
 
-    <!-- Right: Compact vs Comfortable Density Stack -->
     <div class="stack" style="gap:16px;">
       ${densityWindow({
         density: "compact",
         title: "Density — Compact (Default · 26 / 20px)",
-        meta: "26px 主钮 · 20px 迷你钮（24px 热区）"
+        meta: p.compactMeta
       })}
       ${densityWindow({
         density: "comfortable",
         title: "Density — Comfortable (Opt-in · 32 / 24px)",
-        meta: "32px 主钮 · 24px 小号钮（表单舒展态）"
+        meta: p.comfortableMeta
       })}
       <section class="pt-window" data-platinum data-platinum-scheme="light" data-platinum-accent="gray" data-platinum-density="compact" data-inactive="true">
         <header class="pt-titlebar">
@@ -469,7 +550,7 @@ npx platinum-check --css ./src/app.css --forbid-purple</code></pre>
           <span style="width:13px;"></span>
         </header>
         <div class="pt-window-body" style="padding:8px 12px; font-size:12px; color:var(--pt-ink-muted);">
-          窗口失焦（<code>data-inactive="true"</code>）自动收起标题栏细横纹并弱化标题文字。
+          ${p.inactiveBodyHtml}
         </div>
       </section>
     </div>
@@ -508,6 +589,13 @@ async function pngToLosslessWebp(browser, pngBuffer) {
 }
 
 async function main() {
+  const argv = process.argv.slice(2);
+  const locIdx = argv.indexOf("--locale");
+  const requested = locIdx >= 0 ? [argv[locIdx + 1]] : Object.keys(COPY);
+  for (const loc of requested) {
+    if (!COPY[loc]) throw new Error(`Unknown locale "${loc}". Expected one of: ${Object.keys(COPY).join(", ")}`);
+  }
+
   const pw = resolvePlaywright();
   mkdirSync(OUT_DIR, { recursive: true });
 
@@ -516,31 +604,34 @@ async function main() {
     ignoreDefaultArgs: ["--hide-scrollbars"]
   });
   try {
-    for (const shot of SHOTS) {
-      const page = await browser.newPage({
-        viewport: { width: shot.w, height: shot.h },
-        deviceScaleFactor: 2
-      });
-      const doc = `<!doctype html>
-<html lang="zh-CN">
+    for (const loc of requested) {
+      const copy = COPY[loc];
+      for (const shot of SHOTS) {
+        const page = await browser.newPage({
+          viewport: { width: shot.w, height: shot.h },
+          deviceScaleFactor: 2
+        });
+        const doc = `<!doctype html>
+<html lang="${copy.htmlLang}">
 <head>
   <meta charset="utf-8" />
   <style>${PLATINUM_CSS}</style>
   <style>:root { --stage-w: ${shot.w}px; --stage-h: ${shot.h}px; } ${SHARED_STAGE_CSS}</style>
 </head>
-<body>${shot.render()}</body>
+<body>${shot.render(copy)}</body>
 </html>`;
-      await page.setContent(doc, { waitUntil: "load" });
-      await page.evaluate(() => document.fonts?.ready);
-      const pngBuf = await page.screenshot({ type: "png" });
-      await page.close();
+        await page.setContent(doc, { waitUntil: "load" });
+        await page.evaluate(() => document.fonts?.ready);
+        const pngBuf = await page.screenshot({ type: "png" });
+        await page.close();
 
-      const webpBuf = await pngToLosslessWebp(browser, pngBuf);
-      const outPath = join(OUT_DIR, `${shot.name}.webp`);
-      writeFileSync(outPath, webpBuf);
-      console.log(
-        `[readme-shots] Wrote docs/screenshots/${shot.name}.webp (${shot.w * 2}x${shot.h * 2}px, ${(webpBuf.length / 1024).toFixed(1)} KiB)`
-      );
+        const webpBuf = await pngToLosslessWebp(browser, pngBuf);
+        const fileName = `${shot.name}${copy.suffix}.webp`;
+        writeFileSync(join(OUT_DIR, fileName), webpBuf);
+        console.log(
+          `[readme-shots] Wrote docs/screenshots/${fileName} (${shot.w * 2}x${shot.h * 2}px, ${(webpBuf.length / 1024).toFixed(1)} KiB)`
+        );
+      }
     }
   } finally {
     await browser.close();

@@ -349,8 +349,9 @@ export function auditDocsAndSkillParity(root = ROOT) {
   const refFiles = existsSync(refDir)
     ? readdirSync(refDir).filter((f) => f.endsWith(".md")).sort().map((f) => `skills/platinum-ui/references/${f}`)
     : [];
+  const readmeFiles = readdirSync(root).filter((f) => /^README(?:\.[A-Za-z0-9-]+)?\.md$/.test(f)).sort();
   const docPaths = [
-    "README.md",
+    ...readmeFiles,
     "DESIGN.md",
     "CLAUDE.md",
     "skills/platinum-ui/SKILL.md",

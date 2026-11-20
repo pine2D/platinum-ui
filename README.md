@@ -1,76 +1,82 @@
 # Platinum UI
 
-原汁原味的 **Mac OS 9 Platinum** 跨项目设计系统：包含 W3C DTCG 设计令牌、零框架 JS 的模块化纯 CSS 部件库、交互式静态预览画廊、可复用的静态/Chromium 几何与对比度体检门禁，以及配套的全局 AI Agent Skill。
+**English** | [简体中文](README.zh-CN.md)
 
-![Platinum UI 浅色铂金银与深色零偏色碳黑金属桌面工作台实测渲染](docs/screenshots/hero.webp)
+A cross-project **Mac OS 9 Platinum** design system: W3C DTCG design tokens, zero-framework-JS modular CSS widgets, an interactive HTML gallery, reusable static and Chromium geometry/contrast gates, and a companion global AI Agent Skill.
 
-## 特性概览
+![Platinum UI light silver and zero-cast dark metallic desktop workbench rendered from dist/platinum.css](docs/screenshots/hero.webp)
 
-- **纯正 Platinum 机械质感**：`1px` 利落黑框、`2px` 硬边投影、四层金属凹凸斜面、`2px` 水平细横纹标题条、`15px` 三横脊滚动条、HIG 双箭头弹出选择框、蚀刻凹槽分组框与 `0ms` 机械瞬切。
-- **零偏色双模底盘 + 双官方变体**：浅色铂金银（`#cccccc`/`#dddddd`）与深色零偏色碳黑金属（`R=G=B`），默认采用无紫耐看的 **`gray`** 变体（纯银灰 + 深石板蓝焦点），一行属性 `data-platinum-accent="lavender"` 即可切换经典 **`lavender`** 薰衣草变体；全象限通过 WCAG AA `>= 4.5:1` 校验。
+## Highlights
 
-![Gray 默认纯银灰变体与 Lavender 经典薰衣草变体在选区、菜单、滚动条及中性按钮上的微距对照](docs/screenshots/variants.webp)
+- **Authentic Platinum mechanics**: Crisp `1px` borders, `2px` hard drop shadows, four-layer metallic bevels, `2px` horizontal pinstripe titlebars, `15px` three-ridge scrollbars, Mac OS 9 HIG double-arrow pop-up selects, etched groove group boxes, and instant `0ms` state transitions.
+- **Zero-cast light/dark chassis and two official accent variants**: Light silver (`#cccccc`/`#dddddd`) and dark metallic grays keep strict `R=G=B` neutrality. Ships with a purple-free **`gray`** default variant (silver scrollbars, charcoal menu highlights, and slate blue focus/links) and an opt-in classic **`lavender`** variant via `data-platinum-accent="lavender"`. Every foreground/surface pair passes WCAG AA `>= 4.5:1` across all four quadrants.
 
-- **紧凑/舒适双密度与高密度长文排版**：默认 `compact`（标准控件 `26px`、次级迷你斜面图标钮 `20px` + `::before` `24×24px` 隐形热区），可选 `data-platinum-density="comfortable"`（`32px` / `24px`）；内置 `.pt-prose`、`.pt-code-window` 与 `1px` 实框表格排版。
-- **双通道零痛点接入**：打包器项目（Electron / Vite / React / TS）直接按包导出引入；零构建项目（原生 Chrome MV3 扩展 / 静态 HTML）通过 `platinum-sync` 一键同步单文件 CSS 并写入版本与 SHA-256 防漂移锁头。
+![Side-by-side comparison of the default Gray variant and opt-in Lavender variant across selection, menus, scrollbars, and neutral buttons](docs/screenshots/variants.webp)
 
-![SimpleText 技术长文代码小窗与 Compact / Comfortable 双密度阶梯及窗口失焦态对照](docs/screenshots/prose-and-density.webp)
+- **Compact and comfortable densities, plus technical prose**: Defaults to `compact` (`26px` primary controls and `20px` mini-bevel icon buttons with `::before` `24×24px` hit areas), with opt-in `data-platinum-density="comfortable"` (`32px` / `24px`). Includes `.pt-prose`, `.pt-code-window`, and `1px` hard-bordered tables.
+- **Dual consumption channels**: Bundler projects (Electron, Vite, React, TypeScript) import CSS entrypoints via package exports; zero-build projects (MV3 Chrome extensions, static HTML) run `platinum-sync` to copy a single-file CSS bundle stamped with a version and SHA-256 drift check header.
 
-## 快速开始
+![SimpleText technical prose and code window alongside Compact, Comfortable, and inactive window states](docs/screenshots/prose-and-density.webp)
 
-### 通道 A：带打包器项目（Vite / Webpack / Electron）
+## Quick Start
 
-在 `package.json` 引用本仓库后按需引入对应入口：
+### Channel A: Bundler Projects (Vite / Webpack / Electron)
+
+Reference this package in `package.json` and import the bundle that matches your app:
 
 ```js
-// 1. 全应用独占 Platinum（含裸 <button>/<input>/<select>/<fieldset> 自动样式 + .pt-* + .pt-prose）
+// 1. Full Platinum app (styles bare <button>/<input>/<select>/<fieldset> + .pt-* + .pt-prose)
 import "platinum-ui/platinum.css";
 
-// 2. 多主题并存或局部容器隔离（仅在 [data-platinum] 内生效，不污染全局 :root）
+// 2. Multi-theme or container-isolated mode (applies only inside [data-platinum], leaving :root untouched)
 import "platinum-ui/scoped.css";
 
-// 3. 仅使用显式 .pt-* 原语类（不动任何裸 HTML 标签）
+// 3. Explicit .pt-* primitives only (leaves bare HTML elements untouched)
 import "platinum-ui/core.css";
 ```
 
-### 通道 B：零构建项目（Chrome 扩展 / 纯静态 HTML）
+### Channel B: Zero-Build Projects (Chrome Extensions / Static HTML)
 
 ```bash
-# 同步单文件 CSS 到目标目录（自动附带版本与 SHA-256 锁头）
+# Copy a single-file CSS bundle into your project with a version + SHA-256 header lock
 node bin/sync-vendor.mjs --target /path/to/your-app/vendor --bundle scoped
 
-# 在目标项目的 CI / pre-commit 中校验未被手改且版本一致
+# Verify in CI or pre-commit that the synced file matches upstream without hand-edits
 node bin/sync-vendor.mjs --target /path/to/your-app/vendor --bundle scoped --check
 ```
 
-## 本地预览与质量门禁
+## Local Preview and Quality Gates
 
-直接用浏览器打开 `gallery/index.html` 即可实时切换明暗模式、`Gray` / `Lavender` 变体、紧凑 / 舒适密度与窗口失焦状态。
+Open `gallery/index.html` in a browser to switch live between light and dark modes, `Gray` and `Lavender` variants, compact and comfortable densities, and active/inactive window states.
 
 ```bash
-npm run build                        # 从 tokens/platinum.tokens.json + src/*.css 编译 dist/*.css
-npm run verify                       # 跑构建零漂移检查 + 全象限 AA 对比度 + CSS 静态防坑门 + 单元测试
-npm run shots                        # 用 Chromium 2x 无损重生成 docs/screenshots/*.webp 实测舞台图
-node bin/platinum-check.mjs --browser               # 启动 Chromium 对画廊跑 8 象限真实图标居中与热区探针
-node bin/platinum-check.mjs --css app.css --forbid-purple   # 对外部业务 CSS 跑 Platinum 静态防坑与禁紫体检
+npm run build                        # Compile dist/*.css from tokens/platinum.tokens.json + src/*.css
+npm run verify                       # Run zero-drift build check + 4-quadrant AA + static CSS gates + unit tests
+npm run shots                        # Regenerate 2x lossless docs/screenshots/*.webp stage renders via Chromium
+node bin/platinum-check.mjs --browser               # Launch Chromium to run 8-state icon centering and hit-area probes
+node bin/platinum-check.mjs --css app.css --forbid-purple   # Audit external app CSS for Platinum traps and purple leaks
 ```
 
-## 安装全局 AI Agent Skill
+## Global AI Agent Skill
 
 ```bash
 npx skills add ./skills/platinum-ui -g -y
 ```
 
-安装后在任意新项目中对 Claude Code / Codex / Antigravity 说明「使用 `platinum-ui` 规范」，AI 将自动按目标项目技术栈接入对应 CSS 通道并执行几何与对比度验收。
+Once installed, ask Claude Code, Codex, or Antigravity to apply the `platinum-ui` specification in any project; the agent selects the matching CSS channel for your stack and runs the geometry and contrast gates.
 
-## 目录结构
+## Repository Layout
 
-- `tokens/platinum.tokens.json` — W3C DTCG 令牌唯一真源
-- `src/{core,elements,prose}.css` — 模块化源码层
-- `dist/` — 零依赖编译产物（勿手改）
-- `gallery/index.html` — 静态全组件对照画廊
-- `scripts/readme-shots.mjs` — `README.md` 2× 无损实测舞台截图生成脚本（产物位于 `docs/screenshots/`）
-- `bin/{build,sync-vendor,platinum-check}.mjs` — 构建、零构建同步与自动体检 CLI
-- `skills/platinum-ui/SKILL.md` — 跨 Agent 通用技能定义
-- `skills/platinum-ui/references/` — Electron 无边框窗口/顶层菜单、16px 像素应用图标与实战反模式参考手册
-- `DESIGN.md` — 完整视觉与工程规范说明书
+- `tokens/platinum.tokens.json` — Single source of truth for W3C DTCG tokens
+- `src/{core,elements,prose}.css` — Modular CSS source layers
+- `dist/` — Zero-dependency compiled CSS bundles (do not edit by hand)
+- `gallery/index.html` — Interactive static component gallery
+- `scripts/readme-shots.mjs` — `2×` lossless stage screenshot generator (`docs/screenshots/`)
+- `bin/{build,sync-vendor,platinum-check}.mjs` — Build, zero-build vendor sync, and automated audit CLIs
+- `skills/platinum-ui/SKILL.md` — Cross-agent skill definition
+- `skills/platinum-ui/references/` — Reference guides for Electron frameless windows/popup menus, `16px` pixel app icons, and CSS anti-patterns
+- `DESIGN.md` — Complete visual and engineering specification
+
+## License
+
+MIT. See [LICENSE](LICENSE).
