@@ -1,0 +1,427 @@
+<!doctype html>
+<html lang="zh-CN" data-platinum data-platinum-scheme="light" data-platinum-accent="gray" data-platinum-density="compact">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Platinum UI — Mac OS 9 Design System Gallery</title>
+  <link rel="stylesheet" href="../dist/platinum.css" />
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      padding: 16px;
+    }
+    .gallery-shell {
+      max-width: 1140px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
+      gap: 14px;
+      align-items: start;
+    }
+    .control-banner {
+      position: sticky;
+      top: 8px;
+      z-index: 20;
+    }
+    .demo-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .demo-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+    }
+    .demo-split {
+      display: grid;
+      grid-template-columns: 196px minmax(0, 1fr);
+      gap: 12px;
+      align-items: start;
+    }
+    .demo-list-well {
+      max-height: 176px;
+      overflow-y: auto;
+      padding: 4px;
+    }
+    .demo-list-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 4px 8px;
+      font-size: var(--pt-size-control);
+      cursor: pointer;
+    }
+    .demo-list-item:hover {
+      background: var(--pt-face-hover);
+    }
+    .demo-list-item[aria-selected="true"] {
+      background: var(--pt-selection-bg);
+      color: var(--pt-selection-fg);
+      border-inline-start: 3px solid var(--pt-frame);
+      padding-inline-start: 5px;
+      font-weight: 700;
+    }
+    .swatch-strip {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(112px, 1fr));
+      gap: 6px;
+    }
+    .swatch-card {
+      padding: 6px 8px;
+      border: 1px solid var(--pt-frame);
+      font-family: var(--pt-font-mono);
+      font-size: var(--pt-size-meta);
+    }
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+    }
+    @media (max-width: 640px) {
+      .gallery-grid,
+      .demo-split {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+  </style>
+</head>
+<body class="pt-desktop">
+  <div class="gallery-shell">
+    <!-- Top Live Control Strip Window -->
+    <section class="pt-window control-banner" aria-label="Appearance Control Panel">
+      <header class="pt-titlebar">
+        <button type="button" class="pt-tbox" aria-label="Close appearance bar">
+          <svg viewBox="0 0 10 10" width="8" height="8" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 2l6 6M8 2L2 8"/></svg>
+        </button>
+        <span class="pt-titlebar-label">Appearance Control Panel — Platinum UI v0.1</span>
+        <button type="button" class="pt-tbox" aria-label="Collapse appearance bar">
+          <svg viewBox="0 0 10 10" width="8" height="8" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1.5 5h7"/></svg>
+        </button>
+      </header>
+      <div class="pt-toolbar" style="flex-wrap: wrap; justify-content: space-between;">
+        <div class="demo-row">
+          <span style="font-size: var(--pt-size-meta); font-weight: 700;">明暗 Scheme:</span>
+          <div class="pt-segmented" role="group" aria-label="Color scheme">
+            <button type="button" class="pt-btn pt-btn-sm" data-set-scheme="light" aria-pressed="true">Light 铂金银</button>
+            <button type="button" class="pt-btn pt-btn-sm" data-set-scheme="dark" aria-pressed="false">Dark 深碳黑</button>
+          </div>
+        </div>
+        <div class="demo-row">
+          <span style="font-size: var(--pt-size-meta); font-weight: 700;">变体 Accent:</span>
+          <div class="pt-segmented" role="group" aria-label="Accent variant">
+            <button type="button" class="pt-btn pt-btn-sm" data-set-accent="gray" aria-pressed="true">Gray 纯银灰 (默认)</button>
+            <button type="button" class="pt-btn pt-btn-sm" data-set-accent="lavender" aria-pressed="false">Lavender 经典薰衣草</button>
+          </div>
+        </div>
+        <div class="demo-row">
+          <span style="font-size: var(--pt-size-meta); font-weight: 700;">密度 Density:</span>
+          <div class="pt-segmented" role="group" aria-label="Control density">
+            <button type="button" class="pt-btn pt-btn-sm" data-set-density="compact" aria-pressed="true">Compact 26/20</button>
+            <button type="button" class="pt-btn pt-btn-sm" data-set-density="comfortable" aria-pressed="false">Comfortable 32/24</button>
+          </div>
+        </div>
+        <div class="demo-row">
+          <label class="pt-switch">
+            <input type="checkbox" class="pt-switch-input" id="toggle-inactive" />
+            <span class="pt-switch-track" aria-hidden="true"></span>
+            <span style="font-size: var(--pt-size-meta); font-weight: 600;">模拟窗口失焦</span>
+          </label>
+        </div>
+      </div>
+    </section>
+
+    <div class="gallery-grid" id="demo-windows">
+      <!-- Window 1: Buttons, Segmented Controls, Icon Geometry & Badges -->
+      <section class="pt-window">
+        <header class="pt-titlebar">
+          <button type="button" class="pt-tbox" aria-label="Close window">
+            <svg viewBox="0 0 10 10" width="8" height="8" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 2l6 6M8 2L2 8"/></svg>
+          </button>
+          <span class="pt-titlebar-label">1 · 立体按钮、分段组与原子图标簇</span>
+          <span style="width: 13px;" aria-hidden="true"></span>
+        </header>
+        <div class="pt-window-body demo-stack">
+          <fieldset class="pt-groupbox">
+            <legend>Push Buttons (4-Layer Bevel + HIG Default Outer Ring)</legend>
+            <div class="pt-actions">
+              <button type="button" class="pt-btn pt-btn-primary">保存默认项</button>
+              <button type="button" class="pt-btn">常规按钮</button>
+              <button type="button" class="pt-btn" aria-pressed="true">已按下锁定</button>
+              <button type="button" class="pt-btn pt-btn-danger">删除条目</button>
+              <button type="button" class="pt-btn pt-btn-danger-solid">确认清空</button>
+              <button type="button" class="pt-btn" disabled>已禁用</button>
+            </div>
+          </fieldset>
+
+          <fieldset class="pt-groupbox">
+            <legend>Segmented Controls &amp; Atomic Square Icon Clusters</legend>
+            <div class="demo-stack">
+              <div class="demo-row" style="justify-content: space-between;">
+                <div class="pt-segmented" role="group" aria-label="View mode">
+                  <button type="button" class="pt-btn" aria-pressed="true">原文</button>
+                  <button type="button" class="pt-btn" aria-pressed="false">双语对照</button>
+                  <button type="button" class="pt-btn" aria-pressed="false">仅译文</button>
+                </div>
+
+                <!-- Standard 26x26 icon buttons -->
+                <div class="pt-icon-cluster" aria-label="Primary icon actions">
+                  <button type="button" class="pt-btn pt-btn-icon" aria-label="Search">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+                  </button>
+                  <button type="button" class="pt-btn pt-btn-icon" aria-pressed="true" aria-label="Pin window">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 17v5"/><path d="M9 10.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24V16h14v-.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V7a1 1 0 0 1 1-1 1 1 0 0 0 1-1V4H7v1a1 1 0 0 0 1 1 1 1 0 0 1 1 1z"/></svg>
+                  </button>
+                  <button type="button" class="pt-btn pt-btn-icon" aria-label="Refresh">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/><path d="M8 16H3v5"/></svg>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Secondary 20x20 mini-bevel icon cluster (with ::before -3px -> 24x24px hit box) -->
+              <div class="demo-row" style="justify-content: space-between;">
+                <span style="font-size: var(--pt-size-meta); color: var(--pt-ink-muted);">次级紧凑簇（20×20 视觉盒 + 24×24 热区）：</span>
+                <div class="pt-icon-cluster" aria-label="Compact mini-bevel icon cluster">
+                  <button type="button" class="pt-btn pt-btn-sm pt-btn-icon" aria-label="Copy">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="1"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/></svg>
+                  </button>
+                  <button type="button" class="pt-btn pt-btn-sm pt-btn-icon" aria-label="History">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+                  </button>
+                  <button type="button" class="pt-btn pt-btn-sm pt-btn-icon" aria-label="Edit">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 3a2.85 2.85 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+
+          <div class="demo-row">
+            <span class="pt-chip">neutral-tag</span>
+            <span class="pt-chip">macos-9</span>
+            <span class="pt-badge pt-badge-success">已同步</span>
+            <span class="pt-badge pt-badge-warning">待核验</span>
+            <span class="pt-badge pt-badge-danger">离线退避</span>
+            <kbd class="pt-kbd">⌘</kbd><kbd class="pt-kbd">K</kbd>
+          </div>
+        </div>
+        <footer class="pt-statusbar">
+          <span>0ms 机械瞬切 · 零紫色污染芯片</span>
+          <span style="margin-inline-start: auto;">WCAG AA &gt;= 4.5:1</span>
+        </footer>
+      </section>
+
+      <!-- Window 2: Sunken Fields, Pop-up Select, Choices & Etched GroupBox -->
+      <section class="pt-window">
+        <header class="pt-titlebar">
+          <button type="button" class="pt-tbox" aria-label="Close form window">
+            <svg viewBox="0 0 10 10" width="8" height="8" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 2l6 6M8 2L2 8"/></svg>
+          </button>
+          <span class="pt-titlebar-label">2 · 下凹输入井、双箭头下拉框与开关</span>
+          <span style="width: 13px;" aria-hidden="true"></span>
+        </header>
+        <div class="pt-window-body demo-stack">
+          <fieldset class="pt-groupbox">
+            <legend>连接与检索配置</legend>
+            <div class="demo-stack">
+              <div class="demo-row">
+                <input type="search" class="pt-field" style="flex: 1;" value="选中这段文字体验 ::selection 高亮色" aria-label="Search query" />
+                <select class="pt-select" aria-label="Provider">
+                  <option>DeepSeek V4</option>
+                  <option>Claude 4.5 Sonnet</option>
+                  <option>Gemini 3.1 Pro</option>
+                </select>
+              </div>
+              <textarea class="pt-field" rows="2" aria-label="Notes">下凹白底输入井（--pt-bevel-sunken）：聚焦时保留内凹立体阴影并叠加外框焦点环。</textarea>
+            </div>
+          </fieldset>
+
+          <fieldset class="pt-groupbox">
+            <legend>布尔与枚举选择控件</legend>
+            <div class="demo-row" style="gap: 16px;">
+              <label class="demo-row" style="gap: 6px; cursor: pointer;">
+                <input type="checkbox" class="pt-checkbox" checked />
+                <span>离线缓存生词</span>
+              </label>
+              <label class="demo-row" style="gap: 6px; cursor: pointer;">
+                <input type="checkbox" class="pt-checkbox" />
+                <span>自动归档快照</span>
+              </label>
+              <label class="demo-row" style="gap: 6px; cursor: pointer;">
+                <input type="radio" name="sync-mode" class="pt-radio" checked />
+                <span>增量合并</span>
+              </label>
+              <label class="demo-row" style="gap: 6px; cursor: pointer;">
+                <input type="radio" name="sync-mode" class="pt-radio" />
+                <span>仅本机</span>
+              </label>
+            </div>
+            <div class="demo-row" style="margin-top: 10px; justify-content: space-between;">
+              <label class="pt-switch">
+                <input type="checkbox" class="pt-switch-input" checked />
+                <span class="pt-switch-track" aria-hidden="true"></span>
+                <span>直角凹槽立体方滑块（1px 对称留白）</span>
+              </label>
+            </div>
+          </fieldset>
+
+          <details class="pt-disclosure" open>
+            <summary>高级同步诊断（3D 金属折叠三角）</summary>
+            <p style="margin: 6px 0 0; font-size: var(--pt-size-control); color: var(--pt-ink-muted);">
+              禁用浏览器默认三角标记，统一由纯 CSS 绘制带高光投射的旋转折叠箭头，阅读链接示例：<a href="#demo-windows" class="pt-link">查看跨项目接入规范</a>。
+            </p>
+          </details>
+        </div>
+      </section>
+
+      <!-- Window 3: Popup Menu & 15px 3-Ridge Scrollbar List Well -->
+      <section class="pt-window">
+        <header class="pt-titlebar">
+          <button type="button" class="pt-tbox" aria-label="Close menu window">
+            <svg viewBox="0 0 10 10" width="8" height="8" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 2l6 6M8 2L2 8"/></svg>
+          </button>
+          <span class="pt-titlebar-label">3 · 弹出菜单反白与 15px 三横脊滚动条</span>
+          <span style="width: 13px;" aria-hidden="true"></span>
+        </header>
+        <div class="pt-window-body demo-stack">
+          <div class="demo-split">
+            <nav class="pt-menu" aria-label="Sample Platinum menu">
+              <button type="button" class="pt-menu-item"><span>新建工作区</span><span class="pt-menu-shortcut">⌘N</span></button>
+              <button type="button" class="pt-menu-item" aria-selected="true"><span>导出 Markdown</span><span class="pt-menu-shortcut">⌘E</span></button>
+              <button type="button" class="pt-menu-item"><span>发送到 Obsidian</span><span class="pt-menu-shortcut">⇧⌘O</span></button>
+              <hr class="pt-menu-sep" />
+              <button type="button" class="pt-menu-item"><span>创建本机还原点…</span><span class="pt-menu-shortcut">⌘S</span></button>
+            </nav>
+
+            <div class="pt-well pt-scroll demo-list-well" role="listbox" aria-label="Scrollable list well">
+              <div class="demo-list-item" role="option" aria-selected="true">
+                <span>01 · Appearance Control Panel</span>
+                <span class="pt-badge">Active</span>
+              </div>
+              <div class="demo-list-item" role="option" aria-selected="false">
+                <span>02 · Charcoal &amp; Monaco Typography</span>
+                <span style="font-size: 11px; color: var(--pt-ink-muted);">13.5px</span>
+              </div>
+              <div class="demo-list-item" role="option" aria-selected="false">
+                <span>03 · Zero-Cast R=G=B Dark Metallic</span>
+                <span style="font-size: 11px; color: var(--pt-ink-muted);">#2c2c2c</span>
+              </div>
+              <div class="demo-list-item" role="option" aria-selected="false">
+                <span>04 · Three-Ridge Scrollbar Thumb</span>
+                <span style="font-size: 11px; color: var(--pt-ink-muted);">15px</span>
+              </div>
+              <div class="demo-list-item" role="option" aria-selected="false">
+                <span>05 · Atomic Icon Button Centering</span>
+                <span style="font-size: 11px; color: var(--pt-ink-muted);">&lt;=0.6px</span>
+              </div>
+              <div class="demo-list-item" role="option" aria-selected="false">
+                <span>06 · Padding-Box Hit Area Math</span>
+                <span style="font-size: 11px; color: var(--pt-ink-muted);">inset:-3px</span>
+              </div>
+              <div class="demo-list-item" role="option" aria-selected="false">
+                <span>07 · Sticky Titlebar Scroll Padding</span>
+                <span style="font-size: 11px; color: var(--pt-ink-muted);">28px</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="swatch-strip" aria-label="Surface ramp preview">
+            <div class="swatch-card" style="background: var(--pt-canvas); color: var(--pt-ink);">canvas</div>
+            <div class="swatch-card" style="background: var(--pt-window); color: var(--pt-ink);">window</div>
+            <div class="swatch-card" style="background: var(--pt-face); color: var(--pt-ink);">face</div>
+            <div class="swatch-card" style="background: var(--pt-paper); color: var(--pt-ink);">paper</div>
+            <div class="swatch-card" style="background: var(--pt-selection-bg); color: var(--pt-selection-fg);">selection</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Window 4: Technical Reading Prose, Code Window & Hard-Bordered Table -->
+      <section class="pt-window">
+        <header class="pt-titlebar pt-titlebar--sticky">
+          <button type="button" class="pt-tbox" aria-label="Close prose window">
+            <svg viewBox="0 0 10 10" width="8" height="8" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 2l6 6M8 2L2 8"/></svg>
+          </button>
+          <span class="pt-titlebar-label">4 · 高密度技术文档排版、代码小窗与表格 (.pt-prose)</span>
+          <span style="width: 13px;" aria-hidden="true"></span>
+        </header>
+        <div class="pt-window-body">
+          <article class="pt-well pt-prose pt-scroll-pane" style="max-height: 300px;">
+            <h2>跨项目接入速览</h2>
+            <p>阅读视图采用 <code>13.5px / 1.56</code> 高密度排版，内嵌白底内容井（<code>.pt-well</code>）就地承接正文对比度，代码块包裹在带迷你横条与 <code>20×20px</code> 复制按钮的小窗内：</p>
+            <div class="pt-code-window">
+              <div class="pt-code-window-head">
+                <span>shell — sync zero-build CSS</span>
+                <button type="button" class="pt-btn pt-btn-sm pt-btn-icon" aria-label="Copy command">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="1"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/></svg>
+                </button>
+              </div>
+              <pre><code>npx platinum-sync --target ./vendor --bundle scoped
+npx platinum-check --browser</code></pre>
+            </div>
+            <table>
+              <thead>
+                <tr><th>消费通道</th><th>目标文件</th><th>典型宿主</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>全站独占引入</td><td><code>platinum.css</code></td><td>独立桌面端 / 全新 Web 工具</td></tr>
+                <tr><td>多主题属性隔离</td><td><code>platinum-scoped.css</code></td><td>浏览器扩展 / 多预设并存</td></tr>
+                <tr><td>纯显式原语类</td><td><code>platinum-core.css</code></td><td>渐进迁移存量复杂界面</td></tr>
+              </tbody>
+            </table>
+          </article>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <script>
+    (() => {
+      const root = document.documentElement;
+      const syncPressed = (attr, value) => {
+        for (const btn of document.querySelectorAll(`[${attr}]`)) {
+          btn.setAttribute("aria-pressed", String(btn.getAttribute(attr) === value));
+        }
+      };
+      document.addEventListener("click", (e) => {
+        const schemeBtn = e.target.closest("[data-set-scheme]");
+        if (schemeBtn) {
+          const val = schemeBtn.getAttribute("data-set-scheme");
+          root.setAttribute("data-platinum-scheme", val);
+          syncPressed("data-set-scheme", val);
+        }
+        const accentBtn = e.target.closest("[data-set-accent]");
+        if (accentBtn) {
+          const val = accentBtn.getAttribute("data-set-accent");
+          root.setAttribute("data-platinum-accent", val);
+          syncPressed("data-set-accent", val);
+        }
+        const densityBtn = e.target.closest("[data-set-density]");
+        if (densityBtn) {
+          const val = densityBtn.getAttribute("data-set-density");
+          root.setAttribute("data-platinum-density", val);
+          syncPressed("data-set-density", val);
+        }
+      });
+      const inactiveToggle = document.getElementById("toggle-inactive");
+      if (inactiveToggle) {
+        inactiveToggle.addEventListener("change", () => {
+          for (const win of document.querySelectorAll("#demo-windows .pt-window")) {
+            if (inactiveToggle.checked) win.setAttribute("data-inactive", "true");
+            else win.removeAttribute("data-inactive");
+          }
+        });
+      }
+    })();
+  </script>
+</body>
+</html>

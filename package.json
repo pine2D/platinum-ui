@@ -1,0 +1,40 @@
+{
+  "name": "platinum-ui",
+  "version": "0.1.0",
+  "description": "Authentic Mac OS 9 Platinum design tokens, zero-JS CSS primitives, gallery, and automated UI/geometry checks.",
+  "license": "MIT",
+  "author": "pine2D <569091+pine2D@users.noreply.github.com>",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "files": [
+    "dist/",
+    "tokens/",
+    "bin/",
+    "skills/platinum-ui/references/",
+    "DESIGN.md",
+    "README.md",
+    "LICENSE"
+  ],
+  "exports": {
+    ".": "./dist/platinum.css",
+    "./platinum.css": "./dist/platinum.css",
+    "./scoped.css": "./dist/platinum-scoped.css",
+    "./core.css": "./dist/platinum-core.css",
+    "./tokens.css": "./dist/platinum-tokens.css",
+    "./tokens.json": "./tokens/platinum.tokens.json",
+    "./checks": "./bin/platinum-check.mjs"
+  },
+  "bin": {
+    "platinum-sync": "./bin/sync-vendor.mjs",
+    "platinum-check": "./bin/platinum-check.mjs"
+  },
+  "scripts": {
+    "build": "node bin/build.mjs",
+    "build:check": "node bin/build.mjs --check",
+    "check": "node bin/platinum-check.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "verify": "node bin/build.mjs --check && node bin/platinum-check.mjs && node --test tests/*.test.mjs"
+  }
+}

@@ -1,0 +1,51 @@
+---
+name: platinum-ui
+description: 跨项目 Mac OS 9 Platinum 立体桌面设计系统接入、界面改版与质量验收技能（基于 platinum-ui 规范仓库：零偏色铂金灰底盘、默认 Gray 纯银灰与可选 Lavender 变体、26/20px 紧凑阶梯、双通道分发与自动几何/对比度门禁）。当用户要求「使用 Platinum 风格/主题/规范」「做 Mac OS 9 / 复古铂金立体 UI」「接入 platinum-ui」「把界面改成铂金机械工作台」或在已有 Platinum 界面中排查泛紫、按钮偏心、斜面失效、对比度与特异性问题时使用。
+---
+
+# Platinum UI 跨项目接入与精修工作流
+
+本技能将 **Mac OS 9 Platinum** 设计规范落地到任意技术栈（Vite / React / Electron 桌面端、零构建 Chrome 扩展、纯静态 HTML 或第三方站点注入），并内置防回归体检闭环。
+
+## 1. 定位本地 `platinum-ui` 规范源
+
+1. 先查找同级工作区或父级项目目录中的 `platinum-ui` 仓库（包含 `tokens/platinum.tokens.json`、`dist/platinum.css`、`bin/sync-vendor.mjs` 与 `bin/platinum-check.mjs`）；阅读其根目录 `DESIGN.md` 掌握完整令牌与原语契约。
+2. 按任务场景按需阅读本技能自带参考手册：
+   - 遇到样式冲突、泛紫、按钮偏心、斜面丢失或多主题迁移：读 `$SKILL_DIR/references/anti-patterns-and-pitfalls.md`
+   - 目标是 Electron 桌面应用（无边框横纹窗口、跨 `WebContentsView` 顶层菜单、React Portal）：读 `$SKILL_DIR/references/electron-frameless-and-menus.md`
+   - 需要设计配套复古像素应用图标（`16×16` 整数像素清晰度、`.ico`/`.icns`）：读 `$SKILL_DIR/references/pixel-app-icons.md`
+
+## 2. 四步选型决策（开工前必定，不猜默认值）
+
+接入任何目标项目前，按以下默认规范直接对齐（用户另有指定除外）：
+
+1. **接入通道**：
+   - **带打包器项目（Vite / Webpack / Electron / Next）**：在 `package.json` 引用本地 `platinum-ui`（或 Git Tag），按需 `import "platinum-ui/platinum.css"`（全站独占）或 `import "platinum-ui/scoped.css"`（多主题隔离）。
+   - **零构建项目（原生 Chrome MV3 扩展 / 纯 HTML）**：运行 `node <platinum-ui>/bin/sync-vendor.mjs --target <目标目录> --bundle <full|scoped|core>` 同步带版本与 SHA-256 锁头的单文件 CSS，切勿手改同步产物。
+2. **挂载范围**：
+   - 全新独立应用或单一 Platinum 主题应用 → 选 `full`（`dist/platinum.css`），裸写 `<button>`、`<input>`、`<select>`、`<fieldset>`、`<details>` 即自动成型，复杂容器配 `.pt-window`、`.pt-titlebar`、`.pt-well`。
+   - 与其他平铺主题并存或嵌入宿主网页 → 选 `scoped`（`dist/platinum-scoped.css`）或 `core`（`dist/platinum-core.css`），在容器挂 `data-platinum` 属性开启，外部 `:root` 零污染。
+3. **色板变体**：
+   - **默认启用 `gray`（纯银灰 + 深石板蓝焦点，零紫色）**；仅当用户明确要求经典 Mac OS 9 薰衣草紫选区/滚动条时，在根节点挂 `data-platinum-accent="lavender"`。无论哪种变体，底盘明暗灰阶必须保持 `R=G=B`，**严禁按钮、芯片、代码块或普通悬停染紫**。
+4. **尺寸密度**：
+   - **默认启用 `compact`**（标准控件 `26px`、次级紧凑图标钮 `20px` 配 `--pt-bevel-mini` 与 `::before` `inset: -3px` `24×24px` 隐形热区、标题栏 `22px`）；表单密集的独立设置页可按需挂 `data-platinum-density="comfortable"`（`32px` / `24px`）。
+
+## 3. 核心组件结构速查
+
+- **标准窗口**：`<section class="pt-window">` → `<header class="pt-titlebar">`（含 `.pt-tbox` 与 `.pt-titlebar-label`；粘性顶栏加 `.pt-titlebar--sticky` 并给滚动区加 `.pt-scroll-pane` 预留 `scroll-padding-top`）→ `<div class="pt-toolbar">` → `<div class="pt-window-body">`（内部白底列表/正文包入 `<div class="pt-well pt-scroll">` 就地切换纸面底色与 `15px` 三横脊滚动条）→ `<footer class="pt-statusbar">`。
+- **按钮与分段组**：常规 `.pt-btn`；对话框唯一主动作 `.pt-btn.pt-btn-primary`（银灰面 + HIG 双层外黑环，不用彩色实心底充当默认主按钮）；连体分段 `.pt-segmented > .pt-btn[aria-pressed="true|false"]`；纯图标按钮一律 `.pt-btn.pt-btn-icon`（次级小号叠加 `.pt-btn-sm`），内部单 `<svg>` 自动零内距居中。
+- **表单与分组**：输入框 `.pt-field`（保留内凹阴影与聚焦环合成）；下拉框 `.pt-select`（HIG 右侧 `20px` 双箭头凹槽）；复选/单选 `.pt-checkbox` / `.pt-radio`；直角方滑块开关 `<label class="pt-switch"><input type="checkbox" class="pt-switch-input"><span class="pt-switch-track"></span><span>文案</span></label>`；蚀刻凹槽分组 `<fieldset class="pt-groupbox"><legend>标题</legend>...</fieldset>`。
+- **菜单与长文**：弹出菜单 `.pt-menu` + `.pt-menu-item` + `.pt-menu-sep`；技术长文/Markdown 容器加 `.pt-prose`（代码块用 `.pt-code-window` + `.pt-code-window-head`）。
+
+## 4. 交付前必跑验收闭环
+
+1. **静态防坑与禁紫体检**：对项目新增的自定义 Platinum 业务 CSS 运行：
+   ```bash
+   node <platinum-ui>/bin/platinum-check.mjs --css <业务样式.css> --forbid-purple
+   ```
+   （若用户选用了 `lavender` 变体，去掉 `--forbid-purple`，其余斜面遮挡、`::before` `border-box`、`:is()` ID 特异性泄漏与 `20×20` 命中区检查照常执行。）
+2. **零构建产物防漂移校验**（若使用了 `sync-vendor.mjs`）：
+   ```bash
+   node <platinum-ui>/bin/sync-vendor.mjs --target <目标目录> --bundle <full|scoped|core> --check
+   ```
+3. **真实浏览器几何与双模自查**：在 Chromium / Playwright 下同时验证 `light` 与 `dark` 两态（可复用 `<platinum-ui>/bin/platinum-check.mjs` 导出的 `ICON_BUTTON_PROBE_SOURCE` 与 `findIconButtonIssues`），确保所有可见按钮有效热区 `>= 24×24px`、纯图标按钮居中偏差 `<= 0.6px`、零横向滚动溢出。

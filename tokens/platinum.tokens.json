@@ -1,0 +1,187 @@
+{
+  "$schema": "https://tr.designtokens.org/format/",
+  "$description": "Mac OS 9 Platinum cross-project design tokens (W3C DTCG format). Neutral R=G=B metallic chassis with official Gray (default) and Lavender accent variants.",
+  "typography": {
+    "font-ui": {
+      "$type": "fontFamily",
+      "$value": "\"Charcoal\", \"Lucida Grande\", \"Segoe UI\", \"Microsoft YaHei UI\", \"PingFang SC\", \"Noto Sans CJK SC\", system-ui, sans-serif",
+      "$description": "Fast CJK-safe UI font stack led by classic Mac OS 9 Charcoal/Lucida Grande."
+    },
+    "font-mono": {
+      "$type": "fontFamily",
+      "$value": "\"Monaco\", \"SF Mono\", \"Cascadia Mono\", \"Consolas\", \"PingFang SC\", \"Microsoft YaHei UI\", \"Noto Sans CJK SC\", ui-monospace, monospace",
+      "$description": "Crisp monospace font stack for code windows, keycaps, and raw inspection."
+    },
+    "size-meta": { "$type": "dimension", "$value": "11px", "$description": "Minimum legible meta/timestamp size." },
+    "size-control": { "$type": "dimension", "$value": "12px", "$description": "Default push button, menu, and compact label size." },
+    "size-body": { "$type": "dimension", "$value": "13px", "$description": "Standard form input, list row, and dialog copy." },
+    "size-reading": { "$type": "dimension", "$value": "13.5px", "$description": "High-density technical prose reading size." },
+    "size-title": { "$type": "dimension", "$value": "14.5px", "$description": "Group box and section heading size." },
+    "size-window-title": { "$type": "dimension", "$value": "12px", "$description": "Pinstripe window titlebar label size." }
+  },
+  "radius": {
+    "window": { "$type": "dimension", "$value": "0px", "$description": "Sharp 0px corners on windows, menus, panels, cards, Wells, and badges." },
+    "sm": { "$type": "dimension", "$value": "2px", "$description": "2px micro-corner for compact 20px icon buttons and keycaps." },
+    "control": { "$type": "dimension", "$value": "3px", "$description": "3px corner for standalone push buttons and select pop-up triggers." }
+  },
+  "space": {
+    "1": { "$type": "dimension", "$value": "4px" },
+    "2": { "$type": "dimension", "$value": "8px" },
+    "3": { "$type": "dimension", "$value": "12px" },
+    "4": { "$type": "dimension", "$value": "16px" },
+    "5": { "$type": "dimension", "$value": "20px" },
+    "6": { "$type": "dimension", "$value": "24px" },
+    "8": { "$type": "dimension", "$value": "32px" }
+  },
+  "density": {
+    "compact": {
+      "$description": "Default Platinum density: crisp, compact desktop proportions without bloated 3D borders.",
+      "control-h": { "$type": "dimension", "$value": "26px" },
+      "control-h-sm": { "$type": "dimension", "$value": "20px" },
+      "icon-size": { "$type": "dimension", "$value": "14px" },
+      "icon-size-sm": { "$type": "dimension", "$value": "13px" },
+      "hit-min": { "$type": "dimension", "$value": "24px" },
+      "titlebar-h": { "$type": "dimension", "$value": "22px" },
+      "btn-pad-x": { "$type": "dimension", "$value": "10px" },
+      "field-pad-x": { "$type": "dimension", "$value": "7px" }
+    },
+    "comfortable": {
+      "$description": "Opt-in comfortable density for form-heavy settings surfaces (data-platinum-density=\"comfortable\").",
+      "control-h": { "$type": "dimension", "$value": "32px" },
+      "control-h-sm": { "$type": "dimension", "$value": "24px" },
+      "icon-size": { "$type": "dimension", "$value": "15px" },
+      "icon-size-sm": { "$type": "dimension", "$value": "14px" },
+      "hit-min": { "$type": "dimension", "$value": "24px" },
+      "titlebar-h": { "$type": "dimension", "$value": "24px" },
+      "btn-pad-x": { "$type": "dimension", "$value": "12px" },
+      "field-pad-x": { "$type": "dimension", "$value": "9px" }
+    }
+  },
+  "chassis": {
+    "$description": "Zero-cast neutral R=G=B metallic chassis shared by all accent variants.",
+    "light": {
+      "canvas": { "$type": "color", "$value": "#bfbfbf", "$description": "Outer desktop backdrop." },
+      "window": { "$type": "color", "$value": "#cccccc", "$description": "Window chrome, dialog body, and sidebar surface." },
+      "face": { "$type": "color", "$value": "#dddddd", "$description": "Raised push button, toolbar, and table header surface." },
+      "face-hover": { "$type": "color", "$value": "#e8e8e8", "$description": "Hovered button and elevated subtle card surface." },
+      "pressed-bg": { "$type": "color", "$value": "#666666", "$description": "Depressed button and active segment fill." },
+      "pressed-fg": { "$type": "color", "$value": "#ffffff", "$description": "Text/icon on depressed #666666 button fill." },
+      "paper": { "$type": "color", "$value": "#ffffff", "$description": "Sunken content well, document paper, and text input fill." },
+      "code-bg": { "$type": "color", "$value": "#f5f5f5", "$description": "Code window interior and subtle blockquote fill." },
+      "ink": { "$type": "color", "$value": "#222222", "$description": "Primary UI and prose text." },
+      "ink-muted": { "$type": "color", "$value": "#4d4d4d", "$description": "Secondary text (>= 5.25:1 across paper, window, face, and face-hover)." },
+      "frame": { "$type": "color", "$value": "#262626", "$description": "Crisp 1px structural border for windows, buttons, and wells." },
+      "border-subtle": { "$type": "color", "$value": "#8c8c8c", "$description": "Hairline divider and inactive frame." },
+      "groove-dark": { "$type": "color", "$value": "#888888", "$description": "Etched groove shadow line." },
+      "groove-light": { "$type": "color", "$value": "#ffffff", "$description": "Etched groove highlight line." },
+      "pinstripe-hi": { "$type": "color", "$value": "#ffffff" },
+      "pinstripe-lo": { "$type": "color", "$value": "#777777" },
+      "danger": { "$type": "color", "$value": "#7a1010", "$description": "Destructive text/border (>= 6.0:1 across all light surfaces)." },
+      "on-danger": { "$type": "color", "$value": "#ffffff" },
+      "danger-soft": { "$type": "color", "$value": "#fee2e2" },
+      "success": { "$type": "color", "$value": "#235c1e", "$description": "Confirmation text/indicator (>= 4.96:1 across all light surfaces)." },
+      "on-success": { "$type": "color", "$value": "#ffffff" },
+      "success-soft": { "$type": "color", "$value": "#dcfce7" },
+      "warning": { "$type": "color", "$value": "#78350f", "$description": "Caution text (>= 5.5:1 across all light surfaces and #ffffcc)." },
+      "warning-soft": { "$type": "color", "$value": "#ffffcc", "$description": "Classic Mac OS Balloon Help pale amber fill." },
+      "bevel-btn": { "$type": "shadow", "$value": "inset 1px 1px 0 #eeeeee, inset -1px -1px 0 #777777, inset 2px 2px 0 #ffffff, inset -2px -2px 0 #aaaaaa" },
+      "bevel-mini": { "$type": "shadow", "$value": "inset 1px 1px 0 #ffffff, inset -1px -1px 0 #808080" },
+      "bevel-pressed": { "$type": "shadow", "$value": "inset 1px 1px 0 #444444, inset -1px -1px 0 #888888, inset 2px 2px 0 #555555, inset -2px -2px 0 #777777" },
+      "bevel-sunken": { "$type": "shadow", "$value": "inset 1px 1px 0 #808080, inset -1px -1px 0 #f4f4f4" },
+      "bevel-window": { "$type": "shadow", "$value": "inset 1px 1px 0 #ffffff, inset -1px -1px 0 #8e8e8e" },
+      "bevel-strip": { "$type": "shadow", "$value": "inset 0 1px 0 #ffffff, inset 0 -1px 0 #999999" },
+      "shadow-window": { "$type": "shadow", "$value": "2px 2px 0 #262626" },
+      "ring-default-btn": { "$type": "shadow", "$value": "0 0 0 2px #cccccc, 0 0 0 3px #262626" }
+    },
+    "dark": {
+      "canvas": { "$type": "color", "$value": "#181818" },
+      "window": { "$type": "color", "$value": "#2c2c2c" },
+      "face": { "$type": "color", "$value": "#3b3b3b" },
+      "face-hover": { "$type": "color", "$value": "#474747" },
+      "pressed-bg": { "$type": "color", "$value": "#161616" },
+      "pressed-fg": { "$type": "color", "$value": "#ffffff" },
+      "paper": { "$type": "color", "$value": "#1c1c1c" },
+      "code-bg": { "$type": "color", "$value": "#161616" },
+      "ink": { "$type": "color", "$value": "#eeeeee" },
+      "ink-muted": { "$type": "color", "$value": "#c2c2c2", "$description": "Secondary text (>= 4.61:1 across paper, window, face, and face-hover)." },
+      "frame": { "$type": "color", "$value": "#080808" },
+      "border-subtle": { "$type": "color", "$value": "#5c5c5c" },
+      "groove-dark": { "$type": "color", "$value": "#141414" },
+      "groove-light": { "$type": "color", "$value": "#4a4a4a" },
+      "pinstripe-hi": { "$type": "color", "$value": "#525252" },
+      "pinstripe-lo": { "$type": "color", "$value": "#1d1d1d" },
+      "danger": { "$type": "color", "$value": "#ffbab4", "$description": "Destructive text/border (>= 4.92:1 across all dark surfaces)." },
+      "on-danger": { "$type": "color", "$value": "#1c1c1c" },
+      "danger-soft": { "$type": "color", "$value": "#3b1818" },
+      "success": { "$type": "color", "$value": "#86efac" },
+      "on-success": { "$type": "color", "$value": "#14261a" },
+      "success-soft": { "$type": "color", "$value": "#1a3628" },
+      "warning": { "$type": "color", "$value": "#fde047" },
+      "warning-soft": { "$type": "color", "$value": "#36331e" },
+      "bevel-btn": { "$type": "shadow", "$value": "inset 1px 1px 0 #4a4a4a, inset -1px -1px 0 #141414, inset 2px 2px 0 #666666, inset -2px -2px 0 #262626" },
+      "bevel-mini": { "$type": "shadow", "$value": "inset 1px 1px 0 #666666, inset -1px -1px 0 #181818" },
+      "bevel-pressed": { "$type": "shadow", "$value": "inset 1px 1px 0 #080808, inset -1px -1px 0 #3a3a3a, inset 2px 2px 0 #101010, inset -2px -2px 0 #262626" },
+      "bevel-sunken": { "$type": "shadow", "$value": "inset 1px 1px 0 #0a0a0a, inset -1px -1px 0 #444444" },
+      "bevel-window": { "$type": "shadow", "$value": "inset 1px 1px 0 #565656, inset -1px -1px 0 #181818" },
+      "bevel-strip": { "$type": "shadow", "$value": "inset 0 1px 0 #525252, inset 0 -1px 0 #181818" },
+      "shadow-window": { "$type": "shadow", "$value": "2px 2px 0 #050505" },
+      "ring-default-btn": { "$type": "shadow", "$value": "0 0 0 2px #2c2c2c, 0 0 0 3px #080808" }
+    }
+  },
+  "variants": {
+    "gray": {
+      "$description": "Default official Mac OS 9 Appearance 'Gray' variation: purple-free silver scrollbars, neutral selection, and deep slate focus/links.",
+      "light": {
+        "accent": { "$type": "color", "$value": "#1d4496" },
+        "on-accent": { "$type": "color", "$value": "#ffffff" },
+        "selection-bg": { "$type": "color", "$value": "#b8b8b8" },
+        "selection-fg": { "$type": "color", "$value": "#111111" },
+        "menu-active-bg": { "$type": "color", "$value": "#333333" },
+        "menu-active-fg": { "$type": "color", "$value": "#ffffff" },
+        "scroll-track": { "$type": "color", "$value": "#aaaaaa" },
+        "scroll-thumb": { "$type": "color", "$value": "#cccccc" },
+        "scroll-thumb-hi": { "$type": "color", "$value": "#ffffff" },
+        "scroll-thumb-lo": { "$type": "color", "$value": "#777777" }
+      },
+      "dark": {
+        "accent": { "$type": "color", "$value": "#8ec0ff" },
+        "on-accent": { "$type": "color", "$value": "#101828" },
+        "selection-bg": { "$type": "color", "$value": "#383838" },
+        "selection-fg": { "$type": "color", "$value": "#ffffff" },
+        "menu-active-bg": { "$type": "color", "$value": "#e0e0e0" },
+        "menu-active-fg": { "$type": "color", "$value": "#141414" },
+        "scroll-track": { "$type": "color", "$value": "#1a1a1a" },
+        "scroll-thumb": { "$type": "color", "$value": "#525252" },
+        "scroll-thumb-hi": { "$type": "color", "$value": "#737373" },
+        "scroll-thumb-lo": { "$type": "color", "$value": "#242424" }
+      }
+    },
+    "lavender": {
+      "$description": "Classic Mac OS 9 factory 'Lavender' variation (data-platinum-accent=\"lavender\"): lavender selection & 3-ridge scrollbar, deep indigo focus/menus.",
+      "light": {
+        "accent": { "$type": "color", "$value": "#333399" },
+        "on-accent": { "$type": "color", "$value": "#ffffff" },
+        "selection-bg": { "$type": "color", "$value": "#ccccff" },
+        "selection-fg": { "$type": "color", "$value": "#000000" },
+        "menu-active-bg": { "$type": "color", "$value": "#333399" },
+        "menu-active-fg": { "$type": "color", "$value": "#ffffff" },
+        "scroll-track": { "$type": "color", "$value": "#aaaaaa" },
+        "scroll-thumb": { "$type": "color", "$value": "#9999ff" },
+        "scroll-thumb-hi": { "$type": "color", "$value": "#ccccff" },
+        "scroll-thumb-lo": { "$type": "color", "$value": "#5555aa" }
+      },
+      "dark": {
+        "accent": { "$type": "color", "$value": "#b3b3ff" },
+        "on-accent": { "$type": "color", "$value": "#141428" },
+        "selection-bg": { "$type": "color", "$value": "#3d3dad" },
+        "selection-fg": { "$type": "color", "$value": "#ffffff" },
+        "menu-active-bg": { "$type": "color", "$value": "#4b4bb8" },
+        "menu-active-fg": { "$type": "color", "$value": "#ffffff" },
+        "scroll-track": { "$type": "color", "$value": "#1a1a1a" },
+        "scroll-thumb": { "$type": "color", "$value": "#5c5c9e" },
+        "scroll-thumb-hi": { "$type": "color", "$value": "#8585cc" },
+        "scroll-thumb-lo": { "$type": "color", "$value": "#32325c" }
+      }
+    }
+  }
+}
