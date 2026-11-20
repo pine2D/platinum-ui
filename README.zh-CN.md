@@ -1,6 +1,6 @@
 # Platinum UI
 
-[English](README.md) | **简体中文**
+[English](README.md) | **简体中文** | [在线交互画廊](https://pine2d.github.io/platinum-ui/)
 
 原汁原味的 **Mac OS 9 Platinum** 跨项目设计系统：包含 W3C DTCG 设计令牌、零框架 JS 的模块化纯 CSS 部件库、交互式静态预览画廊、可复用的静态/Chromium 几何与对比度体检门禁，以及配套的全局 AI Agent Skill。
 
@@ -22,7 +22,7 @@
 
 ### 通道 A：带打包器项目（Vite / Webpack / Electron）
 
-在 `package.json` 引用本仓库后按需引入对应入口：
+在 `package.json` 锁定版本标签（例如 `"platinum-ui": "github:pine2D/platinum-ui#v0.1.0"`）后按需引入对应入口：
 
 ```js
 // 1. 全应用独占 Platinum（含裸 <button>/<input>/<select>/<fieldset> 自动样式 + .pt-* + .pt-prose）
@@ -47,7 +47,7 @@ node bin/sync-vendor.mjs --target /path/to/your-app/vendor --bundle scoped --che
 
 ## 本地预览与质量门禁
 
-直接用浏览器打开 `gallery/index.html` 即可实时切换明暗模式、`Gray` / `Lavender` 变体、紧凑 / 舒适密度与窗口失焦状态。
+可直接访问[在线交互画廊](https://pine2d.github.io/platinum-ui/)，或用浏览器打开本地 `gallery/index.html` 实时切换明暗模式、`Gray` / `Lavender` 变体、紧凑 / 舒适密度与窗口失焦状态。
 
 ```bash
 npm run build                        # 从 tokens/platinum.tokens.json + src/*.css 编译 dist/*.css

@@ -1,6 +1,6 @@
 # Platinum UI
 
-**English** | [简体中文](README.zh-CN.md)
+**English** | [简体中文](README.zh-CN.md) | [Live Interactive Gallery](https://pine2d.github.io/platinum-ui/)
 
 A cross-project **Mac OS 9 Platinum** design system: W3C DTCG design tokens, zero-framework-JS modular CSS widgets, an interactive HTML gallery, reusable static and Chromium geometry/contrast gates, and a companion global AI Agent Skill.
 
@@ -22,7 +22,7 @@ A cross-project **Mac OS 9 Platinum** design system: W3C DTCG design tokens, zer
 
 ### Channel A: Bundler Projects (Vite / Webpack / Electron)
 
-Reference this package in `package.json` and import the bundle that matches your app:
+Pin a release tag in `package.json` (e.g. `"platinum-ui": "github:pine2D/platinum-ui#v0.1.0"`) and import the bundle that matches your app:
 
 ```js
 // 1. Full Platinum app (styles bare <button>/<input>/<select>/<fieldset> + .pt-* + .pt-prose)
@@ -47,7 +47,7 @@ node bin/sync-vendor.mjs --target /path/to/your-app/vendor --bundle scoped --che
 
 ## Local Preview and Quality Gates
 
-Open `gallery/index.html` in a browser to switch live between light and dark modes, `Gray` and `Lavender` variants, compact and comfortable densities, and active/inactive window states.
+Try the [Live Interactive Gallery](https://pine2d.github.io/platinum-ui/) online or open `gallery/index.html` locally to switch between light and dark modes, `Gray` and `Lavender` variants, compact and comfortable densities, and active/inactive window states.
 
 ```bash
 npm run build                        # Compile dist/*.css from tokens/platinum.tokens.json + src/*.css
