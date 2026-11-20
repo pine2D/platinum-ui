@@ -396,6 +396,7 @@ export function auditDocsAndSkillParity(root = ROOT) {
 // ---- 4. Live Chromium Geometry & Icon Centering Probes ----
 export const ICON_BUTTON_PROBE_SOURCE = `(() => {
   const items = [];
+  const titlebars = [...document.querySelectorAll('.pt-titlebar')];
   const parsePx = (v) => { const n = parseFloat(v); return Number.isFinite(n) ? n : 0; };
   for (const el of document.querySelectorAll('button, summary')) {
     const cs = getComputedStyle(el);
@@ -404,17 +405,22 @@ export const ICON_BUTTON_PROBE_SOURCE = `(() => {
     if (rect.width <= 0 || rect.height <= 0) continue;
 
     // Effective hit box including ::before absolute expansion
+    let hitL = rect.left, hitR = rect.right, hitT = rect.top, hitB = rect.bottom;
     let hitW = rect.width;
     let hitH = rect.height;
     const before = getComputedStyle(el, '::before');
     if (before && before.content && before.content !== 'none' && before.position === 'absolute') {
       const bwL = parsePx(cs.borderLeftWidth), bwR = parsePx(cs.borderRightWidth);
       const bwT = parsePx(cs.borderTopWidth), bwB = parsePx(cs.borderBottomWidth);
-      const padW = rect.width - bwL - bwR;
-      const padH = rect.height - bwT - bwB;
+      const padL = rect.left + bwL, padR = rect.right - bwR;
+      const padT = rect.top + bwT, padB = rect.bottom - bwB;
       const top = parsePx(before.top), right = parsePx(before.right), bottom = parsePx(before.bottom), left = parsePx(before.left);
-      hitW = Math.max(hitW, padW - left - right);
-      hitH = Math.max(hitH, padH - top - bottom);
+      hitL = Math.min(hitL, padL + left);
+      hitR = Math.max(hitR, padR - right);
+      hitT = Math.min(hitT, padT + top);
+      hitB = Math.max(hitB, padB - bottom);
+      hitW = hitR - hitL;
+      hitH = hitB - hitT;
     }
 
     const svgs = [...el.querySelectorAll('svg')].filter((s) => {
@@ -438,6 +444,7 @@ export const ICON_BUTTON_PROBE_SOURCE = `(() => {
       svgW = +sRect.width.toFixed(2);
       svgH = +sRect.height.toFixed(2);
     }
+    const tb = el.closest('.pt-titlebar');
     items.push({
       tag: el.tagName.toLowerCase(),
       cls: String(el.className || ''),
@@ -446,6 +453,10 @@ export const ICON_BUTTON_PROBE_SOURCE = `(() => {
       btnH: +rect.height.toFixed(2),
       hitW: +hitW.toFixed(2),
       hitH: +hitH.toFixed(2),
+      hitL: +hitL.toFixed(2),
+      hitR: +hitR.toFixed(2),
+      isTbox: el.classList.contains('pt-tbox'),
+      titlebarIdx: tb ? titlebars.indexOf(tb) : -1,
       iconOnly,
       svgW,
       svgH,
@@ -463,9 +474,18 @@ export function findIconButtonIssues(probeData, contextLabel = "page") {
   if (probeData.overflowX > 1) {
     issues.push(`${contextLabel}: horizontal overflow detected (+${probeData.overflowX}px)`);
   }
+  const tboxesByBar = new Map();
   for (const b of probeData.items) {
     const id = `${contextLabel} <${b.tag}.${b.cls}> (${b.label})`;
-    if (b.hitW < 24 || b.hitH < 24) {
+    if (b.isTbox) {
+      if (b.hitW < 18 || b.hitH < 22) {
+        issues.push(`${id}: window control hit area ${b.hitW}x${b.hitH}px < 18x22px minimum`);
+      }
+      if (typeof b.titlebarIdx === "number" && b.titlebarIdx >= 0 && typeof b.hitL === "number" && typeof b.hitR === "number") {
+        if (!tboxesByBar.has(b.titlebarIdx)) tboxesByBar.set(b.titlebarIdx, []);
+        tboxesByBar.get(b.titlebarIdx).push(b);
+      }
+    } else if (b.hitW < 24 || b.hitH < 24) {
       issues.push(`${id}: effective hit area ${b.hitW}x${b.hitH}px < 24x24px minimum`);
     }
     if (!b.iconOnly) continue;
@@ -477,6 +497,18 @@ export function findIconButtonIssues(probeData, contextLabel = "page") {
     }
     if (!b.segmented && Math.abs(b.btnW - b.btnH) > 4) {
       issues.push(`${id}: standalone icon button non-square ${b.btnW}x${b.btnH}`);
+    }
+  }
+  for (const [barIdx, list] of tboxesByBar.entries()) {
+    const sorted = [...list].sort((a, b) => a.hitL - b.hitL);
+    for (let i = 1; i < sorted.length; i++) {
+      const prev = sorted[i - 1];
+      const next = sorted[i];
+      if (prev.hitR > next.hitL + 0.5) {
+        issues.push(
+          `${contextLabel} titlebar#${barIdx}: overlapping .pt-tbox hit boxes (${prev.label} right=${prev.hitR} > ${next.label} left=${next.hitL})`
+        );
+      }
     }
   }
   return issues;
@@ -547,6 +579,46 @@ export async function runBrowserAudit({ url, root = ROOT } = {}) {
           statesChecked++;
         }
       }
+    }
+
+    // Verify all 3 OS window-control presets (mac9, macos, win): order, dead-centering, and zero hit overlap
+    for (const preset of ["mac9", "macos", "win"]) {
+      await page.evaluate((p) => {
+        document.documentElement.setAttribute("data-platinum-controls", p);
+      }, preset);
+      const data = await page.evaluate(ICON_BUTTON_PROBE_SOURCE);
+      errors.push(...findIconButtonIssues(data, `controls=${preset}`));
+      const layoutIssues = await page.evaluate((p) => {
+        const errs = [];
+        for (const bar of document.querySelectorAll(".pt-titlebar")) {
+          const close = bar.querySelector(".pt-tbox-close");
+          const min = bar.querySelector(".pt-tbox-minimize");
+          const zoom = bar.querySelector(".pt-tbox-zoom");
+          const label = bar.querySelector(".pt-titlebar-label");
+          if (!close || !min || !zoom || !label) continue;
+          const rb = bar.getBoundingClientRect();
+          const rc = close.getBoundingClientRect();
+          const rm = min.getBoundingClientRect();
+          const rz = zoom.getBoundingClientRect();
+          const rl = label.getBoundingClientRect();
+          const labelCx = (rl.left + rl.right) / 2;
+          const barCx = (rb.left + rb.right) / 2;
+          if (Math.abs(labelCx - barCx) > 2) {
+            errs.push(`controls=${p}: title "${label.textContent.trim()}" off-center by ${(labelCx - barCx).toFixed(1)}px`);
+          }
+          if (p === "mac9" && !(rc.right < rl.left && rl.right < rz.left && rz.right < rm.left)) {
+            errs.push(`controls=mac9: expected [close] < [title] < [zoom] < [collapse]`);
+          }
+          if (p === "macos" && !(rc.right < rm.left && rm.right < rz.left && rz.right < rl.left)) {
+            errs.push(`controls=macos: expected [close] < [min] < [zoom] < [title]`);
+          }
+          if (p === "win" && !(rl.right < rm.left && rm.right < rz.left && rz.right < rc.left)) {
+            errs.push(`controls=win: expected [title] < [min] < [zoom] < [close]`);
+          }
+        }
+        return errs;
+      }, preset);
+      errors.push(...layoutIssues);
     }
   } finally {
     await browser.close();

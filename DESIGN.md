@@ -24,6 +24,13 @@
 - **尺寸密度阶梯**：
   - 默认 **`compact`**：标准控件 `26px`（`--pt-control-h`），次级紧凑图标钮 `20px`（`--pt-control-h-sm`，配双层轻斜面 `--pt-bevel-mini` 与 `::before` `24×24px` 隐形热区），标题栏 `22px`（`--pt-titlebar-h`）。
   - 可选 **`data-platinum-density="comfortable"`**：标准控件 `32px`，小号控件 `24px`，标题栏 `24px`。
+- **跨平台窗口控制预设（`data-platinum-controls`）**：
+  - 默认 **`mac9`**（1999 原生 Mac OS 9 HIG）：左上关闭（`.pt-tbox-close`），右上缩放（`.pt-tbox-zoom`）+ WindowShade 折叠双横线（`.pt-tbox-minimize` 呈 `═`）。
+  - 可选 **`data-platinum-controls="macos"`**（现代 macOS 左置三连）：左上依次排列关闭、最小化（`−`）、缩放（`□↔▣`）。
+  - 可选 **`data-platinum-controls="win"`**（Windows / Linux 右置三连）：右上依次排列最小化（`−`）、缩放（`□↔▣`）、关闭（`×`）。
+  - 同一份零冗余 DOM（在 `.pt-titlebar` 内直写 3 个空 `.pt-tbox-*` 按钮 + `.pt-titlebar-label`）通过 CSS 变量与 Flex `order` 跨平台重排并自动绘制 `9×9px` `currentColor` 矢量遮罩字形（检测到内嵌 `<svg>` 时自动让位）；支持在单个页面内按窗口级嵌套混排不同系统预设。
+  - 标题栏采用居中 `12px` 高（`2px` 周期 6 条）经典细横纹；窗口失焦（`data-inactive="true"` / `data-window-focused="false"`）时横纹隐去且 `.pt-tbox` 同步退平为柔和灰框；窗口设置 `data-collapsed="true"` 自动进入 Mac OS 9 WindowShade 卷起态；Electron 无边框主窗可叠加 `.pt-titlebar--draggable` 自动配置拖拽区与 `no-drag`。
+  - **连排窗控无重叠热区**：`.pt-tbox` 为 `13×13px` 视觉盒配 `gap: 5px`，通过 `::before { inset: -5.5px -3.5px }` 形成 `18×22px` 边贴边无缝零重叠热区（纵向铺满 `22px` 标题栏、横向绝不侵入相邻按钮），由 `bin/platinum-check.mjs` 自动检测相邻窗控零重叠。
 
 ---
 

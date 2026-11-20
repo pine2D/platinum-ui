@@ -49,10 +49,6 @@ function resolvePlaywright() {
   throw new Error("Playwright not found. Install playwright or set PLAYWRIGHT_MODULE_PATH.");
 }
 
-const CLOSE_BOX_SVG = `<svg viewBox="0 0 10 10" width="8" height="8" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 2l6 6M8 2L2 8"/></svg>`;
-const SHADE_BOX_SVG = `<svg viewBox="0 0 10 10" width="8" height="8" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1.5 4h7M1.5 6.5h7"/></svg>`;
-const ZOOM_BOX_SVG = `<svg viewBox="0 0 10 10" width="8" height="8" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="1.5" y="1.5" width="7" height="7"/><path d="M1.5 5.5h4v-4"/></svg>`;
-
 const SHARED_STAGE_CSS = `
   * { box-sizing: border-box; }
   html, body {
@@ -195,13 +191,14 @@ function heroHtml(c) {
     <div style="position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,0.06) 1px, transparent 1px);background-size:4px 4px;clip-path:polygon(0 0, 100% 0, 0 97%);pointer-events:none;"></div>
     <div style="position:absolute;inset:0;background-image:radial-gradient(rgba(0,0,0,0.10) 1px, transparent 1px);background-size:4px 4px;clip-path:polygon(100% 0, 100% 100%, 0 100%);pointer-events:none;"></div>
 
-    <!-- Back Window: Dark · Gray Zero-Cast Metallic -->
-    <section class="pt-window" data-platinum data-platinum-scheme="dark" data-platinum-accent="gray" data-platinum-density="compact"
+    <!-- Back Window: Dark · Gray Zero-Cast Metallic (Windows/Linux right 3-cluster chrome) -->
+    <section class="pt-window" data-platinum data-platinum-scheme="dark" data-platinum-accent="gray" data-platinum-density="compact" data-platinum-controls="win"
       style="position:absolute; left:36px; top:32px; width:720px; z-index:1; box-shadow: var(--pt-bevel-window), 4px 4px 0 #050505;">
       <header class="pt-titlebar">
-        <button type="button" class="pt-tbox" aria-label="Close">${CLOSE_BOX_SVG}</button>
-        <span class="pt-titlebar-label">Appearance — Dark Metallic (R = G = B)</span>
-        <button type="button" class="pt-tbox" aria-label="Collapse">${SHADE_BOX_SVG}</button>
+        <button type="button" class="pt-tbox pt-tbox-close" aria-label="Close"></button>
+        <button type="button" class="pt-tbox pt-tbox-minimize" aria-label="Minimize"></button>
+        <button type="button" class="pt-tbox pt-tbox-zoom" aria-label="Maximize"></button>
+        <span class="pt-titlebar-label">Appearance — Dark Metallic (Win/Linux Chrome)</span>
       </header>
       <div class="pt-toolbar" style="justify-content: space-between;">
         <div class="row">
@@ -251,16 +248,14 @@ function heroHtml(c) {
       </div>
     </section>
 
-    <!-- Front Hero Window: Light · Gray Mac OS 9 Platinum Workbench -->
-    <section class="pt-window" data-platinum data-platinum-scheme="light" data-platinum-accent="gray" data-platinum-density="compact"
+    <!-- Front Hero Window: Light · Gray Mac OS 9 Platinum Workbench (Authentic Mac OS 9 split chrome) -->
+    <section class="pt-window" data-platinum data-platinum-scheme="light" data-platinum-accent="gray" data-platinum-density="compact" data-platinum-controls="mac9"
       style="position:absolute; left:284px; top:166px; width:800px; z-index:5; box-shadow: var(--pt-bevel-window), 3px 3px 0 #262626, -1px -1px 0 #262626;">
       <header class="pt-titlebar">
-        <button type="button" class="pt-tbox" aria-label="Close">${CLOSE_BOX_SVG}</button>
+        <button type="button" class="pt-tbox pt-tbox-close" aria-label="Close"></button>
+        <button type="button" class="pt-tbox pt-tbox-minimize" aria-label="Collapse"></button>
+        <button type="button" class="pt-tbox pt-tbox-zoom" aria-label="Zoom"></button>
         <span class="pt-titlebar-label">Platinum Workbench — Finder</span>
-        <div class="row" style="gap:4px;">
-          <button type="button" class="pt-tbox" aria-label="Zoom">${ZOOM_BOX_SVG}</button>
-          <button type="button" class="pt-tbox" aria-label="Collapse">${SHADE_BOX_SVG}</button>
-        </div>
       </header>
       <div class="pt-toolbar" style="justify-content: space-between;">
         <div class="row">
@@ -378,11 +373,12 @@ function variantCard({ accent, title, badgeText, desc, selSample, scrollNote, v 
   const sepSpace = v.wellMid.startsWith("，") ? "" : " ";
   const endPunct = v.wellMid.startsWith("，") ? "。" : ".";
   return `
-    <section class="pt-window" data-platinum data-platinum-scheme="light" data-platinum-accent="${accent}" data-platinum-density="compact" style="flex:1; min-width:0;">
+    <section class="pt-window" data-platinum data-platinum-scheme="light" data-platinum-accent="${accent}" data-platinum-density="compact" data-platinum-controls="mac9" style="flex:1; min-width:0;">
       <header class="pt-titlebar">
-        <button type="button" class="pt-tbox" aria-label="Close">${CLOSE_BOX_SVG}</button>
+        <button type="button" class="pt-tbox pt-tbox-close" aria-label="Close"></button>
+        <button type="button" class="pt-tbox pt-tbox-minimize" aria-label="Collapse"></button>
+        <button type="button" class="pt-tbox pt-tbox-zoom" aria-label="Zoom"></button>
         <span class="pt-titlebar-label">${title}</span>
-        <button type="button" class="pt-tbox" aria-label="Collapse">${SHADE_BOX_SVG}</button>
       </header>
       <div class="pt-toolbar" style="justify-content:space-between;">
         <span style="font-size:11.5px; font-weight:700;">${desc}</span>
@@ -455,13 +451,14 @@ function variantsHtml(c) {
   </div>`;
 }
 
-function densityWindow({ density, title, meta }) {
+function densityWindow({ density, controls, maximized = false, title, meta }) {
   return `
-    <section class="pt-window" data-platinum data-platinum-scheme="light" data-platinum-accent="gray" data-platinum-density="${density}">
+    <section class="pt-window" data-platinum data-platinum-scheme="light" data-platinum-accent="gray" data-platinum-density="${density}" data-platinum-controls="${controls}"${maximized ? ' data-maximized="true"' : ""}>
       <header class="pt-titlebar">
-        <button type="button" class="pt-tbox" aria-label="Close">${CLOSE_BOX_SVG}</button>
+        <button type="button" class="pt-tbox pt-tbox-close" aria-label="Close"></button>
+        <button type="button" class="pt-tbox pt-tbox-minimize" aria-label="Minimize"></button>
+        <button type="button" class="pt-tbox pt-tbox-zoom" aria-label="Zoom"></button>
         <span class="pt-titlebar-label">${title}</span>
-        <span style="width:13px;"></span>
       </header>
       <div class="pt-window-body stack" style="gap:10px;">
         <div class="row" style="justify-content:space-between;">
@@ -498,11 +495,12 @@ function proseAndDensityHtml(c) {
   const p = c.prose;
   return `
   <div class="stage stage-light-stipple" style="padding: 24px; display:grid; grid-template-columns: 644px 1fr; gap:20px; align-items:start;">
-    <section class="pt-window" data-platinum data-platinum-scheme="light" data-platinum-accent="gray" data-platinum-density="compact">
+    <section class="pt-window" data-platinum data-platinum-scheme="light" data-platinum-accent="gray" data-platinum-density="compact" data-platinum-controls="mac9">
       <header class="pt-titlebar">
-        <button type="button" class="pt-tbox" aria-label="Close">${CLOSE_BOX_SVG}</button>
+        <button type="button" class="pt-tbox pt-tbox-close" aria-label="Close"></button>
+        <button type="button" class="pt-tbox pt-tbox-minimize" aria-label="Collapse"></button>
+        <button type="button" class="pt-tbox pt-tbox-zoom" aria-label="Zoom"></button>
         <span class="pt-titlebar-label">SimpleText — Technical Prose &amp; Code (.pt-prose)</span>
-        <button type="button" class="pt-tbox" aria-label="Zoom">${ZOOM_BOX_SVG}</button>
       </header>
       <div class="pt-window-body">
         <article class="pt-well pt-prose" style="padding: 12px 14px;">
@@ -535,19 +533,23 @@ npx platinum-check --css ./src/app.css --forbid-purple</code></pre>
     <div class="stack" style="gap:16px;">
       ${densityWindow({
         density: "compact",
-        title: "Density — Compact (Default · 26 / 20px)",
+        controls: "macos",
+        title: "Compact (26/20) · macOS Controls",
         meta: p.compactMeta
       })}
       ${densityWindow({
         density: "comfortable",
-        title: "Density — Comfortable (Opt-in · 32 / 24px)",
+        controls: "win",
+        maximized: true,
+        title: "Comfortable (32/24) · Win/Linux",
         meta: p.comfortableMeta
       })}
-      <section class="pt-window" data-platinum data-platinum-scheme="light" data-platinum-accent="gray" data-platinum-density="compact" data-inactive="true">
+      <section class="pt-window" data-platinum data-platinum-scheme="light" data-platinum-accent="gray" data-platinum-density="compact" data-platinum-controls="mac9" data-inactive="true">
         <header class="pt-titlebar">
-          <button type="button" class="pt-tbox" aria-label="Close">${CLOSE_BOX_SVG}</button>
+          <button type="button" class="pt-tbox pt-tbox-close" aria-label="Close"></button>
+          <button type="button" class="pt-tbox pt-tbox-minimize" aria-label="Collapse"></button>
+          <button type="button" class="pt-tbox pt-tbox-zoom" aria-label="Zoom"></button>
           <span class="pt-titlebar-label">Background Window — Inactive State</span>
-          <span style="width:13px;"></span>
         </header>
         <div class="pt-window-body" style="padding:8px 12px; font-size:12px; color:var(--pt-ink-muted);">
           ${p.inactiveBodyHtml}

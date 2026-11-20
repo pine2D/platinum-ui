@@ -4,12 +4,15 @@
 
 ## 1. 无边框自绘横纹主窗（`frame: false`）
 
-- **几何单一真源**：将主窗标题栏高度固定为常量 `WINDOW_TITLEBAR_HEIGHT = 22`（`px`），同步提供给主进程 `WebContentsView` 坐标计算与渲染层 `.pt-titlebar`，禁止双侧各写字面量。
-- **跨平台窗口按钮（`.pt-tbox` `13×13px`）位置**：
-  - macOS：关闭/最小化/缩放方块居左，文字标题居中；
-  - Windows / Linux：控制方块居右，文字标题居中；
-  - 拖拽区与交互区分离：`.pt-titlebar` 设 `-webkit-app-region: drag`，所有 `.pt-tbox` 及按钮显式设 `-webkit-app-region: no-drag`，避免点击被系统标题栏拖拽吞掉。
-- **窗口焦点联动**：主进程监听 `BrowserWindow` 的 `focus` / `blur` 事件同步 `data-window-focused="true|false"`；失焦时 `.pt-titlebar` 自动隐去 `2px` 水平细横纹、标题降为 `--pt-ink-muted`（复刻经典 Mac OS 非活动窗口视觉反馈）。
+- **几何单一真源**：将主窗标题栏高度固定为常量 `WINDOW_TITLEBAR_HEIGHT = 22`（`px`），同步提供给主进程 `WebContentsView` 坐标计算与渲染层 `.pt-titlebar`（内置 `12px` 居中 6 条细横纹），禁止双侧各写字面量。
+- **跨平台窗口按钮（`.pt-tbox` `13×13px`）与 `data-platinum-controls`**：
+  - 同一份语义 HTML（`.pt-tbox.pt-tbox-close` + `.pt-tbox.pt-tbox-minimize` + `.pt-tbox.pt-tbox-zoom` + `.pt-titlebar-label`）直接挂根节点属性切换三套布局：
+    - `data-platinum-controls="mac9"`（默认，1999 原生）：关闭居左、缩放与 WindowShade 折叠（`═`）居右；
+    - `data-platinum-controls="macos"`（现代 macOS 桌面应用）：关闭、最小化（`−`）、缩放（`□↔▣`）三连居左；
+    - `data-platinum-controls="win"`（Windows / Linux 桌面应用）：最小化（`−`）、缩放（`□↔▣`）、关闭（`×`）三连居右；
+  - 缩放状态同步：主进程将 `window.isMaximized() || window.isFullScreen()` 同步到 `data-window-maximized="true|false"`，`.pt-tbox-zoom` 自动在 `□` 与嵌套还原角框 `▣` 间切换；全屏下对 `.pt-tbox-minimize` 设 `disabled`。
+  - 拖拽区与交互区分离：在主窗 `.pt-titlebar` 叠加 `.pt-titlebar--draggable`（内置 `-webkit-app-region: drag` 且自动给 `.pt-tbox`、按钮与输入控件加 `no-drag`），避免点击被系统标题栏拖拽吞掉。
+- **窗口焦点联动**：主进程监听 `BrowserWindow` 的 `focus` / `blur` 事件同步 `data-window-focused="true|false"`；失焦时 `.pt-titlebar` 自动隐去 `12px` 细横纹、标题降为 `--pt-ink-muted` 且 `.pt-tbox` 同步退平为柔和灰框（复刻经典 Mac OS 非活动窗口视觉反馈）。
 
 ## 2. 跨原生视图的顶层 Platinum 弹出菜单
 

@@ -8,7 +8,7 @@ A cross-project **Mac OS 9 Platinum** design system: W3C DTCG design tokens, zer
 
 ## Highlights
 
-- **Authentic Platinum mechanics**: Crisp `1px` borders, `2px` hard drop shadows, four-layer metallic bevels, `2px` horizontal pinstripe titlebars, `15px` three-ridge scrollbars, Mac OS 9 HIG double-arrow pop-up selects, etched groove group boxes, and instant `0ms` state transitions.
+- **Authentic Platinum mechanics & multi-OS window controls**: Crisp `1px` borders, `2px` hard drop shadows, four-layer metallic bevels, vertically centered `12px` six-ridge pinstripe titlebars, `15px` three-ridge scrollbars, Mac OS 9 HIG double-arrow pop-up selects, etched groove group boxes, and instant `0ms` state transitions. Switch window controls via `data-platinum-controls="mac9" | "macos" | "win"` (classic Mac OS 9 split close/zoom+collapse by default, modern macOS left 3-cluster, or Windows/Linux right 3-cluster) with pure-CSS crisp SVG glyphs and zero-overlap `18×22px` hit boxes.
 - **Zero-cast light/dark chassis and two official accent variants**: Light silver (`#cccccc`/`#dddddd`) and dark metallic grays keep strict `R=G=B` neutrality. Ships with a purple-free **`gray`** default variant (silver scrollbars, charcoal menu highlights, and slate blue focus/links) and an opt-in classic **`lavender`** variant via `data-platinum-accent="lavender"`. Every foreground/surface pair passes WCAG AA `>= 4.5:1` across all four quadrants.
 
 ![Side-by-side comparison of the default Gray variant and opt-in Lavender variant across selection, menus, scrollbars, and neutral buttons](docs/screenshots/variants.webp)
@@ -47,7 +47,7 @@ node bin/sync-vendor.mjs --target /path/to/your-app/vendor --bundle scoped --che
 
 ## Local Preview and Quality Gates
 
-Try the [Live Interactive Gallery](https://pine2d.github.io/platinum-ui/) online or open `gallery/index.html` locally to switch between English and Chinese, light and dark modes, `Gray` and `Lavender` variants, compact and comfortable densities, and active/inactive window states.
+Try the [Live Interactive Gallery](https://pine2d.github.io/platinum-ui/) online or open `gallery/index.html` locally to switch between English and Chinese, light and dark modes, `Gray` and `Lavender` variants, `Mac OS 9` / `macOS` / `Win/Linux` window controls, compact and comfortable densities, and active/inactive window states.
 
 ```bash
 npm run build                        # Compile dist/*.css from tokens/platinum.tokens.json + src/*.css

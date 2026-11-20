@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-platinum data-platinum-scheme="light" data-platinum-accent="gray" data-platinum-density="compact">
+<html lang="en" data-platinum data-platinum-scheme="light" data-platinum-accent="gray" data-platinum-density="compact" data-platinum-controls="mac9">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -23,6 +23,9 @@
       grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
       gap: 14px;
       align-items: start;
+    }
+    .gallery-grid > .pt-window[data-maximized="true"] {
+      grid-column: 1 / -1;
     }
     .control-banner {
       position: sticky;
@@ -106,13 +109,9 @@
     <!-- Top Live Control Strip Window -->
     <section class="pt-window control-banner" aria-label="Appearance Control Panel">
       <header class="pt-titlebar">
-        <button type="button" class="pt-tbox" aria-label="Close appearance bar">
-          <svg viewBox="0 0 10 10" width="8" height="8" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 2l6 6M8 2L2 8"/></svg>
-        </button>
+        <button type="button" class="pt-tbox pt-tbox-close" data-win-action="reset-all" aria-label="Reset appearance panel" title="Reset appearance panel"></button>
         <span class="pt-titlebar-label" data-i18n="panelTitle">Appearance Control Panel — Platinum UI v0.1</span>
-        <button type="button" class="pt-tbox" aria-label="Collapse appearance bar">
-          <svg viewBox="0 0 10 10" width="8" height="8" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1.5 5h7"/></svg>
-        </button>
+        <button type="button" class="pt-tbox pt-tbox-minimize" data-win-action="collapse" aria-label="Collapse appearance bar" title="Collapse appearance bar"></button>
       </header>
       <div class="pt-toolbar control-toolbar">
         <div class="demo-row">
@@ -125,15 +124,23 @@
         <div class="demo-row">
           <span style="font-size: var(--pt-size-meta); font-weight: 700;" data-i18n="accentLabel">Accent:</span>
           <div class="pt-segmented" role="group" aria-label="Accent variant">
-            <button type="button" class="pt-btn pt-btn-sm" data-set-accent="gray" aria-pressed="true" data-i18n="accentGray">Gray (Default)</button>
+            <button type="button" class="pt-btn pt-btn-sm" data-set-accent="gray" aria-pressed="true" data-i18n="accentGray">Gray</button>
             <button type="button" class="pt-btn pt-btn-sm" data-set-accent="lavender" aria-pressed="false" data-i18n="accentLavender">Lavender</button>
+          </div>
+        </div>
+        <div class="demo-row">
+          <span style="font-size: var(--pt-size-meta); font-weight: 700;" data-i18n="controlsLabel">OS Chrome:</span>
+          <div class="pt-segmented" role="group" aria-label="Window controls layout">
+            <button type="button" class="pt-btn pt-btn-sm" data-set-controls="mac9" aria-pressed="true">Mac OS 9</button>
+            <button type="button" class="pt-btn pt-btn-sm" data-set-controls="macos" aria-pressed="false">macOS</button>
+            <button type="button" class="pt-btn pt-btn-sm" data-set-controls="win" aria-pressed="false">Win/Linux</button>
           </div>
         </div>
         <div class="demo-row">
           <span style="font-size: var(--pt-size-meta); font-weight: 700;" data-i18n="densityLabel">Density:</span>
           <div class="pt-segmented" role="group" aria-label="Control density">
-            <button type="button" class="pt-btn pt-btn-sm" data-set-density="compact" aria-pressed="true" data-i18n="densityCompact">Compact 26/20</button>
-            <button type="button" class="pt-btn pt-btn-sm" data-set-density="comfortable" aria-pressed="false" data-i18n="densityComfortable">Comfortable 32/24</button>
+            <button type="button" class="pt-btn pt-btn-sm" data-set-density="compact" aria-pressed="true" data-i18n="densityCompact">26/20</button>
+            <button type="button" class="pt-btn pt-btn-sm" data-set-density="comfortable" aria-pressed="false" data-i18n="densityComfortable">32/24</button>
           </div>
         </div>
         <div class="demo-row">
@@ -144,11 +151,11 @@
           </label>
         </div>
         <div class="demo-row">
-          <span style="font-size: var(--pt-size-meta); font-weight: 700;" data-i18n="langLabel">Lang:</span>
           <div class="pt-segmented" role="group" aria-label="Gallery language">
             <button type="button" class="pt-btn pt-btn-sm" data-set-lang="en" aria-pressed="true">EN</button>
             <button type="button" class="pt-btn pt-btn-sm" data-set-lang="zh-CN" aria-pressed="false">中文</button>
           </div>
+          <button type="button" class="pt-btn pt-btn-sm" id="restore-windows-btn" hidden data-i18n="restoreWins">Restore Windows</button>
         </div>
       </div>
     </section>
@@ -157,11 +164,10 @@
       <!-- Window 1: Buttons, Segmented Controls, Icon Geometry & Badges -->
       <section class="pt-window">
         <header class="pt-titlebar">
-          <button type="button" class="pt-tbox" aria-label="Close window">
-            <svg viewBox="0 0 10 10" width="8" height="8" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 2l6 6M8 2L2 8"/></svg>
-          </button>
+          <button type="button" class="pt-tbox pt-tbox-close" data-win-action="close" aria-label="Close window"></button>
+          <button type="button" class="pt-tbox pt-tbox-minimize" data-win-action="collapse" aria-label="Minimize or collapse window"></button>
+          <button type="button" class="pt-tbox pt-tbox-zoom" data-win-action="zoom" aria-label="Zoom window"></button>
           <span class="pt-titlebar-label" data-i18n="w1Title">1 · Buttons, Segmented Controls &amp; Icon Clusters</span>
-          <span style="width: 13px;" aria-hidden="true"></span>
         </header>
         <div class="pt-window-body demo-stack">
           <fieldset class="pt-groupbox">
@@ -236,11 +242,10 @@
       <!-- Window 2: Sunken Fields, Pop-up Select, Choices & Etched GroupBox -->
       <section class="pt-window">
         <header class="pt-titlebar">
-          <button type="button" class="pt-tbox" aria-label="Close form window">
-            <svg viewBox="0 0 10 10" width="8" height="8" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 2l6 6M8 2L2 8"/></svg>
-          </button>
+          <button type="button" class="pt-tbox pt-tbox-close" data-win-action="close" aria-label="Close form window"></button>
+          <button type="button" class="pt-tbox pt-tbox-minimize" data-win-action="collapse" aria-label="Minimize or collapse form window"></button>
+          <button type="button" class="pt-tbox pt-tbox-zoom" data-win-action="zoom" aria-label="Zoom form window"></button>
           <span class="pt-titlebar-label" data-i18n="w2Title">2 · Sunken Fields, Pop-Up Select &amp; Switches</span>
-          <span style="width: 13px;" aria-hidden="true"></span>
         </header>
         <div class="pt-window-body demo-stack">
           <fieldset class="pt-groupbox">
@@ -299,11 +304,10 @@
       <!-- Window 3: Popup Menu & 15px 3-Ridge Scrollbar List Well -->
       <section class="pt-window">
         <header class="pt-titlebar">
-          <button type="button" class="pt-tbox" aria-label="Close menu window">
-            <svg viewBox="0 0 10 10" width="8" height="8" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 2l6 6M8 2L2 8"/></svg>
-          </button>
+          <button type="button" class="pt-tbox pt-tbox-close" data-win-action="close" aria-label="Close menu window"></button>
+          <button type="button" class="pt-tbox pt-tbox-minimize" data-win-action="collapse" aria-label="Minimize or collapse menu window"></button>
+          <button type="button" class="pt-tbox pt-tbox-zoom" data-win-action="zoom" aria-label="Zoom menu window"></button>
           <span class="pt-titlebar-label" data-i18n="w3Title">3 · Popup Menu &amp; 15px Three-Ridge Scrollbar</span>
-          <span style="width: 13px;" aria-hidden="true"></span>
         </header>
         <div class="pt-window-body demo-stack">
           <div class="demo-split">
@@ -360,11 +364,10 @@
       <!-- Window 4: Technical Reading Prose, Code Window & Hard-Bordered Table -->
       <section class="pt-window">
         <header class="pt-titlebar pt-titlebar--sticky">
-          <button type="button" class="pt-tbox" aria-label="Close prose window">
-            <svg viewBox="0 0 10 10" width="8" height="8" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 2l6 6M8 2L2 8"/></svg>
-          </button>
+          <button type="button" class="pt-tbox pt-tbox-close" data-win-action="close" aria-label="Close prose window"></button>
+          <button type="button" class="pt-tbox pt-tbox-minimize" data-win-action="collapse" aria-label="Minimize or collapse prose window"></button>
+          <button type="button" class="pt-tbox pt-tbox-zoom" data-win-action="zoom" aria-label="Zoom prose window"></button>
           <span class="pt-titlebar-label" data-i18n="w4Title">4 · Technical Prose, Code Window &amp; Table (.pt-prose)</span>
-          <span style="width: 13px;" aria-hidden="true"></span>
         </header>
         <div class="pt-window-body">
           <article class="pt-well pt-prose pt-scroll-pane" style="max-height: 300px;">
@@ -422,13 +425,14 @@ npx platinum-check --browser</code></pre>
           schemeLight: "Light",
           schemeDark: "Dark",
           accentLabel: "Accent:",
-          accentGray: "Gray (Default)",
+          accentGray: "Gray",
           accentLavender: "Lavender",
+          controlsLabel: "OS Chrome:",
           densityLabel: "Density:",
-          densityCompact: "Compact 26/20",
-          densityComfortable: "Comfortable 32/24",
+          densityCompact: "26/20",
+          densityComfortable: "32/24",
           inactiveLabel: "Inactive",
-          langLabel: "Lang:",
+          restoreWins: "Restore Windows",
           w1Title: "1 · Buttons, Segmented Controls & Icon Clusters",
           w1g1: "Push Buttons (4-Layer Bevel + HIG Default Outer Ring)",
           btnPrimary: "Save Default",
@@ -480,16 +484,17 @@ npx platinum-check --browser</code></pre>
           pageTitle: "Platinum UI — Mac OS 9 铂金设计系统画廊",
           panelTitle: "Appearance Control Panel — Platinum UI v0.1",
           schemeLabel: "明暗：",
-          schemeLight: "浅色铂金银",
-          schemeDark: "深色碳黑",
+          schemeLight: "浅色",
+          schemeDark: "深色",
           accentLabel: "变体：",
-          accentGray: "Gray 纯银灰（默认）",
-          accentLavender: "Lavender 薰衣草",
+          accentGray: "银灰",
+          accentLavender: "薰衣草",
+          controlsLabel: "窗控：",
           densityLabel: "密度：",
-          densityCompact: "紧凑 26/20",
-          densityComfortable: "舒适 32/24",
-          inactiveLabel: "模拟失焦",
-          langLabel: "语言：",
+          densityCompact: "26/20",
+          densityComfortable: "32/24",
+          inactiveLabel: "失焦",
+          restoreWins: "恢复窗口",
           w1Title: "1 · 立体按钮、分段组与原子图标簇",
           w1g1: "立体按钮（四层斜面 + HIG 默认双外环）",
           btnPrimary: "保存默认项",
@@ -540,10 +545,17 @@ npx platinum-check --browser</code></pre>
       };
 
       const root = document.documentElement;
+      const restoreBtn = document.getElementById("restore-windows-btn");
       const syncPressed = (attr, value) => {
         for (const btn of document.querySelectorAll(`[${attr}]`)) {
           btn.setAttribute("aria-pressed", String(btn.getAttribute(attr) === value));
         }
+      };
+
+      const syncRestoreBtn = () => {
+        if (!restoreBtn) return;
+        const anyHidden = [...document.querySelectorAll("#demo-windows .pt-window")].some((w) => w.hidden);
+        restoreBtn.hidden = !anyHidden;
       };
 
       const normalizeLang = (raw) => {
@@ -606,6 +618,12 @@ npx platinum-check --browser</code></pre>
           root.setAttribute("data-platinum-accent", val);
           syncPressed("data-set-accent", val);
         }
+        const controlsBtn = e.target.closest("[data-set-controls]");
+        if (controlsBtn) {
+          const val = controlsBtn.getAttribute("data-set-controls");
+          root.setAttribute("data-platinum-controls", val);
+          syncPressed("data-set-controls", val);
+        }
         const densityBtn = e.target.closest("[data-set-density]");
         if (densityBtn) {
           const val = densityBtn.getAttribute("data-set-density");
@@ -615,6 +633,49 @@ npx platinum-check --browser</code></pre>
         const langBtn = e.target.closest("[data-set-lang]");
         if (langBtn) {
           applyLang(langBtn.getAttribute("data-set-lang"), { persist: true });
+        }
+        if (e.target.closest("#restore-windows-btn")) {
+          for (const win of document.querySelectorAll("#demo-windows .pt-window")) {
+            win.hidden = false;
+            win.removeAttribute("data-collapsed");
+            win.removeAttribute("data-maximized");
+            const zb = win.querySelector(".pt-tbox-zoom");
+            if (zb) zb.setAttribute("aria-pressed", "false");
+          }
+          syncRestoreBtn();
+        }
+        const winActionBtn = e.target.closest("[data-win-action]");
+        if (winActionBtn) {
+          const action = winActionBtn.getAttribute("data-win-action");
+          const win = winActionBtn.closest(".pt-window");
+          if (!win) return;
+          if (action === "collapse") {
+            const collapsed = win.getAttribute("data-collapsed") === "true";
+            if (collapsed) win.removeAttribute("data-collapsed");
+            else win.setAttribute("data-collapsed", "true");
+          } else if (action === "zoom") {
+            const maxed = win.getAttribute("data-maximized") === "true";
+            if (maxed) {
+              win.removeAttribute("data-maximized");
+              winActionBtn.setAttribute("aria-pressed", "false");
+            } else {
+              win.removeAttribute("data-collapsed");
+              win.setAttribute("data-maximized", "true");
+              winActionBtn.setAttribute("aria-pressed", "true");
+            }
+          } else if (action === "close") {
+            win.hidden = true;
+            syncRestoreBtn();
+          } else if (action === "reset-all") {
+            for (const w of document.querySelectorAll(".pt-window")) {
+              w.hidden = false;
+              w.removeAttribute("data-collapsed");
+              w.removeAttribute("data-maximized");
+              const zb = w.querySelector(".pt-tbox-zoom");
+              if (zb) zb.setAttribute("aria-pressed", "false");
+            }
+            syncRestoreBtn();
+          }
         }
       });
 

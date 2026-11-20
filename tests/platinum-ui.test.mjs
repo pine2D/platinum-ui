@@ -104,18 +104,21 @@ test("docs and SKILL.md stay synced with tokens/classes and free of machine-loca
   assert.ok(res.docsChecked >= 6);
 });
 
-test("icon button geometry detector flags off-center, undersized hit area, and non-square buttons", () => {
+test("icon button geometry detector flags off-center, undersized hit area, non-square buttons, and overlapping .pt-tbox", () => {
   const bad = findIconButtonIssues({
     overflowX: 0,
     items: [
       { tag: "button", cls: "pt-btn pt-btn-icon", label: "off", btnW: 26, btnH: 26, hitW: 26, hitH: 26, iconOnly: true, svgW: 14, svgH: 14, dx: 1.4, dy: 0, segmented: false },
-      { tag: "button", cls: "pt-btn pt-btn-sm pt-btn-icon", label: "small", btnW: 20, btnH: 20, hitW: 22, hitH: 22, iconOnly: true, svgW: 13, svgH: 13, dx: 0, dy: 0, segmented: false }
+      { tag: "button", cls: "pt-btn pt-btn-sm pt-btn-icon", label: "small", btnW: 20, btnH: 20, hitW: 22, hitH: 22, iconOnly: true, svgW: 13, svgH: 13, dx: 0, dy: 0, segmented: false },
+      { tag: "button", cls: "pt-tbox pt-tbox-minimize", label: "min", btnW: 13, btnH: 13, hitW: 18, hitH: 22, hitL: 100, hitR: 118, isTbox: true, titlebarIdx: 0, iconOnly: false },
+      { tag: "button", cls: "pt-tbox pt-tbox-close", label: "close", btnW: 13, btnH: 13, hitW: 18, hitH: 22, hitL: 115, hitR: 133, isTbox: true, titlebarIdx: 0, iconOnly: false }
     ]
   }, "mock");
-  assert.equal(bad.length, 2);
+  assert.equal(bad.length, 3);
+  assert.ok(bad.some((m) => m.includes("overlapping .pt-tbox hit boxes")));
 });
 
-test("live Chromium gallery passes all 8 (scheme x accent x density) states in both EN and zh-CN when Playwright is available", async () => {
+test("live Chromium gallery passes all 8 (scheme x accent x density) states in EN and zh-CN plus mac9/macos/win window controls", async () => {
   const bEn = await runBrowserAudit({ root: ROOT });
   if (!bEn.skipped) {
     assert.equal(bEn.statesChecked, 8);

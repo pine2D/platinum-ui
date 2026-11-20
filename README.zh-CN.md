@@ -8,7 +8,7 @@
 
 ## 特性概览
 
-- **纯正 Platinum 机械质感**：`1px` 利落黑框、`2px` 硬边投影、四层金属凹凸斜面、`2px` 水平细横纹标题条、`15px` 三横脊滚动条、HIG 双箭头弹出选择框、蚀刻凹槽分组框与 `0ms` 机械瞬切。
+- **纯正 Platinum 机械质感与跨平台窗口控制**：`1px` 利落黑框、`2px` 硬边投影、四层金属凹凸斜面、居中 `12px` 六条细横纹标题条、`15px` 三横脊滚动条、HIG 双箭头弹出选择框、蚀刻凹槽分组框与 `0ms` 机械瞬切。通过 `data-platinum-controls="mac9" | "macos" | "win"` 一键切换窗口按钮布局（默认 1999 原生 Mac OS 9 左关+右缩放/双横线折叠、现代 macOS 左置三连或 Win/Linux 右置三连），空按钮自动绘制 crisp 矢量遮罩字形并具备 `18×22px` 零重叠热区。
 - **零偏色双模底盘 + 双官方变体**：浅色铂金银（`#cccccc`/`#dddddd`）与深色零偏色碳黑金属（`R=G=B`），默认采用无紫的 **`gray`** 变体（纯银灰滚动条、深炭反白菜单与深石板蓝焦点/链接），一行属性 `data-platinum-accent="lavender"` 即可切换经典 **`lavender`** 薰衣草变体；全象限前景与底面组合均通过 WCAG AA `>= 4.5:1` 校验。
 
 ![Gray 默认纯银灰变体与 Lavender 经典薰衣草变体在选区、菜单、滚动条及中性按钮上的微距对照](docs/screenshots/variants.zh-CN.webp)
@@ -47,7 +47,7 @@ node bin/sync-vendor.mjs --target /path/to/your-app/vendor --bundle scoped --che
 
 ## 本地预览与质量门禁
 
-可直接访问[在线交互画廊](https://pine2d.github.io/platinum-ui/?lang=zh-CN)，或用浏览器打开本地 `gallery/index.html` 实时切换中英文、明暗模式、`Gray` / `Lavender` 变体、紧凑 / 舒适密度与窗口失焦状态。
+可直接访问[在线交互画廊](https://pine2d.github.io/platinum-ui/?lang=zh-CN)，或用浏览器打开本地 `gallery/index.html` 实时切换中英文、明暗模式、`Gray` / `Lavender` 变体、`Mac OS 9` / `macOS` / `Win/Linux` 窗口控制、紧凑 / 舒适密度与窗口失焦状态。
 
 ```bash
 npm run build                        # 从 tokens/platinum.tokens.json + src/*.css 编译 dist/*.css
