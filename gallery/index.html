@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zh-CN" data-platinum data-platinum-scheme="light" data-platinum-accent="gray" data-platinum-density="compact">
+<html lang="en" data-platinum data-platinum-scheme="light" data-platinum-accent="gray" data-platinum-density="compact">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -28,6 +28,11 @@
       position: sticky;
       top: 8px;
       z-index: 20;
+    }
+    .control-toolbar {
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 8px 14px;
     }
     .demo-stack {
       display: flex;
@@ -71,7 +76,7 @@
     }
     .swatch-strip {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(112px, 1fr));
+      grid-template-columns: repeat(5, minmax(0, 1fr));
       gap: 6px;
     }
     .swatch-card {
@@ -104,39 +109,46 @@
         <button type="button" class="pt-tbox" aria-label="Close appearance bar">
           <svg viewBox="0 0 10 10" width="8" height="8" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 2l6 6M8 2L2 8"/></svg>
         </button>
-        <span class="pt-titlebar-label">Appearance Control Panel — Platinum UI v0.1</span>
+        <span class="pt-titlebar-label" data-i18n="panelTitle">Appearance Control Panel — Platinum UI v0.1</span>
         <button type="button" class="pt-tbox" aria-label="Collapse appearance bar">
           <svg viewBox="0 0 10 10" width="8" height="8" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1.5 5h7"/></svg>
         </button>
       </header>
-      <div class="pt-toolbar" style="flex-wrap: wrap; justify-content: space-between;">
+      <div class="pt-toolbar control-toolbar">
         <div class="demo-row">
-          <span style="font-size: var(--pt-size-meta); font-weight: 700;">明暗 Scheme:</span>
+          <span style="font-size: var(--pt-size-meta); font-weight: 700;" data-i18n="schemeLabel">Scheme:</span>
           <div class="pt-segmented" role="group" aria-label="Color scheme">
-            <button type="button" class="pt-btn pt-btn-sm" data-set-scheme="light" aria-pressed="true">Light 铂金银</button>
-            <button type="button" class="pt-btn pt-btn-sm" data-set-scheme="dark" aria-pressed="false">Dark 深碳黑</button>
+            <button type="button" class="pt-btn pt-btn-sm" data-set-scheme="light" aria-pressed="true" data-i18n="schemeLight">Light</button>
+            <button type="button" class="pt-btn pt-btn-sm" data-set-scheme="dark" aria-pressed="false" data-i18n="schemeDark">Dark</button>
           </div>
         </div>
         <div class="demo-row">
-          <span style="font-size: var(--pt-size-meta); font-weight: 700;">变体 Accent:</span>
+          <span style="font-size: var(--pt-size-meta); font-weight: 700;" data-i18n="accentLabel">Accent:</span>
           <div class="pt-segmented" role="group" aria-label="Accent variant">
-            <button type="button" class="pt-btn pt-btn-sm" data-set-accent="gray" aria-pressed="true">Gray 纯银灰 (默认)</button>
-            <button type="button" class="pt-btn pt-btn-sm" data-set-accent="lavender" aria-pressed="false">Lavender 经典薰衣草</button>
+            <button type="button" class="pt-btn pt-btn-sm" data-set-accent="gray" aria-pressed="true" data-i18n="accentGray">Gray (Default)</button>
+            <button type="button" class="pt-btn pt-btn-sm" data-set-accent="lavender" aria-pressed="false" data-i18n="accentLavender">Lavender</button>
           </div>
         </div>
         <div class="demo-row">
-          <span style="font-size: var(--pt-size-meta); font-weight: 700;">密度 Density:</span>
+          <span style="font-size: var(--pt-size-meta); font-weight: 700;" data-i18n="densityLabel">Density:</span>
           <div class="pt-segmented" role="group" aria-label="Control density">
-            <button type="button" class="pt-btn pt-btn-sm" data-set-density="compact" aria-pressed="true">Compact 26/20</button>
-            <button type="button" class="pt-btn pt-btn-sm" data-set-density="comfortable" aria-pressed="false">Comfortable 32/24</button>
+            <button type="button" class="pt-btn pt-btn-sm" data-set-density="compact" aria-pressed="true" data-i18n="densityCompact">Compact 26/20</button>
+            <button type="button" class="pt-btn pt-btn-sm" data-set-density="comfortable" aria-pressed="false" data-i18n="densityComfortable">Comfortable 32/24</button>
           </div>
         </div>
         <div class="demo-row">
           <label class="pt-switch">
             <input type="checkbox" class="pt-switch-input" id="toggle-inactive" />
             <span class="pt-switch-track" aria-hidden="true"></span>
-            <span style="font-size: var(--pt-size-meta); font-weight: 600;">模拟窗口失焦</span>
+            <span style="font-size: var(--pt-size-meta); font-weight: 600;" data-i18n="inactiveLabel">Inactive</span>
           </label>
+        </div>
+        <div class="demo-row">
+          <span style="font-size: var(--pt-size-meta); font-weight: 700;" data-i18n="langLabel">Lang:</span>
+          <div class="pt-segmented" role="group" aria-label="Gallery language">
+            <button type="button" class="pt-btn pt-btn-sm" data-set-lang="en" aria-pressed="true">EN</button>
+            <button type="button" class="pt-btn pt-btn-sm" data-set-lang="zh-CN" aria-pressed="false">中文</button>
+          </div>
         </div>
       </div>
     </section>
@@ -148,30 +160,30 @@
           <button type="button" class="pt-tbox" aria-label="Close window">
             <svg viewBox="0 0 10 10" width="8" height="8" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 2l6 6M8 2L2 8"/></svg>
           </button>
-          <span class="pt-titlebar-label">1 · 立体按钮、分段组与原子图标簇</span>
+          <span class="pt-titlebar-label" data-i18n="w1Title">1 · Buttons, Segmented Controls &amp; Icon Clusters</span>
           <span style="width: 13px;" aria-hidden="true"></span>
         </header>
         <div class="pt-window-body demo-stack">
           <fieldset class="pt-groupbox">
-            <legend>Push Buttons (4-Layer Bevel + HIG Default Outer Ring)</legend>
+            <legend data-i18n="w1g1">Push Buttons (4-Layer Bevel + HIG Default Outer Ring)</legend>
             <div class="pt-actions">
-              <button type="button" class="pt-btn pt-btn-primary">保存默认项</button>
-              <button type="button" class="pt-btn">常规按钮</button>
-              <button type="button" class="pt-btn" aria-pressed="true">已按下锁定</button>
-              <button type="button" class="pt-btn pt-btn-danger">删除条目</button>
-              <button type="button" class="pt-btn pt-btn-danger-solid">确认清空</button>
-              <button type="button" class="pt-btn" disabled>已禁用</button>
+              <button type="button" class="pt-btn pt-btn-primary" data-i18n="btnPrimary">Save Default</button>
+              <button type="button" class="pt-btn" data-i18n="btnRegular">Push Button</button>
+              <button type="button" class="pt-btn" aria-pressed="true" data-i18n="btnPressed">Pressed</button>
+              <button type="button" class="pt-btn pt-btn-danger" data-i18n="btnDanger">Delete Item</button>
+              <button type="button" class="pt-btn pt-btn-danger-solid" data-i18n="btnDangerSolid">Confirm Clear</button>
+              <button type="button" class="pt-btn" disabled data-i18n="btnDisabled">Disabled</button>
             </div>
           </fieldset>
 
           <fieldset class="pt-groupbox">
-            <legend>Segmented Controls &amp; Atomic Square Icon Clusters</legend>
+            <legend data-i18n="w1g2">Segmented Controls &amp; Atomic Square Icon Clusters</legend>
             <div class="demo-stack">
               <div class="demo-row" style="justify-content: space-between;">
                 <div class="pt-segmented" role="group" aria-label="View mode">
-                  <button type="button" class="pt-btn" aria-pressed="true">原文</button>
-                  <button type="button" class="pt-btn" aria-pressed="false">双语对照</button>
-                  <button type="button" class="pt-btn" aria-pressed="false">仅译文</button>
+                  <button type="button" class="pt-btn" aria-pressed="true" data-i18n="seg1">Original</button>
+                  <button type="button" class="pt-btn" aria-pressed="false" data-i18n="seg2">Bilingual</button>
+                  <button type="button" class="pt-btn" aria-pressed="false" data-i18n="seg3">Translated</button>
                 </div>
 
                 <!-- Standard 26x26 icon buttons -->
@@ -190,7 +202,7 @@
 
               <!-- Secondary 20x20 mini-bevel icon cluster (with ::before -3px -> 24x24px hit box) -->
               <div class="demo-row" style="justify-content: space-between;">
-                <span style="font-size: var(--pt-size-meta); color: var(--pt-ink-muted);">次级紧凑簇（20×20 视觉盒 + 24×24 热区）：</span>
+                <span style="font-size: var(--pt-size-meta); color: var(--pt-ink-muted);" data-i18n="miniNote">Compact mini-bevel cluster (20×20px box, 24×24px hit area):</span>
                 <div class="pt-icon-cluster" aria-label="Compact mini-bevel icon cluster">
                   <button type="button" class="pt-btn pt-btn-sm pt-btn-icon" aria-label="Copy">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="1"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/></svg>
@@ -209,14 +221,14 @@
           <div class="demo-row">
             <span class="pt-chip">neutral-tag</span>
             <span class="pt-chip">macos-9</span>
-            <span class="pt-badge pt-badge-success">已同步</span>
-            <span class="pt-badge pt-badge-warning">待核验</span>
-            <span class="pt-badge pt-badge-danger">离线退避</span>
+            <span class="pt-badge pt-badge-success" data-i18n="badgeSync">Synced</span>
+            <span class="pt-badge pt-badge-warning" data-i18n="badgeWarn">Pending</span>
+            <span class="pt-badge pt-badge-danger" data-i18n="badgeErr">Offline Backoff</span>
             <kbd class="pt-kbd">⌘</kbd><kbd class="pt-kbd">K</kbd>
           </div>
         </div>
         <footer class="pt-statusbar">
-          <span>0ms 机械瞬切 · 零紫色污染芯片</span>
+          <span data-i18n="w1Status">0ms instant transitions · Neutral zero-tint chips</span>
           <span style="margin-inline-start: auto;">WCAG AA &gt;= 4.5:1</span>
         </footer>
       </section>
@@ -227,58 +239,58 @@
           <button type="button" class="pt-tbox" aria-label="Close form window">
             <svg viewBox="0 0 10 10" width="8" height="8" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 2l6 6M8 2L2 8"/></svg>
           </button>
-          <span class="pt-titlebar-label">2 · 下凹输入井、双箭头下拉框与开关</span>
+          <span class="pt-titlebar-label" data-i18n="w2Title">2 · Sunken Fields, Pop-Up Select &amp; Switches</span>
           <span style="width: 13px;" aria-hidden="true"></span>
         </header>
         <div class="pt-window-body demo-stack">
           <fieldset class="pt-groupbox">
-            <legend>连接与检索配置</legend>
+            <legend data-i18n="w2g1">Connection &amp; Search</legend>
             <div class="demo-stack">
               <div class="demo-row">
-                <input type="search" class="pt-field" style="flex: 1;" value="选中这段文字体验 ::selection 高亮色" aria-label="Search query" />
+                <input type="search" class="pt-field" style="flex: 1;" value="Select this text to preview ::selection highlight" data-i18n-value="searchVal" aria-label="Search query" />
                 <select class="pt-select" aria-label="Provider">
                   <option>DeepSeek V4</option>
                   <option>Claude 4.5 Sonnet</option>
                   <option>Gemini 3.1 Pro</option>
                 </select>
               </div>
-              <textarea class="pt-field" rows="2" aria-label="Notes">下凹白底输入井（--pt-bevel-sunken）：聚焦时保留内凹立体阴影并叠加外框焦点环。</textarea>
+              <textarea class="pt-field" rows="2" data-i18n-value="notesVal" aria-label="Notes">Sunken paper well (--pt-bevel-sunken): focus keeps the recessed bevel and layers an accent ring outside.</textarea>
             </div>
           </fieldset>
 
           <fieldset class="pt-groupbox">
-            <legend>布尔与枚举选择控件</legend>
+            <legend data-i18n="w2g2">Checkboxes, Radios &amp; Square Switch</legend>
             <div class="demo-row" style="gap: 16px;">
               <label class="demo-row" style="gap: 6px; cursor: pointer;">
                 <input type="checkbox" class="pt-checkbox" checked />
-                <span>离线缓存生词</span>
+                <span data-i18n="chk1">Cache vocabulary offline</span>
               </label>
               <label class="demo-row" style="gap: 6px; cursor: pointer;">
                 <input type="checkbox" class="pt-checkbox" />
-                <span>自动归档快照</span>
+                <span data-i18n="chk2">Auto-archive snapshots</span>
               </label>
               <label class="demo-row" style="gap: 6px; cursor: pointer;">
                 <input type="radio" name="sync-mode" class="pt-radio" checked />
-                <span>增量合并</span>
+                <span data-i18n="rad1">Incremental merge</span>
               </label>
               <label class="demo-row" style="gap: 6px; cursor: pointer;">
                 <input type="radio" name="sync-mode" class="pt-radio" />
-                <span>仅本机</span>
+                <span data-i18n="rad2">Local only</span>
               </label>
             </div>
             <div class="demo-row" style="margin-top: 10px; justify-content: space-between;">
               <label class="pt-switch">
                 <input type="checkbox" class="pt-switch-input" checked />
                 <span class="pt-switch-track" aria-hidden="true"></span>
-                <span>直角凹槽立体方滑块（1px 对称留白）</span>
+                <span data-i18n="sw1">Square recessed bevel switch (1px symmetric inset)</span>
               </label>
             </div>
           </fieldset>
 
           <details class="pt-disclosure" open>
-            <summary>高级同步诊断（3D 金属折叠三角）</summary>
-            <p style="margin: 6px 0 0; font-size: var(--pt-size-control); color: var(--pt-ink-muted);">
-              禁用浏览器默认三角标记，统一由纯 CSS 绘制带高光投射的旋转折叠箭头，阅读链接示例：<a href="#demo-windows" class="pt-link">查看跨项目接入规范</a>。
+            <summary data-i18n="discSummary">Advanced sync diagnostics (3D disclosure triangle)</summary>
+            <p style="margin: 6px 0 0; font-size: var(--pt-size-control); color: var(--pt-ink-muted);" data-i18n-html="discBodyHtml">
+              Hides the native marker and draws a pure-CSS rotating triangle with highlight drop shadow. Link example: <a href="#demo-windows" class="pt-link">Read cross-project guide</a>.
             </p>
           </details>
         </div>
@@ -290,17 +302,17 @@
           <button type="button" class="pt-tbox" aria-label="Close menu window">
             <svg viewBox="0 0 10 10" width="8" height="8" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 2l6 6M8 2L2 8"/></svg>
           </button>
-          <span class="pt-titlebar-label">3 · 弹出菜单反白与 15px 三横脊滚动条</span>
+          <span class="pt-titlebar-label" data-i18n="w3Title">3 · Popup Menu &amp; 15px Three-Ridge Scrollbar</span>
           <span style="width: 13px;" aria-hidden="true"></span>
         </header>
         <div class="pt-window-body demo-stack">
           <div class="demo-split">
             <nav class="pt-menu" aria-label="Sample Platinum menu">
-              <button type="button" class="pt-menu-item"><span>新建工作区</span><span class="pt-menu-shortcut">⌘N</span></button>
-              <button type="button" class="pt-menu-item" aria-selected="true"><span>导出 Markdown</span><span class="pt-menu-shortcut">⌘E</span></button>
-              <button type="button" class="pt-menu-item"><span>发送到 Obsidian</span><span class="pt-menu-shortcut">⇧⌘O</span></button>
+              <button type="button" class="pt-menu-item"><span data-i18n="m1">New Workspace</span><span class="pt-menu-shortcut">⌘N</span></button>
+              <button type="button" class="pt-menu-item" aria-selected="true"><span data-i18n="m2">Export Markdown</span><span class="pt-menu-shortcut">⌘E</span></button>
+              <button type="button" class="pt-menu-item"><span data-i18n="m3">Send to Obsidian</span><span class="pt-menu-shortcut">⇧⌘O</span></button>
               <hr class="pt-menu-sep" />
-              <button type="button" class="pt-menu-item"><span>创建本机还原点…</span><span class="pt-menu-shortcut">⌘S</span></button>
+              <button type="button" class="pt-menu-item"><span data-i18n="m4">Create Local Snapshot…</span><span class="pt-menu-shortcut">⌘S</span></button>
             </nav>
 
             <div class="pt-well pt-scroll demo-list-well" role="listbox" aria-label="Scrollable list well">
@@ -351,13 +363,13 @@
           <button type="button" class="pt-tbox" aria-label="Close prose window">
             <svg viewBox="0 0 10 10" width="8" height="8" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 2l6 6M8 2L2 8"/></svg>
           </button>
-          <span class="pt-titlebar-label">4 · 高密度技术文档排版、代码小窗与表格 (.pt-prose)</span>
+          <span class="pt-titlebar-label" data-i18n="w4Title">4 · Technical Prose, Code Window &amp; Table (.pt-prose)</span>
           <span style="width: 13px;" aria-hidden="true"></span>
         </header>
         <div class="pt-window-body">
           <article class="pt-well pt-prose pt-scroll-pane" style="max-height: 300px;">
-            <h2>跨项目接入速览</h2>
-            <p>阅读视图采用 <code>13.5px / 1.56</code> 高密度排版，内嵌白底内容井（<code>.pt-well</code>）就地承接正文对比度，代码块包裹在带迷你横条与 <code>20×20px</code> 复制按钮的小窗内：</p>
+            <h2 data-i18n="proseH2">Cross-Project Integration Overview</h2>
+            <p data-i18n-html="proseIntroHtml">Reading views use <code>13.5px / 1.56</code> typography inside a sunken paper well (<code style="white-space: nowrap">.pt-well</code>), with code blocks framed by a mini header bar and a <code>20×20px</code> copy button:</p>
             <div class="pt-code-window">
               <div class="pt-code-window-head">
                 <span>shell — sync zero-build CSS</span>
@@ -370,12 +382,28 @@ npx platinum-check --browser</code></pre>
             </div>
             <table>
               <thead>
-                <tr><th>消费通道</th><th>目标文件</th><th>典型宿主</th></tr>
+                <tr>
+                  <th data-i18n="th1">Channel</th>
+                  <th data-i18n="th2">Bundle</th>
+                  <th data-i18n="th3">Typical Host</th>
+                </tr>
               </thead>
               <tbody>
-                <tr><td>全站独占引入</td><td><code>platinum.css</code></td><td>独立桌面端 / 全新 Web 工具</td></tr>
-                <tr><td>多主题属性隔离</td><td><code>platinum-scoped.css</code></td><td>浏览器扩展 / 多预设并存</td></tr>
-                <tr><td>纯显式原语类</td><td><code>platinum-core.css</code></td><td>渐进迁移存量复杂界面</td></tr>
+                <tr>
+                  <td data-i18n="td1a">Full standalone app</td>
+                  <td><code>platinum.css</code></td>
+                  <td data-i18n="td1b">Electron / Standalone Web</td>
+                </tr>
+                <tr>
+                  <td data-i18n="td2a">Multi-theme isolation</td>
+                  <td><code>platinum-scoped.css</code></td>
+                  <td data-i18n="td2b">Browser extensions / Multi-theme</td>
+                </tr>
+                <tr>
+                  <td data-i18n="td3a">Explicit primitives only</td>
+                  <td><code>platinum-core.css</code></td>
+                  <td data-i18n="td3b">Incremental migration</td>
+                </tr>
               </tbody>
             </table>
           </article>
@@ -386,12 +414,185 @@ npx platinum-check --browser</code></pre>
 
   <script>
     (() => {
+      const I18N = {
+        en: {
+          pageTitle: "Platinum UI — Mac OS 9 Design System Gallery",
+          panelTitle: "Appearance Control Panel — Platinum UI v0.1",
+          schemeLabel: "Scheme:",
+          schemeLight: "Light",
+          schemeDark: "Dark",
+          accentLabel: "Accent:",
+          accentGray: "Gray (Default)",
+          accentLavender: "Lavender",
+          densityLabel: "Density:",
+          densityCompact: "Compact 26/20",
+          densityComfortable: "Comfortable 32/24",
+          inactiveLabel: "Inactive",
+          langLabel: "Lang:",
+          w1Title: "1 · Buttons, Segmented Controls & Icon Clusters",
+          w1g1: "Push Buttons (4-Layer Bevel + HIG Default Outer Ring)",
+          btnPrimary: "Save Default",
+          btnRegular: "Push Button",
+          btnPressed: "Pressed",
+          btnDanger: "Delete Item",
+          btnDangerSolid: "Confirm Clear",
+          btnDisabled: "Disabled",
+          w1g2: "Segmented Controls & Atomic Square Icon Clusters",
+          seg1: "Original",
+          seg2: "Bilingual",
+          seg3: "Translated",
+          miniNote: "Compact mini-bevel cluster (20×20px box, 24×24px hit area):",
+          badgeSync: "Synced",
+          badgeWarn: "Pending",
+          badgeErr: "Offline Backoff",
+          w1Status: "0ms instant transitions · Neutral zero-tint chips",
+          w2Title: "2 · Sunken Fields, Pop-Up Select & Switches",
+          w2g1: "Connection & Search",
+          searchVal: "Select this text to preview ::selection highlight",
+          notesVal: "Sunken paper well (--pt-bevel-sunken): focus keeps the recessed bevel and layers an accent ring outside.",
+          w2g2: "Checkboxes, Radios & Square Switch",
+          chk1: "Cache vocabulary offline",
+          chk2: "Auto-archive snapshots",
+          rad1: "Incremental merge",
+          rad2: "Local only",
+          sw1: "Square recessed bevel switch (1px symmetric inset)",
+          discSummary: "Advanced sync diagnostics (3D disclosure triangle)",
+          discBodyHtml: 'Hides the native marker and draws a pure-CSS rotating triangle with highlight drop shadow. Link example: <a href="#demo-windows" class="pt-link">Read cross-project guide</a>.',
+          w3Title: "3 · Popup Menu & 15px Three-Ridge Scrollbar",
+          m1: "New Workspace",
+          m2: "Export Markdown",
+          m3: "Send to Obsidian",
+          m4: "Create Local Snapshot…",
+          w4Title: "4 · Technical Prose, Code Window & Table (.pt-prose)",
+          proseH2: "Cross-Project Integration Overview",
+          proseIntroHtml: 'Reading views use <code>13.5px / 1.56</code> typography inside a sunken paper well (<code style="white-space: nowrap">.pt-well</code>), with code blocks framed by a mini header bar and a <code>20×20px</code> copy button:',
+          th1: "Channel",
+          th2: "Bundle",
+          th3: "Typical Host",
+          td1a: "Full standalone app",
+          td1b: "Electron / Standalone Web",
+          td2a: "Multi-theme isolation",
+          td2b: "Browser extensions / Multi-theme",
+          td3a: "Explicit primitives only",
+          td3b: "Incremental migration"
+        },
+        "zh-CN": {
+          pageTitle: "Platinum UI — Mac OS 9 铂金设计系统画廊",
+          panelTitle: "Appearance Control Panel — Platinum UI v0.1",
+          schemeLabel: "明暗：",
+          schemeLight: "浅色铂金银",
+          schemeDark: "深色碳黑",
+          accentLabel: "变体：",
+          accentGray: "Gray 纯银灰（默认）",
+          accentLavender: "Lavender 薰衣草",
+          densityLabel: "密度：",
+          densityCompact: "紧凑 26/20",
+          densityComfortable: "舒适 32/24",
+          inactiveLabel: "模拟失焦",
+          langLabel: "语言：",
+          w1Title: "1 · 立体按钮、分段组与原子图标簇",
+          w1g1: "立体按钮（四层斜面 + HIG 默认双外环）",
+          btnPrimary: "保存默认项",
+          btnRegular: "常规按钮",
+          btnPressed: "已按下锁定",
+          btnDanger: "删除条目",
+          btnDangerSolid: "确认清空",
+          btnDisabled: "已禁用",
+          w1g2: "连体分段组与原子居中图标簇",
+          seg1: "原文",
+          seg2: "双语对照",
+          seg3: "仅译文",
+          miniNote: "次级紧凑簇（20×20px 视觉盒 + 24×24px 热区）：",
+          badgeSync: "已同步",
+          badgeWarn: "待核验",
+          badgeErr: "离线退避",
+          w1Status: "0ms 机械瞬切 · 零紫色污染芯片",
+          w2Title: "2 · 下凹输入井、双箭头下拉框与开关",
+          w2g1: "连接与检索配置",
+          searchVal: "选中这段文字体验 ::selection 高亮色",
+          notesVal: "下凹白底输入井（--pt-bevel-sunken）：聚焦时保留内凹立体阴影并叠加外框焦点环。",
+          w2g2: "布尔与枚举选择控件",
+          chk1: "离线缓存生词",
+          chk2: "自动归档快照",
+          rad1: "增量合并",
+          rad2: "仅本机",
+          sw1: "直角凹槽立体方滑块（1px 对称留白）",
+          discSummary: "高级同步诊断（3D 金属折叠三角）",
+          discBodyHtml: '禁用浏览器默认三角标记，统一由纯 CSS 绘制带高光投射的旋转折叠箭头，阅读链接示例：<a href="#demo-windows" class="pt-link">查看跨项目接入规范</a>。',
+          w3Title: "3 · 弹出菜单反白与 15px 三横脊滚动条",
+          m1: "新建工作区",
+          m2: "导出 Markdown",
+          m3: "发送到 Obsidian",
+          m4: "创建本机还原点…",
+          w4Title: "4 · 高密度技术文档排版、代码小窗与表格 (.pt-prose)",
+          proseH2: "跨项目接入速览",
+          proseIntroHtml: "阅读视图采用 <code>13.5px / 1.56</code> 高密度排版，内嵌白底内容井（<code>.pt-well</code>）就地承接正文对比度，代码块包裹在带迷你横条与 <code>20×20px</code> 复制按钮的小窗内：",
+          th1: "消费通道",
+          th2: "目标文件",
+          th3: "典型宿主",
+          td1a: "全站独占引入",
+          td1b: "独立桌面端 / 全新 Web 工具",
+          td2a: "多主题属性隔离",
+          td2b: "浏览器扩展 / 多预设并存",
+          td3a: "纯显式原语类",
+          td3b: "渐进迁移存量复杂界面"
+        }
+      };
+
       const root = document.documentElement;
       const syncPressed = (attr, value) => {
         for (const btn of document.querySelectorAll(`[${attr}]`)) {
           btn.setAttribute("aria-pressed", String(btn.getAttribute(attr) === value));
         }
       };
+
+      const normalizeLang = (raw) => {
+        if (!raw) return null;
+        return /^zh\b/i.test(raw) ? "zh-CN" : "en";
+      };
+
+      const applyLang = (lang, { persist = false } = {}) => {
+        const key = lang === "zh-CN" ? "zh-CN" : "en";
+        const dict = I18N[key];
+        root.lang = key;
+        document.title = dict.pageTitle;
+        for (const el of document.querySelectorAll("[data-i18n]")) {
+          const k = el.getAttribute("data-i18n");
+          if (k && dict[k] != null) el.textContent = dict[k];
+        }
+        for (const el of document.querySelectorAll("[data-i18n-html]")) {
+          const k = el.getAttribute("data-i18n-html");
+          if (k && dict[k] != null) el.innerHTML = dict[k];
+        }
+        for (const el of document.querySelectorAll("[data-i18n-value]")) {
+          const k = el.getAttribute("data-i18n-value");
+          if (k && dict[k] != null) el.value = dict[k];
+        }
+        syncPressed("data-set-lang", key);
+        if (persist) {
+          try { localStorage.setItem("pt-gallery-lang", key); } catch (_) {}
+          try {
+            const url = new URL(window.location.href);
+            if (key === "en") url.searchParams.delete("lang");
+            else url.searchParams.set("lang", key);
+            window.history.replaceState(null, "", url.toString());
+          } catch (_) {}
+        }
+      };
+
+      const initLang = (() => {
+        try {
+          const fromQuery = normalizeLang(new URLSearchParams(window.location.search).get("lang"));
+          if (fromQuery) return fromQuery;
+        } catch (_) {}
+        try {
+          const fromStore = normalizeLang(localStorage.getItem("pt-gallery-lang"));
+          if (fromStore) return fromStore;
+        } catch (_) {}
+        return "en";
+      })();
+      applyLang(initLang);
+
       document.addEventListener("click", (e) => {
         const schemeBtn = e.target.closest("[data-set-scheme]");
         if (schemeBtn) {
@@ -411,7 +612,12 @@ npx platinum-check --browser</code></pre>
           root.setAttribute("data-platinum-density", val);
           syncPressed("data-set-density", val);
         }
+        const langBtn = e.target.closest("[data-set-lang]");
+        if (langBtn) {
+          applyLang(langBtn.getAttribute("data-set-lang"), { persist: true });
+        }
       });
+
       const inactiveToggle = document.getElementById("toggle-inactive");
       if (inactiveToggle) {
         inactiveToggle.addEventListener("change", () => {

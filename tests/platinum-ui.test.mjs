@@ -3,7 +3,7 @@ import { mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
 import test from "node:test";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 
 import { buildAllBundles } from "../bin/build.mjs";
 import {
@@ -115,10 +115,15 @@ test("icon button geometry detector flags off-center, undersized hit area, and n
   assert.equal(bad.length, 2);
 });
 
-test("live Chromium gallery passes all 8 (scheme x accent x density) states when Playwright is available", async () => {
-  const bRes = await runBrowserAudit({ root: ROOT });
-  if (!bRes.skipped) {
-    assert.equal(bRes.statesChecked, 8);
-    assert.deepEqual(bRes.errors, []);
+test("live Chromium gallery passes all 8 (scheme x accent x density) states in both EN and zh-CN when Playwright is available", async () => {
+  const bEn = await runBrowserAudit({ root: ROOT });
+  if (!bEn.skipped) {
+    assert.equal(bEn.statesChecked, 8);
+    assert.deepEqual(bEn.errors, []);
+
+    const zhUrl = `${pathToFileURL(join(ROOT, "gallery/index.html")).href}?lang=zh-CN`;
+    const bZh = await runBrowserAudit({ root: ROOT, url: zhUrl });
+    assert.equal(bZh.statesChecked, 8);
+    assert.deepEqual(bZh.errors, []);
   }
 });

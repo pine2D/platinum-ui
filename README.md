@@ -47,7 +47,7 @@ node bin/sync-vendor.mjs --target /path/to/your-app/vendor --bundle scoped --che
 
 ## Local Preview and Quality Gates
 
-Try the [Live Interactive Gallery](https://pine2d.github.io/platinum-ui/) online or open `gallery/index.html` locally to switch between light and dark modes, `Gray` and `Lavender` variants, compact and comfortable densities, and active/inactive window states.
+Try the [Live Interactive Gallery](https://pine2d.github.io/platinum-ui/) online or open `gallery/index.html` locally to switch between English and Chinese, light and dark modes, `Gray` and `Lavender` variants, compact and comfortable densities, and active/inactive window states.
 
 ```bash
 npm run build                        # Compile dist/*.css from tokens/platinum.tokens.json + src/*.css
