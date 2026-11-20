@@ -12,7 +12,7 @@
 //   node bin/platinum-check.mjs --css <external.css> [--forbid-purple]
 //   node bin/platinum-check.mjs --browser [--url <file-or-url>]
 
-import { existsSync, readFileSync, readdirSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { createRequire } from "node:module";
 import { dirname, join, resolve } from "node:path";
 import { pathToFileURL, fileURLToPath } from "node:url";
@@ -379,6 +379,14 @@ export function auditDocsAndSkillParity(root = ROOT) {
           errors.push(`${rel}:${idx + 1}: references unknown CSS class \`${span}\``);
         }
       }
+      for (const imgMatch of line.matchAll(/!\[[^\]]*\]\(([^)\s]+)\)/g)) {
+        const ref = imgMatch[1].trim();
+        if (/^(?:https?:|data:)/i.test(ref)) continue;
+        const imgAbs = resolve(dirname(join(root, rel)), ref);
+        if (!existsSync(imgAbs) || statSync(imgAbs).size === 0) {
+          errors.push(`${rel}:${idx + 1}: missing or empty image asset "${ref}"`);
+        }
+      }
     });
   }
   return { errors, docsChecked: docPaths.length };
@@ -514,7 +522,10 @@ export async function runBrowserAudit({ url, root = ROOT } = {}) {
     ? (/^https?:|^file:/.test(url) ? url : pathToFileURL(resolve(url)).href)
     : pathToFileURL(join(root, "gallery/index.html")).href;
 
-  const browser = await pw.chromium.launch({ headless: true });
+  const browser = await pw.chromium.launch({
+    headless: true,
+    ignoreDefaultArgs: ["--hide-scrollbars"]
+  });
   const errors = [];
   let statesChecked = 0;
   try {

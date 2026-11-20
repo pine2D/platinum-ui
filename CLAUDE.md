@@ -24,6 +24,7 @@
 ```bash
 npm run build        # 从 tokens/platinum.tokens.json + src/*.css 生成 dist/*.css
 npm run verify       # 跑只读漂移检查 + AA 对比度/静态 CSS/Skill 校验 + 全部单元测试
+npm run shots        # 用 Chromium 2x 无损重生成 docs/screenshots/*.webp 实测截图
 node bin/platinum-check.mjs --browser   # 可选：启动 Chromium 对 gallery/index.html 跑 8 象限真实几何与居中探针
 node bin/sync-vendor.mjs --target <dir> --bundle scoped   # 向零构建项目同步带版本与 SHA-256 锁头的单文件 CSS
 ```
