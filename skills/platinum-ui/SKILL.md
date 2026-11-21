@@ -23,7 +23,7 @@ description: 跨项目 Mac OS 9 Platinum 立体桌面设计系统接入、界面
 1. **接入通道与宿主形态**：
    - **自有 DOM · 打包器项目（Vite / Webpack / Electron / Next）**：在 `package.json` 锁定 Tag（如 `github:pine2D/platinum-ui#v0.1.0`），按需 `import "platinum-ui/platinum.css"`（全站独占）或 `import "platinum-ui/scoped.css"`（多主题隔离）。
    - **自有 DOM · 零构建项目（原生 Chrome MV3 扩展 / 纯 HTML）**：运行 `node <platinum-ui>/bin/sync-vendor.mjs --target <目标目录> --bundle <full|scoped|core>` 同步带版本与 SHA-256 锁头的单文件 CSS，切勿手改同步产物。
-   - **第三方宿主 / 存量现代 SaaS 换肤（无法改动宿主 HTML/JSX，如插件主题覆盖层）**：先读 `$SKILL_DIR/references/host-overlay-and-migration.md`。用户已说明范围或委托代选时直接开工。若范围未定且会影响布局，只问「保留现有布局、只换材质，还是也调整分区？」等用户答复后直接按所选范围实施。同步 `--bundle tokens`（或 `scoped`）并编写宿主适配 CSS，按四层宏观骨架完成顶栏、页签、内容井、输入坞与全部圆形动作钮改造，**严禁仅给少数按钮加斜面就交付**。
+   - **第三方宿主 / 存量现代 SaaS 换肤（无法改动宿主 HTML/JSX，如插件主题覆盖层）**：先读 `$SKILL_DIR/references/host-overlay-and-migration.md`，同步 `--bundle tokens`（或 `scoped`）并编写宿主适配 CSS；开工前明确与用户确认「全桌面留白窗口化」还是「贴边机械工作台」，并按四层宏观骨架完成顶栏、页签、内容井、输入坞与全部圆形动作钮改造，**严禁仅给少数按钮加斜面就交付**。
 2. **挂载范围**：
    - 全新独立应用或单一 Platinum 主题应用 → 选 `full`（`dist/platinum.css`），裸写 `<button>`、`<input>`、`<select>`、`<fieldset>`、`<details>` 即自动成型，复杂容器配 `.pt-window`、`.pt-titlebar`、`.pt-well`。
    - 与其他平铺主题并存或嵌入宿主网页 → 选 `scoped`（`dist/platinum-scoped.css`）或 `core`（`dist/platinum-core.css`），在容器挂 `data-platinum` 属性开启，外部 `:root` 零污染。
