@@ -74,6 +74,10 @@
       "border-subtle": { "$type": "color", "$value": "#8c8c8c", "$description": "Hairline divider and inactive frame." },
       "groove-dark": { "$type": "color", "$value": "#888888", "$description": "Etched groove shadow line." },
       "groove-light": { "$type": "color", "$value": "#ffffff", "$description": "Etched groove highlight line." },
+      "scroll-glint": { "$type": "color", "$value": "#eeeeee" },
+      "tbox-lip": { "$type": "color", "$value": "#999999" },
+      "tbox-polish": { "$type": "gradient", "$value": "linear-gradient(135deg, #999 0% 18%, #aaa 18% 32%, #bbb 32% 46%, #ccc 46% 60%, #ddd 60% 75%, #eee 75% 89%, #fff 89% 100%)" },
+      "tbox-polish-pressed": { "$type": "gradient", "$value": "linear-gradient(135deg, #444 0% 14%, #555 14% 25%, #666 25% 36%, #777 36% 47%, #888 47% 58%, #999 58% 69%, #aaa 69% 81%, #bbb 81% 92%, #ccc 92% 100%)" },
       "pinstripe-hi": { "$type": "color", "$value": "#ffffff" },
       "pinstripe-lo": { "$type": "color", "$value": "#777777" },
       "danger": { "$type": "color", "$value": "#7a1010", "$description": "Destructive text/border (>= 6.0:1 across all light surfaces)." },
@@ -108,6 +112,10 @@
       "border-subtle": { "$type": "color", "$value": "#5c5c5c" },
       "groove-dark": { "$type": "color", "$value": "#141414" },
       "groove-light": { "$type": "color", "$value": "#4a4a4a" },
+      "scroll-glint": { "$type": "color", "$value": "#888888" },
+      "tbox-lip": { "$type": "color", "$value": "#444444" },
+      "tbox-polish": { "$type": "gradient", "$value": "linear-gradient(135deg, #333 0% 18%, #3b3b3b 18% 32%, #444 32% 46%, #505050 46% 60%, #595959 60% 75%, #626262 75% 89%, #737373 89% 100%)" },
+      "tbox-polish-pressed": { "$type": "gradient", "$value": "linear-gradient(135deg, #111 0% 14%, #171717 14% 25%, #1e1e1e 25% 36%, #252525 36% 47%, #2c2c2c 47% 58%, #333 58% 69%, #3b3b3b 69% 81%, #414141 81% 92%, #494949 92% 100%)" },
       "pinstripe-hi": { "$type": "color", "$value": "#525252" },
       "pinstripe-lo": { "$type": "color", "$value": "#1d1d1d" },
       "danger": { "$type": "color", "$value": "#ffbab4", "$description": "Destructive text/border (>= 4.92:1 across all dark surfaces)." },
@@ -128,9 +136,14 @@
       "ring-default-btn": { "$type": "shadow", "$value": "0 0 0 2px #2c2c2c, 0 0 0 3px #080808" }
     }
   },
+  "scrollbar": {
+    "$description": "Four stepped light/dark pairs. The end pixels are offset by one pixel, as in the sampled enabled Finder scrollbars.",
+    "scroll-grip-v": { "$type": "string", "$value": "repeating-linear-gradient(to bottom, var(--pt-scroll-glint) 0 1px, transparent 1px 2px) calc(50% - 3.5px) center / 1px 8px no-repeat, repeating-linear-gradient(to bottom, var(--pt-scroll-thumb-hi) 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center / 6px 8px no-repeat, repeating-linear-gradient(to bottom, transparent 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) calc(50% + 3.5px) center / 1px 8px no-repeat" },
+    "scroll-grip-h": { "$type": "string", "$value": "repeating-linear-gradient(to right, var(--pt-scroll-glint) 0 1px, transparent 1px 2px) center calc(50% - 3.5px) / 8px 1px no-repeat, repeating-linear-gradient(to right, var(--pt-scroll-thumb-hi) 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center / 8px 6px no-repeat, repeating-linear-gradient(to right, transparent 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center calc(50% + 3.5px) / 8px 1px no-repeat" }
+  },
   "variants": {
     "gray": {
-      "$description": "Default official Mac OS 9 Appearance 'Gray' variation: purple-free silver scrollbars, neutral selection, and deep slate focus/links.",
+      "$description": "Default product Gray palette: purple-free silver scrollbars, neutral selection, and deep slate focus/links.",
       "light": {
         "accent": { "$type": "color", "$value": "#1d4496" },
         "on-accent": { "$type": "color", "$value": "#ffffff" },
@@ -157,7 +170,7 @@
       }
     },
     "lavender": {
-      "$description": "Classic Mac OS 9 factory 'Lavender' variation (data-platinum-accent=\"lavender\"): lavender selection & 3-ridge scrollbar, deep indigo focus/menus.",
+      "$description": "Product variant inspired by the sampled Mac OS 9.0 Lavender variation (data-platinum-accent=\"lavender\"): lavender selection & four-ridge scrollbar, deep indigo focus/menus.",
       "light": {
         "accent": { "$type": "color", "$value": "#333399" },
         "on-accent": { "$type": "color", "$value": "#ffffff" },
@@ -168,7 +181,7 @@
         "scroll-track": { "$type": "color", "$value": "#aaaaaa" },
         "scroll-thumb": { "$type": "color", "$value": "#9999ff" },
         "scroll-thumb-hi": { "$type": "color", "$value": "#ccccff" },
-        "scroll-thumb-lo": { "$type": "color", "$value": "#5555aa" }
+        "scroll-thumb-lo": { "$type": "color", "$value": "#333399" }
       },
       "dark": {
         "accent": { "$type": "color", "$value": "#b3b3ff" },

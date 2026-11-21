@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="en" data-platinum-scheme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Historical Platinum comparison · 原生铂金对照</title>
+  <link rel="stylesheet" href="../../dist/platinum.css">
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: #ccc;
+      color: #111;
+      font: 13px/1.5 system-ui, sans-serif;
+    }
+    main { max-width: 1200px; margin: auto; padding: 24px; }
+    h1 { font-size: 24px; margin: 0 0 12px; }
+    h2 { margin: 0; font-size: 16px; }
+    nav, .toolbar, .selection, .overlay-control {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    nav { margin-bottom: 20px; }
+    .selection { margin: 20px 0 12px; }
+    select { min-width: 230px; max-width: 100%; }
+    button[aria-pressed="true"] { font-weight: bold; }
+    p { max-width: 90ch; }
+    article {
+      margin-top: 20px;
+      padding: 16px;
+      border: 1px solid #555;
+      background: #ddd;
+      box-shadow: inset 1px 1px #fff, 2px 2px #555;
+    }
+    .stage {
+      overflow: auto;
+      margin-top: 12px;
+      padding: 12px;
+      background: #aaa;
+      border: 1px solid #777;
+    }
+    .specimen-stack { position: relative; }
+    .stage img { display: block; max-width: none; image-rendering: pixelated; }
+    .stage iframe { display: block; border: 0; background: transparent; }
+    .overlay-image { position: absolute; top: 0; left: 0; pointer-events: none; }
+    .overlay-control { margin-top: 12px; }
+    .meta, .help { font-size: 12px; color: #333; }
+    a { color: #263d55; }
+    .error { padding: 20px; border: 2px solid #a00; background: #fff; }
+    details { margin-top: 12px; }
+    li { margin: 4px 0; }
+    [hidden] { display: none !important; }
+    @media (max-width: 600px) {
+      main { padding: 12px; }
+      article { padding: 10px; }
+      h1 { font-size: 20px; }
+    }
+  </style>
+  <script src="samples.js"></script>
+</head>
+<body>
+<main>
+  <nav aria-label="Page navigation">
+    <a href="../index.html" data-i18n="back">← Component gallery</a>
+    <button type="button" id="english" aria-pressed="true">English</button>
+    <button type="button" id="chinese" aria-pressed="false">中文</button>
+  </nav>
+  <h1 data-i18n="title">Mac OS 9 · historical window comparison</h1>
+  <p data-i18n="intro">Compare the guest capture with live HTML and CSS at 1:1. The full difference uses a saved Chromium render and includes text. Black pixels match exactly.</p>
+  <div class="selection">
+    <label for="sample-select" data-i18n="sample">Window and state</label>
+    <select id="sample-select"></select>
+    <button type="button" id="previous" data-i18n="previous">Previous</button>
+    <button type="button" id="next" data-i18n="next">Next</button>
+  </div>
+  <div class="toolbar" role="group" aria-label="Comparison mode">
+    <button type="button" data-mode="original" aria-pressed="true" data-i18n="original">Historical original</button>
+    <button type="button" data-mode="actual" aria-pressed="false" data-i18n="actual">Live implementation</button>
+    <button type="button" data-mode="difference" aria-pressed="false" data-i18n="difference">Full difference ×4</button>
+    <button type="button" data-mode="overlay" aria-pressed="false" data-i18n="overlay">Overlay</button>
+  </div>
+  <div class="overlay-control" id="overlay-control" hidden>
+    <label for="opacity" data-i18n="opacity">Historical image opacity</label>
+    <input type="range" id="opacity" min="0" max="100" step="1" value="50">
+    <output for="opacity" id="opacity-value">50%</output>
+  </div>
+  <p class="help" data-i18n="keyboard">Keyboard: Tab to a control, arrow keys to choose a sample or adjust opacity, Enter/Space to switch views.</p>
+  <div id="samples"></div>
+  <details>
+    <summary data-i18n="environment">Capture environment and test scope</summary>
+    <p class="meta" id="environment"></p>
+    <p data-i18n="limits">Named geometry regions are checked exactly. Text height and vertical placement allow a 3px tolerance. The full saved difference preserves individual glyphs for visual review.</p>
+  </details>
+  <noscript>This comparison requires JavaScript. 本对照页需要启用 JavaScript。</noscript>
+</main>
+<script>
+  const copy = {
+    en: {
+      back: '← Component gallery',
+      title: 'Mac OS 9 · historical window comparison',
+      intro: 'Compare the guest capture with live HTML and CSS at 1:1. The full difference uses a saved Chromium render and includes text. Black pixels match exactly.',
+      sample: 'Window and state',
+      previous: 'Previous',
+      next: 'Next',
+      original: 'Historical original',
+      actual: 'Live implementation',
+      difference: 'Full difference ×4',
+      overlay: 'Overlay',
+      opacity: 'Historical image opacity',
+      keyboard: 'Keyboard: Tab to controls or the image, arrow keys to select, adjust opacity or scroll, Enter/Space to switch views.',
+      stage: 'Comparison at 1:1 CSS pixels',
+      environment: 'Capture environment and test scope',
+      limits: 'Named geometry regions are checked exactly. Text height and vertical placement allow a 3px tolerance. The full saved difference preserves individual glyphs for visual review.',
+      fields: {},
+      regions: 'Pixel checks and source files',
+      review: 'Human review',
+      preview: 'Saved implementation PNG',
+      capture: 'Full guest frame',
+      missing: 'Reference data unavailable. Acquire the historical samples, then run node scripts/reference-shots.mjs.',
+      windows: { finder: 'Finder', appearance: 'Appearance' },
+      states: { active: 'Active', inactive: 'Inactive', pressed: 'Pressed', collapsed: 'Collapsed', restored: 'Restored', menu: 'Menu open', scrollbars: 'Enabled scrollbars' }
+    },
+    'zh-CN': {
+      back: '← 组件画廊',
+      title: 'Mac OS 9 · 原生历史窗口对照',
+      intro: '以 1∶1 尺寸对照原系统截图与当前浏览器中的实现。完整差分使用存档的 Chromium 截图，包含文字。黑色表示像素一致。',
+      sample: '窗口与状态',
+      previous: '上一项',
+      next: '下一项',
+      original: '历史原图',
+      actual: '实时实现',
+      difference: '完整差分 ×4',
+      overlay: '叠加对照',
+      opacity: '历史原图不透明度',
+      keyboard: '键盘：Tab 选择控件或图像，方向键选择样本、调整不透明度或滚动，Enter／空格切换视图。',
+      stage: '1∶1 CSS 像素对照区',
+      environment: '采集环境与检查范围',
+      limits: '具名几何区域逐像素精确检查。抽检文字的墨迹高度和垂直位置允许 3px 差异。完整差分保留了每个字形，供人工核对。',
+      fields: { System: '系统', Machine: '机型', Display: '显示', Appearance: '外观', Fonts: '字体', Emulator: '模拟器', Date: '采集日期' },
+      regions: '像素检查与来源文件',
+      review: '人工复核',
+      preview: '已保存的实现 PNG',
+      capture: '客体系统原始整帧',
+      missing: '参照数据尚不可用。采集历史样本后请运行 node scripts/reference-shots.mjs。',
+      windows: { finder: '访达', appearance: '外观' },
+      states: { active: '前台', inactive: '失焦', pressed: '按下', collapsed: '卷起', restored: '还原', menu: '菜单展开', scrollbars: '双向滚动' }
+    }
+  };
+  const manifest = window.PLATINUM_REFERENCE;
+  const parameters = new URL(location.href).searchParams;
+  let locale = parameters.get('lang') === 'zh-CN' ? 'zh-CN' : 'en';
+  let mode = 'original';
+  let selected = Math.max(0, manifest?.samples.findIndex(sample => sample.id === parameters.get('id')) ?? 0);
+  let opacity = 50;
+
+  function sampleLabel(sample) {
+    const title = sample.label ?? sample.title;
+    if (title) return typeof title === 'object' ? title[locale] ?? title.en ?? sample.id : title;
+    return `${copy[locale].windows[sample.window] ?? sample.window} · ${copy[locale].states[sample.state] ?? sample.state}`;
+  }
+
+  function updateURL() {
+    const url = new URL(location.href);
+    if (locale === 'en') url.searchParams.delete('lang');
+    else url.searchParams.set('lang', locale);
+    if (manifest?.samples[selected]) url.searchParams.set('id', manifest.samples[selected].id);
+    history.replaceState(null, '', url);
+  }
+
+  function setLocale(next) {
+    locale = next;
+    updateURL();
+    render();
+  }
+
+  function selectSample(index) {
+    selected = (index + manifest.samples.length) % manifest.samples.length;
+    updateURL();
+    render();
+  }
+
+  function createImage(path, sample, description) {
+    const image = document.createElement('img');
+    image.src = path;
+    image.width = sample.width;
+    image.height = sample.height;
+    image.alt = `${description}: ${sampleLabel(sample)}`;
+    return image;
+  }
+
+  function render() {
+    const text = copy[locale];
+    document.documentElement.lang = locale;
+    document.querySelector('nav').setAttribute('aria-label', locale === 'en' ? 'Page navigation' : '页面导航');
+    document.querySelector('.toolbar').setAttribute('aria-label', locale === 'en' ? 'Comparison mode' : '对照模式');
+    document.querySelector('nav a').href = '../index.html' + (locale === 'zh-CN' ? '?lang=zh-CN' : '');
+    document.querySelectorAll('[data-i18n]').forEach(element => {
+      element.textContent = text[element.dataset.i18n];
+    });
+    document.querySelector('#english').setAttribute('aria-pressed', locale === 'en');
+    document.querySelector('#chinese').setAttribute('aria-pressed', locale === 'zh-CN');
+    document.querySelectorAll('[data-mode]').forEach(button => {
+      button.setAttribute('aria-pressed', button.dataset.mode === mode);
+    });
+    document.querySelector('#overlay-control').hidden = mode !== 'overlay';
+    const container = document.querySelector('#samples');
+    container.replaceChildren();
+    if (!manifest?.samples?.length) {
+      const error = document.createElement('p');
+      error.className = 'error';
+      error.textContent = text.missing;
+      container.append(error);
+      return;
+    }
+    const select = document.querySelector('#sample-select');
+    select.replaceChildren(...manifest.samples.map((sample, index) => {
+      const option = document.createElement('option');
+      option.value = index;
+      option.textContent = `${index + 1}/${manifest.samples.length} · ${sampleLabel(sample)}`;
+      option.selected = index === selected;
+      return option;
+    }));
+    document.querySelector('#environment').textContent = Object.entries(manifest.environment ?? {}).map(([key, value]) => {
+      return `${text.fields[key] ?? key} · ${value}`;
+    }).join(' · ');
+
+    const sample = manifest.samples[selected];
+    const article = document.createElement('article');
+    const heading = document.createElement('h2');
+    heading.textContent = `${sampleLabel(sample)} · ${sample.width} × ${sample.height}`;
+    const stage = document.createElement('div');
+    stage.className = 'stage';
+    stage.tabIndex = 0;
+    stage.setAttribute('role', 'region');
+    stage.setAttribute('aria-label', text.stage);
+    const stack = document.createElement('div');
+    stack.className = 'specimen-stack';
+    stack.style.width = sample.width + 'px';
+    stack.style.height = sample.height + 'px';
+    if (mode === 'actual' || mode === 'overlay') {
+      const frame = document.createElement('iframe');
+      frame.src = `window.html?id=${encodeURIComponent(sample.id)}`;
+      frame.title = `${text.actual}: ${sampleLabel(sample)}`;
+      frame.width = sample.width;
+      frame.height = sample.height;
+      stack.append(frame);
+      if (mode === 'overlay') {
+        const original = createImage(`original/${sample.id}.png`, sample, text.original);
+        original.className = 'overlay-image';
+        original.style.opacity = opacity / 100;
+        stack.append(original);
+      }
+    } else {
+      stack.append(createImage(`${mode === 'original' ? 'original' : 'difference'}/${sample.id}.png`, sample, text[mode]));
+    }
+    stage.append(stack);
+    const details = document.createElement('details');
+    const summary = document.createElement('summary');
+    summary.textContent = text.regions;
+    const links = document.createElement('p');
+    for (const [path, caption] of [[`capture/${sample.id}.png`, text.capture], [`rendered/${sample.id}.png`, text.preview]]) {
+      if (links.childNodes.length) links.append(' · ');
+      const link = document.createElement('a');
+      link.href = path;
+      link.textContent = caption;
+      links.append(link);
+    }
+    const identity = document.createElement('p');
+    identity.className = 'meta';
+    identity.textContent = `${sample.id} · crop [${sample.crop.join(', ')}]`;
+    const regions = document.createElement('ul');
+    const checks = [
+      ...(sample.regionSets ?? []).flatMap(key => manifest.regionSets[key]),
+      ...(sample.regions ?? [])
+    ];
+    for (const region of checks) {
+      const item = document.createElement('li');
+      const review = region.mode === 'review' || region.review === true;
+      const name = locale === 'zh-CN' ? region.zh ?? region.name : region.name;
+      item.textContent = `${name}${review ? ' · ' + text.review : ''} · (${region.x}, ${region.y}) ${region.width} × ${region.height}`;
+      regions.append(item);
+    }
+    details.append(summary, links, identity, regions);
+    article.append(heading, stage, details);
+    container.append(article);
+  }
+
+  document.querySelector('#english').onclick = () => setLocale('en');
+  document.querySelector('#chinese').onclick = () => setLocale('zh-CN');
+  document.querySelector('#sample-select').onchange = event => selectSample(Number(event.target.value));
+  document.querySelector('#previous').onclick = () => selectSample(selected - 1);
+  document.querySelector('#next').onclick = () => selectSample(selected + 1);
+  document.querySelectorAll('[data-mode]').forEach(button => {
+    button.onclick = () => {
+      mode = button.dataset.mode;
+      render();
+    };
+  });
+  document.querySelector('#opacity').oninput = event => {
+    opacity = Number(event.target.value);
+    document.querySelector('#opacity-value').textContent = opacity + '%';
+    const image = document.querySelector('.overlay-image');
+    if (image) image.style.opacity = opacity / 100;
+  };
+  render();
+</script>
+</body>
+</html>

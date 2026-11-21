@@ -33,7 +33,6 @@
   }
 
   .pt-window {
-    display: flex;
     flex-direction: column;
     background: var(--pt-window);
     color: var(--pt-ink);
@@ -42,6 +41,10 @@
     border: 1px solid var(--pt-frame);
     border-radius: var(--pt-radius-window);
     box-shadow: var(--pt-bevel-window), var(--pt-shadow-window);
+  }
+
+  .pt-window:where(:not([hidden])) {
+    display: flex;
   }
 
   /* !important beats unlayered author display utilities (e.g. .demo-stack / Tailwind flex) inside @layer */
@@ -55,6 +58,11 @@
 
   /* ---- Multi-OS Window Controls Presets (mac9 default | macos | win) ---- */
   [data-platinum-controls="mac9"] {
+    --pt-tb-close-content: none;
+    --pt-tb-inactive-visibility: hidden;
+    --pt-tb-modern: initial;
+    --pt-tb-glyph-zoom: initial;
+    --pt-tb-glyph-restore: initial;
     --pt-tb-order-close: 1;
     --pt-tb-order-zoom: 6;
     --pt-tb-order-min: 7;
@@ -70,7 +78,15 @@
     --pt-tb-bal1-l: 0px;
     --pt-tb-bal1-r-disp: block;
     --pt-tb-bal1-r: 13px;
-    --pt-tb-glyph-min: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 9 9' shape-rendering='crispEdges'%3E%3Crect x='1' y='3' width='7' height='1' fill='%23000'/%3E%3Crect x='1' y='5' width='7' height='1' fill='%23000'/%3E%3C/svg%3E");
+    --pt-tb-glyph-min: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 9 9' shape-rendering='crispEdges'%3E%3Crect x='0' y='3' width='9' height='1' fill='%23000'/%3E%3Crect x='0' y='5' width='9' height='1' fill='%23000'/%3E%3C/svg%3E");
+  }
+
+  :is([data-platinum-controls="macos"], [data-platinum-controls="win"]) {
+    --pt-tb-close-content: "";
+    --pt-tb-inactive-visibility: visible;
+    --pt-tb-modern: ;
+    --pt-tb-glyph-restore: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 9 9' shape-rendering='crispEdges'%3E%3Cpath d='M1.5 1.5h6v6h-6zM1.5 4.5h3v3' fill='none' stroke='%23000' stroke-width='1'/%3E%3C/svg%3E");
+    --pt-tb-glyph-zoom: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 9 9' shape-rendering='crispEdges'%3E%3Crect x='1.5' y='1.5' width='6' height='6' fill='none' stroke='%23000'/%3E%3C/svg%3E");
   }
 
   [data-platinum-controls="macos"] {
@@ -116,18 +132,19 @@
     position: relative;
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: var(--pt-tb-gap, 5px);
     min-height: var(--pt-titlebar-h);
     height: var(--pt-titlebar-h);
-    padding: 0 5px;
+    padding: 0 var(--pt-tb-padding, 5px);
     background-color: var(--pt-window);
-    background-image: repeating-linear-gradient(
-      to bottom,
-      var(--pt-pinstripe-hi) 0 1px,
-      var(--pt-pinstripe-lo) 1px 2px
-    );
-    background-size: calc(100% - 10px) 12px;
-    background-position: center;
+    /* Each gray ridge is offset one pixel from its white highlight. */
+    background-image:
+      repeating-linear-gradient(to bottom, var(--pt-pinstripe-hi) 0 1px, transparent 1px 2px),
+      repeating-linear-gradient(to bottom, transparent 0 1px, var(--pt-pinstripe-lo) 1px 2px);
+    background-size: var(--pt-tb-stripe-width, calc(100% - 10px)) 12px;
+    background-position:
+      var(--pt-tb-stripe-start, 5px) var(--pt-tb-stripe-top, center),
+      calc(var(--pt-tb-stripe-start, 5px) + 1px) var(--pt-tb-stripe-top, center);
     background-repeat: no-repeat;
     border-bottom: 1px solid var(--pt-frame);
     box-shadow: var(--pt-bevel-window);
@@ -240,6 +257,7 @@
   }
 
   :is(.pt-window[data-inactive="true"], [data-window-focused="false"]) .pt-tbox {
+    visibility: var(--pt-tb-inactive-visibility, hidden);
     background: var(--pt-window);
     border-color: var(--pt-border-subtle);
     color: var(--pt-ink-muted);
@@ -262,12 +280,42 @@
     place-content: center;
     place-items: center;
     line-height: 0;
-    background: var(--pt-face);
+    /* An empty --pt-tb-modern enables the platform values below; its initial
+       value selects the classic fallback. Resolve colors here so a nested
+       scheme always supplies the paint, even when it inherits the preset. */
+    --pt-tb-surface: var(--pt-tb-modern) var(--pt-face);
+    --pt-tb-hover: var(--pt-tb-modern) var(--pt-face-hover);
+    --pt-tb-pressed: var(--pt-tb-modern) var(--pt-pressed-bg);
+    --pt-tb-border: var(--pt-tb-modern) var(--pt-frame);
+    --pt-tb-shadow: var(--pt-tb-modern) var(--pt-bevel-mini), 0 0 0 3px var(--pt-window);
+    --pt-tb-pressed-shadow: var(--pt-tb-modern) var(--pt-bevel-pressed), 0 0 0 3px var(--pt-window);
+    /* The 13px close, zoom and shade boxes share one etched rim and stepped face. */
+    --pt-tb-etched: linear-gradient(var(--pt-groove-dark) 0 0);
+    --pt-tb-lit: linear-gradient(var(--pt-groove-light) 0 0);
+    --pt-tb-rim:
+      linear-gradient(var(--pt-ink) 0 0) center / 11px 11px no-repeat,
+      var(--pt-tb-etched) left top / 12px 1px no-repeat,
+      var(--pt-tb-etched) left top / 1px 12px no-repeat,
+      var(--pt-tb-lit) right bottom / 12px 1px no-repeat,
+      var(--pt-tb-lit) right bottom / 1px 12px no-repeat,
+      var(--pt-window);
+    --pt-tb-raised-face:
+      var(--pt-tbox-polish) center / 7px 7px no-repeat,
+      var(--pt-tb-lit) 2px 2px / 1px 1px no-repeat,
+      var(--pt-tb-etched) 10px 3px / 1px 8px no-repeat,
+      var(--pt-tb-etched) 3px 10px / 8px 1px no-repeat,
+      linear-gradient(var(--pt-window) 0 0) center / 9px 9px no-repeat,
+      var(--pt-tb-rim);
+    --pt-tb-down-face:
+      linear-gradient(to right, var(--pt-groove-dark) 0 2px, var(--pt-tbox-lip) 2px) 2px 10px / 9px 1px no-repeat,
+      linear-gradient(to bottom, var(--pt-groove-dark) 0 2px, var(--pt-tbox-lip) 2px) 10px 2px / 1px 9px no-repeat,
+      var(--pt-tbox-polish-pressed) center / 9px 9px no-repeat, var(--pt-tb-rim);
+    background: var(--pt-tb-surface, var(--pt-tb-raised-face));
+    background-origin: border-box;
     color: var(--pt-ink);
-    border: 1px solid var(--pt-frame);
+    border: 1px solid var(--pt-tb-border, transparent);
     border-radius: 0;
-    /* 3px window-color outset halo carves clean stripe cutouts and merges across 5px sibling gaps */
-    box-shadow: var(--pt-bevel-mini), 0 0 0 3px var(--pt-window);
+    box-shadow: var(--pt-tb-shadow, var(--pt-tb-halo, 0 0 0 3px var(--pt-window)));
     cursor: pointer;
     transition: none;
   }
@@ -315,37 +363,39 @@
   }
 
   .pt-tbox-close:empty::after {
+    content: var(--pt-tb-close-content, none);
     -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 9 9'%3E%3Cpath d='M2 2L7 7M7 2L2 7' fill='none' stroke='%23000' stroke-width='1.35' stroke-linecap='square'/%3E%3C/svg%3E");
     mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 9 9'%3E%3Cpath d='M2 2L7 7M7 2L2 7' fill='none' stroke='%23000' stroke-width='1.35' stroke-linecap='square'/%3E%3C/svg%3E");
   }
 
   .pt-tbox-minimize:empty::after {
-    -webkit-mask-image: var(--pt-tb-glyph-min, url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 9 9' shape-rendering='crispEdges'%3E%3Crect x='1' y='3' width='7' height='1' fill='%23000'/%3E%3Crect x='1' y='5' width='7' height='1' fill='%23000'/%3E%3C/svg%3E"));
-    mask-image: var(--pt-tb-glyph-min, url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 9 9' shape-rendering='crispEdges'%3E%3Crect x='1' y='3' width='7' height='1' fill='%23000'/%3E%3Crect x='1' y='5' width='7' height='1' fill='%23000'/%3E%3C/svg%3E"));
+    -webkit-mask-image: var(--pt-tb-glyph-min, url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 9 9' shape-rendering='crispEdges'%3E%3Crect x='0' y='3' width='9' height='1' fill='%23000'/%3E%3Crect x='0' y='5' width='9' height='1' fill='%23000'/%3E%3C/svg%3E"));
+    mask-image: var(--pt-tb-glyph-min, url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 9 9' shape-rendering='crispEdges'%3E%3Crect x='0' y='3' width='9' height='1' fill='%23000'/%3E%3Crect x='0' y='5' width='9' height='1' fill='%23000'/%3E%3C/svg%3E"));
   }
 
   .pt-tbox-zoom:empty::after {
-    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 9 9' shape-rendering='crispEdges'%3E%3Crect x='1.5' y='1.5' width='6' height='6' fill='none' stroke='%23000' stroke-width='1'/%3E%3C/svg%3E");
-    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 9 9' shape-rendering='crispEdges'%3E%3Crect x='1.5' y='1.5' width='6' height='6' fill='none' stroke='%23000' stroke-width='1'/%3E%3C/svg%3E");
+    --pt-classic-zoom: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 9 9' shape-rendering='crispEdges'%3E%3Cpath d='M5 0h1v6H0V5h5z'/%3E%3C/svg%3E");
+    mask-image: var(--pt-tb-glyph-zoom, var(--pt-classic-zoom));
   }
 
   :is(.pt-tbox-zoom[aria-pressed="true"], .pt-tbox-zoom[data-maximized="true"], :is([data-maximized="true"], [data-window-maximized="true"]) .pt-tbox-zoom):empty::after {
-    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 9 9' shape-rendering='crispEdges'%3E%3Cpath d='M1.5 1.5h6v6h-6zM1.5 4.5h3v3' fill='none' stroke='%23000' stroke-width='1'/%3E%3C/svg%3E");
-    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 9 9' shape-rendering='crispEdges'%3E%3Cpath d='M1.5 1.5h6v6h-6zM1.5 4.5h3v3' fill='none' stroke='%23000' stroke-width='1'/%3E%3C/svg%3E");
+    mask-image: var(--pt-tb-glyph-restore, var(--pt-classic-zoom));
   }
 
   .pt-tbox:hover:not(:disabled, :active) {
-    background: var(--pt-face-hover);
+    background: var(--pt-tb-hover, var(--pt-tb-raised-face));
+    background-origin: border-box;
   }
 
   .pt-tbox-close:hover:not(:disabled, :active) {
     color: var(--pt-danger);
   }
 
-  .pt-tbox:active:not(:disabled) {
-    background: var(--pt-pressed-bg);
+  .pt-tbox:is(:active, .is-active):not(:disabled) {
+    background: var(--pt-tb-pressed, var(--pt-tb-down-face));
+    background-origin: border-box;
     color: var(--pt-pressed-fg);
-    box-shadow: var(--pt-bevel-pressed), 0 0 0 3px var(--pt-window);
+    box-shadow: var(--pt-tb-pressed-shadow, var(--pt-tb-halo, 0 0 0 3px var(--pt-window)));
   }
 
   .pt-tbox:disabled {
@@ -960,7 +1010,7 @@
     text-underline-offset: 2px;
   }
 
-  /* ---- 15px 3-Ridge Platinum Scrollbars (.pt-scroll) ---- */
+  /* ---- 15px four-ridge Platinum Scrollbars (.pt-scroll) ---- */
   .pt-scroll {
     scrollbar-width: auto;
   }
@@ -978,22 +1028,13 @@
   }
 
   .pt-scroll::-webkit-scrollbar-thumb {
-    background-color: var(--pt-scroll-thumb);
-    background-image: repeating-linear-gradient(
-      to bottom,
-      rgba(255, 255, 255, 0.75) 0 1px,
-      rgba(38, 38, 38, 0.58) 1px 2px
-    );
-    background-size: 7px 6px;
-    background-repeat: no-repeat;
-    background-position: center;
+    background: var(--pt-scroll-grip-v), var(--pt-scroll-thumb);
     border: 1px solid var(--pt-frame);
     box-shadow: inset 1px 1px 0 var(--pt-scroll-thumb-hi), inset -1px -1px 0 var(--pt-scroll-thumb-lo);
   }
 
   .pt-scroll::-webkit-scrollbar-thumb:horizontal {
-    background-image: repeating-linear-gradient(to right, rgba(255, 255, 255, 0.75) 0 1px, rgba(38, 38, 38, 0.58) 1px 2px);
-    background-size: 6px 7px;
+    background: var(--pt-scroll-grip-h), var(--pt-scroll-thumb);
   }
 
   .pt-scroll::-webkit-scrollbar-thumb:active {

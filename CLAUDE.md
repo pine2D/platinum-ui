@@ -8,7 +8,7 @@
 2. **单一令牌真源，严禁手改 `dist/`**：修改颜色、阴影、字阶或尺寸阶梯只能在 `tokens/platinum.tokens.json` 与 `src/*.css` 进行，随后运行 `npm run build` 重新生成 `dist/*.css`，并由 `npm run verify`（含 `build.mjs --check` 逐字节漂移检查）把关。
 3. **纯中性底盘 + 双官方变体隔离**：
    - 底盘（`chassis`）明暗灰阶必须保持 `R=G=B` 零偏色中性金属灰，按钮、标签芯片、普通悬停态严禁染紫；
-   - 默认变体为 `gray`（Mac OS 9 Appearance 正统纯银灰 + 深石板蓝焦点），仅 `data-platinum-accent="lavender"` 切换 5 个受控点缀槽位（`accent`、`on-accent`、`selection-*`、`menu-active-*`、`scroll-*`）；
+   - 产品默认变体为 `gray`（纯银灰 + 深石板蓝焦点），Mac OS 9.0 客体样张记录为 Purple 高亮、Lavender 变化色，仅 `data-platinum-accent="lavender"` 切换 5 个受控点缀槽位（`accent`、`on-accent`、`selection-*`、`menu-active-*`、`scroll-*`）；
    - 所有前景/背景语义组合在 `(light, dark) × (gray, lavender)` 四个象限下均须满足 WCAG AA `>= 4.5:1`（零豁免）。
 4. **CSS 特异性与几何硬门**：
    - 严禁在 `:is(...)` 中裸写 `#id` 抬高共用控件特异性（排他 ID 必须包入 `:where(...)`）；

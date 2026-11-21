@@ -8,8 +8,8 @@ A cross-project **Mac OS 9 Platinum** design system: W3C DTCG design tokens, zer
 
 ## Highlights
 
-- **Authentic Platinum mechanics & multi-OS window controls**: Crisp `1px` borders, `2px` hard drop shadows, four-layer metallic bevels, vertically centered `12px` six-ridge pinstripe titlebars, `15px` three-ridge scrollbars, Mac OS 9 HIG double-arrow pop-up selects, etched groove group boxes, and instant `0ms` state transitions. Switch window controls via `data-platinum-controls="mac9" | "macos" | "win"` (classic Mac OS 9 split close/zoom+collapse by default, modern macOS left 3-cluster, or Windows/Linux right 3-cluster) with pure-CSS crisp SVG glyphs and zero-overlap `18×22px` hit boxes.
-- **Zero-cast light/dark chassis and two official accent variants**: Light silver (`#cccccc`/`#dddddd`) and dark metallic grays keep strict `R=G=B` neutrality. Ships with a purple-free **`gray`** default variant (silver scrollbars, charcoal menu highlights, and slate blue focus/links) and an opt-in classic **`lavender`** variant via `data-platinum-accent="lavender"`. Every foreground/surface pair passes WCAG AA `>= 4.5:1` across all four quadrants.
+- **Authentic Platinum mechanics & multi-OS window controls**: Crisp `1px` borders, `2px` hard drop shadows, four-layer metallic bevels, vertically centered `12px` six-ridge pinstripe titlebars, `15px` four-ridge scrollbars, Mac OS 9 HIG double-arrow pop-up selects, etched groove group boxes, and instant `0ms` state transitions. Switch window controls via `data-platinum-controls="mac9" | "macos" | "win"` (Mac OS 9 split controls with an empty beveled close box and zoom/WindowShade on the right by default, modern macOS left 3-cluster, or Windows/Linux right 3-cluster) with CSS-drawn preset-specific glyphs and zero-overlap `18×22px` hit boxes.
+- **Zero-cast light/dark chassis and two official accent variants**: Light silver (`#cccccc`/`#dddddd`) and dark metallic grays keep strict `R=G=B` neutrality. The product default is the purple-free **`gray`** variant (silver scrollbars, charcoal menu highlights, and slate blue focus/links). Opt into the Mac OS 9-inspired **`lavender`** variant via `data-platinum-accent="lavender"`. Every foreground/surface pair passes WCAG AA `>= 4.5:1` across all four quadrants.
 
 ![Side-by-side comparison of the default Gray variant and opt-in Lavender variant across selection, menus, scrollbars, and neutral buttons](docs/screenshots/variants.webp)
 
@@ -56,6 +56,20 @@ npm run shots                        # Regenerate 2x lossless docs/screenshots/*
 node bin/platinum-check.mjs --browser               # Launch Chromium to run 8-state icon centering and hit-area probes
 node bin/platinum-check.mjs --css app.css --forbid-purple   # Audit external app CSS for Platinum traps and purple leaks
 ```
+
+Browser tooling is optional for local static checks; browser test suites report skips when Playwright is unavailable. CI requires Playwright **1.59.1** and its bundled Chromium **147.0.7727.15** (revision **1217**) and fails if the browser cannot launch. To run the full validation locally with the same browser, install the tools outside the project and keep the module path exported for each command:
+
+```bash
+PLATINUM_BROWSER_TOOLS="$(mktemp -d)"
+npm install --prefix "$PLATINUM_BROWSER_TOOLS" --no-package-lock --no-audit --no-fund playwright@1.59.1
+export PLAYWRIGHT_MODULE_PATH="$PLATINUM_BROWSER_TOOLS/node_modules/playwright"
+node "$PLAYWRIGHT_MODULE_PATH/cli.js" install chromium
+node --input-type=module -e 'import { resolvePlaywright } from "./bin/platinum-check.mjs"; const pw = resolvePlaywright(); if (!pw) throw new Error("Playwright required"); const browser = await pw.chromium.launch(); console.log(browser.version()); await browser.close();'
+npm run verify
+node bin/platinum-check.mjs --browser
+```
+
+The [Mac OS 9 window comparison](gallery/reference/index.html) shows 12 Finder and Appearance samples as originals, live HTML/CSS, adjustable overlays and full pixel differences. The [capture notes](gallery/reference/CAPTURE.md) record the guest settings, actions and coordinates. Run `node scripts/reference-shots.mjs` to regenerate the browser renders. The reference tests compare them with the saved guest frames offline. After changing publishing links, run `node scripts/stage-pages.mjs /tmp/platinum-pages` and `node scripts/check-pages.mjs /tmp/platinum-pages` to check both gallery entry URLs, including deployment below a project subpath.
 
 ## Global AI Agent Skill
 

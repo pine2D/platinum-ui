@@ -44,6 +44,10 @@
     --pt-border-subtle: #8c8c8c;
     --pt-groove-dark: #888888;
     --pt-groove-light: #ffffff;
+    --pt-scroll-glint: #eeeeee;
+    --pt-tbox-lip: #999999;
+    --pt-tbox-polish: linear-gradient(135deg, #999 0% 18%, #aaa 18% 32%, #bbb 32% 46%, #ccc 46% 60%, #ddd 60% 75%, #eee 75% 89%, #fff 89% 100%);
+    --pt-tbox-polish-pressed: linear-gradient(135deg, #444 0% 14%, #555 14% 25%, #666 25% 36%, #777 36% 47%, #888 47% 58%, #999 58% 69%, #aaa 69% 81%, #bbb 81% 92%, #ccc 92% 100%);
     --pt-pinstripe-hi: #ffffff;
     --pt-pinstripe-lo: #777777;
     --pt-danger: #7a1010;
@@ -72,6 +76,8 @@
     --pt-scroll-thumb: #cccccc;
     --pt-scroll-thumb-hi: #ffffff;
     --pt-scroll-thumb-lo: #777777;
+    --pt-scroll-grip-v: repeating-linear-gradient(to bottom, var(--pt-scroll-glint) 0 1px, transparent 1px 2px) calc(50% - 3.5px) center / 1px 8px no-repeat, repeating-linear-gradient(to bottom, var(--pt-scroll-thumb-hi) 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center / 6px 8px no-repeat, repeating-linear-gradient(to bottom, transparent 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) calc(50% + 3.5px) center / 1px 8px no-repeat;
+    --pt-scroll-grip-h: repeating-linear-gradient(to right, var(--pt-scroll-glint) 0 1px, transparent 1px 2px) center calc(50% - 3.5px) / 8px 1px no-repeat, repeating-linear-gradient(to right, var(--pt-scroll-thumb-hi) 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center / 8px 6px no-repeat, repeating-linear-gradient(to right, transparent 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center calc(50% + 3.5px) / 8px 1px no-repeat;
   }
 
   @media (prefers-color-scheme: dark) {
@@ -90,6 +96,10 @@
     --pt-border-subtle: #5c5c5c;
     --pt-groove-dark: #141414;
     --pt-groove-light: #4a4a4a;
+    --pt-scroll-glint: #888888;
+    --pt-tbox-lip: #444444;
+    --pt-tbox-polish: linear-gradient(135deg, #333 0% 18%, #3b3b3b 18% 32%, #444 32% 46%, #505050 46% 60%, #595959 60% 75%, #626262 75% 89%, #737373 89% 100%);
+    --pt-tbox-polish-pressed: linear-gradient(135deg, #111 0% 14%, #171717 14% 25%, #1e1e1e 25% 36%, #252525 36% 47%, #2c2c2c 47% 58%, #333 58% 69%, #3b3b3b 69% 81%, #414141 81% 92%, #494949 92% 100%);
     --pt-pinstripe-hi: #525252;
     --pt-pinstripe-lo: #1d1d1d;
     --pt-danger: #ffbab4;
@@ -118,6 +128,8 @@
     --pt-scroll-thumb: #525252;
     --pt-scroll-thumb-hi: #737373;
     --pt-scroll-thumb-lo: #242424;
+    --pt-scroll-grip-v: repeating-linear-gradient(to bottom, var(--pt-scroll-glint) 0 1px, transparent 1px 2px) calc(50% - 3.5px) center / 1px 8px no-repeat, repeating-linear-gradient(to bottom, var(--pt-scroll-thumb-hi) 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center / 6px 8px no-repeat, repeating-linear-gradient(to bottom, transparent 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) calc(50% + 3.5px) center / 1px 8px no-repeat;
+    --pt-scroll-grip-h: repeating-linear-gradient(to right, var(--pt-scroll-glint) 0 1px, transparent 1px 2px) center calc(50% - 3.5px) / 8px 1px no-repeat, repeating-linear-gradient(to right, var(--pt-scroll-thumb-hi) 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center / 8px 6px no-repeat, repeating-linear-gradient(to right, transparent 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center calc(50% + 3.5px) / 8px 1px no-repeat;
     }
     [data-platinum-accent="lavender"]:not([data-platinum-scheme="light"], [data-theme="platinum-light"]) {
     --pt-accent: #b3b3ff;
@@ -130,6 +142,8 @@
     --pt-scroll-thumb: #5c5c9e;
     --pt-scroll-thumb-hi: #8585cc;
     --pt-scroll-thumb-lo: #32325c;
+    --pt-scroll-grip-v: repeating-linear-gradient(to bottom, var(--pt-scroll-glint) 0 1px, transparent 1px 2px) calc(50% - 3.5px) center / 1px 8px no-repeat, repeating-linear-gradient(to bottom, var(--pt-scroll-thumb-hi) 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center / 6px 8px no-repeat, repeating-linear-gradient(to bottom, transparent 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) calc(50% + 3.5px) center / 1px 8px no-repeat;
+    --pt-scroll-grip-h: repeating-linear-gradient(to right, var(--pt-scroll-glint) 0 1px, transparent 1px 2px) center calc(50% - 3.5px) / 8px 1px no-repeat, repeating-linear-gradient(to right, var(--pt-scroll-thumb-hi) 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center / 8px 6px no-repeat, repeating-linear-gradient(to right, transparent 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center calc(50% + 3.5px) / 8px 1px no-repeat;
     }
   }
 
@@ -149,6 +163,10 @@
     --pt-border-subtle: #8c8c8c;
     --pt-groove-dark: #888888;
     --pt-groove-light: #ffffff;
+    --pt-scroll-glint: #eeeeee;
+    --pt-tbox-lip: #999999;
+    --pt-tbox-polish: linear-gradient(135deg, #999 0% 18%, #aaa 18% 32%, #bbb 32% 46%, #ccc 46% 60%, #ddd 60% 75%, #eee 75% 89%, #fff 89% 100%);
+    --pt-tbox-polish-pressed: linear-gradient(135deg, #444 0% 14%, #555 14% 25%, #666 25% 36%, #777 36% 47%, #888 47% 58%, #999 58% 69%, #aaa 69% 81%, #bbb 81% 92%, #ccc 92% 100%);
     --pt-pinstripe-hi: #ffffff;
     --pt-pinstripe-lo: #777777;
     --pt-danger: #7a1010;
@@ -177,6 +195,8 @@
     --pt-scroll-thumb: #cccccc;
     --pt-scroll-thumb-hi: #ffffff;
     --pt-scroll-thumb-lo: #777777;
+    --pt-scroll-grip-v: repeating-linear-gradient(to bottom, var(--pt-scroll-glint) 0 1px, transparent 1px 2px) calc(50% - 3.5px) center / 1px 8px no-repeat, repeating-linear-gradient(to bottom, var(--pt-scroll-thumb-hi) 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center / 6px 8px no-repeat, repeating-linear-gradient(to bottom, transparent 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) calc(50% + 3.5px) center / 1px 8px no-repeat;
+    --pt-scroll-grip-h: repeating-linear-gradient(to right, var(--pt-scroll-glint) 0 1px, transparent 1px 2px) center calc(50% - 3.5px) / 8px 1px no-repeat, repeating-linear-gradient(to right, var(--pt-scroll-thumb-hi) 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center / 8px 6px no-repeat, repeating-linear-gradient(to right, transparent 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center calc(50% + 3.5px) / 8px 1px no-repeat;
   }
 
   [data-platinum-scheme="dark"], [data-theme="platinum-dark"] {
@@ -195,6 +215,10 @@
     --pt-border-subtle: #5c5c5c;
     --pt-groove-dark: #141414;
     --pt-groove-light: #4a4a4a;
+    --pt-scroll-glint: #888888;
+    --pt-tbox-lip: #444444;
+    --pt-tbox-polish: linear-gradient(135deg, #333 0% 18%, #3b3b3b 18% 32%, #444 32% 46%, #505050 46% 60%, #595959 60% 75%, #626262 75% 89%, #737373 89% 100%);
+    --pt-tbox-polish-pressed: linear-gradient(135deg, #111 0% 14%, #171717 14% 25%, #1e1e1e 25% 36%, #252525 36% 47%, #2c2c2c 47% 58%, #333 58% 69%, #3b3b3b 69% 81%, #414141 81% 92%, #494949 92% 100%);
     --pt-pinstripe-hi: #525252;
     --pt-pinstripe-lo: #1d1d1d;
     --pt-danger: #ffbab4;
@@ -223,6 +247,8 @@
     --pt-scroll-thumb: #525252;
     --pt-scroll-thumb-hi: #737373;
     --pt-scroll-thumb-lo: #242424;
+    --pt-scroll-grip-v: repeating-linear-gradient(to bottom, var(--pt-scroll-glint) 0 1px, transparent 1px 2px) calc(50% - 3.5px) center / 1px 8px no-repeat, repeating-linear-gradient(to bottom, var(--pt-scroll-thumb-hi) 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center / 6px 8px no-repeat, repeating-linear-gradient(to bottom, transparent 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) calc(50% + 3.5px) center / 1px 8px no-repeat;
+    --pt-scroll-grip-h: repeating-linear-gradient(to right, var(--pt-scroll-glint) 0 1px, transparent 1px 2px) center calc(50% - 3.5px) / 8px 1px no-repeat, repeating-linear-gradient(to right, var(--pt-scroll-thumb-hi) 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center / 8px 6px no-repeat, repeating-linear-gradient(to right, transparent 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center calc(50% + 3.5px) / 8px 1px no-repeat;
   }
 
   [data-platinum-accent="lavender"] {
@@ -235,7 +261,9 @@
     --pt-scroll-track: #aaaaaa;
     --pt-scroll-thumb: #9999ff;
     --pt-scroll-thumb-hi: #ccccff;
-    --pt-scroll-thumb-lo: #5555aa;
+    --pt-scroll-thumb-lo: #333399;
+    --pt-scroll-grip-v: repeating-linear-gradient(to bottom, var(--pt-scroll-glint) 0 1px, transparent 1px 2px) calc(50% - 3.5px) center / 1px 8px no-repeat, repeating-linear-gradient(to bottom, var(--pt-scroll-thumb-hi) 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center / 6px 8px no-repeat, repeating-linear-gradient(to bottom, transparent 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) calc(50% + 3.5px) center / 1px 8px no-repeat;
+    --pt-scroll-grip-h: repeating-linear-gradient(to right, var(--pt-scroll-glint) 0 1px, transparent 1px 2px) center calc(50% - 3.5px) / 8px 1px no-repeat, repeating-linear-gradient(to right, var(--pt-scroll-thumb-hi) 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center / 8px 6px no-repeat, repeating-linear-gradient(to right, transparent 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center calc(50% + 3.5px) / 8px 1px no-repeat;
   }
 
   :is([data-platinum-scheme="light"], [data-theme="platinum-light"])[data-platinum-accent="lavender"], [data-platinum-scheme="light"] [data-platinum-accent="lavender"] {
@@ -248,7 +276,9 @@
     --pt-scroll-track: #aaaaaa;
     --pt-scroll-thumb: #9999ff;
     --pt-scroll-thumb-hi: #ccccff;
-    --pt-scroll-thumb-lo: #5555aa;
+    --pt-scroll-thumb-lo: #333399;
+    --pt-scroll-grip-v: repeating-linear-gradient(to bottom, var(--pt-scroll-glint) 0 1px, transparent 1px 2px) calc(50% - 3.5px) center / 1px 8px no-repeat, repeating-linear-gradient(to bottom, var(--pt-scroll-thumb-hi) 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center / 6px 8px no-repeat, repeating-linear-gradient(to bottom, transparent 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) calc(50% + 3.5px) center / 1px 8px no-repeat;
+    --pt-scroll-grip-h: repeating-linear-gradient(to right, var(--pt-scroll-glint) 0 1px, transparent 1px 2px) center calc(50% - 3.5px) / 8px 1px no-repeat, repeating-linear-gradient(to right, var(--pt-scroll-thumb-hi) 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center / 8px 6px no-repeat, repeating-linear-gradient(to right, transparent 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center calc(50% + 3.5px) / 8px 1px no-repeat;
   }
 
   :is([data-platinum-scheme="dark"], [data-theme="platinum-dark"])[data-platinum-accent="lavender"], [data-platinum-scheme="dark"] [data-platinum-accent="lavender"], [data-platinum-accent="lavender"] [data-platinum-scheme="dark"] {
@@ -262,6 +292,8 @@
     --pt-scroll-thumb: #5c5c9e;
     --pt-scroll-thumb-hi: #8585cc;
     --pt-scroll-thumb-lo: #32325c;
+    --pt-scroll-grip-v: repeating-linear-gradient(to bottom, var(--pt-scroll-glint) 0 1px, transparent 1px 2px) calc(50% - 3.5px) center / 1px 8px no-repeat, repeating-linear-gradient(to bottom, var(--pt-scroll-thumb-hi) 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center / 6px 8px no-repeat, repeating-linear-gradient(to bottom, transparent 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) calc(50% + 3.5px) center / 1px 8px no-repeat;
+    --pt-scroll-grip-h: repeating-linear-gradient(to right, var(--pt-scroll-glint) 0 1px, transparent 1px 2px) center calc(50% - 3.5px) / 8px 1px no-repeat, repeating-linear-gradient(to right, var(--pt-scroll-thumb-hi) 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center / 8px 6px no-repeat, repeating-linear-gradient(to right, transparent 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center calc(50% + 3.5px) / 8px 1px no-repeat;
   }
 
   [data-platinum-density="comfortable"] {
@@ -311,7 +343,6 @@
   }
 
   .pt-window {
-    display: flex;
     flex-direction: column;
     background: var(--pt-window);
     color: var(--pt-ink);
@@ -320,6 +351,10 @@
     border: 1px solid var(--pt-frame);
     border-radius: var(--pt-radius-window);
     box-shadow: var(--pt-bevel-window), var(--pt-shadow-window);
+  }
+
+  .pt-window:where(:not([hidden])) {
+    display: flex;
   }
 
   /* !important beats unlayered author display utilities (e.g. .demo-stack / Tailwind flex) inside @layer */
@@ -333,6 +368,11 @@
 
   /* ---- Multi-OS Window Controls Presets (mac9 default | macos | win) ---- */
   [data-platinum-controls="mac9"] {
+    --pt-tb-close-content: none;
+    --pt-tb-inactive-visibility: hidden;
+    --pt-tb-modern: initial;
+    --pt-tb-glyph-zoom: initial;
+    --pt-tb-glyph-restore: initial;
     --pt-tb-order-close: 1;
     --pt-tb-order-zoom: 6;
     --pt-tb-order-min: 7;
@@ -348,7 +388,15 @@
     --pt-tb-bal1-l: 0px;
     --pt-tb-bal1-r-disp: block;
     --pt-tb-bal1-r: 13px;
-    --pt-tb-glyph-min: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 9 9' shape-rendering='crispEdges'%3E%3Crect x='1' y='3' width='7' height='1' fill='%23000'/%3E%3Crect x='1' y='5' width='7' height='1' fill='%23000'/%3E%3C/svg%3E");
+    --pt-tb-glyph-min: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 9 9' shape-rendering='crispEdges'%3E%3Crect x='0' y='3' width='9' height='1' fill='%23000'/%3E%3Crect x='0' y='5' width='9' height='1' fill='%23000'/%3E%3C/svg%3E");
+  }
+
+  :is([data-platinum-controls="macos"], [data-platinum-controls="win"]) {
+    --pt-tb-close-content: "";
+    --pt-tb-inactive-visibility: visible;
+    --pt-tb-modern: ;
+    --pt-tb-glyph-restore: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 9 9' shape-rendering='crispEdges'%3E%3Cpath d='M1.5 1.5h6v6h-6zM1.5 4.5h3v3' fill='none' stroke='%23000' stroke-width='1'/%3E%3C/svg%3E");
+    --pt-tb-glyph-zoom: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 9 9' shape-rendering='crispEdges'%3E%3Crect x='1.5' y='1.5' width='6' height='6' fill='none' stroke='%23000'/%3E%3C/svg%3E");
   }
 
   [data-platinum-controls="macos"] {
@@ -394,18 +442,19 @@
     position: relative;
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: var(--pt-tb-gap, 5px);
     min-height: var(--pt-titlebar-h);
     height: var(--pt-titlebar-h);
-    padding: 0 5px;
+    padding: 0 var(--pt-tb-padding, 5px);
     background-color: var(--pt-window);
-    background-image: repeating-linear-gradient(
-      to bottom,
-      var(--pt-pinstripe-hi) 0 1px,
-      var(--pt-pinstripe-lo) 1px 2px
-    );
-    background-size: calc(100% - 10px) 12px;
-    background-position: center;
+    /* Each gray ridge is offset one pixel from its white highlight. */
+    background-image:
+      repeating-linear-gradient(to bottom, var(--pt-pinstripe-hi) 0 1px, transparent 1px 2px),
+      repeating-linear-gradient(to bottom, transparent 0 1px, var(--pt-pinstripe-lo) 1px 2px);
+    background-size: var(--pt-tb-stripe-width, calc(100% - 10px)) 12px;
+    background-position:
+      var(--pt-tb-stripe-start, 5px) var(--pt-tb-stripe-top, center),
+      calc(var(--pt-tb-stripe-start, 5px) + 1px) var(--pt-tb-stripe-top, center);
     background-repeat: no-repeat;
     border-bottom: 1px solid var(--pt-frame);
     box-shadow: var(--pt-bevel-window);
@@ -518,6 +567,7 @@
   }
 
   :is(.pt-window[data-inactive="true"], [data-window-focused="false"]) .pt-tbox {
+    visibility: var(--pt-tb-inactive-visibility, hidden);
     background: var(--pt-window);
     border-color: var(--pt-border-subtle);
     color: var(--pt-ink-muted);
@@ -540,12 +590,42 @@
     place-content: center;
     place-items: center;
     line-height: 0;
-    background: var(--pt-face);
+    /* An empty --pt-tb-modern enables the platform values below; its initial
+       value selects the classic fallback. Resolve colors here so a nested
+       scheme always supplies the paint, even when it inherits the preset. */
+    --pt-tb-surface: var(--pt-tb-modern) var(--pt-face);
+    --pt-tb-hover: var(--pt-tb-modern) var(--pt-face-hover);
+    --pt-tb-pressed: var(--pt-tb-modern) var(--pt-pressed-bg);
+    --pt-tb-border: var(--pt-tb-modern) var(--pt-frame);
+    --pt-tb-shadow: var(--pt-tb-modern) var(--pt-bevel-mini), 0 0 0 3px var(--pt-window);
+    --pt-tb-pressed-shadow: var(--pt-tb-modern) var(--pt-bevel-pressed), 0 0 0 3px var(--pt-window);
+    /* The 13px close, zoom and shade boxes share one etched rim and stepped face. */
+    --pt-tb-etched: linear-gradient(var(--pt-groove-dark) 0 0);
+    --pt-tb-lit: linear-gradient(var(--pt-groove-light) 0 0);
+    --pt-tb-rim:
+      linear-gradient(var(--pt-ink) 0 0) center / 11px 11px no-repeat,
+      var(--pt-tb-etched) left top / 12px 1px no-repeat,
+      var(--pt-tb-etched) left top / 1px 12px no-repeat,
+      var(--pt-tb-lit) right bottom / 12px 1px no-repeat,
+      var(--pt-tb-lit) right bottom / 1px 12px no-repeat,
+      var(--pt-window);
+    --pt-tb-raised-face:
+      var(--pt-tbox-polish) center / 7px 7px no-repeat,
+      var(--pt-tb-lit) 2px 2px / 1px 1px no-repeat,
+      var(--pt-tb-etched) 10px 3px / 1px 8px no-repeat,
+      var(--pt-tb-etched) 3px 10px / 8px 1px no-repeat,
+      linear-gradient(var(--pt-window) 0 0) center / 9px 9px no-repeat,
+      var(--pt-tb-rim);
+    --pt-tb-down-face:
+      linear-gradient(to right, var(--pt-groove-dark) 0 2px, var(--pt-tbox-lip) 2px) 2px 10px / 9px 1px no-repeat,
+      linear-gradient(to bottom, var(--pt-groove-dark) 0 2px, var(--pt-tbox-lip) 2px) 10px 2px / 1px 9px no-repeat,
+      var(--pt-tbox-polish-pressed) center / 9px 9px no-repeat, var(--pt-tb-rim);
+    background: var(--pt-tb-surface, var(--pt-tb-raised-face));
+    background-origin: border-box;
     color: var(--pt-ink);
-    border: 1px solid var(--pt-frame);
+    border: 1px solid var(--pt-tb-border, transparent);
     border-radius: 0;
-    /* 3px window-color outset halo carves clean stripe cutouts and merges across 5px sibling gaps */
-    box-shadow: var(--pt-bevel-mini), 0 0 0 3px var(--pt-window);
+    box-shadow: var(--pt-tb-shadow, var(--pt-tb-halo, 0 0 0 3px var(--pt-window)));
     cursor: pointer;
     transition: none;
   }
@@ -593,37 +673,39 @@
   }
 
   .pt-tbox-close:empty::after {
+    content: var(--pt-tb-close-content, none);
     -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 9 9'%3E%3Cpath d='M2 2L7 7M7 2L2 7' fill='none' stroke='%23000' stroke-width='1.35' stroke-linecap='square'/%3E%3C/svg%3E");
     mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 9 9'%3E%3Cpath d='M2 2L7 7M7 2L2 7' fill='none' stroke='%23000' stroke-width='1.35' stroke-linecap='square'/%3E%3C/svg%3E");
   }
 
   .pt-tbox-minimize:empty::after {
-    -webkit-mask-image: var(--pt-tb-glyph-min, url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 9 9' shape-rendering='crispEdges'%3E%3Crect x='1' y='3' width='7' height='1' fill='%23000'/%3E%3Crect x='1' y='5' width='7' height='1' fill='%23000'/%3E%3C/svg%3E"));
-    mask-image: var(--pt-tb-glyph-min, url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 9 9' shape-rendering='crispEdges'%3E%3Crect x='1' y='3' width='7' height='1' fill='%23000'/%3E%3Crect x='1' y='5' width='7' height='1' fill='%23000'/%3E%3C/svg%3E"));
+    -webkit-mask-image: var(--pt-tb-glyph-min, url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 9 9' shape-rendering='crispEdges'%3E%3Crect x='0' y='3' width='9' height='1' fill='%23000'/%3E%3Crect x='0' y='5' width='9' height='1' fill='%23000'/%3E%3C/svg%3E"));
+    mask-image: var(--pt-tb-glyph-min, url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 9 9' shape-rendering='crispEdges'%3E%3Crect x='0' y='3' width='9' height='1' fill='%23000'/%3E%3Crect x='0' y='5' width='9' height='1' fill='%23000'/%3E%3C/svg%3E"));
   }
 
   .pt-tbox-zoom:empty::after {
-    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 9 9' shape-rendering='crispEdges'%3E%3Crect x='1.5' y='1.5' width='6' height='6' fill='none' stroke='%23000' stroke-width='1'/%3E%3C/svg%3E");
-    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 9 9' shape-rendering='crispEdges'%3E%3Crect x='1.5' y='1.5' width='6' height='6' fill='none' stroke='%23000' stroke-width='1'/%3E%3C/svg%3E");
+    --pt-classic-zoom: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 9 9' shape-rendering='crispEdges'%3E%3Cpath d='M5 0h1v6H0V5h5z'/%3E%3C/svg%3E");
+    mask-image: var(--pt-tb-glyph-zoom, var(--pt-classic-zoom));
   }
 
   :is(.pt-tbox-zoom[aria-pressed="true"], .pt-tbox-zoom[data-maximized="true"], :is([data-maximized="true"], [data-window-maximized="true"]) .pt-tbox-zoom):empty::after {
-    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 9 9' shape-rendering='crispEdges'%3E%3Cpath d='M1.5 1.5h6v6h-6zM1.5 4.5h3v3' fill='none' stroke='%23000' stroke-width='1'/%3E%3C/svg%3E");
-    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 9 9' shape-rendering='crispEdges'%3E%3Cpath d='M1.5 1.5h6v6h-6zM1.5 4.5h3v3' fill='none' stroke='%23000' stroke-width='1'/%3E%3C/svg%3E");
+    mask-image: var(--pt-tb-glyph-restore, var(--pt-classic-zoom));
   }
 
   .pt-tbox:hover:not(:disabled, :active) {
-    background: var(--pt-face-hover);
+    background: var(--pt-tb-hover, var(--pt-tb-raised-face));
+    background-origin: border-box;
   }
 
   .pt-tbox-close:hover:not(:disabled, :active) {
     color: var(--pt-danger);
   }
 
-  .pt-tbox:active:not(:disabled) {
-    background: var(--pt-pressed-bg);
+  .pt-tbox:is(:active, .is-active):not(:disabled) {
+    background: var(--pt-tb-pressed, var(--pt-tb-down-face));
+    background-origin: border-box;
     color: var(--pt-pressed-fg);
-    box-shadow: var(--pt-bevel-pressed), 0 0 0 3px var(--pt-window);
+    box-shadow: var(--pt-tb-pressed-shadow, var(--pt-tb-halo, 0 0 0 3px var(--pt-window)));
   }
 
   .pt-tbox:disabled {
@@ -1238,7 +1320,7 @@
     text-underline-offset: 2px;
   }
 
-  /* ---- 15px 3-Ridge Platinum Scrollbars (.pt-scroll) ---- */
+  /* ---- 15px four-ridge Platinum Scrollbars (.pt-scroll) ---- */
   .pt-scroll {
     scrollbar-width: auto;
   }
@@ -1256,22 +1338,13 @@
   }
 
   .pt-scroll::-webkit-scrollbar-thumb {
-    background-color: var(--pt-scroll-thumb);
-    background-image: repeating-linear-gradient(
-      to bottom,
-      rgba(255, 255, 255, 0.75) 0 1px,
-      rgba(38, 38, 38, 0.58) 1px 2px
-    );
-    background-size: 7px 6px;
-    background-repeat: no-repeat;
-    background-position: center;
+    background: var(--pt-scroll-grip-v), var(--pt-scroll-thumb);
     border: 1px solid var(--pt-frame);
     box-shadow: inset 1px 1px 0 var(--pt-scroll-thumb-hi), inset -1px -1px 0 var(--pt-scroll-thumb-lo);
   }
 
   .pt-scroll::-webkit-scrollbar-thumb:horizontal {
-    background-image: repeating-linear-gradient(to right, rgba(255, 255, 255, 0.75) 0 1px, rgba(38, 38, 38, 0.58) 1px 2px);
-    background-size: 6px 7px;
+    background: var(--pt-scroll-grip-h), var(--pt-scroll-thumb);
   }
 
   .pt-scroll::-webkit-scrollbar-thumb:active {
@@ -1599,22 +1672,13 @@
   }
 
   [data-platinum] *::-webkit-scrollbar-thumb {
-    background-color: var(--pt-scroll-thumb);
-    background-image: repeating-linear-gradient(
-      to bottom,
-      rgba(255, 255, 255, 0.75) 0 1px,
-      rgba(38, 38, 38, 0.58) 1px 2px
-    );
-    background-size: 7px 6px;
-    background-repeat: no-repeat;
-    background-position: center;
+    background: var(--pt-scroll-grip-v), var(--pt-scroll-thumb);
     border: 1px solid var(--pt-frame);
     box-shadow: inset 1px 1px 0 var(--pt-scroll-thumb-hi), inset -1px -1px 0 var(--pt-scroll-thumb-lo);
   }
 
   [data-platinum] *::-webkit-scrollbar-thumb:horizontal {
-    background-image: repeating-linear-gradient(to right, rgba(255, 255, 255, 0.75) 0 1px, rgba(38, 38, 38, 0.58) 1px 2px);
-    background-size: 6px 7px;
+    background: var(--pt-scroll-grip-h), var(--pt-scroll-thumb);
   }
 
   [data-platinum] *::-webkit-scrollbar-thumb:active {

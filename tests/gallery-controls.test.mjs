@@ -71,7 +71,7 @@ describe("Platinum controls in Chromium", { skip: !playwright && "Playwright una
     assert.equal(scroll[1], 0);
   });
 
-  it("paints three grip ridges across each scrollbar in all styled bundles", async t => {
+  it("paints four grip ridges across each scrollbar in all styled bundles", async t => {
     const page = await browser.newPage({ deviceScaleFactor: 1 });
     t.after(() => page.close());
     for (const bundle of ["platinum", "platinum-core", "platinum-scoped"]) {
@@ -94,18 +94,18 @@ describe("Platinum controls in Chromium", { skip: !playwright && "Playwright una
         canvas.height = image.height;
         const ctx = canvas.getContext("2d");
         ctx.drawImage(image, 0, 0);
-        function hasThreeRidges({ data }) {
+        function hasFourRidges({ data }) {
           const red = data.filter((_, i) => i % 4 === 0);
-          for (let i = 0; i + 5 < red.length; i++) {
-            const highlight = Math.min(red[i], red[i + 2], red[i + 4]);
-            const shadow = Math.max(red[i + 1], red[i + 3], red[i + 5]);
+          for (let i = 0; i + 7 < red.length; i++) {
+            const highlight = Math.min(red[i], red[i + 2], red[i + 4], red[i + 6]);
+            const shadow = Math.max(red[i + 1], red[i + 3], red[i + 5], red[i + 7]);
             if (highlight - shadow > 40) return true;
           }
           return false;
         }
         return {
-          horizontal: hasThreeRidges(ctx.getImageData(0, image.height - 8, image.width, 1)),
-          vertical: hasThreeRidges(ctx.getImageData(image.width - 8, 0, 1, image.height))
+          horizontal: hasFourRidges(ctx.getImageData(0, image.height - 8, image.width, 1)),
+          vertical: hasFourRidges(ctx.getImageData(image.width - 8, 0, 1, image.height))
         };
       }, png.toString("base64"));
       assert.deepEqual(grips, { horizontal: true, vertical: true }, bundle);

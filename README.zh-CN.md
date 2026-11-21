@@ -8,8 +8,8 @@
 
 ## 特性概览
 
-- **纯正 Platinum 机械质感与跨平台窗口控制**：`1px` 利落黑框、`2px` 硬边投影、四层金属凹凸斜面、居中 `12px` 六条细横纹标题条、`15px` 三横脊滚动条、HIG 双箭头弹出选择框、蚀刻凹槽分组框与 `0ms` 机械瞬切。通过 `data-platinum-controls="mac9" | "macos" | "win"` 一键切换窗口按钮布局（默认 1999 原生 Mac OS 9 左关+右缩放/双横线折叠、现代 macOS 左置三连或 Win/Linux 右置三连），空按钮自动绘制 crisp 矢量遮罩字形并具备 `18×22px` 零重叠热区。
-- **零偏色双模底盘 + 双官方变体**：浅色铂金银（`#cccccc`/`#dddddd`）与深色零偏色碳黑金属（`R=G=B`），默认采用无紫的 **`gray`** 变体（纯银灰滚动条、深炭反白菜单与深石板蓝焦点/链接），一行属性 `data-platinum-accent="lavender"` 即可切换经典 **`lavender`** 薰衣草变体；全象限前景与底面组合均通过 WCAG AA `>= 4.5:1` 校验。
+- **纯正 Platinum 机械质感与跨平台窗口控制**：`1px` 利落黑框、`2px` 硬边投影、四层金属凹凸斜面、居中 `12px` 六条细横纹标题条、`15px` 四道刻纹滚动条、HIG 双箭头弹出选择框、蚀刻凹槽分组框与 `0ms` 机械瞬切。通过 `data-platinum-controls="mac9" | "macos" | "win"` 一键切换窗口按钮布局（默认 Mac OS 9 左侧空白斜面关闭框+右侧缩放/WindowShade 双横线折叠、现代 macOS 左置三连或 Win/Linux 右置三连），空按钮按预设绘制对应字形并具备 `18×22px` 零重叠热区。
+- **零偏色双模底盘 + 双官方变体**：浅色铂金银（`#cccccc`/`#dddddd`）与深色零偏色碳黑金属（`R=G=B`），产品默认采用无紫的 **`gray`** 变体（纯银灰滚动条、深炭反白菜单与深石板蓝焦点/链接），一行属性 `data-platinum-accent="lavender"` 即可切换借鉴 Mac OS 9 的 **`lavender`** 薰衣草变体；全象限前景与底面组合均通过 WCAG AA `>= 4.5:1` 校验。
 
 ![Gray 默认纯银灰变体与 Lavender 经典薰衣草变体在选区、菜单、滚动条及中性按钮上的微距对照](docs/screenshots/variants.zh-CN.webp)
 
@@ -56,6 +56,20 @@ npm run shots                        # 用 Chromium 2x 无损重生成中英双�
 node bin/platinum-check.mjs --browser               # 启动 Chromium 对画廊跑 8 象限真实图标居中与热区探针
 node bin/platinum-check.mjs --css app.css --forbid-purple   # 对外部业务 CSS 跑 Platinum 静态防坑与禁紫体检
 ```
+
+本地静态检查无需安装浏览器工具；缺少 Playwright 时，浏览器测试会报告跳过。CI 强制使用 Playwright **1.59.1** 及其配套 Chromium **147.0.7727.15**（revision **1217**），浏览器无法启动即失败。要在本地执行同版本完整验收，可将工具安装到项目外的临时目录，并为后续命令保持模块路径环境变量：
+
+```bash
+PLATINUM_BROWSER_TOOLS="$(mktemp -d)"
+npm install --prefix "$PLATINUM_BROWSER_TOOLS" --no-package-lock --no-audit --no-fund playwright@1.59.1
+export PLAYWRIGHT_MODULE_PATH="$PLATINUM_BROWSER_TOOLS/node_modules/playwright"
+node "$PLAYWRIGHT_MODULE_PATH/cli.js" install chromium
+node --input-type=module -e 'import { resolvePlaywright } from "./bin/platinum-check.mjs"; const pw = resolvePlaywright(); if (!pw) throw new Error("Playwright required"); const browser = await pw.chromium.launch(); console.log(browser.version()); await browser.close();'
+npm run verify
+node bin/platinum-check.mjs --browser
+```
+
+[Mac OS 9 窗口对照](gallery/reference/index.html?lang=zh-CN)提供 Finder 与外观控制面板的 12 个原生样张，可切换原图、实时实现、叠加与完整差分。[采集记录](gallery/reference/CAPTURE.md)列出客体设置、操作与坐标。运行 `node scripts/reference-shots.mjs` 采集当前部件截图，`tests/reference-pixels.test.mjs` 在 Chromium 中验证参考细节。修改发布链接后，运行 `node scripts/stage-pages.mjs /tmp/platinum-pages` 和 `node scripts/check-pages.mjs /tmp/platinum-pages`，检查画廊的两个入口及项目子路径部署。
 
 ## 安装全局 AI Agent Skill
 

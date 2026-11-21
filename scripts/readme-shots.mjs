@@ -2,52 +2,20 @@
 // Generates deterministic 2x Retina real-CSS screenshots for README.md (en)
 // and README.zh-CN.md (zh-CN) directly from dist/platinum.css using headless
 // Chromium (zero moire resampling, lossless WebP encoding for razor-sharp
-// 1px bevels, 2px pinstripes, and 15px 3-ridge scrollbars).
+// 1px bevels, 2px pinstripes, and 15px four-ridge scrollbars).
 //
 // Usage:
 //   node scripts/readme-shots.mjs                  # build both en and zh-CN
 //   node scripts/readme-shots.mjs --locale en      # build en only
 
-import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
-import { createRequire } from "node:module";
+import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { resolvePlaywright } from "../bin/platinum-check.mjs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const OUT_DIR = join(ROOT, "docs/screenshots");
 const PLATINUM_CSS = readFileSync(join(ROOT, "dist/platinum.css"), "utf8");
-
-function resolvePlaywright() {
-  const candidates = [
-    join(ROOT, "node_modules/playwright"),
-    process.env.PLAYWRIGHT_MODULE_PATH
-  ].filter(Boolean);
-
-  try {
-    const parentDir = resolve(ROOT, "..");
-    for (const entry of readdirSync(parentDir, { withFileTypes: true })) {
-      if (!entry.isDirectory() || entry.name.startsWith(".")) continue;
-      const sib = join(parentDir, entry.name);
-      candidates.push(
-        join(sib, "package.json"),
-        join(sib, ".qa-scan/package.json"),
-        join(sib, "desktop/package.json")
-      );
-    }
-  } catch (_) {}
-
-  for (const cand of candidates) {
-    try {
-      if (cand.endsWith("package.json") && existsSync(cand)) {
-        return createRequire(cand)("playwright");
-      }
-      if (existsSync(cand)) {
-        return createRequire(join(ROOT, "package.json"))(cand);
-      }
-    } catch (_) {}
-  }
-  throw new Error("Playwright not found. Install playwright or set PLAYWRIGHT_MODULE_PATH.");
-}
 
 const SHARED_STAGE_CSS = `
   * { box-sizing: border-box; }
@@ -127,10 +95,10 @@ const COPY = {
       grayBadge: "Default · No Purple",
       grayDesc: "Silver scrollbar · Charcoal menu · Slate blue focus",
       graySel: "#b8b8b8 neutral silver",
-      grayThumb: "Thumb: Monochrome silver 3-ridge (#cccccc)",
+      grayThumb: "Thumb: Monochrome silver four-ridge (#cccccc)",
       lavDesc: "Lavender selection & scrollbar · Indigo menu/focus",
       lavSel: "#ccccff classic lavender",
-      lavThumb: "Thumb: Mac OS 9 lavender 3-ridge (#9999ff)",
+      lavThumb: "Thumb: Mac OS 9 lavender four-ridge (#9999ff)",
       wellLead: "Selection:",
       wellMid: "with high-contrast",
       wellLink: "accent links",
@@ -164,10 +132,10 @@ const COPY = {
       grayBadge: "默认 · 零紫色",
       grayDesc: "纯银灰滚动条 + 深炭反白菜单 + 深石板蓝焦点",
       graySel: "#b8b8b8 中性银灰高亮",
-      grayThumb: "右侧滑块：纯正银灰三横脊（#cccccc）",
+      grayThumb: "右侧滑块：纯正银灰四道刻纹（#cccccc）",
       lavDesc: "经典薰衣草选区/滚动条 + 深靛蓝菜单/焦点",
       lavSel: "#ccccff 经典薰衣草高亮",
-      lavThumb: "右侧滑块：Mac OS 9 薰衣草三横脊（#9999ff）",
+      lavThumb: "右侧滑块：Mac OS 9 薰衣草四道刻纹（#9999ff）",
       wellLead: "文本选区：",
       wellMid: "，支持高对比",
       wellLink: "语义强调链接",
@@ -400,7 +368,7 @@ function variantCard({ accent, title, badgeText, desc, selSample, scrollNote, v 
             <div style="color:var(--pt-ink-muted); font-size:11.5px; margin-bottom:5px;">${scrollNote}</div>
             <div style="color:var(--pt-ink-muted); font-size:11.5px; margin-bottom:4px;">03 · R=G=B neutral metallic chassis</div>
             <div style="color:var(--pt-ink-muted); font-size:11.5px; margin-bottom:8px;">04 · Buttons &amp; chips never turn purple</div>
-            <div style="color:var(--pt-ink-muted); font-size:11.5px; margin-bottom:4px;">05 · 15px 3-ridge scrollbar thumb</div>
+            <div style="color:var(--pt-ink-muted); font-size:11.5px; margin-bottom:4px;">05 · 15px four-ridge scrollbar thumb</div>
             <div style="color:var(--pt-ink-muted); font-size:11.5px; margin-bottom:4px;">06 · Sunken content well (--pt-paper)</div>
             <div style="color:var(--pt-ink-muted); font-size:11.5px;">07 · WCAG AA verified across 4 quadrants</div>
           </div>
@@ -599,6 +567,7 @@ async function main() {
   }
 
   const pw = resolvePlaywright();
+  if (!pw) throw new Error("Playwright not found. Install playwright or set PLAYWRIGHT_MODULE_PATH.");
   mkdirSync(OUT_DIR, { recursive: true });
 
   const browser = await pw.chromium.launch({

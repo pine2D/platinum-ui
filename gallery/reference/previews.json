@@ -1,0 +1,2009 @@
+{
+  "sourceDigest": "bb72e5cf7efb002c01a97e692bb84eb2cd5c15e09a0d6c982d12b7f780ba809c",
+  "reports": [
+    {
+      "id": "finder-active",
+      "changed": 1624,
+      "pixels": 102999,
+      "absoluteError": 498658,
+      "regions": [
+        {
+          "name": "Top keyline and inner highlight",
+          "changed": 0,
+          "pixels": 220,
+          "review": false
+        },
+        {
+          "name": "Left frame and bevel",
+          "changed": 0,
+          "pixels": 30,
+          "review": false
+        },
+        {
+          "name": "Close box and etched rim",
+          "changed": 0,
+          "pixels": 169,
+          "review": false
+        },
+        {
+          "name": "Left ends of all six title ridges",
+          "changed": 0,
+          "pixels": 1260,
+          "review": false
+        },
+        {
+          "name": "Zoom box",
+          "changed": 0,
+          "pixels": 169,
+          "review": false
+        },
+        {
+          "name": "WindowShade box",
+          "changed": 0,
+          "pixels": 169,
+          "review": false
+        },
+        {
+          "name": "Right ends of title ridges",
+          "changed": 0,
+          "pixels": 120,
+          "review": false
+        },
+        {
+          "name": "Folder proxy and title type",
+          "changed": 688,
+          "pixels": 1536,
+          "review": true
+        },
+        {
+          "name": "Folder info surface",
+          "changed": 0,
+          "pixels": 1200,
+          "review": false
+        },
+        {
+          "name": "Empty folder content",
+          "changed": 0,
+          "pixels": 45000,
+          "review": false
+        },
+        {
+          "name": "Vertical scrollbar track",
+          "changed": 0,
+          "pixels": 1740,
+          "review": false
+        },
+        {
+          "name": "Horizontal scrollbar track",
+          "changed": 0,
+          "pixels": 4080,
+          "review": false
+        },
+        {
+          "name": "Inset frame left edge",
+          "changed": 0,
+          "pixels": 181,
+          "review": false
+        },
+        {
+          "name": "Vertical arrow pair",
+          "changed": 0,
+          "pixels": 480,
+          "review": false
+        },
+        {
+          "name": "Horizontal arrow pair",
+          "changed": 0,
+          "pixels": 480,
+          "review": false
+        },
+        {
+          "name": "Status text",
+          "changed": 876,
+          "pixels": 2850,
+          "review": true
+        },
+        {
+          "name": "Resize grip",
+          "changed": 0,
+          "pixels": 225,
+          "review": false
+        },
+        {
+          "name": "Lower window edge",
+          "changed": 0,
+          "pixels": 960,
+          "review": false
+        },
+        {
+          "name": "Upper inset bevel",
+          "changed": 0,
+          "pixels": 407,
+          "review": false
+        },
+        {
+          "name": "Upper inset keyline",
+          "changed": 0,
+          "pixels": 406,
+          "review": false
+        }
+      ],
+      "hashes": {
+        "original": "08a4e570cb5035bc2e16b198f03b802c867cd1b73e3c755a0d25d6d2afb6814b",
+        "rendered": "a60fffc1047daecf57d911ec713ffb5246105f1cff98c4f37e268eba35fd01cf",
+        "difference": "796089c44c0fe115c173b32efc33027462fb7b64e40385043a3742d0f0dc3366",
+        "capture": "bc3de776fa78e8f4dcda570a2d46aae10355173b12f143f35430fa8512a5a878"
+      }
+    },
+    {
+      "id": "finder-inactive",
+      "changed": 1512,
+      "pixels": 102999,
+      "absoluteError": 254782,
+      "regions": [
+        {
+          "name": "Top keyline and inner highlight",
+          "changed": 0,
+          "pixels": 220,
+          "review": false
+        },
+        {
+          "name": "Left frame and bevel",
+          "changed": 0,
+          "pixels": 30,
+          "review": false
+        },
+        {
+          "name": "Close box and etched rim",
+          "changed": 0,
+          "pixels": 169,
+          "review": false
+        },
+        {
+          "name": "Left ends of all six title ridges",
+          "changed": 0,
+          "pixels": 1260,
+          "review": false
+        },
+        {
+          "name": "Zoom box",
+          "changed": 0,
+          "pixels": 169,
+          "review": false
+        },
+        {
+          "name": "WindowShade box",
+          "changed": 0,
+          "pixels": 169,
+          "review": false
+        },
+        {
+          "name": "Right ends of title ridges",
+          "changed": 0,
+          "pixels": 120,
+          "review": false
+        },
+        {
+          "name": "Folder proxy and title type",
+          "changed": 627,
+          "pixels": 1536,
+          "review": true
+        },
+        {
+          "name": "Folder info surface",
+          "changed": 0,
+          "pixels": 1200,
+          "review": false
+        },
+        {
+          "name": "Empty folder content",
+          "changed": 0,
+          "pixels": 45000,
+          "review": false
+        },
+        {
+          "name": "Vertical scrollbar track",
+          "changed": 0,
+          "pixels": 1740,
+          "review": false
+        },
+        {
+          "name": "Horizontal scrollbar track",
+          "changed": 0,
+          "pixels": 4080,
+          "review": false
+        },
+        {
+          "name": "Inset frame left edge",
+          "changed": 0,
+          "pixels": 181,
+          "review": false
+        },
+        {
+          "name": "Vertical arrow pair",
+          "changed": 0,
+          "pixels": 480,
+          "review": false
+        },
+        {
+          "name": "Horizontal arrow pair",
+          "changed": 0,
+          "pixels": 480,
+          "review": false
+        },
+        {
+          "name": "Status text",
+          "changed": 879,
+          "pixels": 2850,
+          "review": true
+        },
+        {
+          "name": "Resize grip",
+          "changed": 0,
+          "pixels": 225,
+          "review": false
+        },
+        {
+          "name": "Lower window edge",
+          "changed": 0,
+          "pixels": 960,
+          "review": false
+        },
+        {
+          "name": "Upper inset bevel",
+          "changed": 0,
+          "pixels": 407,
+          "review": false
+        },
+        {
+          "name": "Upper inset keyline",
+          "changed": 0,
+          "pixels": 406,
+          "review": false
+        }
+      ],
+      "hashes": {
+        "original": "f684f788a9817fee0fb62fc3145dad77bfdf34c4e2a10e7983ac74ce72a50ee5",
+        "rendered": "fc4cce9e2f9fe1b64c74217c99e601c1491ef4770829f929c79248de4c4159d3",
+        "difference": "3212c294235dd3f3b5a23a8829a9d1b1b0580572c3ec24ddd6208df0d8bf3a83",
+        "capture": "ace1a1e79537fdd225988d8c7a27b206e62f7b7db0939f7c369e46b34253114a"
+      }
+    },
+    {
+      "id": "finder-pressed",
+      "changed": 1711,
+      "pixels": 102999,
+      "absoluteError": 537724,
+      "regions": [
+        {
+          "name": "Top keyline and inner highlight",
+          "changed": 0,
+          "pixels": 220,
+          "review": false
+        },
+        {
+          "name": "Left frame and bevel",
+          "changed": 0,
+          "pixels": 30,
+          "review": false
+        },
+        {
+          "name": "Upper pressed face before pointer",
+          "changed": 0,
+          "pixels": 104,
+          "review": false
+        },
+        {
+          "name": "Pressed rim left of pointer",
+          "changed": 0,
+          "pixels": 40,
+          "review": false
+        },
+        {
+          "name": "Guest pointer and pressed rim",
+          "changed": 87,
+          "pixels": 342,
+          "review": true
+        },
+        {
+          "name": "Left ends of all six title ridges",
+          "changed": 0,
+          "pixels": 1260,
+          "review": false
+        },
+        {
+          "name": "Zoom box",
+          "changed": 0,
+          "pixels": 169,
+          "review": false
+        },
+        {
+          "name": "WindowShade box",
+          "changed": 0,
+          "pixels": 169,
+          "review": false
+        },
+        {
+          "name": "Right ends of title ridges",
+          "changed": 0,
+          "pixels": 120,
+          "review": false
+        },
+        {
+          "name": "Folder proxy and title type",
+          "changed": 688,
+          "pixels": 1536,
+          "review": true
+        },
+        {
+          "name": "Folder info surface",
+          "changed": 0,
+          "pixels": 1200,
+          "review": false
+        },
+        {
+          "name": "Empty folder content",
+          "changed": 0,
+          "pixels": 45000,
+          "review": false
+        },
+        {
+          "name": "Vertical scrollbar track",
+          "changed": 0,
+          "pixels": 1740,
+          "review": false
+        },
+        {
+          "name": "Horizontal scrollbar track",
+          "changed": 0,
+          "pixels": 4080,
+          "review": false
+        },
+        {
+          "name": "Inset frame left edge",
+          "changed": 0,
+          "pixels": 181,
+          "review": false
+        },
+        {
+          "name": "Vertical arrow pair",
+          "changed": 0,
+          "pixels": 480,
+          "review": false
+        },
+        {
+          "name": "Horizontal arrow pair",
+          "changed": 0,
+          "pixels": 480,
+          "review": false
+        },
+        {
+          "name": "Status text",
+          "changed": 876,
+          "pixels": 2850,
+          "review": true
+        },
+        {
+          "name": "Resize grip",
+          "changed": 0,
+          "pixels": 225,
+          "review": false
+        },
+        {
+          "name": "Lower window edge",
+          "changed": 0,
+          "pixels": 960,
+          "review": false
+        },
+        {
+          "name": "Upper inset bevel left of pointer",
+          "changed": 0,
+          "pixels": 9,
+          "review": false
+        },
+        {
+          "name": "Upper inset bevel right of pointer",
+          "changed": 0,
+          "pixels": 388,
+          "review": false
+        },
+        {
+          "name": "Upper inset keyline left of pointer",
+          "changed": 0,
+          "pixels": 8,
+          "review": false
+        },
+        {
+          "name": "Upper inset keyline right of pointer",
+          "changed": 0,
+          "pixels": 387,
+          "review": false
+        }
+      ],
+      "hashes": {
+        "original": "79aad754c0159ae7943525b4d93081fe252a673ee397fd9a05d27a3eee5573c0",
+        "rendered": "67b52752b0297fac9078258b46ed054f0fce4cf7fd94fd312e8ae18791ac4b55",
+        "difference": "f015dd917ac44f752911a692cad10c5ccced64c62f3baa4becdad54a374164fd",
+        "capture": "03892f12d4bb2aa1e5510d4b947cd0b609da8b559a7618280c83ff4dc5d0fbeb"
+      }
+    },
+    {
+      "id": "finder-collapsed",
+      "changed": 696,
+      "pixels": 9591,
+      "absoluteError": 178763,
+      "regions": [
+        {
+          "name": "Top keyline and inner highlight",
+          "changed": 0,
+          "pixels": 220,
+          "review": false
+        },
+        {
+          "name": "Left frame and bevel",
+          "changed": 0,
+          "pixels": 30,
+          "review": false
+        },
+        {
+          "name": "Close box and etched rim",
+          "changed": 0,
+          "pixels": 169,
+          "review": false
+        },
+        {
+          "name": "Left ends of all six title ridges",
+          "changed": 0,
+          "pixels": 1260,
+          "review": false
+        },
+        {
+          "name": "Zoom box",
+          "changed": 0,
+          "pixels": 169,
+          "review": false
+        },
+        {
+          "name": "WindowShade box",
+          "changed": 0,
+          "pixels": 169,
+          "review": false
+        },
+        {
+          "name": "Right ends of title ridges",
+          "changed": 0,
+          "pixels": 120,
+          "review": false
+        },
+        {
+          "name": "Folder proxy and title type",
+          "changed": 688,
+          "pixels": 1536,
+          "review": true
+        },
+        {
+          "name": "Folded lower edge",
+          "changed": 0,
+          "pixels": 1215,
+          "review": false
+        }
+      ],
+      "hashes": {
+        "original": "fea0a41c1d196544a76bfcbf94835028a75ed1ff204ee1b6794e5d9385b18dbf",
+        "rendered": "df1c5a826a9f6b723cda7e93a7b9c2bd883eb95028dad1fb5cd37d5fbec2ff5e",
+        "difference": "ee7c2545c36e5e7bd5887f8cd53805bcb29531bdcdd7e33d8e0567d0307244fa",
+        "capture": "53727f5225250638e4ae7f9607a500d73c8e642cef3e5e1f8e7413a9df316eef"
+      }
+    },
+    {
+      "id": "finder-restored",
+      "changed": 1624,
+      "pixels": 102999,
+      "absoluteError": 498658,
+      "regions": [
+        {
+          "name": "Top keyline and inner highlight",
+          "changed": 0,
+          "pixels": 220,
+          "review": false
+        },
+        {
+          "name": "Left frame and bevel",
+          "changed": 0,
+          "pixels": 30,
+          "review": false
+        },
+        {
+          "name": "Close box and etched rim",
+          "changed": 0,
+          "pixels": 169,
+          "review": false
+        },
+        {
+          "name": "Left ends of all six title ridges",
+          "changed": 0,
+          "pixels": 1260,
+          "review": false
+        },
+        {
+          "name": "Zoom box",
+          "changed": 0,
+          "pixels": 169,
+          "review": false
+        },
+        {
+          "name": "WindowShade box",
+          "changed": 0,
+          "pixels": 169,
+          "review": false
+        },
+        {
+          "name": "Right ends of title ridges",
+          "changed": 0,
+          "pixels": 120,
+          "review": false
+        },
+        {
+          "name": "Folder proxy and title type",
+          "changed": 688,
+          "pixels": 1536,
+          "review": true
+        },
+        {
+          "name": "Folder info surface",
+          "changed": 0,
+          "pixels": 1200,
+          "review": false
+        },
+        {
+          "name": "Empty folder content",
+          "changed": 0,
+          "pixels": 45000,
+          "review": false
+        },
+        {
+          "name": "Vertical scrollbar track",
+          "changed": 0,
+          "pixels": 1740,
+          "review": false
+        },
+        {
+          "name": "Horizontal scrollbar track",
+          "changed": 0,
+          "pixels": 4080,
+          "review": false
+        },
+        {
+          "name": "Inset frame left edge",
+          "changed": 0,
+          "pixels": 181,
+          "review": false
+        },
+        {
+          "name": "Vertical arrow pair",
+          "changed": 0,
+          "pixels": 480,
+          "review": false
+        },
+        {
+          "name": "Horizontal arrow pair",
+          "changed": 0,
+          "pixels": 480,
+          "review": false
+        },
+        {
+          "name": "Status text",
+          "changed": 876,
+          "pixels": 2850,
+          "review": true
+        },
+        {
+          "name": "Resize grip",
+          "changed": 0,
+          "pixels": 225,
+          "review": false
+        },
+        {
+          "name": "Lower window edge",
+          "changed": 0,
+          "pixels": 960,
+          "review": false
+        },
+        {
+          "name": "Upper inset bevel",
+          "changed": 0,
+          "pixels": 407,
+          "review": false
+        },
+        {
+          "name": "Upper inset keyline",
+          "changed": 0,
+          "pixels": 406,
+          "review": false
+        }
+      ],
+      "hashes": {
+        "original": "08a4e570cb5035bc2e16b198f03b802c867cd1b73e3c755a0d25d6d2afb6814b",
+        "rendered": "a60fffc1047daecf57d911ec713ffb5246105f1cff98c4f37e268eba35fd01cf",
+        "difference": "796089c44c0fe115c173b32efc33027462fb7b64e40385043a3742d0f0dc3366",
+        "capture": "bc3de776fa78e8f4dcda570a2d46aae10355173b12f143f35430fa8512a5a878"
+      }
+    },
+    {
+      "id": "finder-scrollbars",
+      "changed": 2462,
+      "pixels": 47200,
+      "absoluteError": 556527,
+      "regions": [
+        {
+          "name": "Top keyline and inner highlight",
+          "changed": 0,
+          "pixels": 220,
+          "review": false
+        },
+        {
+          "name": "Left frame and bevel",
+          "changed": 0,
+          "pixels": 30,
+          "review": false
+        },
+        {
+          "name": "Close box and etched rim",
+          "changed": 0,
+          "pixels": 169,
+          "review": false
+        },
+        {
+          "name": "Six title ridge starts",
+          "changed": 0,
+          "pixels": 840,
+          "review": false
+        },
+        {
+          "name": "Zoom box",
+          "changed": 0,
+          "pixels": 169,
+          "review": false
+        },
+        {
+          "name": "WindowShade box",
+          "changed": 0,
+          "pixels": 169,
+          "review": false
+        },
+        {
+          "name": "Right ends of title ridges",
+          "changed": 0,
+          "pixels": 120,
+          "review": false
+        },
+        {
+          "name": "Right frame and bevel",
+          "changed": 0,
+          "pixels": 456,
+          "review": false
+        },
+        {
+          "name": "Lower window edge",
+          "changed": 0,
+          "pixels": 600,
+          "review": false
+        },
+        {
+          "name": "Folder proxy and title type",
+          "changed": 688,
+          "pixels": 1536,
+          "review": true
+        },
+        {
+          "name": "Upper inset bevel",
+          "changed": 0,
+          "pixels": 285,
+          "review": false
+        },
+        {
+          "name": "Upper inset keyline",
+          "changed": 0,
+          "pixels": 284,
+          "review": false
+        },
+        {
+          "name": "Enabled vertical thumb and bevel",
+          "changed": 0,
+          "pixels": 462,
+          "review": false
+        },
+        {
+          "name": "Vertical four-pair grip",
+          "changed": 0,
+          "pixels": 64,
+          "review": false
+        },
+        {
+          "name": "Enabled horizontal thumb and bevel",
+          "changed": 0,
+          "pixels": 2366,
+          "review": false
+        },
+        {
+          "name": "Horizontal four-pair grip",
+          "changed": 0,
+          "pixels": 64,
+          "review": false
+        },
+        {
+          "name": "Empty visible folder area",
+          "changed": 0,
+          "pixels": 13140,
+          "review": false
+        },
+        {
+          "name": "Vertical thumb body",
+          "changed": 0,
+          "pixels": 60,
+          "review": false
+        },
+        {
+          "name": "Horizontal thumb body",
+          "changed": 0,
+          "pixels": 368,
+          "review": false
+        },
+        {
+          "name": "Info text",
+          "changed": 813,
+          "pixels": 3230,
+          "review": true
+        },
+        {
+          "name": "Resize grip",
+          "changed": 0,
+          "pixels": 225,
+          "review": false
+        }
+      ],
+      "hashes": {
+        "original": "db6e4f2551cb1d4fd863734b252b7f6579177f414301ad48269d0a21c5949f0c",
+        "rendered": "b4d595d532bacbca2a25d7c18f2b5d17ca7652cdbe903b7e21561125c203ffdd",
+        "difference": "816d7ae80d47face4fa0d940d597029d128214199d8a9f4acc138c9ad8db4878",
+        "capture": "c9825553fcf73f4933187073b461ce306d2b57b51c781cc6d5980659ce3545cf"
+      }
+    },
+    {
+      "id": "appearance-active",
+      "changed": 10733,
+      "pixels": 161703,
+      "absoluteError": 3088471,
+      "regions": [
+        {
+          "name": "Top keyline and inner highlight",
+          "changed": 0,
+          "pixels": 220,
+          "review": false
+        },
+        {
+          "name": "Left frame and bevel",
+          "changed": 0,
+          "pixels": 30,
+          "review": false
+        },
+        {
+          "name": "Close box and etched rim",
+          "changed": 0,
+          "pixels": 169,
+          "review": false
+        },
+        {
+          "name": "Left ends of all six title ridges",
+          "changed": 0,
+          "pixels": 1260,
+          "review": false
+        },
+        {
+          "name": "WindowShade box",
+          "changed": 0,
+          "pixels": 169,
+          "review": false
+        },
+        {
+          "name": "Right ends of title ridges",
+          "changed": 0,
+          "pixels": 120,
+          "review": false
+        },
+        {
+          "name": "Title type",
+          "changed": 579,
+          "pixels": 1520,
+          "review": true
+        },
+        {
+          "name": "Panel surface",
+          "changed": 0,
+          "pixels": 42000,
+          "review": false
+        },
+        {
+          "name": "Left panel bevel",
+          "changed": 0,
+          "pixels": 520,
+          "review": false
+        },
+        {
+          "name": "Right panel keyline",
+          "changed": 0,
+          "pixels": 260,
+          "review": false
+        },
+        {
+          "name": "Purple highlight selection",
+          "changed": 0,
+          "pixels": 120,
+          "review": false
+        },
+        {
+          "name": "Lavender variation",
+          "changed": 0,
+          "pixels": 120,
+          "review": false
+        },
+        {
+          "name": "Popup upper edge",
+          "changed": 0,
+          "pixels": 540,
+          "review": false
+        },
+        {
+          "name": "Highlight selector arrow",
+          "changed": 0,
+          "pixels": 308,
+          "review": false
+        },
+        {
+          "name": "Variation selector arrow",
+          "changed": 0,
+          "pixels": 308,
+          "review": false
+        },
+        {
+          "name": "Tab titles and tab shoulders",
+          "changed": 3408,
+          "pixels": 10488,
+          "review": true
+        },
+        {
+          "name": "Field labels and help",
+          "changed": 5641,
+          "pixels": 33960,
+          "review": true
+        },
+        {
+          "name": "Popup left edge",
+          "changed": 0,
+          "pixels": 28,
+          "review": false
+        },
+        {
+          "name": "Themes tab top",
+          "changed": 0,
+          "pixels": 51,
+          "review": false
+        },
+        {
+          "name": "Appearance tab top",
+          "changed": 0,
+          "pixels": 80,
+          "review": false
+        },
+        {
+          "name": "Fonts tab top",
+          "changed": 0,
+          "pixels": 36,
+          "review": false
+        },
+        {
+          "name": "Desktop tab top",
+          "changed": 0,
+          "pixels": 53,
+          "review": false
+        },
+        {
+          "name": "Sound tab top",
+          "changed": 0,
+          "pixels": 41,
+          "review": false
+        },
+        {
+          "name": "Options tab top",
+          "changed": 0,
+          "pixels": 50,
+          "review": false
+        },
+        {
+          "name": "Tab well bevel, left",
+          "changed": 0,
+          "pixels": 78,
+          "review": false
+        },
+        {
+          "name": "Tab well bevel, right",
+          "changed": 0,
+          "pixels": 288,
+          "review": false
+        },
+        {
+          "name": "Tab well highlight, left",
+          "changed": 0,
+          "pixels": 76,
+          "review": false
+        },
+        {
+          "name": "Tab well highlight, right",
+          "changed": 0,
+          "pixels": 286,
+          "review": false
+        },
+        {
+          "name": "Selected tab inner bevel",
+          "changed": 0,
+          "pixels": 158,
+          "review": false
+        },
+        {
+          "name": "Selected tab meets panel",
+          "changed": 0,
+          "pixels": 279,
+          "review": false
+        },
+        {
+          "name": "Lower window edge",
+          "changed": 0,
+          "pixels": 1080,
+          "review": false
+        },
+        {
+          "name": "Popup lower edge",
+          "changed": 0,
+          "pixels": 540,
+          "review": false
+        },
+        {
+          "name": "Popup right edge and arrow",
+          "changed": 0,
+          "pixels": 308,
+          "review": false
+        },
+        {
+          "name": "Upper inset bevel",
+          "changed": 0,
+          "pixels": 467,
+          "review": false
+        },
+        {
+          "name": "Upper inset keyline",
+          "changed": 0,
+          "pixels": 466,
+          "review": false
+        }
+      ],
+      "hashes": {
+        "original": "8997d993e6f93eecc316f3d86229d44d1454bc53884b2fdd0431c5a0d1c3cbb4",
+        "rendered": "1df00ab1e52476abaefa60c5b4ac440c6b073690026d1f0b821c381c3b50d98c",
+        "difference": "cb8f6a934f15fa3641c45b1501112b3c04101640414414c929de4947b6d7a19f",
+        "capture": "66160a134d2d73cc57f6ce5d17de6a1c9e512f076d48a85bd43c3f58a72188fb"
+      }
+    },
+    {
+      "id": "appearance-inactive",
+      "changed": 10254,
+      "pixels": 161703,
+      "absoluteError": 1512909,
+      "regions": [
+        {
+          "name": "Top keyline and inner highlight",
+          "changed": 0,
+          "pixels": 220,
+          "review": false
+        },
+        {
+          "name": "Left frame and bevel",
+          "changed": 0,
+          "pixels": 30,
+          "review": false
+        },
+        {
+          "name": "Close box and etched rim",
+          "changed": 0,
+          "pixels": 169,
+          "review": false
+        },
+        {
+          "name": "Left ends of all six title ridges",
+          "changed": 0,
+          "pixels": 1260,
+          "review": false
+        },
+        {
+          "name": "WindowShade box",
+          "changed": 0,
+          "pixels": 169,
+          "review": false
+        },
+        {
+          "name": "Right ends of title ridges",
+          "changed": 0,
+          "pixels": 120,
+          "review": false
+        },
+        {
+          "name": "Title type",
+          "changed": 532,
+          "pixels": 1520,
+          "review": true
+        },
+        {
+          "name": "Panel surface",
+          "changed": 0,
+          "pixels": 42000,
+          "review": false
+        },
+        {
+          "name": "Left panel bevel",
+          "changed": 0,
+          "pixels": 520,
+          "review": false
+        },
+        {
+          "name": "Right panel keyline",
+          "changed": 0,
+          "pixels": 260,
+          "review": false
+        },
+        {
+          "name": "Purple highlight selection",
+          "changed": 0,
+          "pixels": 120,
+          "review": false
+        },
+        {
+          "name": "Lavender variation",
+          "changed": 0,
+          "pixels": 120,
+          "review": false
+        },
+        {
+          "name": "Popup upper edge",
+          "changed": 0,
+          "pixels": 540,
+          "review": false
+        },
+        {
+          "name": "Highlight selector arrow",
+          "changed": 0,
+          "pixels": 308,
+          "review": false
+        },
+        {
+          "name": "Variation selector arrow",
+          "changed": 0,
+          "pixels": 308,
+          "review": false
+        },
+        {
+          "name": "Tab titles and tab shoulders",
+          "changed": 2856,
+          "pixels": 10488,
+          "review": true
+        },
+        {
+          "name": "Field labels and help",
+          "changed": 5789,
+          "pixels": 33960,
+          "review": true
+        },
+        {
+          "name": "Popup left edge",
+          "changed": 0,
+          "pixels": 28,
+          "review": false
+        },
+        {
+          "name": "Themes tab top",
+          "changed": 0,
+          "pixels": 51,
+          "review": false
+        },
+        {
+          "name": "Appearance tab top",
+          "changed": 0,
+          "pixels": 80,
+          "review": false
+        },
+        {
+          "name": "Fonts tab top",
+          "changed": 0,
+          "pixels": 36,
+          "review": false
+        },
+        {
+          "name": "Desktop tab top",
+          "changed": 0,
+          "pixels": 53,
+          "review": false
+        },
+        {
+          "name": "Sound tab top",
+          "changed": 0,
+          "pixels": 41,
+          "review": false
+        },
+        {
+          "name": "Options tab top",
+          "changed": 0,
+          "pixels": 50,
+          "review": false
+        },
+        {
+          "name": "Tab well bevel, left",
+          "changed": 0,
+          "pixels": 78,
+          "review": false
+        },
+        {
+          "name": "Tab well bevel, right",
+          "changed": 0,
+          "pixels": 288,
+          "review": false
+        },
+        {
+          "name": "Tab well highlight, left",
+          "changed": 0,
+          "pixels": 76,
+          "review": false
+        },
+        {
+          "name": "Tab well highlight, right",
+          "changed": 0,
+          "pixels": 286,
+          "review": false
+        },
+        {
+          "name": "Selected tab inner bevel",
+          "changed": 0,
+          "pixels": 158,
+          "review": false
+        },
+        {
+          "name": "Selected tab meets panel",
+          "changed": 0,
+          "pixels": 279,
+          "review": false
+        },
+        {
+          "name": "Lower window edge",
+          "changed": 0,
+          "pixels": 1080,
+          "review": false
+        },
+        {
+          "name": "Popup lower edge",
+          "changed": 0,
+          "pixels": 540,
+          "review": false
+        },
+        {
+          "name": "Popup right edge and arrow",
+          "changed": 0,
+          "pixels": 308,
+          "review": false
+        },
+        {
+          "name": "Upper inset bevel",
+          "changed": 0,
+          "pixels": 467,
+          "review": false
+        },
+        {
+          "name": "Upper inset keyline",
+          "changed": 0,
+          "pixels": 466,
+          "review": false
+        }
+      ],
+      "hashes": {
+        "original": "8503db04860a27c20dc94253d2a9eb40d2387f25fcd569f48fae21af7622f2ea",
+        "rendered": "69f236b0de715a71959f5e54c4509fe17eec6ecff5488124aaa225bf3f100e16",
+        "difference": "2cbd69ba76f56e5e124254852fbbf98a18750224711f0f2cb62755ac28ac0880",
+        "capture": "05ff758d11385f5462483de2eb84e6d3b82688828078ad7ed83cbb0ec0978d20"
+      }
+    },
+    {
+      "id": "appearance-pressed",
+      "changed": 10820,
+      "pixels": 161703,
+      "absoluteError": 3127639,
+      "regions": [
+        {
+          "name": "Top keyline and inner highlight",
+          "changed": 0,
+          "pixels": 220,
+          "review": false
+        },
+        {
+          "name": "Left frame and bevel",
+          "changed": 0,
+          "pixels": 30,
+          "review": false
+        },
+        {
+          "name": "Upper pressed face before pointer",
+          "changed": 0,
+          "pixels": 104,
+          "review": false
+        },
+        {
+          "name": "Pressed rim left of pointer",
+          "changed": 0,
+          "pixels": 40,
+          "review": false
+        },
+        {
+          "name": "Guest pointer and pressed rim",
+          "changed": 87,
+          "pixels": 342,
+          "review": true
+        },
+        {
+          "name": "Left ends of all six title ridges",
+          "changed": 0,
+          "pixels": 1260,
+          "review": false
+        },
+        {
+          "name": "WindowShade box",
+          "changed": 0,
+          "pixels": 169,
+          "review": false
+        },
+        {
+          "name": "Right ends of title ridges",
+          "changed": 0,
+          "pixels": 120,
+          "review": false
+        },
+        {
+          "name": "Title type",
+          "changed": 579,
+          "pixels": 1520,
+          "review": true
+        },
+        {
+          "name": "Panel surface",
+          "changed": 0,
+          "pixels": 42000,
+          "review": false
+        },
+        {
+          "name": "Left panel bevel",
+          "changed": 0,
+          "pixels": 520,
+          "review": false
+        },
+        {
+          "name": "Right panel keyline",
+          "changed": 0,
+          "pixels": 260,
+          "review": false
+        },
+        {
+          "name": "Purple highlight selection",
+          "changed": 0,
+          "pixels": 120,
+          "review": false
+        },
+        {
+          "name": "Lavender variation",
+          "changed": 0,
+          "pixels": 120,
+          "review": false
+        },
+        {
+          "name": "Popup upper edge",
+          "changed": 0,
+          "pixels": 540,
+          "review": false
+        },
+        {
+          "name": "Highlight selector arrow",
+          "changed": 0,
+          "pixels": 308,
+          "review": false
+        },
+        {
+          "name": "Variation selector arrow",
+          "changed": 0,
+          "pixels": 308,
+          "review": false
+        },
+        {
+          "name": "Tab titles and tab shoulders",
+          "changed": 3408,
+          "pixels": 10488,
+          "review": true
+        },
+        {
+          "name": "Field labels and help",
+          "changed": 5641,
+          "pixels": 33960,
+          "review": true
+        },
+        {
+          "name": "Popup left edge",
+          "changed": 0,
+          "pixels": 28,
+          "review": false
+        },
+        {
+          "name": "Themes tab top",
+          "changed": 0,
+          "pixels": 51,
+          "review": false
+        },
+        {
+          "name": "Appearance tab top",
+          "changed": 0,
+          "pixels": 80,
+          "review": false
+        },
+        {
+          "name": "Fonts tab top",
+          "changed": 0,
+          "pixels": 36,
+          "review": false
+        },
+        {
+          "name": "Desktop tab top",
+          "changed": 0,
+          "pixels": 53,
+          "review": false
+        },
+        {
+          "name": "Sound tab top",
+          "changed": 0,
+          "pixels": 41,
+          "review": false
+        },
+        {
+          "name": "Options tab top",
+          "changed": 0,
+          "pixels": 50,
+          "review": false
+        },
+        {
+          "name": "Tab well bevel, left",
+          "changed": 0,
+          "pixels": 78,
+          "review": false
+        },
+        {
+          "name": "Tab well bevel, right",
+          "changed": 0,
+          "pixels": 288,
+          "review": false
+        },
+        {
+          "name": "Tab well highlight, left",
+          "changed": 0,
+          "pixels": 76,
+          "review": false
+        },
+        {
+          "name": "Tab well highlight, right",
+          "changed": 0,
+          "pixels": 286,
+          "review": false
+        },
+        {
+          "name": "Selected tab inner bevel",
+          "changed": 0,
+          "pixels": 158,
+          "review": false
+        },
+        {
+          "name": "Selected tab meets panel",
+          "changed": 0,
+          "pixels": 279,
+          "review": false
+        },
+        {
+          "name": "Lower window edge",
+          "changed": 0,
+          "pixels": 1080,
+          "review": false
+        },
+        {
+          "name": "Popup lower edge",
+          "changed": 0,
+          "pixels": 540,
+          "review": false
+        },
+        {
+          "name": "Popup right edge and arrow",
+          "changed": 0,
+          "pixels": 308,
+          "review": false
+        },
+        {
+          "name": "Upper inset bevel left of pointer",
+          "changed": 0,
+          "pixels": 8,
+          "review": false
+        },
+        {
+          "name": "Upper inset bevel right of pointer",
+          "changed": 0,
+          "pixels": 449,
+          "review": false
+        },
+        {
+          "name": "Upper inset keyline left of pointer",
+          "changed": 0,
+          "pixels": 7,
+          "review": false
+        },
+        {
+          "name": "Upper inset keyline right of pointer",
+          "changed": 0,
+          "pixels": 448,
+          "review": false
+        }
+      ],
+      "hashes": {
+        "original": "903d7736c360181248a7a2788da10c5aa873ac4f6707038286f57a40d3828849",
+        "rendered": "3b7437ec16b7da59222f1bb0c498e24ff002bf613c3da0ffd803a35254369c29",
+        "difference": "77d7d88f34ca8d0bd9731eb7ebf322da95ed35b372c9629bfee02cd25148fd51",
+        "capture": "331ba1a3f2de5565d187f219c6fc84590f5863754874c0e43fbd8c083b15fe6a"
+      }
+    },
+    {
+      "id": "appearance-collapsed",
+      "changed": 585,
+      "pixels": 10971,
+      "absoluteError": 160033,
+      "regions": [
+        {
+          "name": "Top keyline and inner highlight",
+          "changed": 0,
+          "pixels": 220,
+          "review": false
+        },
+        {
+          "name": "Left frame and bevel",
+          "changed": 0,
+          "pixels": 30,
+          "review": false
+        },
+        {
+          "name": "Close box and etched rim",
+          "changed": 0,
+          "pixels": 169,
+          "review": false
+        },
+        {
+          "name": "Left ends of all six title ridges",
+          "changed": 0,
+          "pixels": 1260,
+          "review": false
+        },
+        {
+          "name": "WindowShade box",
+          "changed": 0,
+          "pixels": 169,
+          "review": false
+        },
+        {
+          "name": "Right ends of title ridges",
+          "changed": 0,
+          "pixels": 120,
+          "review": false
+        },
+        {
+          "name": "Title type",
+          "changed": 579,
+          "pixels": 1520,
+          "review": true
+        },
+        {
+          "name": "Folded lower edge",
+          "changed": 0,
+          "pixels": 1395,
+          "review": false
+        }
+      ],
+      "hashes": {
+        "original": "11985221ad4642745f8d91675d0c5dcd52335f1242f9b15b0a5eef780ebab27f",
+        "rendered": "77aeda4f6b6dba38934dffc8334896245c5b0c2eb798cbb4f0ad76eb6dcc785d",
+        "difference": "6140db843ea3c5c095ddd06db0bb9b04b86309ac578db77d714353d68ccd0b84",
+        "capture": "3924475fad0e15b6e257ee07a9365189d9e9ed09c27f8c60feb5869623833e43"
+      }
+    },
+    {
+      "id": "appearance-restored",
+      "changed": 10733,
+      "pixels": 161703,
+      "absoluteError": 3088471,
+      "regions": [
+        {
+          "name": "Top keyline and inner highlight",
+          "changed": 0,
+          "pixels": 220,
+          "review": false
+        },
+        {
+          "name": "Left frame and bevel",
+          "changed": 0,
+          "pixels": 30,
+          "review": false
+        },
+        {
+          "name": "Close box and etched rim",
+          "changed": 0,
+          "pixels": 169,
+          "review": false
+        },
+        {
+          "name": "Left ends of all six title ridges",
+          "changed": 0,
+          "pixels": 1260,
+          "review": false
+        },
+        {
+          "name": "WindowShade box",
+          "changed": 0,
+          "pixels": 169,
+          "review": false
+        },
+        {
+          "name": "Right ends of title ridges",
+          "changed": 0,
+          "pixels": 120,
+          "review": false
+        },
+        {
+          "name": "Title type",
+          "changed": 579,
+          "pixels": 1520,
+          "review": true
+        },
+        {
+          "name": "Panel surface",
+          "changed": 0,
+          "pixels": 42000,
+          "review": false
+        },
+        {
+          "name": "Left panel bevel",
+          "changed": 0,
+          "pixels": 520,
+          "review": false
+        },
+        {
+          "name": "Right panel keyline",
+          "changed": 0,
+          "pixels": 260,
+          "review": false
+        },
+        {
+          "name": "Purple highlight selection",
+          "changed": 0,
+          "pixels": 120,
+          "review": false
+        },
+        {
+          "name": "Lavender variation",
+          "changed": 0,
+          "pixels": 120,
+          "review": false
+        },
+        {
+          "name": "Popup upper edge",
+          "changed": 0,
+          "pixels": 540,
+          "review": false
+        },
+        {
+          "name": "Highlight selector arrow",
+          "changed": 0,
+          "pixels": 308,
+          "review": false
+        },
+        {
+          "name": "Variation selector arrow",
+          "changed": 0,
+          "pixels": 308,
+          "review": false
+        },
+        {
+          "name": "Tab titles and tab shoulders",
+          "changed": 3408,
+          "pixels": 10488,
+          "review": true
+        },
+        {
+          "name": "Field labels and help",
+          "changed": 5641,
+          "pixels": 33960,
+          "review": true
+        },
+        {
+          "name": "Popup left edge",
+          "changed": 0,
+          "pixels": 28,
+          "review": false
+        },
+        {
+          "name": "Themes tab top",
+          "changed": 0,
+          "pixels": 51,
+          "review": false
+        },
+        {
+          "name": "Appearance tab top",
+          "changed": 0,
+          "pixels": 80,
+          "review": false
+        },
+        {
+          "name": "Fonts tab top",
+          "changed": 0,
+          "pixels": 36,
+          "review": false
+        },
+        {
+          "name": "Desktop tab top",
+          "changed": 0,
+          "pixels": 53,
+          "review": false
+        },
+        {
+          "name": "Sound tab top",
+          "changed": 0,
+          "pixels": 41,
+          "review": false
+        },
+        {
+          "name": "Options tab top",
+          "changed": 0,
+          "pixels": 50,
+          "review": false
+        },
+        {
+          "name": "Tab well bevel, left",
+          "changed": 0,
+          "pixels": 78,
+          "review": false
+        },
+        {
+          "name": "Tab well bevel, right",
+          "changed": 0,
+          "pixels": 288,
+          "review": false
+        },
+        {
+          "name": "Tab well highlight, left",
+          "changed": 0,
+          "pixels": 76,
+          "review": false
+        },
+        {
+          "name": "Tab well highlight, right",
+          "changed": 0,
+          "pixels": 286,
+          "review": false
+        },
+        {
+          "name": "Selected tab inner bevel",
+          "changed": 0,
+          "pixels": 158,
+          "review": false
+        },
+        {
+          "name": "Selected tab meets panel",
+          "changed": 0,
+          "pixels": 279,
+          "review": false
+        },
+        {
+          "name": "Lower window edge",
+          "changed": 0,
+          "pixels": 1080,
+          "review": false
+        },
+        {
+          "name": "Popup lower edge",
+          "changed": 0,
+          "pixels": 540,
+          "review": false
+        },
+        {
+          "name": "Popup right edge and arrow",
+          "changed": 0,
+          "pixels": 308,
+          "review": false
+        },
+        {
+          "name": "Upper inset bevel",
+          "changed": 0,
+          "pixels": 467,
+          "review": false
+        },
+        {
+          "name": "Upper inset keyline",
+          "changed": 0,
+          "pixels": 466,
+          "review": false
+        }
+      ],
+      "hashes": {
+        "original": "8997d993e6f93eecc316f3d86229d44d1454bc53884b2fdd0431c5a0d1c3cbb4",
+        "rendered": "1df00ab1e52476abaefa60c5b4ac440c6b073690026d1f0b821c381c3b50d98c",
+        "difference": "cb8f6a934f15fa3641c45b1501112b3c04101640414414c929de4947b6d7a19f",
+        "capture": "66160a134d2d73cc57f6ce5d17de6a1c9e512f076d48a85bd43c3f58a72188fb"
+      }
+    },
+    {
+      "id": "appearance-menu",
+      "changed": 10888,
+      "pixels": 161703,
+      "absoluteError": 3143103,
+      "regions": [
+        {
+          "name": "Top keyline and inner highlight",
+          "changed": 0,
+          "pixels": 220,
+          "review": false
+        },
+        {
+          "name": "Left frame and bevel",
+          "changed": 0,
+          "pixels": 30,
+          "review": false
+        },
+        {
+          "name": "Close box and etched rim",
+          "changed": 0,
+          "pixels": 169,
+          "review": false
+        },
+        {
+          "name": "Left ends of all six title ridges",
+          "changed": 0,
+          "pixels": 1260,
+          "review": false
+        },
+        {
+          "name": "WindowShade box",
+          "changed": 0,
+          "pixels": 169,
+          "review": false
+        },
+        {
+          "name": "Right ends of title ridges",
+          "changed": 0,
+          "pixels": 120,
+          "review": false
+        },
+        {
+          "name": "Title type",
+          "changed": 579,
+          "pixels": 1520,
+          "review": true
+        },
+        {
+          "name": "Panel surface",
+          "changed": 0,
+          "pixels": 42000,
+          "review": false
+        },
+        {
+          "name": "Left panel bevel",
+          "changed": 0,
+          "pixels": 520,
+          "review": false
+        },
+        {
+          "name": "Right panel keyline",
+          "changed": 0,
+          "pixels": 260,
+          "review": false
+        },
+        {
+          "name": "Purple highlight selection",
+          "changed": 0,
+          "pixels": 120,
+          "review": false
+        },
+        {
+          "name": "Lavender variation",
+          "changed": 0,
+          "pixels": 120,
+          "review": false
+        },
+        {
+          "name": "Popup upper edge",
+          "changed": 0,
+          "pixels": 540,
+          "review": false
+        },
+        {
+          "name": "Highlight selector arrow",
+          "changed": 0,
+          "pixels": 308,
+          "review": false
+        },
+        {
+          "name": "Variation selector arrow",
+          "changed": 0,
+          "pixels": 308,
+          "review": false
+        },
+        {
+          "name": "Tab titles and tab shoulders",
+          "changed": 3408,
+          "pixels": 10488,
+          "review": true
+        },
+        {
+          "name": "Field labels and help",
+          "changed": 5796,
+          "pixels": 33960,
+          "review": true
+        },
+        {
+          "name": "Popup left edge",
+          "changed": 0,
+          "pixels": 28,
+          "review": false
+        },
+        {
+          "name": "Themes tab top",
+          "changed": 0,
+          "pixels": 51,
+          "review": false
+        },
+        {
+          "name": "Appearance tab top",
+          "changed": 0,
+          "pixels": 80,
+          "review": false
+        },
+        {
+          "name": "Fonts tab top",
+          "changed": 0,
+          "pixels": 36,
+          "review": false
+        },
+        {
+          "name": "Desktop tab top",
+          "changed": 0,
+          "pixels": 53,
+          "review": false
+        },
+        {
+          "name": "Sound tab top",
+          "changed": 0,
+          "pixels": 41,
+          "review": false
+        },
+        {
+          "name": "Options tab top",
+          "changed": 0,
+          "pixels": 50,
+          "review": false
+        },
+        {
+          "name": "Tab well bevel, left",
+          "changed": 0,
+          "pixels": 78,
+          "review": false
+        },
+        {
+          "name": "Tab well bevel, right",
+          "changed": 0,
+          "pixels": 288,
+          "review": false
+        },
+        {
+          "name": "Tab well highlight, left",
+          "changed": 0,
+          "pixels": 76,
+          "review": false
+        },
+        {
+          "name": "Tab well highlight, right",
+          "changed": 0,
+          "pixels": 286,
+          "review": false
+        },
+        {
+          "name": "Selected tab inner bevel",
+          "changed": 0,
+          "pixels": 158,
+          "review": false
+        },
+        {
+          "name": "Selected tab meets panel",
+          "changed": 0,
+          "pixels": 279,
+          "review": false
+        },
+        {
+          "name": "Lower window edge",
+          "changed": 0,
+          "pixels": 1080,
+          "review": false
+        },
+        {
+          "name": "Lower edge left of pointer",
+          "changed": 0,
+          "pixels": 498,
+          "review": false
+        },
+        {
+          "name": "Lower edge right of pointer",
+          "changed": 0,
+          "pixels": 9,
+          "review": false
+        },
+        {
+          "name": "Arrow left of pointer",
+          "changed": 0,
+          "pixels": 102,
+          "review": false
+        },
+        {
+          "name": "Arrow above pointer",
+          "changed": 0,
+          "pixels": 66,
+          "review": false
+        },
+        {
+          "name": "Outer edge right of pointer",
+          "changed": 0,
+          "pixels": 42,
+          "review": false
+        },
+        {
+          "name": "Selected checkmark and text",
+          "changed": 754,
+          "pixels": 2002,
+          "review": true
+        },
+        {
+          "name": "Guest menu pointer",
+          "changed": 89,
+          "pixels": 176,
+          "review": true
+        },
+        {
+          "name": "Upper inset bevel",
+          "changed": 0,
+          "pixels": 467,
+          "review": false
+        },
+        {
+          "name": "Upper inset keyline",
+          "changed": 0,
+          "pixels": 466,
+          "review": false
+        }
+      ],
+      "hashes": {
+        "original": "8c86026b93ce130dc2c8fc84ce2b5131a867f5af25a56f4543ff78eed7bbf09b",
+        "rendered": "b22473c5f35a71588e2137d5ef992d5838bd80908f886923020fec35f9c26809",
+        "difference": "d0db91cf0ed122aaf5b5bc8d15fa04f30a636850c5e5203254026faf71e7be3b",
+        "capture": "5ace1e0ed07d425a803ce1ad8a997dc4ab19d1bb97613b974b091939d457b7f4"
+      }
+    }
+  ]
+}

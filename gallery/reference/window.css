@@ -1,0 +1,84 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  background: transparent;
+}
+
+#specimen {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: #9999cc;
+}
+
+/* One trailing pixel belongs to the guest's hard window shadow. */
+#specimen::before {
+  content: "";
+  position: absolute;
+  inset: 2px 0 0 2px;
+  background: black;
+}
+
+#specimen:has([data-inactive="true"])::before {
+  background: #555;
+}
+
+.sample-window {
+  --pt-titlebar-h: 19px;
+  --pt-tb-padding: 3px;
+  --pt-tb-gap: 3px;
+  --pt-tb-stripe-start: 20px;
+  --pt-tb-stripe-width: calc(100% - 57px);
+  --pt-tb-stripe-top: 3px;
+  --pt-tb-halo: none;
+  --pt-frame: #000;
+  --pt-bevel-window: inset 1px 1px #fff, inset -1px -1px #999;
+  --pt-shadow-window: 0 0 transparent;
+  position: absolute;
+  inset: 0 1px 1px 0;
+}
+[data-window="appearance"] .sample-window {
+  --pt-tb-stripe-width: calc(100% - 41px);
+}
+
+.sample-window .pt-titlebar {
+  border: none;
+  box-shadow: inset 1px 1px #fff, inset -1px 0 #999;
+}
+
+.sample-window .pt-titlebar-label {
+  display: flex;
+  gap: 3px;
+  align-items: center;
+  padding: 0 3px;
+  color: #000;
+  font: bold 13px/16px Charcoal, Geneva, sans-serif;
+}
+
+.sample-window[data-inactive="true"] {
+  --pt-window: #ddd;
+  --pt-frame: #555;
+  --pt-bevel-window: none;
+}
+
+.sample-window[data-inactive="true"] .pt-titlebar {
+  box-shadow: none;
+}
+
+.sample-window[data-inactive="true"] .pt-titlebar-label {
+  color: #777;
+}
+
+.folder-proxy {
+  display: inline-block;
+  width: 14px;
+  height: 12px;
+  border: 1px solid #393972;
+  border-radius: 1px;
+  background: linear-gradient(30deg, #7777bc, #aaaadd 55%, #ccccee);
+  transform: skewY(13deg) scale(.9);
+}
+
+.sample-window[data-inactive="true"] .folder-proxy {
+  opacity: .45;
+}

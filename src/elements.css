@@ -269,22 +269,13 @@
   }
 
   __PT_SCOPE__ *::-webkit-scrollbar-thumb {
-    background-color: var(--pt-scroll-thumb);
-    background-image: repeating-linear-gradient(
-      to bottom,
-      rgba(255, 255, 255, 0.75) 0 1px,
-      rgba(38, 38, 38, 0.58) 1px 2px
-    );
-    background-size: 7px 6px;
-    background-repeat: no-repeat;
-    background-position: center;
+    background: var(--pt-scroll-grip-v), var(--pt-scroll-thumb);
     border: 1px solid var(--pt-frame);
     box-shadow: inset 1px 1px 0 var(--pt-scroll-thumb-hi), inset -1px -1px 0 var(--pt-scroll-thumb-lo);
   }
 
   __PT_SCROLL_SCOPE__ *::-webkit-scrollbar-thumb:horizontal {
-    background-image: repeating-linear-gradient(to right, rgba(255, 255, 255, 0.75) 0 1px, rgba(38, 38, 38, 0.58) 1px 2px);
-    background-size: 6px 7px;
+    background: var(--pt-scroll-grip-h), var(--pt-scroll-thumb);
   }
 
   __PT_SCOPE__ *::-webkit-scrollbar-thumb:active {
