@@ -88,14 +88,13 @@ ${emitVars(tokens.density.comfortable)}
 }
 
 function compileElementsCss(rawElements, { scopedOnly = false } = {}) {
-  if (scopedOnly) {
-    return rawElements
-      .replaceAll("__PT_ROOT__", "[data-platinum]")
-      .replaceAll("__PT_SCOPE__", "[data-platinum]");
-  }
+  const scope = scopedOnly ? "[data-platinum]" : ":is(:root, body)";
+  // Blink misses scrollbar orientation selectors under :is(:root, body).
+  const scrollScope = scopedOnly ? "[data-platinum]" : "html";
   return rawElements
-    .replaceAll("__PT_ROOT__", ":is(:root, body)")
-    .replaceAll("__PT_SCOPE__", ":is(:root, body)");
+    .replaceAll("__PT_ROOT__", scope)
+    .replaceAll("__PT_SCOPE__", scope)
+    .replaceAll("__PT_SCROLL_SCOPE__", scrollScope);
 }
 
 export function buildAllBundles(root = ROOT) {

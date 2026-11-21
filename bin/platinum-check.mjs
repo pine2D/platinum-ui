@@ -653,7 +653,7 @@ export function findIconButtonIssues(probeData, contextLabel = "page") {
   return issues;
 }
 
-function resolvePlaywright() {
+export function resolvePlaywright() {
   const candidates = [
     join(ROOT, "node_modules/playwright"),
     process.env.PLAYWRIGHT_MODULE_PATH

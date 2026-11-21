@@ -143,13 +143,13 @@
     border-radius: 50%;
   }
 
-  __PT_SCOPE__ input[type="checkbox"]:not(.pt-checkbox, .pt-switch-input, .pt-unstyled):checked,
+  __PT_SCOPE__ input[type="checkbox"]:not(.pt-checkbox, .pt-switch-input, .pt-unstyled):is(:checked, :indeterminate),
   __PT_SCOPE__ input[type="radio"]:not(.pt-radio, .pt-unstyled):checked {
     background: var(--pt-pressed-bg);
     box-shadow: var(--pt-bevel-pressed);
   }
 
-  __PT_SCOPE__ input[type="checkbox"]:not(.pt-checkbox, .pt-switch-input, .pt-unstyled):checked::after {
+  __PT_SCOPE__ input[type="checkbox"]:not(.pt-checkbox, .pt-switch-input, .pt-unstyled):checked:not(:indeterminate)::after {
     content: "";
     box-sizing: border-box;
     width: 8px;
@@ -157,6 +157,13 @@
     border-left: 2px solid var(--pt-pressed-fg);
     border-bottom: 2px solid var(--pt-pressed-fg);
     transform: translateY(-1px) rotate(-45deg);
+  }
+
+  __PT_SCOPE__ input[type="checkbox"]:not(.pt-checkbox, .pt-switch-input, .pt-unstyled):indeterminate::after {
+    content: "";
+    box-sizing: border-box;
+    width: 8px;
+    border-top: 2px solid var(--pt-pressed-fg);
   }
 
   __PT_SCOPE__ input[type="radio"]:not(.pt-radio, .pt-unstyled):checked::after {
@@ -263,20 +270,21 @@
 
   __PT_SCOPE__ *::-webkit-scrollbar-thumb {
     background-color: var(--pt-scroll-thumb);
-    background-image: linear-gradient(
+    background-image: repeating-linear-gradient(
       to bottom,
       rgba(255, 255, 255, 0.75) 0 1px,
-      rgba(38, 38, 38, 0.58) 1px 2px,
-      rgba(255, 255, 255, 0.75) 2px 3px,
-      rgba(38, 38, 38, 0.58) 3px 4px,
-      rgba(255, 255, 255, 0.75) 4px 5px,
-      rgba(38, 38, 38, 0.58) 5px 6px
+      rgba(38, 38, 38, 0.58) 1px 2px
     );
     background-size: 7px 6px;
     background-repeat: no-repeat;
     background-position: center;
     border: 1px solid var(--pt-frame);
     box-shadow: inset 1px 1px 0 var(--pt-scroll-thumb-hi), inset -1px -1px 0 var(--pt-scroll-thumb-lo);
+  }
+
+  __PT_SCROLL_SCOPE__ *::-webkit-scrollbar-thumb:horizontal {
+    background-image: repeating-linear-gradient(to right, rgba(255, 255, 255, 0.75) 0 1px, rgba(38, 38, 38, 0.58) 1px 2px);
+    background-size: 6px 7px;
   }
 
   __PT_SCOPE__ *::-webkit-scrollbar-thumb:active {

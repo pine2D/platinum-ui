@@ -976,13 +976,13 @@
     border-radius: 50%;
   }
 
-  .pt-checkbox:checked,
+  .pt-checkbox:is(:checked, :indeterminate),
   .pt-radio:checked {
     background: var(--pt-pressed-bg);
     box-shadow: var(--pt-bevel-pressed);
   }
 
-  .pt-checkbox:checked::after {
+  .pt-checkbox:checked:not(:indeterminate)::after {
     content: "";
     box-sizing: border-box;
     width: 8px;
@@ -990,6 +990,13 @@
     border-left: 2px solid var(--pt-pressed-fg);
     border-bottom: 2px solid var(--pt-pressed-fg);
     transform: translateY(-1px) rotate(-45deg);
+  }
+
+  .pt-checkbox:indeterminate::after {
+    content: "";
+    box-sizing: border-box;
+    width: 8px;
+    border-top: 2px solid var(--pt-pressed-fg);
   }
 
   .pt-radio:checked::after {
@@ -1079,8 +1086,11 @@
   }
 
   /* ---- Bevel Popup Menu ---- */
-  .pt-menu {
+  :where(.pt-menu):where(:not([hidden])) {
     display: flex;
+  }
+
+  .pt-menu {
     flex-direction: column;
     min-width: 160px;
     padding: 3px 0;
@@ -1247,20 +1257,21 @@
 
   .pt-scroll::-webkit-scrollbar-thumb {
     background-color: var(--pt-scroll-thumb);
-    background-image: linear-gradient(
+    background-image: repeating-linear-gradient(
       to bottom,
       rgba(255, 255, 255, 0.75) 0 1px,
-      rgba(38, 38, 38, 0.58) 1px 2px,
-      rgba(255, 255, 255, 0.75) 2px 3px,
-      rgba(38, 38, 38, 0.58) 3px 4px,
-      rgba(255, 255, 255, 0.75) 4px 5px,
-      rgba(38, 38, 38, 0.58) 5px 6px
+      rgba(38, 38, 38, 0.58) 1px 2px
     );
     background-size: 7px 6px;
     background-repeat: no-repeat;
     background-position: center;
     border: 1px solid var(--pt-frame);
     box-shadow: inset 1px 1px 0 var(--pt-scroll-thumb-hi), inset -1px -1px 0 var(--pt-scroll-thumb-lo);
+  }
+
+  .pt-scroll::-webkit-scrollbar-thumb:horizontal {
+    background-image: repeating-linear-gradient(to right, rgba(255, 255, 255, 0.75) 0 1px, rgba(38, 38, 38, 0.58) 1px 2px);
+    background-size: 6px 7px;
   }
 
   .pt-scroll::-webkit-scrollbar-thumb:active {
