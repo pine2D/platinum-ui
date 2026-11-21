@@ -75,7 +75,7 @@
   },
   {
     "id": "holdout-1",
-    "split": "holdout",
+    "split": "dev",
     "source": "user",
     "prompt": "只改善搜索引擎设置页在深色模式下的键盘焦点，给它清晰的 Platinum 风格。保留现有布局和操作。",
     "files": [
@@ -90,7 +90,7 @@
       "深色键盘导航时能从渲染结果识别当前可操作项的焦点。",
       "原有页签可按既有键盘方式切换。",
       "仍能进入原有引擎编辑操作并返回设置。",
-      "浅色和非目标区域的布局、可操作性与原来一致。"
+      "浅色的显示和操作与原来一致。深色引擎页打开时，用 Shift+Tab 返回页头的语言下拉框，其焦点外框、尺寸和原版一致。"
     ],
     "fixture": {
       "repository": "split-search",
@@ -107,7 +107,7 @@
   },
   {
     "id": "holdout-2",
-    "split": "holdout",
+    "split": "dev",
     "source": "user",
     "prompt": "把这块会话区域整理成 Platinum 风格。",
     "files": [
@@ -132,6 +132,44 @@
         "desktop/scripts/fixtures-dom/chatgpt-single-turn.json"
       ],
       "setup": "以该提交已脱敏的会话 DOM 和对应元数据构建离线回放，在会话外放置独立宿主控件。保持原快照可用于比对。"
+    }
+  },
+  {
+    "id": "course-detail",
+    "split": "holdout",
+    "source": "doc",
+    "prompt": "课程首页的「查看活动详情」按钮，想让键盘选中时有清楚的 Platinum 外框。只改这个按钮的焦点。",
+    "files": ["project/", "PROJECT.md", "LOCAL.md", "platinum-ui/", "kit/"],
+    "checks": [
+      "按 Tab 到「查看活动详情」，截图能看出清晰且区别于原版的焦点外框。",
+      "未聚焦时该按钮的外观、大小和位置与原版一致。",
+      "回到同页公共控件，以及展开后进入报名表的提交按钮时，其焦点外观和尺寸与原版一致。",
+      "用 Enter 查看详情后焦点仍到称呼栏，已有的表单校验仍可用。"
+    ],
+    "fixture": {
+      "repository": "vibe-design-literacy-course",
+      "revision": "bfddae2b71c4bf6cef5bbe5da3ddb991994167b8",
+      "source_files": ["index.html"],
+      "setup": "用本地静态服务打开该提交的完整课程首页，从全新的浏览器上下文进入第 0 章。只用虚构输入。"
+    }
+  },
+  {
+    "id": "course-cards",
+    "split": "holdout",
+    "source": "doc",
+    "prompt": "借工具前测页里，只把第二张卡片标题的键盘焦点改得更醒目些，用 Platinum 风格。",
+    "files": ["project/", "PROJECT.md", "LOCAL.md", "platinum-ui/", "kit/"],
+    "checks": [
+      "第二张卡片折叠及展开时，键盘选中的标题上都能看见新的 Platinum 焦点边缘。",
+      "第二张卡片没有键盘焦点时，标题和内容的可见布局与原版一致。",
+      "保持第二张卡片展开，前后两张标题经键盘选中时的外观与尺寸逐一和原版一致。",
+      "原有 Tab 顺序、Enter 展开和空格收起仍可用。"
+    ],
+    "fixture": {
+      "repository": "vibe-design-literacy-course",
+      "revision": "bfddae2b71c4bf6cef5bbe5da3ddb991994167b8",
+      "source_files": ["PRETEST.html"],
+      "setup": "用本地静态服务打开该提交的完整前测页。保留三个原生可折叠标题及原页面样式。"
     }
   }
 ]

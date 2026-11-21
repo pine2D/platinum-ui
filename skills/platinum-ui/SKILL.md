@@ -12,7 +12,8 @@ description: 跨项目 Mac OS 9 Platinum 立体桌面设计系统接入、界面
 1. 先查找同级工作区或父级项目目录中的 `platinum-ui` 仓库（包含 `tokens/platinum.tokens.json`、`dist/platinum.css`、`bin/sync-vendor.mjs` 与 `bin/platinum-check.mjs`）；阅读其根目录 `DESIGN.md` 掌握完整令牌与原语契约。
 2. 已有页面的换肤范围含糊且会影响布局时，只问「保留现有布局、只换材质，还是也调整分区？」等答复再实施。范围明确或用户委托代选时直接做。
    - 用户明确选择「只换材质」时，按 `$SKILL_DIR/references/material-only.md` 保留可见边界，单独验收热区。
-   - 其余整套主题（含并入已有预设）按 `$SKILL_DIR/references/host-overlay-and-migration.md` 绘制窗框、金属工具条和下凹内容井。局部修复只改指定部位。
+   - 整套主题（含并入已有预设）按 `$SKILL_DIR/references/host-overlay-and-migration.md` 绘制窗框、金属工具条和下凹内容井。
+   - 局部修复只改点名的控件、区域和状态，共用的颜色变量也只在这里覆盖。涉及可操作控件时，改前改后都用 Tab 或 Shift+Tab 走到目标，再走到范围外一个共用原样式的控件。保持目标区域打开，对照两处的焦点外框，并试一次原有操作。若旁边的控件也变了，缩小样式范围再测。
    - 遇到样式冲突、泛紫、按钮偏心、斜面丢失、键帽碰撞或表格贴边：读 `$SKILL_DIR/references/anti-patterns-and-pitfalls.md`
    - 目标是 Electron 桌面应用（无边框横纹窗口、跨 `WebContentsView` 顶层菜单、React Portal）：读 `$SKILL_DIR/references/electron-frameless-and-menus.md`
    - 需要设计配套复古像素应用图标（`16×16` 整数像素清晰度、`.ico`/`.icns`）：读 `$SKILL_DIR/references/pixel-app-icons.md`
