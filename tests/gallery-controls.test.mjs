@@ -4,6 +4,7 @@ import { fileURLToPath } from "node:url";
 import { resolvePlaywright } from "../bin/platinum-check.mjs";
 
 const playwright = resolvePlaywright();
+const gallery = new URL("../gallery/index.html", import.meta.url);
 const cssPath = name => fileURLToPath(new URL(`../dist/${name}.css`, import.meta.url));
 
 describe("Platinum controls in Chromium", { skip: !playwright && "Playwright unavailable" }, () => {
@@ -46,6 +47,30 @@ describe("Platinum controls in Chromium", { skip: !playwright && "Playwright una
     }
   });
 
+  it("keeps the master checkbox in sync and scrolls the wide table within its own region", async t => {
+    const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
+    t.after(() => page.close());
+    await page.goto(gallery.href);
+    const master = page.getByRole("checkbox", { name: "All sync options" });
+    const options = page.locator('input[name="sync-option"]');
+    const mixed = () => master.evaluate(input => input.indeterminate);
+    assert.equal(await mixed(), true);
+    await master.press("Space");
+    assert.deepEqual(await options.evaluateAll(inputs => inputs.map(input => input.checked)), [true, true]);
+    await options.first().uncheck();
+    assert.equal(await mixed(), true);
+    await options.last().uncheck();
+    assert.equal(await mixed(), false);
+    assert.equal(await master.isChecked(), false);
+    const scroll = await page.getByRole("region", { name: "CSS bundles and host markup" }).evaluate(region => {
+      region.scrollLeft = region.scrollWidth;
+      const viewport = document.documentElement;
+      return [region.scrollLeft, viewport.scrollWidth - viewport.clientWidth];
+    });
+    assert.ok(scroll[0] > 0);
+    assert.equal(scroll[1], 0);
+  });
+
   it("paints three grip ridges across each scrollbar in all styled bundles", async t => {
     const page = await browser.newPage({ deviceScaleFactor: 1 });
     t.after(() => page.close());
@@ -85,5 +110,60 @@ describe("Platinum controls in Chromium", { skip: !playwright && "Playwright una
       }, png.toString("base64"));
       assert.deepEqual(grips, { horizontal: true, vertical: true }, bundle);
     }
+  });
+
+  it("navigates, dismisses and copies the working localized menu", async t => {
+    const page = await browser.newPage();
+    t.after(() => page.close());
+    await page.goto(gallery.href);
+    const trigger = page.getByRole("button", { name: "Workspace actions" });
+    const menu = page.getByRole("menu");
+    const items = menu.getByRole("menuitem");
+    const hasFocus = locator => locator.evaluate(el => el === document.activeElement);
+    await trigger.hover();
+    await trigger.press("Enter");
+    assert.equal(await trigger.getAttribute("aria-expanded"), "true");
+    assert.equal(await hasFocus(items.first()), true);
+    await items.first().hover();
+    await page.keyboard.press("ArrowDown");
+    assert.equal(await hasFocus(items.nth(1)), true);
+    assert.equal(await items.first().evaluate(el => getComputedStyle(el).backgroundColor), "rgba(0, 0, 0, 0)");
+    await page.keyboard.press("Escape");
+    assert.equal(await menu.isVisible(), false);
+    assert.equal(await hasFocus(trigger), true);
+    await trigger.press("ArrowUp");
+    assert.equal(await hasFocus(items.last()), true);
+    await page.keyboard.press("Home");
+    await page.keyboard.press("Space");
+    assert.equal(await page.locator("#workspace-command").innerText(), "New Workspace");
+    await page.getByRole("button", { name: "中文" }).click();
+    assert.equal(await page.locator("#workspace-command").innerText(), "新建工作区");
+
+    await page.locator(".menu-source summary").click();
+    const source = await page.locator("#menu-code").textContent();
+    assert.doesNotMatch(source, /data-i18n/);
+    // Exercise both clipboard outcomes without changing the system clipboard.
+    await page.evaluate(() => Object.defineProperty(navigator, "clipboard", {
+      configurable: true, value: { writeText: text => { window.copiedExample = text; } }
+    }));
+    await page.getByRole("button", { name: "复制示例" }).click();
+    assert.equal(await page.evaluate(() => window.copiedExample), source);
+    await page.evaluate(() => Object.defineProperty(navigator, "clipboard", { value: undefined }));
+    await page.getByRole("button", { name: "复制示例" }).click();
+    assert.equal(await page.evaluate(() => getSelection().toString()), source);
+
+    const host = await browser.newPage();
+    t.after(() => host.close());
+    await host.setContent('<!doctype html><html lang="zh-CN"><body>' + source + '<button>Next</button></body></html>');
+    await host.addStyleTag({ path: cssPath("platinum-core") });
+    const copiedTrigger = host.getByRole("button", { name: "工作区操作" });
+    await copiedTrigger.click();
+    await host.getByRole("menuitem", { name: "导出 Markdown" }).click();
+    assert.equal(await host.locator("output").textContent(), "导出 Markdown");
+    assert.equal(await hasFocus(copiedTrigger), true);
+    await copiedTrigger.press("ArrowDown");
+    await host.keyboard.press("Tab");
+    assert.equal(await hasFocus(host.getByRole("button", { name: "Next" })), true);
+    assert.equal(await copiedTrigger.getAttribute("aria-expanded"), "false");
   });
 });

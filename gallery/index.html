@@ -88,6 +88,20 @@
       font-family: var(--pt-font-mono);
       font-size: var(--pt-size-meta);
     }
+    .menu-source pre {
+      max-height: 20rem;
+      overflow: auto;
+    }
+    .bundle-table {
+      overflow-x: auto;
+    }
+    .bundle-table table {
+      margin: 0;
+      white-space: nowrap;
+    }
+    .bundle-table:focus-visible {
+      outline: 2px solid var(--pt-accent);
+    }
     .sr-only {
       position: absolute;
       width: 1px;
@@ -267,13 +281,19 @@
             <legend data-i18n="w2g2">Checkboxes, Radios &amp; Square Switch</legend>
             <div class="demo-row" style="gap: 16px;">
               <label class="demo-row" style="gap: 6px; cursor: pointer;">
-                <input type="checkbox" class="pt-checkbox" checked />
+                <input type="checkbox" class="pt-checkbox" id="all-sync-options" />
+                <span data-i18n="allSync">All sync options</span>
+              </label>
+              <label class="demo-row" style="gap: 6px; cursor: pointer;">
+                <input type="checkbox" class="pt-checkbox" name="sync-option" checked />
                 <span data-i18n="chk1">Cache vocabulary offline</span>
               </label>
               <label class="demo-row" style="gap: 6px; cursor: pointer;">
-                <input type="checkbox" class="pt-checkbox" />
+                <input type="checkbox" name="sync-option" />
                 <span data-i18n="chk2">Auto-archive snapshots</span>
               </label>
+            </div>
+            <div class="demo-row" style="gap: 16px; margin-top: 10px;">
               <label class="demo-row" style="gap: 6px; cursor: pointer;">
                 <input type="radio" name="sync-mode" class="pt-radio" checked />
                 <span data-i18n="rad1">Incremental merge</span>
@@ -311,13 +331,7 @@
         </header>
         <div class="pt-window-body demo-stack">
           <div class="demo-split">
-            <nav class="pt-menu" aria-label="Sample Platinum menu">
-              <button type="button" class="pt-menu-item"><span data-i18n="m1">New Workspace</span><span class="pt-menu-shortcut">⌘N</span></button>
-              <button type="button" class="pt-menu-item" aria-selected="true"><span data-i18n="m2">Export Markdown</span><span class="pt-menu-shortcut">⌘E</span></button>
-              <button type="button" class="pt-menu-item"><span data-i18n="m3">Send to Obsidian</span><span class="pt-menu-shortcut">⇧⌘O</span></button>
-              <hr class="pt-menu-sep" />
-              <button type="button" class="pt-menu-item"><span data-i18n="m4">Create Local Snapshot…</span><span class="pt-menu-shortcut">⌘S</span></button>
-            </nav>
+            <div id="menu-preview"></div>
 
             <div class="pt-well pt-scroll demo-list-well" role="listbox" aria-label="Scrollable list well">
               <div class="demo-list-item" role="option" aria-selected="true">
@@ -351,6 +365,18 @@
             </div>
           </div>
 
+          <details class="pt-disclosure menu-source">
+            <summary data-i18n="menuSource">View menu example code</summary>
+            <div class="pt-prose pt-code-window">
+              <div class="pt-code-window-head">
+                <span data-i18n="menuRequires">For pages using Platinum CSS</span>
+                <button type="button" class="pt-btn" id="copy-menu-code" data-i18n="copyExample">Copy example</button>
+              </div>
+              <pre class="pt-scroll"><code id="menu-code"></code></pre>
+            </div>
+            <span id="menu-copy-status" role="status"></span>
+          </details>
+
           <div class="swatch-strip" aria-label="Surface ramp preview">
             <div class="swatch-card" style="background: var(--pt-canvas); color: var(--pt-ink);">canvas</div>
             <div class="swatch-card" style="background: var(--pt-window); color: var(--pt-ink);">window</div>
@@ -369,7 +395,7 @@
           <button type="button" class="pt-tbox pt-tbox-zoom" data-win-action="zoom" aria-label="Zoom prose window"></button>
           <span class="pt-titlebar-label" data-i18n="w4Title">4 · Technical Prose, Code Window &amp; Table (.pt-prose)</span>
         </header>
-        <div class="pt-window-body">
+        <div class="pt-window-body demo-stack">
           <article class="pt-well pt-prose pt-scroll-pane" style="max-height: 300px;">
             <h2 data-i18n="proseH2">Cross-Project Integration Overview</h2>
             <p data-i18n-html="proseIntroHtml">Reading views use <code>13.5px / 1.56</code> typography inside a sunken paper well (<code style="white-space: nowrap">.pt-well</code>), with code blocks framed by a mini header bar and a <code>20×20px</code> copy button:</p>
@@ -383,12 +409,16 @@
               <pre><code>npx platinum-sync --target ./vendor --bundle scoped
 npx platinum-check --browser</code></pre>
             </div>
+          </article>
+          <div class="bundle-table pt-well pt-prose pt-scroll" role="region" tabindex="0" aria-labelledby="bundle-caption">
             <table>
+              <caption id="bundle-caption" data-i18n="bundleCaption">CSS bundles and host markup</caption>
               <thead>
                 <tr>
                   <th data-i18n="th1">Channel</th>
                   <th data-i18n="th2">Bundle</th>
                   <th data-i18n="th3">Typical Host</th>
+                  <th data-i18n="th4">Example markup</th>
                 </tr>
               </thead>
               <tbody>
@@ -396,24 +426,141 @@ npx platinum-check --browser</code></pre>
                   <td data-i18n="td1a">Full standalone app</td>
                   <td><code>platinum.css</code></td>
                   <td data-i18n="td1b">Electron / Standalone Web</td>
+                  <td><code>&lt;button&gt;</code></td>
                 </tr>
                 <tr>
                   <td data-i18n="td2a">Multi-theme isolation</td>
                   <td><code>platinum-scoped.css</code></td>
                   <td data-i18n="td2b">Browser extensions / Multi-theme</td>
+                  <td><code>&lt;section data-platinum&gt;</code></td>
                 </tr>
                 <tr>
                   <td data-i18n="td3a">Explicit primitives only</td>
                   <td><code>platinum-core.css</code></td>
                   <td data-i18n="td3b">Incremental migration</td>
+                  <td><code>&lt;button class="pt-btn"&gt;</code></td>
                 </tr>
               </tbody>
             </table>
-          </article>
+          </div>
         </div>
       </section>
     </div>
   </div>
+
+  <!-- The preview and its copyable source share this standalone fragment. -->
+  <template id="menu-example">
+<style>
+  .workspace-menu { position: relative; }
+  .workspace-menu [role="menu"] {
+    position: absolute;
+    inset-block-start: 100%;
+    inset-inline-start: 0;
+    z-index: 2;
+    width: max-content;
+  }
+  .workspace-menu [role="menuitem"]:hover:not(:focus) {
+    background: transparent;
+    color: inherit;
+  }
+  .workspace-menu [role="menuitem"]:focus {
+    background: var(--pt-menu-active-bg);
+    color: var(--pt-menu-active-fg);
+  }
+  @media (forced-colors: active) {
+    .workspace-menu [role="menuitem"]:focus {
+      outline: 2px solid Highlight;
+      outline-offset: -2px;
+    }
+  }
+</style>
+<div>
+  <div class="workspace-menu">
+    <button type="button" class="pt-btn" id="workspace-actions" aria-haspopup="menu" aria-expanded="false" aria-controls="workspace-menu">
+      <span data-i18n="menuTrigger">Workspace actions</span><span aria-hidden="true">▾</span>
+    </button>
+    <div class="pt-menu" id="workspace-menu" role="menu" aria-labelledby="workspace-actions" hidden>
+      <button type="button" class="pt-menu-item" role="menuitem" tabindex="-1"><span data-i18n="m1">New Workspace</span></button>
+      <button type="button" class="pt-menu-item" role="menuitem" tabindex="-1"><span data-i18n="m2">Export Markdown</span></button>
+      <button type="button" class="pt-menu-item" role="menuitem" tabindex="-1"><span data-i18n="m3">Send to Obsidian</span></button>
+      <hr class="pt-menu-sep">
+      <button type="button" class="pt-menu-item" role="menuitem" tabindex="-1"><span data-i18n="m4">Create Local Snapshot…</span></button>
+    </div>
+  </div>
+  <p><label for="workspace-command" data-i18n="menuResult">Selected command</label> · <output id="workspace-command">—</output></p>
+</div>
+<script>
+(() => {
+  const trigger = document.getElementById("workspace-actions");
+  const menu = document.getElementById("workspace-menu");
+  const output = document.getElementById("workspace-command");
+  const items = [...menu.querySelectorAll('[role="menuitem"]')];
+
+  function openMenu(item) {
+    menu.hidden = false;
+    trigger.setAttribute("aria-expanded", "true");
+    item.focus();
+  }
+  function closeMenu(restoreFocus) {
+    menu.hidden = true;
+    trigger.setAttribute("aria-expanded", "false");
+    if (restoreFocus) trigger.focus();
+  }
+
+  trigger.addEventListener("click", () => {
+    if (menu.hidden) openMenu(items[0]);
+    else closeMenu(true);
+  });
+  trigger.addEventListener("keydown", (event) => {
+    if (event.key !== "ArrowDown" && event.key !== "ArrowUp") return;
+    event.preventDefault();
+    openMenu(event.key === "ArrowUp" ? items.at(-1) : items[0]);
+  });
+  menu.addEventListener("keydown", (event) => {
+    const index = items.indexOf(document.activeElement);
+    switch (event.key) {
+      case "ArrowDown":
+        items[(index + 1) % items.length].focus();
+        break;
+      case "ArrowUp":
+        items[(index - 1 + items.length) % items.length].focus();
+        break;
+      case "Home":
+        items[0].focus();
+        break;
+      case "End":
+        items.at(-1).focus();
+        break;
+      case "Escape":
+        event.stopPropagation();
+        closeMenu(true);
+        break;
+      case "Tab":
+        closeMenu(true);
+        return; // Let the browser advance from the trigger.
+      default:
+        return; // Native buttons handle Enter and Space.
+    }
+    event.preventDefault();
+  });
+  menu.addEventListener("pointermove", (event) => {
+    if (event.pointerType !== "touch") event.target.closest('[role="menuitem"]')?.focus({ preventScroll: true });
+  });
+  menu.addEventListener("click", (event) => {
+    const item = event.target.closest('[role="menuitem"]');
+    if (!item) return;
+    output.replaceChildren(item.firstElementChild.cloneNode(true));
+    closeMenu(true);
+  });
+
+  function dismissOutside(event) {
+    if (!menu.hidden && !trigger.contains(event.target) && !menu.contains(event.target)) closeMenu(false);
+  }
+  document.addEventListener("pointerdown", dismissOutside);
+  document.addEventListener("focusin", dismissOutside);
+})();
+</script>
+  </template>
 
   <script>
     (() => {
@@ -455,6 +602,7 @@ npx platinum-check --browser</code></pre>
           searchVal: "Select this text to preview ::selection highlight",
           notesVal: "Sunken paper well (--pt-bevel-sunken): focus keeps the recessed bevel and layers an accent ring outside.",
           w2g2: "Checkboxes, Radios & Square Switch",
+          allSync: "All sync options",
           chk1: "Cache vocabulary offline",
           chk2: "Auto-archive snapshots",
           rad1: "Incremental merge",
@@ -463,6 +611,13 @@ npx platinum-check --browser</code></pre>
           discSummary: "Advanced sync diagnostics (3D disclosure triangle)",
           discBodyHtml: 'Hides the native marker and draws a pure-CSS rotating triangle with highlight drop shadow. Link example: <a href="#demo-windows" class="pt-link">Read cross-project guide</a>.',
           w3Title: "3 · Popup Menu & 15px Three-Ridge Scrollbar",
+          menuTrigger: "Workspace actions",
+          menuResult: "Selected command",
+          menuSource: "View menu example code",
+          menuRequires: "For pages using Platinum CSS",
+          copyExample: "Copy example",
+          copied: "Example copied.",
+          copyManually: "Code selected. Press Ctrl+C or ⌘C to copy.",
           m1: "New Workspace",
           m2: "Export Markdown",
           m3: "Send to Obsidian",
@@ -473,6 +628,8 @@ npx platinum-check --browser</code></pre>
           th1: "Channel",
           th2: "Bundle",
           th3: "Typical Host",
+          th4: "Example markup",
+          bundleCaption: "CSS bundles and host markup",
           td1a: "Full standalone app",
           td1b: "Electron / Standalone Web",
           td2a: "Multi-theme isolation",
@@ -517,6 +674,7 @@ npx platinum-check --browser</code></pre>
           searchVal: "选中这段文字体验 ::selection 高亮色",
           notesVal: "下凹白底输入井（--pt-bevel-sunken）：聚焦时保留内凹立体阴影并叠加外框焦点环。",
           w2g2: "布尔与枚举选择控件",
+          allSync: "全部同步选项",
           chk1: "离线缓存生词",
           chk2: "自动归档快照",
           rad1: "增量合并",
@@ -525,6 +683,13 @@ npx platinum-check --browser</code></pre>
           discSummary: "高级同步诊断（3D 金属折叠三角）",
           discBodyHtml: '禁用浏览器默认三角标记，统一由纯 CSS 绘制带高光投射的旋转折叠箭头，阅读链接示例：<a href="#demo-windows" class="pt-link">查看跨项目接入规范</a>。',
           w3Title: "3 · 弹出菜单反白与 15px 三横脊滚动条",
+          menuTrigger: "工作区操作",
+          menuResult: "选中的命令",
+          menuSource: "查看菜单示例代码",
+          menuRequires: "用于已加载 Platinum CSS 的页面",
+          copyExample: "复制示例",
+          copied: "已复制示例。",
+          copyManually: "已选中代码，按 Ctrl+C 或 ⌘C 复制。",
           m1: "新建工作区",
           m2: "导出 Markdown",
           m3: "发送到 Obsidian",
@@ -535,6 +700,8 @@ npx platinum-check --browser</code></pre>
           th1: "消费通道",
           th2: "目标文件",
           th3: "典型宿主",
+          th4: "标记示例",
+          bundleCaption: "CSS 文件与宿主标记",
           td1a: "全站独占引入",
           td1b: "独立桌面端 / 全新 Web 工具",
           td2a: "多主题属性隔离",
@@ -545,6 +712,36 @@ npx platinum-check --browser</code></pre>
       };
 
       const root = document.documentElement;
+      const menuTemplate = document.getElementById("menu-example");
+      const preview = document.importNode(menuTemplate.content, true);
+      document.head.append(preview.querySelector("style"));
+      document.getElementById("menu-preview").append(preview);
+      const menuCode = document.getElementById("menu-code");
+      const copyStatus = document.getElementById("menu-copy-status");
+
+      document.getElementById("copy-menu-code").addEventListener("click", async () => {
+        try {
+          await navigator.clipboard.writeText(menuCode.textContent);
+          copyStatus.textContent = I18N[root.lang].copied;
+        } catch {
+          window.getSelection().selectAllChildren(menuCode);
+          copyStatus.textContent = I18N[root.lang].copyManually;
+        }
+      });
+
+      const allOptions = document.getElementById("all-sync-options");
+      const syncOptions = [...document.querySelectorAll('input[name="sync-option"]')];
+      function updateAllOptions() {
+        const count = syncOptions.filter(option => option.checked).length;
+        allOptions.checked = count === syncOptions.length;
+        allOptions.indeterminate = count > 0 && count < syncOptions.length;
+      }
+      allOptions.addEventListener("change", () => {
+        for (const option of syncOptions) option.checked = allOptions.checked;
+      });
+      for (const option of syncOptions) option.addEventListener("change", updateAllOptions);
+      updateAllOptions();
+
       const restoreBtn = document.getElementById("restore-windows-btn");
       const syncPressed = (attr, value) => {
         for (const btn of document.querySelectorAll(`[${attr}]`)) {
@@ -563,15 +760,24 @@ npx platinum-check --browser</code></pre>
         return /^zh\b/i.test(raw) ? "zh-CN" : "en";
       };
 
+      function translateText(scope, dict, stripKeys = false) {
+        for (const el of scope.querySelectorAll("[data-i18n]")) {
+          const key = el.dataset.i18n;
+          if (dict[key] != null) el.textContent = dict[key];
+          if (stripKeys) delete el.dataset.i18n;
+        }
+      }
+
       const applyLang = (lang, { persist = false } = {}) => {
         const key = lang === "zh-CN" ? "zh-CN" : "en";
         const dict = I18N[key];
         root.lang = key;
         document.title = dict.pageTitle;
-        for (const el of document.querySelectorAll("[data-i18n]")) {
-          const k = el.getAttribute("data-i18n");
-          if (k && dict[k] != null) el.textContent = dict[k];
-        }
+        translateText(document, dict);
+        const example = menuTemplate.cloneNode(true);
+        translateText(example.content, dict, true);
+        menuCode.textContent = example.innerHTML.trim();
+        copyStatus.textContent = "";
         for (const el of document.querySelectorAll("[data-i18n-html]")) {
           const k = el.getAttribute("data-i18n-html");
           if (k && dict[k] != null) el.innerHTML = dict[k];
