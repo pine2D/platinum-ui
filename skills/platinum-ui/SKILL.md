@@ -10,8 +10,9 @@ description: 跨项目 Mac OS 9 Platinum 立体桌面设计系统接入、界面
 ## 1. 定位本地 `platinum-ui` 规范源
 
 1. 先查找同级工作区或父级项目目录中的 `platinum-ui` 仓库（包含 `tokens/platinum.tokens.json`、`dist/platinum.css`、`bin/sync-vendor.mjs` 与 `bin/platinum-check.mjs`）；阅读其根目录 `DESIGN.md` 掌握完整令牌与原语契约。
-2. 按任务场景按需阅读本技能自带参考手册：
-   - 给既有现代 Web / SaaS 应用或第三方宿主插件做换肤改造（宏观窗口化骨架、圆形钮清理、宿主零哈希类名边界与真机验收）：**必读** `$SKILL_DIR/references/host-overlay-and-migration.md`
+2. 已有页面的换肤范围含糊且会影响布局时，只问「保留现有布局、只换材质，还是也调整分区？」等答复再实施。范围明确或用户委托代选时直接做。
+   - 用户明确选择「只换材质」时，按 `$SKILL_DIR/references/material-only.md` 保留可见边界，单独验收热区。
+   - 其余整套主题（含并入已有预设）按 `$SKILL_DIR/references/host-overlay-and-migration.md` 绘制窗框、金属工具条和下凹内容井。局部修复只改指定部位。
    - 遇到样式冲突、泛紫、按钮偏心、斜面丢失、键帽碰撞或表格贴边：读 `$SKILL_DIR/references/anti-patterns-and-pitfalls.md`
    - 目标是 Electron 桌面应用（无边框横纹窗口、跨 `WebContentsView` 顶层菜单、React Portal）：读 `$SKILL_DIR/references/electron-frameless-and-menus.md`
    - 需要设计配套复古像素应用图标（`16×16` 整数像素清晰度、`.ico`/`.icns`）：读 `$SKILL_DIR/references/pixel-app-icons.md`
@@ -23,14 +24,14 @@ description: 跨项目 Mac OS 9 Platinum 立体桌面设计系统接入、界面
 1. **接入通道与宿主形态**：
    - **自有 DOM · 打包器项目（Vite / Webpack / Electron / Next）**：在 `package.json` 锁定 Tag（如 `github:pine2D/platinum-ui#v0.1.0`），按需 `import "platinum-ui/platinum.css"`（全站独占）或 `import "platinum-ui/scoped.css"`（多主题隔离）。
    - **自有 DOM · 零构建项目（原生 Chrome MV3 扩展 / 纯 HTML）**：运行 `node <platinum-ui>/bin/sync-vendor.mjs --target <目标目录> --bundle <full|scoped|core>` 同步带版本与 SHA-256 锁头的单文件 CSS，切勿手改同步产物。
-   - **第三方宿主 / 存量现代 SaaS 换肤（无法改动宿主 HTML/JSX，如插件主题覆盖层）**：先读 `$SKILL_DIR/references/host-overlay-and-migration.md`，同步 `--bundle tokens`（或 `scoped`）并编写宿主适配 CSS；开工前明确与用户确认「全桌面留白窗口化」还是「贴边机械工作台」，并按四层宏观骨架完成顶栏、页签、内容井、输入坞与全部圆形动作钮改造，**严禁仅给少数按钮加斜面就交付**。
+   - **第三方宿主**（无法改 HTML/JSX）：同步 `--bundle tokens` 或 `scoped`，用稳定的宿主选择器编写适配 CSS。
 2. **挂载范围**：
    - 全新独立应用或单一 Platinum 主题应用 → 选 `full`（`dist/platinum.css`），裸写 `<button>`、`<input>`、`<select>`、`<fieldset>`、`<details>` 即自动成型，复杂容器配 `.pt-window`、`.pt-titlebar`、`.pt-well`。
    - 与其他平铺主题并存或嵌入宿主网页 → 选 `scoped`（`dist/platinum-scoped.css`）或 `core`（`dist/platinum-core.css`），在容器挂 `data-platinum` 属性开启，外部 `:root` 零污染。
 3. **色板变体**：
    - **默认启用 `gray`（纯银灰 + 深石板蓝焦点，零紫色）**；仅当用户明确要求经典 Mac OS 9 薰衣草紫选区/滚动条时，在根节点挂 `data-platinum-accent="lavender"`。无论哪种变体，底盘明暗灰阶必须保持 `R=G=B`，**严禁按钮、芯片、代码块或普通悬停染紫**。
 4. **尺寸密度与跨平台窗口控制**：
-   - **默认启用 `compact`**（标准控件 `26px`、次级紧凑图标钮 `20px` 配 `--pt-bevel-mini` 与 `::before` `inset: -3px` `24×24px` 隐形热区、标题栏 `22px`）；表单密集的独立设置页可按需挂 `data-platinum-density="comfortable"`（`32px` / `24px`）。
+   - **整套接入默认 `compact`**（标准控件 `26px`、次级图标钮 `20px` 配 `--pt-bevel-mini` 与 `::before` `inset: -3px` 扩至 `24×24px` 热区、标题栏 `22px`）。密集设置页可选 `data-platinum-density="comfortable"`（`32px` / `24px`）。
    - **跨平台窗口控制（`data-platinum-controls`）**：默认 `mac9`（左侧空白斜面框关闭，右侧缩放/双横线折叠 `═`）；桌面端应用按运行系统在根节点挂 `data-platinum-controls="macos"`（左置三连 `×`/`−`/`□↔▣`）或 `data-platinum-controls="win"`（Win/Linux 右置三连 `−`/`□↔▣`/`×`）。空按钮由当前预设绘制，经典关闭框中央留空；真正最小化到任务栏的动作应使用最小化符号与对应的无障碍名称；若自写内嵌 `<svg>` 则自动让位。
 
 ## 3. 核心组件结构速查
