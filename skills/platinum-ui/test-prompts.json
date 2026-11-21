@@ -1,0 +1,134 @@
+[
+  {
+    "id": "dev-1",
+    "split": "dev",
+    "source": "real",
+    "prompt": "请给这个已有的 Pinboard 书签扩展加入 Platinum。直接合并到现有主题预设里，选一次就让扩展界面和 Pinboard 站点一起换肤。保留我的自定义 CSS，也要能切回原主题。",
+    "files": [
+      "project/",
+      "PROJECT.md",
+      "LOCAL.md",
+      "platinum-ui/",
+      "kit/"
+    ],
+    "checks": [
+      "键盘可以在现有预设入口选择 Platinum。该明确请求直接交付，不增设必答选择或第二个设置步骤。",
+      "选中同一预设后实际的扩展设置页和正常加载的站点页都呈现可辨别的 Platinum 外观。",
+      "切回既有主题或无预设后，两处都恢复对应的原有样式。",
+      "经过来回切换，个人 CSS 的存储内容逐字保留，而且仍在站点上生效。",
+      "输出的产品改动能独立应用到原项目，不依赖手工粘贴站点 CSS 或开发机旁边的规范仓库。"
+    ],
+    "fixture": {
+      "repository": "Pinboard-Bookmark-Enhanced",
+      "revision": "d4e7fb82efd45c8624597c1d7387b4fec2383a1f",
+      "source_files": [
+        "options.html",
+        "options.js",
+        "options.css",
+        "options-theme-early.js",
+        "pinboard-themes.js",
+        "pinboard-style.js",
+        "tests/fixtures/chrome-mock.js"
+      ],
+      "setup": "沿用该提交的实际设置页、依赖、保存逻辑与站点样式注入器。在同一本地源提供设置页和含示例书签的站点页，用 Chrome API 替身保存合成设置，预置独特的个人 CSS。通过设置页操作；测站点时按该版本原有方式重新加载。"
+    }
+  },
+  {
+    "id": "dev-2",
+    "split": "dev",
+    "source": "user",
+    "prompt": "把这个书签页改成 Platinum。",
+    "files": [
+      "project/",
+      "PROJECT.md",
+      "LOCAL.md",
+      "platinum-ui/",
+      "kit/"
+    ],
+    "checks": [
+      "用户能从产出辨明所采用的布局范围，以及保留布局或调整分区这一实质取舍；假设和已经确认的决定有区别。",
+      "启用后在实际页面可辨出 Platinum 的层次，搜索工具和书签/批量区域易辨认。",
+      "两个搜索按钮分别提交原有 mine、all 参数，原查询和全文复选状态可用。",
+      "批量操作仍可用键盘到达并进入原来的目标。",
+      "从 Platinum 切回 Original 后，宿主搜索/批量区域恢复原貌，无需修改宿主 HTML、脚本或原生 CSS。"
+    ],
+    "fixture": {
+      "repository": "Pinboard-Bookmark-Enhanced",
+      "revision": "d4e7fb82efd45c8624597c1d7387b4fec2383a1f",
+      "source_files": [
+        "tests/fixtures/pinboard-theme-pages.html"
+      ],
+      "setup": "取原页面的 search-sidebar、bulk 模板及原生 CSS，共用一个 main_column。宿主外的选择器切换 html[data-preset] 的 default/platinum；仅可交付 theme.css 及随包本地依赖。"
+    },
+    "interactive": {
+      "run": "另开允许用户应答的会话。先记录首轮回复与产品文件状态，再发送固定回复。结果单列。",
+      "reply": "只换材质，保留原有分区、布局和操作。",
+      "checks": [
+        "首轮提出一个能区分改版范围的问题",
+        "拿到用户选择前未写任何产品实现",
+        "拿到固定回复后遵守布局边界并真实交付可运行的换肤"
+      ]
+    }
+  },
+  {
+    "id": "holdout-1",
+    "split": "holdout",
+    "source": "user",
+    "prompt": "只改善搜索引擎设置页在深色模式下的键盘焦点，给它清晰的 Platinum 风格。保留现有布局和操作。",
+    "files": [
+      "project/",
+      "PROJECT.md",
+      "LOCAL.md",
+      "platinum-ui/",
+      "kit/"
+    ],
+    "checks": [
+      "明确的局部需求直接交付，修改局限于指定区域和焦点反馈。",
+      "深色键盘导航时能从渲染结果识别当前可操作项的焦点。",
+      "原有页签可按既有键盘方式切换。",
+      "仍能进入原有引擎编辑操作并返回设置。",
+      "浅色和非目标区域的布局、可操作性与原来一致。"
+    ],
+    "fixture": {
+      "repository": "split-search",
+      "revision": "b9308864e6fd18813e4c8d9d3a208ba4b3efc914",
+      "source_files": [
+        "src/options/options.html",
+        "src/options/options.css",
+        "src/options/tabs.js",
+        "src/options/engine-list.js",
+        "src/options/dialogs.js"
+      ],
+      "setup": "保留该版本设置页及其运行依赖、原有页签和引擎编辑事件。用独立浏览器配置及合成引擎数据回放深浅两态。"
+    }
+  },
+  {
+    "id": "holdout-2",
+    "split": "holdout",
+    "source": "user",
+    "prompt": "把这块会话区域整理成 Platinum 风格。",
+    "files": [
+      "project/",
+      "PROJECT.md",
+      "LOCAL.md",
+      "platinum-ui/",
+      "kit/"
+    ],
+    "checks": [
+      "能从产出辨明改版限于会话外观还是包含结构调整，以及未确认的实质取舍。",
+      "实际渲染中会话层次、文字和可见操作易辨认。",
+      "消息顺序与原页面一致。",
+      "既有正文提取结果与原快照一致。",
+      "关闭主题后恢复原样且会话区域外的控件不受污染。"
+    ],
+    "fixture": {
+      "repository": "polyask",
+      "revision": "bdf3ad3d838ff618008744020462ad0c2cfb31f6",
+      "source_files": [
+        "desktop/scripts/fixtures-dom/chatgpt-single-turn.html",
+        "desktop/scripts/fixtures-dom/chatgpt-single-turn.json"
+      ],
+      "setup": "以该提交已脱敏的会话 DOM 和对应元数据构建离线回放，在会话外放置独立宿主控件。保持原快照可用于比对。"
+    }
+  }
+]
