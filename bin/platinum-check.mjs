@@ -465,8 +465,138 @@ export const ICON_BUTTON_PROBE_SOURCE = `(() => {
       segmented: !!el.closest('.pt-segmented')
     });
   }
+
+  // Probe A: Residual circular / pill controls (border-radius >= 8px on non-radio controls)
+  const pillLeaks = [];
+  for (const el of document.querySelectorAll('button, [role="button"], [role="switch"], input:not([type="radio"], [type="checkbox"]), select, .pt-chip, .pt-badge')) {
+    if (el.closest('.pt-unstyled')) continue;
+    const cs = getComputedStyle(el);
+    if (cs.display === 'none' || cs.visibility === 'hidden') continue;
+    const rect = el.getBoundingClientRect();
+    if (rect.width <= 0 || rect.height <= 0) continue;
+    const maxR = Math.max(
+      parsePx(cs.borderTopLeftRadius),
+      parsePx(cs.borderTopRightRadius),
+      parsePx(cs.borderBottomRightRadius),
+      parsePx(cs.borderBottomLeftRadius)
+    );
+    if (maxR >= 8) {
+      pillLeaks.push({
+        tag: el.tagName.toLowerCase(),
+        cls: String(el.className || ''),
+        label: el.getAttribute('aria-label') || el.getAttribute('title') || (el.textContent || '').trim().slice(0, 24),
+        maxRadius: +maxR.toFixed(1)
+      });
+    }
+  }
+
+  // Probe B: Framed tables with cramped/flush cell padding (< 6px horizontal padding)
+  const crampedTableCells = [];
+  for (const tbl of document.querySelectorAll('table')) {
+    if (tbl.closest('.pt-unstyled')) continue;
+    const tcs = getComputedStyle(tbl);
+    if (tcs.display === 'none' || tcs.visibility === 'hidden') continue;
+    const tRect = tbl.getBoundingClientRect();
+    if (tRect.width <= 0 || tRect.height <= 0) continue;
+    const cells = [...tbl.querySelectorAll('th, td')].filter((c) => {
+      const ccs = getComputedStyle(c);
+      const cr = c.getBoundingClientRect();
+      return ccs.display !== 'none' && ccs.visibility !== 'hidden' && cr.width > 0 && cr.height > 0;
+    });
+    const tblHasBorder = parsePx(tcs.borderTopWidth) > 0 || parsePx(tcs.borderLeftWidth) > 0;
+    const framed = tblHasBorder || cells.some((c) => {
+      const ccs = getComputedStyle(c);
+      return parsePx(ccs.borderLeftWidth) > 0 || parsePx(ccs.borderRightWidth) > 0 ||
+        (c.tagName === 'TH' && ccs.backgroundColor && ccs.backgroundColor !== 'rgba(0, 0, 0, 0)' && ccs.backgroundColor !== 'transparent');
+    });
+    if (!framed) continue;
+    for (const c of cells) {
+      if (!(c.textContent || '').trim()) continue;
+      const ccs = getComputedStyle(c);
+      const pl = parsePx(ccs.paddingLeft);
+      const pr = parsePx(ccs.paddingRight);
+      if (pl < 6 || pr < 6) {
+        crampedTableCells.push({
+          tag: c.tagName.toLowerCase(),
+          text: (c.textContent || '').trim().slice(0, 24),
+          paddingLeft: +pl.toFixed(1),
+          paddingRight: +pr.toFixed(1)
+        });
+      }
+    }
+  }
+
+  // Probe C: 3D <kbd> inside interactive buttons/menus or child <kbd> colliding with button label/bounds
+  const buttonChildIssues = [];
+  for (const el of document.querySelectorAll('button, [role="menuitem"], [role="menuitemcheckbox"], [role="menuitemradio"]')) {
+    if (el.closest('.pt-unstyled')) continue;
+    const cs = getComputedStyle(el);
+    if (cs.display === 'none' || cs.visibility === 'hidden') continue;
+    const bRect = el.getBoundingClientRect();
+    if (bRect.width <= 0 || bRect.height <= 0) continue;
+    const kbds = [...el.querySelectorAll('kbd')].filter((k) => {
+      if (k.classList.contains('pt-kbd') || k.closest('.pt-unstyled')) return false;
+      const kcs = getComputedStyle(k);
+      const kr = k.getBoundingClientRect();
+      return kcs.display !== 'none' && kcs.visibility !== 'hidden' && kr.width > 0 && kr.height > 0;
+    });
+    if (kbds.length === 0) continue;
+    const label = el.getAttribute('aria-label') || el.getAttribute('title') || (el.textContent || '').trim().slice(0, 24);
+    for (const k of kbds) {
+      const kcs = getComputedStyle(k);
+      const has3dChrome = parsePx(kcs.borderTopWidth) > 0 || parsePx(kcs.borderLeftWidth) > 0 || (kcs.boxShadow && kcs.boxShadow !== 'none');
+      if (has3dChrome) {
+        buttonChildIssues.push({
+          kind: '3d-kbd-in-control',
+          label,
+          detail: '3D bordered/beveled <kbd> inside interactive button/menuitem'
+        });
+        break;
+      }
+    }
+    const textRects = [];
+    const tw = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+    let tn;
+    while ((tn = tw.nextNode())) {
+      if (!tn.textContent || !tn.textContent.trim()) continue;
+      const p = tn.parentElement;
+      if (!p || p.closest('svg, .sr-only, kbd')) continue;
+      if (getComputedStyle(p).display === 'none') continue;
+      const range = document.createRange();
+      range.selectNodeContents(tn);
+      const r = range.getBoundingClientRect();
+      if (r.width > 0 && r.height > 0) textRects.push(r);
+    }
+    let reportedOverflow = false;
+    let reportedOverlap = false;
+    for (const k of kbds) {
+      const kr = k.getBoundingClientRect();
+      if (!reportedOverflow && (kr.right > bRect.right + 1 || kr.left < bRect.left - 1)) {
+        reportedOverflow = true;
+        buttonChildIssues.push({
+          kind: 'kbd-overflow',
+          label,
+          detail: '<kbd> overflows enclosing control bounds'
+        });
+      }
+      const hitOverlap = !reportedOverlap && textRects.some((tr) =>
+        Math.min(tr.right, kr.right) - Math.max(tr.left, kr.left) > 1 &&
+        Math.min(tr.bottom, kr.bottom) - Math.max(tr.top, kr.top) > 1
+      );
+      if (hitOverlap) {
+        reportedOverlap = true;
+        buttonChildIssues.push({
+          kind: 'kbd-overlap',
+          label,
+          detail: '<kbd> overlaps button label text'
+        });
+      }
+      if (reportedOverflow && reportedOverlap) break;
+    }
+  }
+
   const overflowX = document.documentElement.scrollWidth - document.documentElement.clientWidth;
-  return { items, overflowX };
+  return { items, overflowX, pillLeaks, crampedTableCells, buttonChildIssues };
 })()`;
 
 export function findIconButtonIssues(probeData, contextLabel = "page") {
@@ -511,6 +641,15 @@ export function findIconButtonIssues(probeData, contextLabel = "page") {
       }
     }
   }
+  for (const p of probeData.pillLeaks || []) {
+    issues.push(`${contextLabel} <${p.tag}.${p.cls}> (${p.label}): residual pill/circle border-radius=${p.maxRadius}px >= 8px`);
+  }
+  for (const c of probeData.crampedTableCells || []) {
+    issues.push(`${contextLabel} framed table <${c.tag}> ("${c.text}"): flush cell padding ${c.paddingLeft}px/${c.paddingRight}px < 6px`);
+  }
+  for (const k of probeData.buttonChildIssues || []) {
+    issues.push(`${contextLabel} control (${k.label}): ${k.detail}`);
+  }
   return issues;
 }
 
@@ -552,7 +691,7 @@ export async function runBrowserAudit({ url, root = ROOT } = {}) {
     return { skipped: true, errors: [], statesChecked: 0 };
   }
   const targetUrl = url
-    ? (/^https?:|^file:/.test(url) ? url : pathToFileURL(resolve(url)).href)
+    ? (/^https?:|^file:|^data:/.test(url) ? url : pathToFileURL(resolve(url)).href)
     : pathToFileURL(join(root, "gallery/index.html")).href;
 
   const browser = await pw.chromium.launch({

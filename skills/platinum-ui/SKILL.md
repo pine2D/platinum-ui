@@ -11,7 +11,8 @@ description: 跨项目 Mac OS 9 Platinum 立体桌面设计系统接入、界面
 
 1. 先查找同级工作区或父级项目目录中的 `platinum-ui` 仓库（包含 `tokens/platinum.tokens.json`、`dist/platinum.css`、`bin/sync-vendor.mjs` 与 `bin/platinum-check.mjs`）；阅读其根目录 `DESIGN.md` 掌握完整令牌与原语契约。
 2. 按任务场景按需阅读本技能自带参考手册：
-   - 遇到样式冲突、泛紫、按钮偏心、斜面丢失或多主题迁移：读 `$SKILL_DIR/references/anti-patterns-and-pitfalls.md`
+   - 给既有现代 Web / SaaS 应用或第三方宿主插件做换肤改造（宏观窗口化骨架、圆形钮清理、宿主零哈希类名边界与真机验收）：**必读** `$SKILL_DIR/references/host-overlay-and-migration.md`
+   - 遇到样式冲突、泛紫、按钮偏心、斜面丢失、键帽碰撞或表格贴边：读 `$SKILL_DIR/references/anti-patterns-and-pitfalls.md`
    - 目标是 Electron 桌面应用（无边框横纹窗口、跨 `WebContentsView` 顶层菜单、React Portal）：读 `$SKILL_DIR/references/electron-frameless-and-menus.md`
    - 需要设计配套复古像素应用图标（`16×16` 整数像素清晰度、`.ico`/`.icns`）：读 `$SKILL_DIR/references/pixel-app-icons.md`
 
@@ -19,9 +20,10 @@ description: 跨项目 Mac OS 9 Platinum 立体桌面设计系统接入、界面
 
 接入任何目标项目前，按以下默认规范直接对齐（用户另有指定除外）：
 
-1. **接入通道**：
-   - **带打包器项目（Vite / Webpack / Electron / Next）**：在 `package.json` 引用本地 `platinum-ui`（或 Git Tag），按需 `import "platinum-ui/platinum.css"`（全站独占）或 `import "platinum-ui/scoped.css"`（多主题隔离）。
-   - **零构建项目（原生 Chrome MV3 扩展 / 纯 HTML）**：运行 `node <platinum-ui>/bin/sync-vendor.mjs --target <目标目录> --bundle <full|scoped|core>` 同步带版本与 SHA-256 锁头的单文件 CSS，切勿手改同步产物。
+1. **接入通道与宿主形态**：
+   - **自有 DOM · 打包器项目（Vite / Webpack / Electron / Next）**：在 `package.json` 锁定 Tag（如 `github:pine2D/platinum-ui#v0.1.0`），按需 `import "platinum-ui/platinum.css"`（全站独占）或 `import "platinum-ui/scoped.css"`（多主题隔离）。
+   - **自有 DOM · 零构建项目（原生 Chrome MV3 扩展 / 纯 HTML）**：运行 `node <platinum-ui>/bin/sync-vendor.mjs --target <目标目录> --bundle <full|scoped|core>` 同步带版本与 SHA-256 锁头的单文件 CSS，切勿手改同步产物。
+   - **第三方宿主 / 存量现代 SaaS 换肤（无法改动宿主 HTML/JSX，如插件主题覆盖层）**：先读 `$SKILL_DIR/references/host-overlay-and-migration.md`，同步 `--bundle tokens`（或 `scoped`）并编写宿主适配 CSS；开工前明确与用户确认「全桌面留白窗口化」还是「贴边机械工作台」，并按四层宏观骨架完成顶栏、页签、内容井、输入坞与全部圆形动作钮改造，**严禁仅给少数按钮加斜面就交付**。
 2. **挂载范围**：
    - 全新独立应用或单一 Platinum 主题应用 → 选 `full`（`dist/platinum.css`），裸写 `<button>`、`<input>`、`<select>`、`<fieldset>`、`<details>` 即自动成型，复杂容器配 `.pt-window`、`.pt-titlebar`、`.pt-well`。
    - 与其他平铺主题并存或嵌入宿主网页 → 选 `scoped`（`dist/platinum-scoped.css`）或 `core`（`dist/platinum-core.css`），在容器挂 `data-platinum` 属性开启，外部 `:root` 零污染。
@@ -49,4 +51,7 @@ description: 跨项目 Mac OS 9 Platinum 立体桌面设计系统接入、界面
    ```bash
    node <platinum-ui>/bin/sync-vendor.mjs --target <目标目录> --bundle <full|scoped|core> --check
    ```
-3. **真实浏览器几何与双模自查**：在 Chromium / Playwright 下同时验证 `light` 与 `dark` 两态（可复用 `<platinum-ui>/bin/platinum-check.mjs` 导出的 `ICON_BUTTON_PROBE_SOURCE` 与 `findIconButtonIssues`），确保所有可见按钮有效热区 `>= 24×24px`、纯图标按钮居中偏差 `<= 0.6px`、零横向滚动溢出。
+3. **真实浏览器几何、残余现代 UI 与目视双模自查**：在 Chromium / Playwright 下同时验证 `light` 与 `dark` 两态（复用 `<platinum-ui>/bin/platinum-check.mjs` 导出的 `ICON_BUTTON_PROBE_SOURCE` 与 `findIconButtonIssues`），确保：
+   - 所有常规可见按钮有效热区 `>= 24×24px`（`.pt-tbox` 窗控 `>= 18×22px` 且相邻零重叠）、纯图标按钮居中偏差 `<= 0.6px`、零横向滚动溢出；
+   - **零残余现代 UI 泄漏**：除 `radio` 外无 `border-radius >= 8px` 圆形/胶囊按钮、有框表格首尾列 `padding-inline >= 6px` 不贴边、按钮/菜单内无 3D `<kbd>` 键帽膨胀或子元素撞字；
+   - **真机目视门（宿主换肤必做）**：不可只用合成 mock DOM 过测即宣告完工，须对真实运行页（默认态 + 按钮/菜单悬停态 + 含表格长文页）截屏核对宏观窗口化层级与观感。

@@ -74,7 +74,7 @@ Once installed, ask Claude Code, Codex, or Antigravity to apply the `platinum-ui
 - `scripts/readme-shots.mjs` — `2×` lossless stage screenshot generator (`docs/screenshots/`)
 - `bin/{build,sync-vendor,platinum-check}.mjs` — Build, zero-build vendor sync, and automated audit CLIs
 - `skills/platinum-ui/SKILL.md` — Cross-agent skill definition
-- `skills/platinum-ui/references/` — Reference guides for Electron frameless windows/popup menus, `16px` pixel app icons, and CSS anti-patterns
+- `skills/platinum-ui/references/` — Reference guides for host-overlay SaaS theming, Electron frameless windows/popup menus, `16px` pixel app icons, and CSS anti-patterns
 - `DESIGN.md` — Complete visual and engineering specification
 
 ## License

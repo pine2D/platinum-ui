@@ -1,4 +1,4 @@
-# Platinum 十大高频反模式与根因对照表
+# Platinum 高频反模式与根因对照表
 
 汇总自多项目落地 Mac OS 9 Platinum 过程中真实踩过的返工点，改动业务样式前逐条对照。
 
@@ -14,3 +14,6 @@
 | 8 | 键盘聚焦时按钮或输入框立体斜面消失 | `:focus-visible { box-shadow: 0 0 0 2px var(--pt-accent); }` | 按钮用 `outline` 画焦点环；输入框用 `box-shadow: 0 0 0 1px var(--pt-accent), var(--pt-bevel-sunken)` 叠加保留内凹层 |
 | 9 | 粘性横纹标题栏遮挡滚动定位或 Tab 聚焦的首个输入框 | 仅给窗口顶部加 `position: sticky; top: 0` 标题条 | 给滚动窗格加 `.pt-scroll-pane`（或设 `scroll-padding-top: calc(var(--pt-titlebar-h) + 6px)`） |
 | 10 | 平铺主题遗留的负外边距导致立体按钮边框撞穿窗体边线 | 保留无框幽灵按钮的 `margin-inline: -6px` 光学悬挂 | 切换到有框立体控件时显式归零 `margin: 0`，并为链接型动作按钮补齐左右内距、去掉静息下划线 |
+| 11 | 按钮、菜单或气泡内的 `<kbd>` 快捷键被套上 3D 键帽，宽度暴涨并撞穿按钮文字（连 `+` 号都变成方块） | 全局 `kbd { min-width: 20px; border: 1px solid; box-shadow: ... }` | 独立文档/帮助页才用立体键帽并排除 `:has(kbd)` 嵌套外框；按钮、`[role="menuitem"]` 与 `[role="tooltip"]` 内的 `<kbd>` 必须回退为无框等宽平字并 `color: inherit` |
+| 12 | 无框现代表格切为有框 Platinum 表后，首尾列文字紧贴边框（`padding-left: 0`） | 仅给 `table` 和 `th, td` 补 `border` 与表头底色，漏覆写现代 Markdown 的首尾列零内距 | 凡开启有框表格或表头填充色，必须以覆盖 `:first-child` / `:last-child` 的特异性同步补齐对称内距（`padding: 6px 10px`）与完整四边边框；因 `dist/platinum.css` 位于 `@layer pt.prose`，覆盖**未分层**宿主 Markdown 样式时须把该条写在层外（unlayered） |
+| 13 | 第三方宿主换肤仅覆写 `--radius-*` 变量，遗漏 `border-radius: 50%/9999px` 圆形动作钮（如回底 `↓`、发送 `↑`）且整页仍为扁平 SaaS 骨架 | 只给少量明显槽位按钮加斜面，放任主框架、圆形 FAB 与下划线 Tab 保持原样 | 除 `input[type="radio"]` 外全界面禁用正圆/胶囊钮；按宏观四层窗口骨架改造顶栏、页签、内容井与输入坞，并用真机页面探针扫清圆角与扁平残余 |

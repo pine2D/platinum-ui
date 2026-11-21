@@ -74,7 +74,7 @@ npx skills add ./skills/platinum-ui -g -y
 - `scripts/readme-shots.mjs`：`2×` 无损实测舞台截图生成脚本（产物位于 `docs/screenshots/`）
 - `bin/{build,sync-vendor,platinum-check}.mjs`：构建、零构建同步与自动体检 CLI
 - `skills/platinum-ui/SKILL.md`：跨 Agent 通用技能定义
-- `skills/platinum-ui/references/`：Electron 无边框窗口/顶层菜单、`16px` 像素应用图标与实战反模式参考手册
+- `skills/platinum-ui/references/`：第三方宿主换肤/宏观窗口化、Electron 无边框窗口/顶层菜单、`16px` 像素应用图标与实战反模式参考手册
 - `DESIGN.md`：完整视觉与工程规范说明书
 
 ## 许可证

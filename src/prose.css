@@ -113,7 +113,8 @@
   }
 
   .pt-prose th,
-  .pt-prose td {
+  .pt-prose td,
+  .pt-prose :is(th, td):is(:first-child, :last-child) {
     padding: 6px 10px;
     border: 1px solid var(--pt-border-subtle);
     text-align: start;

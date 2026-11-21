@@ -64,3 +64,6 @@
 6. **聚焦环与内凹/凸起阴影合成**：`.pt-btn:focus-visible` 用 `outline` 绘制焦点环，`.pt-field:focus-visible` 用 `box-shadow: 0 0 0 1px var(--pt-accent), var(--pt-bevel-sunken)` 合成，绝不能用单层 `box-shadow` 抹掉立体斜面。
 7. **粘性横纹标题栏滚动留白**：含 `.pt-titlebar--sticky`（或粘性 `::before` 标题条）的独立滚动容器必须使用 `.pt-scroll-pane`（或声明 `scroll-padding-top >= 28px`），防止键盘 Tab 与 `scrollIntoView()` 将首项控件藏入标题栏背面。
 8. **平铺负边距归零**：从现代无框平铺主题迁移到 Platinum 时，原为无框幽灵按钮设置的光学负外边距（如 `margin-inline: -6px`）必须归零，防止实体黑框撞穿容器边线。
+9. **交互控件内 `<kbd>` 禁套立体键帽**：独立文档与帮助页可使用 `.pt-kbd`（或非嵌套独立 `<kbd>`）呈现 `2px` 斜面键帽；按钮、菜单项（`[role="menuitem"]`）与 Tooltip 内部的快捷键提示必须保持无框纯等宽平字并继承前景色，严禁把 `+` 符号和组合键撑成 3D 方块撞穿按钮文字。
+10. **有框表格首尾列对称内距保护**：从无框现代 Markdown 切换为 `1px` 实框 + 表头灰底的 Platinum 表格时，必须显式覆写 `:is(th, td):is(:first-child, :last-child)` 的水平内边距（`>= 6px`，默认 `6px 10px`）与四边边框，杜绝首尾列文字死贴左/右框线。
+11. **全界面清零正圆/胶囊动作钮与宏观窗口化**：除 `input[type="radio"]` 外禁用 `border-radius >= 8px` 的正圆或胶囊按钮（如悬浮回底 `↓`、圆形发送 `↑` 须转为 `2px/3px` 实体方形斜面钮）；对存量现代 SaaS 做第三方宿主换肤时，须先建立宏观四层物理骨架（桌面底/窗框/金属顶栏或横纹标题条/下凹内容井），详见 `skills/platinum-ui/references/host-overlay-and-migration.md`。

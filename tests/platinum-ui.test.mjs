@@ -7,6 +7,7 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 
 import { buildAllBundles } from "../bin/build.mjs";
 import {
+  ICON_BUTTON_PROBE_SOURCE,
   auditDocsAndSkillParity,
   auditStaticCssContracts,
   auditTokensContrast,
@@ -104,7 +105,7 @@ test("docs and SKILL.md stay synced with tokens/classes and free of machine-loca
   assert.ok(res.docsChecked >= 6);
 });
 
-test("icon button geometry detector flags off-center, undersized hit area, non-square buttons, and overlapping .pt-tbox", () => {
+test("icon button geometry detector flags off-center, undersized hit area, non-square buttons, overlapping .pt-tbox, and residual modern UI leaks", () => {
   const bad = findIconButtonIssues({
     overflowX: 0,
     items: [
@@ -112,10 +113,16 @@ test("icon button geometry detector flags off-center, undersized hit area, non-s
       { tag: "button", cls: "pt-btn pt-btn-sm pt-btn-icon", label: "small", btnW: 20, btnH: 20, hitW: 22, hitH: 22, iconOnly: true, svgW: 13, svgH: 13, dx: 0, dy: 0, segmented: false },
       { tag: "button", cls: "pt-tbox pt-tbox-minimize", label: "min", btnW: 13, btnH: 13, hitW: 18, hitH: 22, hitL: 100, hitR: 118, isTbox: true, titlebarIdx: 0, iconOnly: false },
       { tag: "button", cls: "pt-tbox pt-tbox-close", label: "close", btnW: 13, btnH: 13, hitW: 18, hitH: 22, hitL: 115, hitR: 133, isTbox: true, titlebarIdx: 0, iconOnly: false }
-    ]
+    ],
+    pillLeaks: [{ tag: "button", cls: "send-fab", label: "Send", maxRadius: 18 }],
+    crampedTableCells: [{ tag: "td", text: "AGENTS.md", paddingLeft: 0, paddingRight: 10 }],
+    buttonChildIssues: [{ kind: "kbd-overlap", label: "New Chat", detail: "<kbd> overlaps button label text" }]
   }, "mock");
-  assert.equal(bad.length, 3);
+  assert.equal(bad.length, 6);
   assert.ok(bad.some((m) => m.includes("overlapping .pt-tbox hit boxes")));
+  assert.ok(bad.some((m) => m.includes("residual pill/circle")));
+  assert.ok(bad.some((m) => m.includes("flush cell padding")));
+  assert.ok(bad.some((m) => m.includes("<kbd> overlaps button label text")));
 });
 
 test("live Chromium gallery passes all 8 (scheme x accent x density) states in EN and zh-CN plus mac9/macos/win window controls", async () => {
@@ -129,4 +136,44 @@ test("live Chromium gallery passes all 8 (scheme x accent x density) states in E
     assert.equal(bZh.statesChecked, 8);
     assert.deepEqual(bZh.errors, []);
   }
+});
+
+test("live Chromium probe detects circular FABs, flush table cells, and 3D/overlapping <kbd> inside buttons while platinum.css stays clean", async () => {
+  const probeUrl = (html) => `data:text/html;charset=utf-8,${encodeURIComponent(html)}`;
+  const platinumCss = readFileSync(join(ROOT, "dist/platinum.css"), "utf8");
+
+  // 1. Clean platinum.css page with <kbd> inside button & framed table inside .pt-prose -> 0 issues
+  // Host reset lives in an earlier cascade layer (like Tailwind @layer base/components), proving
+  // @layer pt.prose defeats layered :first-child resets while preserving unlayered author overrides.
+  const cleanHtml = `<!doctype html><html data-platinum><head><style>
+    @layer host;
+    ${platinumCss}
+    @layer host { .md td:first-child { padding-left: 0; } }
+  </style></head><body style="padding:16px">
+    <button style="display:inline-flex;gap:8px;align-items:center">New Chat <kbd><kbd>Ctrl</kbd><kbd>+</kbd><kbd>N</kbd></kbd></button>
+    <div class="pt-prose md"><table><thead><tr><th>File</th><th>Role</th></tr></thead><tbody><tr><td>AGENTS.md</td><td>Guide</td></tr></tbody></table></div>
+  </body></html>`;
+  const cleanRes = await runBrowserAudit({ root: ROOT, url: probeUrl(cleanHtml) });
+  if (cleanRes.skipped) return;
+  assert.deepEqual(cleanRes.errors, []);
+
+  // 2. Defective host overlay page -> must catch all 3 residual modern-UI traps
+  const badHtml = `<!doctype html><html><head><style>
+    .fab { width: 32px; height: 32px; border-radius: 50%; }
+    table { border-collapse: collapse; border: 1px solid #262626; }
+    td { border: 1px solid #8c8c8c; padding: 6px 10px; }
+    td:first-child { padding-left: 0; }
+    .btn-hit { position: relative; width: 90px; height: 28px; display: inline-flex; align-items: center; }
+    .btn-hit kbd { position: absolute; left: 8px; border: 1px solid #262626; box-shadow: inset 1px 1px 0 #fff; padding: 2px 5px; }
+  </style></head><body style="padding:16px">
+    <button class="fab" aria-label="Scroll down">↓</button>
+    <button class="btn-hit">New Chat <kbd>Ctrl+Alt+N</kbd></button>
+    <table><tbody><tr><td>AGENTS.md</td><td>Guide</td></tr></tbody></table>
+  </body></html>`;
+  const badRes = await runBrowserAudit({ root: ROOT, url: probeUrl(badHtml) });
+  assert.ok(badRes.errors.some((e) => e.includes("residual pill/circle")));
+  assert.ok(badRes.errors.some((e) => e.includes("flush cell padding")));
+  assert.ok(badRes.errors.some((e) => e.includes("3D bordered/beveled <kbd>")));
+  assert.ok(badRes.errors.some((e) => e.includes("<kbd> overflows enclosing control bounds")));
+  assert.ok(badRes.errors.some((e) => e.includes("<kbd> overlaps button label text")));
 });

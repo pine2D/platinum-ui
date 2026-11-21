@@ -214,7 +214,8 @@
     transform: rotate(90deg);
   }
 
-  __PT_SCOPE__ kbd:not(.pt-kbd, .pt-unstyled) {
+  /* Standalone 3D keycaps only; skip nested wrapper <kbd><kbd>...</kbd></kbd> to prevent double-boxing */
+  __PT_SCOPE__ kbd:not(.pt-kbd, .pt-unstyled, :has(kbd)) {
     box-sizing: border-box;
     display: inline-flex;
     align-items: center;
@@ -230,6 +231,22 @@
     font-family: var(--pt-font-mono);
     font-size: var(--pt-size-meta);
     line-height: 1;
+  }
+
+  /* Inside buttons, menus, and tooltips, keep shortcut hints as flat monospace text (Mac OS 9 HIG) */
+  __PT_SCOPE__ :is(button, a, [role="button"], [role="menuitem"], [role="menuitemcheckbox"], [role="menuitemradio"], [role="tooltip"]) kbd:not(.pt-kbd, .pt-unstyled) {
+    display: inline;
+    min-width: 0;
+    height: auto;
+    padding: 0;
+    background: transparent;
+    color: inherit;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    font-family: var(--pt-font-mono);
+    font-size: var(--pt-size-meta);
+    line-height: inherit;
   }
 
   __PT_SCOPE__ *::-webkit-scrollbar {
