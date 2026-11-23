@@ -131,7 +131,7 @@
     -webkit-appearance: none;
     min-height: var(--pt-control-h);
     height: var(--pt-control-h);
-    padding-inline: 8px 26px;
+    padding-inline: 8px 25px;
     background-color: var(--pt-face);
     color: var(--pt-ink);
     border: 1px solid var(--pt-frame);
@@ -141,33 +141,60 @@
     font-size: var(--pt-size-control);
     font-weight: 600;
     cursor: pointer;
+    --_pt-select-arrow: currentColor;
+    --_pt-select-ax: 6px;
+    --_pt-select-cap: linear-gradient(
+      to right,
+      transparent calc(100% - 19px),
+      var(--pt-groove-dark) calc(100% - 19px) calc(100% - 18px),
+      var(--pt-groove-light) calc(100% - 18px) calc(100% - 17px),
+      transparent calc(100% - 17px)
+    );
     background-image:
-      conic-gradient(from 135deg at 50% 0%, currentColor 0 90deg, transparent 0),
-      conic-gradient(from -45deg at 50% 100%, currentColor 0 90deg, transparent 0),
-      linear-gradient(
-        to right,
-        transparent calc(100% - 20px),
-        var(--pt-groove-dark) calc(100% - 20px) calc(100% - 19px),
-        var(--pt-groove-light) calc(100% - 19px) calc(100% - 18px),
-        transparent calc(100% - 18px)
-      );
-    background-size: 7px 3.5px, 7px 3.5px, 100% 100%;
+      linear-gradient(var(--_pt-select-arrow), var(--_pt-select-arrow)),
+      linear-gradient(var(--_pt-select-arrow), var(--_pt-select-arrow)),
+      linear-gradient(var(--_pt-select-arrow), var(--_pt-select-arrow)),
+      linear-gradient(var(--_pt-select-arrow), var(--_pt-select-arrow)),
+      linear-gradient(var(--_pt-select-arrow), var(--_pt-select-arrow)),
+      linear-gradient(var(--_pt-select-arrow), var(--_pt-select-arrow)),
+      linear-gradient(var(--_pt-select-arrow), var(--_pt-select-arrow)),
+      linear-gradient(var(--_pt-select-arrow), var(--_pt-select-arrow)),
+      var(--_pt-select-cap);
+    background-size:
+      1px 1px, 3px 1px, 5px 1px, 7px 1px,
+      7px 1px, 5px 1px, 3px 1px, 1px 1px,
+      100% 100%;
     background-repeat: no-repeat;
-    background-position: right 6px top calc(50% - 3.5px), right 6px top calc(50% + 3.5px), 0 0;
+    background-position:
+      right calc(var(--_pt-select-ax) + 3px) top calc(50% - 4.5px),
+      right calc(var(--_pt-select-ax) + 2px) top calc(50% - 3.5px),
+      right calc(var(--_pt-select-ax) + 1px) top calc(50% - 2.5px),
+      right var(--_pt-select-ax) top calc(50% - 1.5px),
+      right var(--_pt-select-ax) top calc(50% + 1.5px),
+      right calc(var(--_pt-select-ax) + 1px) top calc(50% + 2.5px),
+      right calc(var(--_pt-select-ax) + 2px) top calc(50% + 3.5px),
+      right calc(var(--_pt-select-ax) + 3px) top calc(50% + 4.5px),
+      0 0;
   }
 
   __PT_SCOPE__ select:not(.pt-select, .pt-unstyled):where(:not([multiple]):not([size]:not([size="1"]))):dir(rtl) {
-    background-image:
-      conic-gradient(from 135deg at 50% 0%, currentColor 0 90deg, transparent 0),
-      conic-gradient(from -45deg at 50% 100%, currentColor 0 90deg, transparent 0),
-      linear-gradient(
-        to left,
-        transparent calc(100% - 20px),
-        var(--pt-groove-light) calc(100% - 20px) calc(100% - 19px),
-        var(--pt-groove-dark) calc(100% - 19px) calc(100% - 18px),
-        transparent calc(100% - 18px)
-      );
-    background-position: left 6px top calc(50% - 3.5px), left 6px top calc(50% + 3.5px), 0 0;
+    --_pt-select-cap: linear-gradient(
+      to left,
+      transparent calc(100% - 19px),
+      var(--pt-groove-light) calc(100% - 19px) calc(100% - 18px),
+      var(--pt-groove-dark) calc(100% - 18px) calc(100% - 17px),
+      transparent calc(100% - 17px)
+    );
+    background-position:
+      left calc(var(--_pt-select-ax) + 3px) top calc(50% - 4.5px),
+      left calc(var(--_pt-select-ax) + 2px) top calc(50% - 3.5px),
+      left calc(var(--_pt-select-ax) + 1px) top calc(50% - 2.5px),
+      left var(--_pt-select-ax) top calc(50% - 1.5px),
+      left var(--_pt-select-ax) top calc(50% + 1.5px),
+      left calc(var(--_pt-select-ax) + 1px) top calc(50% + 2.5px),
+      left calc(var(--_pt-select-ax) + 2px) top calc(50% + 3.5px),
+      left calc(var(--_pt-select-ax) + 3px) top calc(50% + 4.5px),
+      0 0;
   }
 
   __PT_SCOPE__ select:not(.pt-select, .pt-unstyled):where(:not([multiple]):not([size]:not([size="1"]))):hover:not(:disabled, [aria-disabled="true"], :active) {
@@ -178,6 +205,23 @@
     background-color: var(--pt-pressed-bg);
     color: var(--pt-pressed-fg);
     box-shadow: var(--pt-bevel-pressed);
+    --_pt-select-cap: linear-gradient(
+      to right,
+      transparent calc(100% - 19px),
+      var(--pt-frame) calc(100% - 19px) calc(100% - 18px),
+      color-mix(in srgb, var(--pt-pressed-bg) 68%, #000) calc(100% - 18px) calc(100% - 17px),
+      transparent calc(100% - 17px)
+    );
+  }
+
+  __PT_SCOPE__ select:not(.pt-select, .pt-unstyled):where(:not([multiple]):not([size]:not([size="1"]))):active:not(:disabled, [aria-disabled="true"]):dir(rtl) {
+    --_pt-select-cap: linear-gradient(
+      to left,
+      transparent calc(100% - 19px),
+      var(--pt-frame) calc(100% - 19px) calc(100% - 18px),
+      color-mix(in srgb, var(--pt-pressed-bg) 68%, #000) calc(100% - 18px) calc(100% - 17px),
+      transparent calc(100% - 17px)
+    );
   }
 
   __PT_SCOPE__ select:not(.pt-select, .pt-unstyled):where([multiple]:not([size="1"]), [size="2"], [size="3"], [size="4"], [size="5"], [size="6"], [size="7"], [size="8"], [size="9"], [size="10"], [size="12"], [size="15"], [size="20"]) {
@@ -228,6 +272,22 @@
     border-color: var(--pt-border-subtle);
     box-shadow: none;
     cursor: not-allowed;
+    --_pt-select-ax: 5px;
+    --_pt-select-cap: linear-gradient(
+      to right,
+      transparent calc(100% - 18px),
+      var(--pt-border-subtle) calc(100% - 18px) calc(100% - 17px),
+      transparent calc(100% - 17px)
+    );
+  }
+
+  __PT_SCOPE__ select:not(.pt-select, .pt-unstyled):is(:disabled, [aria-disabled="true"]):dir(rtl) {
+    --_pt-select-cap: linear-gradient(
+      to left,
+      transparent calc(100% - 18px),
+      var(--pt-border-subtle) calc(100% - 18px) calc(100% - 17px),
+      transparent calc(100% - 17px)
+    );
   }
 
   __PT_SCOPE__ select:not(.pt-select, .pt-unstyled):is(:disabled, [aria-disabled="true"]) option {
@@ -255,27 +315,25 @@
     }
 
     __PT_SCOPE__ select:not(.pt-select, .pt-unstyled, [multiple], [size]:not([size="1"])):open {
-      background-image:
-        conic-gradient(from 135deg at 50% 0%, var(--pt-pressed-fg) 0 90deg, transparent 0),
-        conic-gradient(from -45deg at 50% 100%, var(--pt-pressed-fg) 0 90deg, transparent 0),
-        linear-gradient(
-          to right,
-          transparent calc(100% - 20px),
-          var(--pt-frame) calc(100% - 20px) calc(100% - 19px),
-          var(--pt-pressed-bg) calc(100% - 19px)
-        );
+      --_pt-select-arrow: var(--pt-pressed-fg);
+      --_pt-select-cap: linear-gradient(
+        to right,
+        transparent calc(100% - 19px),
+        var(--pt-frame) calc(100% - 19px) calc(100% - 18px),
+        color-mix(in srgb, var(--pt-pressed-bg) 68%, #000) calc(100% - 18px) calc(100% - 17px),
+        var(--pt-pressed-bg) calc(100% - 17px)
+      );
     }
 
     __PT_SCOPE__ select:not(.pt-select, .pt-unstyled, [multiple], [size]:not([size="1"])):open:dir(rtl) {
-      background-image:
-        conic-gradient(from 135deg at 50% 0%, var(--pt-pressed-fg) 0 90deg, transparent 0),
-        conic-gradient(from -45deg at 50% 100%, var(--pt-pressed-fg) 0 90deg, transparent 0),
-        linear-gradient(
-          to left,
-          transparent calc(100% - 20px),
-          var(--pt-frame) calc(100% - 20px) calc(100% - 19px),
-          var(--pt-pressed-bg) calc(100% - 19px)
-        );
+      --_pt-select-arrow: var(--pt-pressed-fg);
+      --_pt-select-cap: linear-gradient(
+        to left,
+        transparent calc(100% - 19px),
+        var(--pt-frame) calc(100% - 19px) calc(100% - 18px),
+        color-mix(in srgb, var(--pt-pressed-bg) 68%, #000) calc(100% - 18px) calc(100% - 17px),
+        var(--pt-pressed-bg) calc(100% - 17px)
+      );
     }
 
     __PT_SCOPE__ select:not(.pt-select, .pt-unstyled, [multiple], [size]:not([size="1"]))::picker(select) {

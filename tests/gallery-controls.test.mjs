@@ -168,12 +168,48 @@ describe("Platinum controls in Chromium", { skip: !playwright && "Playwright una
   });
 
   it("styles customizable <select> picker, multi-row listbox, disabled marks, [hidden], nested @scope islands, strict scoped.css, and forced-colors radio", async t => {
-    const page = await browser.newPage({ viewport: { width: 1180, height: 900 } });
+    const page = await browser.newPage({ viewport: { width: 1180, height: 900 }, deviceScaleFactor: 2 });
     t.after(() => page.close());
     await page.goto(gallery.href);
 
-    // 1. Window 2 customizable <select>: stable width across options + Platinum ::picker(select)
+    // 1. Window 2 customizable <select>: stable width, 4px-7px-4px arrow cap symmetry (closed & :open at DPR 2), + ::picker(select)
     const sel = page.locator("select.pt-select").first();
+    const measureCapSymmetry = async (shot, capBgByte, arrowByte) => page.evaluate(async ({ b64, capBgByte, arrowByte }) => {
+      const img = new Image();
+      img.src = "data:image/png;base64," + b64;
+      await img.decode();
+      const c = document.createElement("canvas");
+      c.width = img.width;
+      c.height = img.height;
+      const ctx = c.getContext("2d");
+      ctx.drawImage(img, 0, 0);
+      const d = ctx.getImageData(0, 0, img.width, img.height).data;
+      const startX = img.width - 36;
+      const arrowRows = [];
+      for (let y = 8; y < img.height - 8; y++) {
+        const capCols = [], arrCols = [];
+        for (let x = startX; x < img.width; x++) {
+          const v = d[(y * img.width + x) * 4];
+          if (v === arrowByte) arrCols.push(x);
+          if (v === capBgByte || v === arrowByte) capCols.push(x);
+        }
+        if (arrCols.length > 0) {
+          arrowRows.push({
+            w: arrCols.length,
+            leftGap: arrCols[0] - capCols[0],
+            rightGap: capCols.at(-1) - arrCols.at(-1)
+          });
+        }
+      }
+      return arrowRows;
+    }, { b64: shot.toString("base64"), capBgByte, arrowByte });
+
+    const closedArrowRows = await measureCapSymmetry(await sel.screenshot(), 0xdd, 0x22);
+    assert.equal(closedArrowRows.length, 16);
+    for (const r of closedArrowRows) assert.equal(r.leftGap, r.rightGap);
+    assert.equal(closedArrowRows[6].w, 14);
+    assert.equal(closedArrowRows[8].w, 14);
+
     const w0 = (await sel.boundingBox()).width;
     await sel.selectOption({ index: 1 });
     const w1 = (await sel.boundingBox()).width;
@@ -182,6 +218,11 @@ describe("Platinum controls in Chromium", { skip: !playwright && "Playwright una
     assert.equal(w0, w1);
     assert.equal(w1, w2);
     await sel.click();
+    const openArrowRows = await measureCapSymmetry(await sel.screenshot(), 0x66, 0xff);
+    assert.equal(openArrowRows.length, 16);
+    for (const r of openArrowRows) assert.equal(r.leftGap, r.rightGap);
+    assert.equal(openArrowRows[6].w, 14);
+    assert.equal(openArrowRows[8].w, 14);
     const pickerStyle = await sel.evaluate(el => {
       const pcs = getComputedStyle(el, "::picker(select)");
       return {
