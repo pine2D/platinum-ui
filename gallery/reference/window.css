@@ -37,7 +37,8 @@ html, body {
   position: absolute;
   inset: 0 1px 1px 0;
 }
-[data-window="appearance"] .sample-window {
+[data-window="appearance"] .sample-window,
+[data-window="date-time"] .sample-window {
   --pt-tb-stripe-width: calc(100% - 41px);
 }
 

@@ -127,6 +127,11 @@ describe('Historical window screenshots at DPR 1', {
         id: 'finder-active',
         name: 'Finder info',
         region: { x: 135, y: 25, width: 150, height: 15 }
+      },
+      {
+        id: 'date-time-active',
+        name: 'Date & Time title',
+        region: { x: 148, y: 3, width: 80, height: 15 }
       }
     ];
     for (const entry of cases) {
@@ -164,7 +169,7 @@ describe('Historical window screenshots at DPR 1', {
 
       await captureSample(browser, sample, async page => {
         const failures = await page.evaluate(() => {
-          const selectors = '.caption, .reference-finder-info, .reference-setting-label, .reference-setting-hint, .reference-popup-value';
+          const selectors = '.caption, .reference-finder-info, .reference-setting-label, .reference-setting-hint, .reference-popup-value, .reference-dt-label';
           const failures = [];
           for (const element of document.querySelectorAll(selectors)) {
             const range = document.createRange();
@@ -208,6 +213,29 @@ describe('Historical window screenshots at DPR 1', {
     });
     const report = await compareImages(browser, readReference(`original/${sample.id}.png`), shifted, sample.regions);
     assert.ok(strictFailures(report).some(region => /close/i.test(region.name)), 'Negative control failed: the named close-control check must detect +1px');
+  });
+
+  it('rejects regressions to shared .pt-groupbox legend groove masking and .pt-btn:disabled flat state on Date & Time', async () => {
+    const dtSample = manifest.samples.find(sample => sample.id === 'date-time-active');
+    assert.ok(dtSample, 'Need date-time-active sample');
+
+    const unmaskedLegend = await captureSample(browser, dtSample, page => {
+      return page.addStyleTag({ content: '.pt-groupbox > legend { background: transparent !important; }' });
+    });
+    const legendReport = await compareImages(browser, readReference('original/date-time-active.png'), unmaskedLegend, dtSample.regions);
+    assert.ok(
+      strictFailures(legendReport).some(r => /legend masked groove/i.test(r.name)),
+      'Closed-loop negative control failed: transparent .pt-groupbox > legend must fail legend masked groove check'
+    );
+
+    const beveledDisabled = await captureSample(browser, dtSample, page => {
+      return page.addStyleTag({ content: '.pt-btn:disabled { box-shadow: inset 1px 1px 0 #fff, inset -1px -1px 0 #777 !important; }' });
+    });
+    const disabledReport = await compareImages(browser, readReference('original/date-time-active.png'), beveledDisabled, dtSample.regions);
+    assert.ok(
+      strictFailures(disabledReport).some(r => /Disabled Server Options/i.test(r.name)),
+      'Closed-loop negative control failed: beveled .pt-btn:disabled must fail Disabled Server Options check'
+    );
   });
 
   it('opens both native file and Pages-style paths with a persistent Chinese locale', async () => {

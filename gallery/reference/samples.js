@@ -138,6 +138,37 @@ window.PLATINUM_REFERENCE = {
       {"name": "Upper inset bevel right of pointer", "x": 22, "y": 20, "width": 449, "height": 1, "zh": "内容井上斜面（指针右侧）"},
       {"name": "Upper inset keyline left of pointer", "x": 5, "y": 21, "width": 7, "height": 1, "zh": "内容井上边线（指针左侧）"},
       {"name": "Upper inset keyline right of pointer", "x": 23, "y": 21, "width": 448, "height": 1, "zh": "内容井上边线（指针右侧）"}
+    ],
+    "date-time-chrome": [
+      {"name": "WindowShade box", "x": 359, "y": 4, "width": 13, "height": 13, "zh": "折叠框"},
+      {"name": "Right ends of title ridges", "x": 344, "y": 4, "width": 10, "height": 12, "zh": "标题横纹右端"},
+      {"name": "Title type", "x": 148, "y": 2, "width": 80, "height": 16, "mode": "review", "zh": "标题字形"}
+    ],
+    "date-time-shade": [
+      {"name": "Folded lower edge", "x": 5, "y": 20, "width": 365, "height": 3, "zh": "折叠后下边缘"}
+    ],
+    "date-time-foot": [
+      {"name": "Lower window edge", "x": 45, "y": 367, "width": 280, "height": 3, "zh": "窗口下边缘"}
+    ],
+    "date-time-inset": [
+      {"name": "Upper inset bevel", "x": 4, "y": 20, "width": 367, "height": 1, "zh": "内容井上斜面"},
+      {"name": "Upper inset keyline", "x": 5, "y": 21, "width": 366, "height": 1, "zh": "内容井上边线"}
+    ],
+    "date-time-pane": [
+      {"name": "Current Date groupbox etched top right", "x": 120, "y": 39, "width": 58, "height": 2, "zh": "当前日期分组框右上蚀刻槽"},
+      {"name": "Current Date legend masked groove", "x": 40, "y": 40, "width": 56, "height": 1, "zh": "当前日期分组框标题遮断亮线"},
+      {"name": "Time Zone groupbox etched top right", "x": 110, "y": 133, "width": 240, "height": 2, "zh": "时区分组框右上蚀刻槽"},
+      {"name": "Time Zone legend masked groove", "x": 38, "y": 134, "width": 44, "height": 1, "zh": "时区分组框标题遮断亮线"},
+      {"name": "Groupbox lower etched border", "x": 24, "y": 214, "width": 328, "height": 2, "zh": "时区分组框底部双线蚀刻边"},
+      {"name": "Date field sunken top edge", "x": 44, "y": 53, "width": 98, "height": 2, "zh": "日期输入框上凹槽与黑边"},
+      {"name": "Date stepper arrows", "x": 148, "y": 54, "width": 13, "height": 23, "zh": "日期微调上下箭头"},
+      {"name": "Enabled Date Formats button bevel", "x": 50, "y": 85, "width": 100, "height": 4, "zh": "启用按钮上边缘与内高光"},
+      {"name": "Enabled Date Formats button bottom bevel", "x": 50, "y": 102, "width": 100, "height": 3, "zh": "启用按钮下暗角斜面"},
+      {"name": "Disabled Server Options flat top edge", "x": 236, "y": 248, "width": 100, "height": 4, "zh": "禁用按钮无斜面平边"},
+      {"name": "Disabled Server Options flat bottom edge", "x": 236, "y": 265, "width": 100, "height": 3, "zh": "禁用按钮底部无斜面平边"},
+      {"name": "Disabled DST checkbox flat box", "x": 30, "y": 162, "width": 12, "height": 12, "zh": "禁用复选框实色无斜面方框"},
+      {"name": "Unchecked Network Time checkbox bevel", "x": 30, "y": 222, "width": 12, "height": 12, "zh": "未选中复选框斜面方框"},
+      {"name": "Labels, live clock text, and glyphs", "x": 20, "y": 28, "width": 340, "height": 330, "mode": "review", "zh": "标签、实时时钟文字与图标字形"}
     ]
   },
   "samples": [
@@ -152,6 +183,9 @@ window.PLATINUM_REFERENCE = {
     {"id": "appearance-pressed", "window": "appearance", "state": "pressed", "crop": [161, 68, 477, 339], "width": 477, "height": 339, "regionSets": ["frame", "pressed", "ridges", "appearance-chrome", "appearance-pane", "appearance-foot", "closed-popup", "appearance-pressed-inset"]},
     {"id": "appearance-collapsed", "window": "appearance", "state": "collapsed", "crop": [161, 68, 477, 23], "width": 477, "height": 23, "regionSets": ["frame", "close", "ridges", "appearance-chrome", "appearance-shade"]},
     {"id": "appearance-restored", "window": "appearance", "state": "restored", "crop": [161, 68, 477, 339], "width": 477, "height": 339, "regionSets": ["frame", "close", "ridges", "appearance-chrome", "appearance-pane", "appearance-foot", "closed-popup", "appearance-inset"]},
-    {"id": "appearance-menu", "window": "appearance", "state": "menu", "crop": [161, 68, 477, 339], "width": 477, "height": 339, "regionSets": ["frame", "close", "ridges", "appearance-chrome", "appearance-pane", "appearance-foot", "appearance-menu", "appearance-inset"]}
+    {"id": "appearance-menu", "window": "appearance", "state": "menu", "crop": [161, 68, 477, 339], "width": 477, "height": 339, "regionSets": ["frame", "close", "ridges", "appearance-chrome", "appearance-pane", "appearance-foot", "appearance-menu", "appearance-inset"]},
+    {"id": "date-time-active", "window": "date-time", "state": "active", "crop": [12, 28, 377, 370], "width": 377, "height": 370, "regionSets": ["frame", "close", "ridges", "date-time-chrome", "date-time-pane", "date-time-foot", "date-time-inset"]},
+    {"id": "date-time-inactive", "window": "date-time", "state": "inactive", "crop": [12, 28, 377, 370], "width": 377, "height": 370, "regionSets": ["frame", "close", "ridges", "date-time-chrome", "date-time-pane", "date-time-foot", "date-time-inset"]},
+    {"id": "date-time-collapsed", "window": "date-time", "state": "collapsed", "crop": [12, 28, 377, 23], "width": 377, "height": 23, "regionSets": ["frame", "close", "ridges", "date-time-chrome", "date-time-shade"]}
   ]
 };

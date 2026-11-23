@@ -7,6 +7,8 @@ if (!sample) {
 } else {
   const win = specimen.querySelector(".sample-window");
   const finder = sample.window === "finder";
+  const titles = { finder: "platinum", appearance: "Appearance", "date-time": "Date & Time" };
+  const labels = { finder: "Finder", appearance: "Appearance", "date-time": "Date & Time" };
   specimen.style.width = sample.width + "px";
   specimen.style.height = sample.height + "px";
   specimen.dataset.window = sample.window;
@@ -14,12 +16,12 @@ if (!sample) {
   if (sample.state === "inactive") win.dataset.inactive = "true";
   if (sample.state === "collapsed") win.dataset.collapsed = "true";
   if (sample.state === "pressed") win.querySelector(".pt-tbox-close").classList.add("is-active");
-  win.querySelector(".caption").textContent = finder ? "platinum" : "Appearance";
+  win.querySelector(".caption").textContent = titles[sample.window] ?? sample.window;
   if (!finder) {
     win.querySelector(".pt-tbox-zoom").remove();
     win.querySelector(".folder-proxy").remove();
   }
   window.renderReferenceContent(win, sample);
-  specimen.setAttribute("aria-label", (finder ? "Finder" : "Appearance") + ", " + sample.state);
+  specimen.setAttribute("aria-label", (labels[sample.window] ?? sample.window) + ", " + sample.state);
   specimen.dataset.ready = "";
 }

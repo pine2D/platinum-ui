@@ -112,14 +112,14 @@
       keyboard: 'Keyboard: Tab to controls or the image, arrow keys to browse options, adjust opacity or scroll (Enter confirms open menu, Esc cancels), Enter/Space to switch views.',
       stage: 'Comparison at 1:1 CSS pixels',
       environment: 'Capture environment and test scope',
-      limits: 'Named geometry regions are checked exactly. Text height and vertical placement allow a 3px tolerance. The full saved difference preserves individual glyphs for visual review.',
+      limits: 'Named geometry regions are checked at 1:1 against the guest framebuffer. Window chrome, titlebar ridges, scrollbar grips, Date & Time etched groupbox legends, fields, and flat disabled controls bind directly to dist/platinum.css; 20px historical control sizing is supplied by specimen CSS.',
       fields: {},
       regions: 'Pixel checks and source files',
       review: 'Human review',
       preview: 'Saved implementation PNG',
       capture: 'Full guest frame',
       missing: 'Reference data unavailable. Acquire the historical samples, then run node scripts/reference-shots.mjs.',
-      windows: { finder: 'Finder', appearance: 'Appearance' },
+      windows: { finder: 'Finder', appearance: 'Appearance', 'date-time': 'Date & Time' },
       states: { active: 'Active', inactive: 'Inactive', pressed: 'Pressed', collapsed: 'Collapsed', restored: 'Restored', menu: 'Menu open', scrollbars: 'Enabled scrollbars' }
     },
     'zh-CN': {
@@ -137,14 +137,14 @@
       keyboard: '键盘：Tab 选择控件或图像，方向键浏览选项、调整不透明度或滚动（菜单展开时按 Enter 确认、Esc 取消），Enter／空格切换视图。',
       stage: '1∶1 CSS 像素对照区',
       environment: '采集环境与检查范围',
-      limits: '具名几何区域逐像素精确检查。抽检文字的墨迹高度和垂直位置允许 3px 差异。完整差分保留了每个字形，供人工核对。',
+      limits: '具名几何区域按 1∶1 客体帧逐像素检查。窗框、六道横纹、窗控、滚动滑块刻纹，以及「日期与时间」面板中的蚀刻分组框标题遮断、凹陷输入框和实色无斜面禁用控件均直连 dist/platinum.css；20px 历史控件尺寸由样张夹具提供。',
       fields: { System: '系统', Machine: '机型', Display: '显示', Appearance: '外观', Fonts: '字体', Emulator: '模拟器', Date: '采集日期' },
       regions: '像素检查与来源文件',
       review: '人工复核',
       preview: '已保存的实现 PNG',
       capture: '客体系统原始整帧',
       missing: '参照数据尚不可用。采集历史样本后请运行 node scripts/reference-shots.mjs。',
-      windows: { finder: '访达', appearance: '外观' },
+      windows: { finder: '访达', appearance: '外观', 'date-time': '日期与时间' },
       states: { active: '前台', inactive: '失焦', pressed: '按下', collapsed: '卷起', restored: '还原', menu: '菜单展开', scrollbars: '双向滚动' }
     }
   };

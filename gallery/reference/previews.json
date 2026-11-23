@@ -1,5 +1,5 @@
 {
-  "sourceDigest": "cf730db5d70f572f8f6851d65465581c9fcd069d3e7da02e7c2b80e6b8a4f4fd",
+  "sourceDigest": "3887aae212971574221767c02d7ed9245335746673ce61e78772a7df16ca1d09",
   "reports": [
     {
       "id": "finder-active",
@@ -2003,6 +2003,384 @@
         "rendered": "b22473c5f35a71588e2137d5ef992d5838bd80908f886923020fec35f9c26809",
         "difference": "d0db91cf0ed122aaf5b5bc8d15fa04f30a636850c5e5203254026faf71e7be3b",
         "capture": "5ace1e0ed07d425a803ce1ad8a997dc4ab19d1bb97613b974b091939d457b7f4"
+      }
+    },
+    {
+      "id": "date-time-active",
+      "changed": 15939,
+      "pixels": 139490,
+      "absoluteError": 5034763,
+      "regions": [
+        {
+          "name": "Top keyline and inner highlight",
+          "changed": 0,
+          "pixels": 220,
+          "review": false
+        },
+        {
+          "name": "Left frame and bevel",
+          "changed": 0,
+          "pixels": 30,
+          "review": false
+        },
+        {
+          "name": "Close box and etched rim",
+          "changed": 0,
+          "pixels": 169,
+          "review": false
+        },
+        {
+          "name": "Left ends of all six title ridges",
+          "changed": 0,
+          "pixels": 1260,
+          "review": false
+        },
+        {
+          "name": "WindowShade box",
+          "changed": 0,
+          "pixels": 169,
+          "review": false
+        },
+        {
+          "name": "Right ends of title ridges",
+          "changed": 0,
+          "pixels": 120,
+          "review": false
+        },
+        {
+          "name": "Title type",
+          "changed": 491,
+          "pixels": 1280,
+          "review": true
+        },
+        {
+          "name": "Current Date groupbox etched top right",
+          "changed": 0,
+          "pixels": 116,
+          "review": false
+        },
+        {
+          "name": "Current Date legend masked groove",
+          "changed": 0,
+          "pixels": 56,
+          "review": false
+        },
+        {
+          "name": "Time Zone groupbox etched top right",
+          "changed": 0,
+          "pixels": 480,
+          "review": false
+        },
+        {
+          "name": "Time Zone legend masked groove",
+          "changed": 0,
+          "pixels": 44,
+          "review": false
+        },
+        {
+          "name": "Groupbox lower etched border",
+          "changed": 0,
+          "pixels": 656,
+          "review": false
+        },
+        {
+          "name": "Date field sunken top edge",
+          "changed": 0,
+          "pixels": 196,
+          "review": false
+        },
+        {
+          "name": "Date stepper arrows",
+          "changed": 0,
+          "pixels": 299,
+          "review": false
+        },
+        {
+          "name": "Enabled Date Formats button bevel",
+          "changed": 0,
+          "pixels": 400,
+          "review": false
+        },
+        {
+          "name": "Enabled Date Formats button bottom bevel",
+          "changed": 0,
+          "pixels": 300,
+          "review": false
+        },
+        {
+          "name": "Disabled Server Options flat top edge",
+          "changed": 0,
+          "pixels": 400,
+          "review": false
+        },
+        {
+          "name": "Disabled Server Options flat bottom edge",
+          "changed": 0,
+          "pixels": 300,
+          "review": false
+        },
+        {
+          "name": "Disabled DST checkbox flat box",
+          "changed": 0,
+          "pixels": 144,
+          "review": false
+        },
+        {
+          "name": "Unchecked Network Time checkbox bevel",
+          "changed": 0,
+          "pixels": 144,
+          "review": false
+        },
+        {
+          "name": "Labels, live clock text, and glyphs",
+          "changed": 14347,
+          "pixels": 112200,
+          "review": true
+        },
+        {
+          "name": "Lower window edge",
+          "changed": 0,
+          "pixels": 840,
+          "review": false
+        },
+        {
+          "name": "Upper inset bevel",
+          "changed": 0,
+          "pixels": 367,
+          "review": false
+        },
+        {
+          "name": "Upper inset keyline",
+          "changed": 0,
+          "pixels": 366,
+          "review": false
+        }
+      ],
+      "hashes": {
+        "original": "8a19afe637d29fda673d8b3f7c927923571d8864d5d494517e932f76e8334b8f",
+        "rendered": "dc6f806ce1eba07f39c53bba75359baea45773e2447ce2e5bfd1384556f2b289",
+        "difference": "e46210a2d4ba218f1221197b46471d8a6b9820281659bc827bc74cc89b991934",
+        "capture": "41b99960a422de072829221402bc8c7125571eb0fe7502d0c2c81dbf7322b875"
+      }
+    },
+    {
+      "id": "date-time-inactive",
+      "changed": 14775,
+      "pixels": 139490,
+      "absoluteError": 2456877,
+      "regions": [
+        {
+          "name": "Top keyline and inner highlight",
+          "changed": 0,
+          "pixels": 220,
+          "review": false
+        },
+        {
+          "name": "Left frame and bevel",
+          "changed": 0,
+          "pixels": 30,
+          "review": false
+        },
+        {
+          "name": "Close box and etched rim",
+          "changed": 0,
+          "pixels": 169,
+          "review": false
+        },
+        {
+          "name": "Left ends of all six title ridges",
+          "changed": 0,
+          "pixels": 1260,
+          "review": false
+        },
+        {
+          "name": "WindowShade box",
+          "changed": 0,
+          "pixels": 169,
+          "review": false
+        },
+        {
+          "name": "Right ends of title ridges",
+          "changed": 0,
+          "pixels": 120,
+          "review": false
+        },
+        {
+          "name": "Title type",
+          "changed": 481,
+          "pixels": 1280,
+          "review": true
+        },
+        {
+          "name": "Current Date groupbox etched top right",
+          "changed": 0,
+          "pixels": 116,
+          "review": false
+        },
+        {
+          "name": "Current Date legend masked groove",
+          "changed": 0,
+          "pixels": 56,
+          "review": false
+        },
+        {
+          "name": "Time Zone groupbox etched top right",
+          "changed": 0,
+          "pixels": 480,
+          "review": false
+        },
+        {
+          "name": "Time Zone legend masked groove",
+          "changed": 0,
+          "pixels": 44,
+          "review": false
+        },
+        {
+          "name": "Groupbox lower etched border",
+          "changed": 0,
+          "pixels": 656,
+          "review": false
+        },
+        {
+          "name": "Date field sunken top edge",
+          "changed": 0,
+          "pixels": 196,
+          "review": false
+        },
+        {
+          "name": "Date stepper arrows",
+          "changed": 0,
+          "pixels": 299,
+          "review": false
+        },
+        {
+          "name": "Enabled Date Formats button bevel",
+          "changed": 0,
+          "pixels": 400,
+          "review": false
+        },
+        {
+          "name": "Enabled Date Formats button bottom bevel",
+          "changed": 0,
+          "pixels": 300,
+          "review": false
+        },
+        {
+          "name": "Disabled Server Options flat top edge",
+          "changed": 0,
+          "pixels": 400,
+          "review": false
+        },
+        {
+          "name": "Disabled Server Options flat bottom edge",
+          "changed": 0,
+          "pixels": 300,
+          "review": false
+        },
+        {
+          "name": "Disabled DST checkbox flat box",
+          "changed": 0,
+          "pixels": 144,
+          "review": false
+        },
+        {
+          "name": "Unchecked Network Time checkbox bevel",
+          "changed": 0,
+          "pixels": 144,
+          "review": false
+        },
+        {
+          "name": "Labels, live clock text, and glyphs",
+          "changed": 14218,
+          "pixels": 112200,
+          "review": true
+        },
+        {
+          "name": "Lower window edge",
+          "changed": 0,
+          "pixels": 840,
+          "review": false
+        },
+        {
+          "name": "Upper inset bevel",
+          "changed": 0,
+          "pixels": 367,
+          "review": false
+        },
+        {
+          "name": "Upper inset keyline",
+          "changed": 0,
+          "pixels": 366,
+          "review": false
+        }
+      ],
+      "hashes": {
+        "original": "c1d54ac3989742f05ca2e27a44ef26854780a8d4f09aaf4d9c66a45e609f6f10",
+        "rendered": "b23278634e1d28983eeeaf4b6ff3924116b79c8436b8c1df16d06e55f3ffc0d4",
+        "difference": "cf0fe8e7b382881168ba6a818d5b64cdf240c0d1ed2e98ff094e38ab9b0f117b",
+        "capture": "1dfbc0fbed658ace32c19b922d71b575faafd3a3329341c343d0894ecf55d6fd"
+      }
+    },
+    {
+      "id": "date-time-collapsed",
+      "changed": 499,
+      "pixels": 8671,
+      "absoluteError": 131647,
+      "regions": [
+        {
+          "name": "Top keyline and inner highlight",
+          "changed": 0,
+          "pixels": 220,
+          "review": false
+        },
+        {
+          "name": "Left frame and bevel",
+          "changed": 0,
+          "pixels": 30,
+          "review": false
+        },
+        {
+          "name": "Close box and etched rim",
+          "changed": 0,
+          "pixels": 169,
+          "review": false
+        },
+        {
+          "name": "Left ends of all six title ridges",
+          "changed": 0,
+          "pixels": 1260,
+          "review": false
+        },
+        {
+          "name": "WindowShade box",
+          "changed": 0,
+          "pixels": 169,
+          "review": false
+        },
+        {
+          "name": "Right ends of title ridges",
+          "changed": 0,
+          "pixels": 120,
+          "review": false
+        },
+        {
+          "name": "Title type",
+          "changed": 491,
+          "pixels": 1280,
+          "review": true
+        },
+        {
+          "name": "Folded lower edge",
+          "changed": 0,
+          "pixels": 1095,
+          "review": false
+        }
+      ],
+      "hashes": {
+        "original": "7c7c5c23b0ddc5626a3deb2e907cd9eda35f868bd1e00644c615c28032e05507",
+        "rendered": "44f1a4ebfe21c1d720ab56016c29a13754da2d08b4b87215ce643d7e250602d5",
+        "difference": "b26257b6de26b9fc62b5be4093432475db9d2a4be1012568d37f5acc977818c0",
+        "capture": "272f21bdac72e01fdde757db928859216cd03233f360254b43ae4fe8d8547dcc"
       }
     }
   ]

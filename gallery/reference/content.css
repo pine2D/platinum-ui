@@ -46,6 +46,14 @@
   background-size: 1px 313px, 1px 313px, 466px 1px;
 }
 
+.reference-content[data-content="date-time"]::before {
+  width: 368px;
+  height: 345px;
+  background-image: linear-gradient(#999, #999), linear-gradient(#fff, #fff), linear-gradient(#fff, #fff);
+  background-position: 0 0, 367px 1px, 1px 344px;
+  background-size: 1px 344px, 1px 344px, 366px 1px;
+}
+
 .sample-window[data-collapsed="true"] .reference-content {
   display: none;
 }
@@ -824,4 +832,222 @@
 
 .sample-window[data-reference-state="menu"] .reference-setting-0 .reference-popup-arrows::after {
   background: #fff;
+}
+
+/* Date & Time control panel: directly wires dist/platinum.css .pt-groupbox > legend,
+ * .pt-field, .pt-btn, .pt-btn:disabled, .pt-checkbox, and .pt-radio to guest pixels. */
+
+.reference-datetime-panel {
+  --pt-groupbox-bg: #ddd;
+  --pt-groove-dark: #888;
+  --pt-groove-light: #fff;
+  --pt-border-subtle: #888;
+  --pt-window: #ddd;
+  --pt-face: #ddd;
+  position: absolute;
+  left: 4px;
+  top: 20px;
+  width: 366px;
+  height: 343px;
+  border: 1px solid #000;
+  box-shadow: #fff 0 1px inset;
+  background: #ddd;
+}
+
+/* Etched groupboxes inherit border, inset/outset groove, and legend background/top
+ * directly from dist/platinum.css (.pt-groupbox & .pt-groupbox > legend). */
+.reference-dt-gb.pt-groupbox {
+  position: absolute;
+  padding: 0;
+}
+
+.reference-dt-gb.pt-groupbox > legend {
+  margin-left: 8px;
+  height: 16px;
+  font: bold 12px / 13px Charcoal, Geneva, Arial, sans-serif;
+  color: #000;
+}
+
+.reference-dt-gb.pt-groupbox > legend.reference-dt-legend-net {
+  padding-left: 23px;
+}
+
+.reference-dt-gb-date { left: 12px; top: 9px; width: 164px; height: 87px; }
+.reference-dt-gb-time { left: 188px; top: 9px; width: 164px; height: 87px; }
+.reference-dt-gb-zone { left: 12px; top: 103px; width: 340px; height: 90px; }
+.reference-dt-gb-net  { left: 12px; top: 201px; width: 340px; height: 72px; }
+
+.reference-dt-field.pt-field {
+  position: absolute;
+  top: 32px;
+  width: 104px;
+  height: 23px;
+  min-height: 0;
+  padding: 0 4px;
+  border: 1px solid #000;
+  box-shadow: -1px -1px 0 #888, 0 -1px 0 #888, -1px 0 0 #888, 1px 1px 0 #fff, 0 1px 0 #fff, 1px 0 0 #fff;
+  font: bold 12px / 21px Charcoal, Geneva, Arial, sans-serif;
+  color: #000;
+}
+
+.reference-dt-field-date { left: 36px; }
+.reference-dt-field-time { left: 213px; padding-left: 10px; }
+
+.reference-dt-stepper {
+  position: absolute;
+  top: 32px;
+  width: 13px;
+  height: 23px;
+  background:
+    linear-gradient(#888, #888) 1px 0 / 11px 1px no-repeat,
+    linear-gradient(#888, #888) 1px 22px / 11px 1px no-repeat,
+    linear-gradient(#888, #888) 0 1px / 1px 21px no-repeat,
+    linear-gradient(#888, #888) 12px 1px / 1px 21px no-repeat,
+    linear-gradient(#888, #888) 0 11px / 13px 1px no-repeat,
+    linear-gradient(#888, #888) 6px 4px / 1px 4px no-repeat,
+    linear-gradient(#888, #888) 5px 5px / 3px 3px no-repeat,
+    linear-gradient(#888, #888) 4px 6px / 5px 2px no-repeat,
+    linear-gradient(#888, #888) 3px 7px / 7px 1px no-repeat,
+    linear-gradient(#888, #888) 3px 15px / 7px 1px no-repeat,
+    linear-gradient(#888, #888) 4px 15px / 5px 2px no-repeat,
+    linear-gradient(#888, #888) 5px 15px / 3px 3px no-repeat,
+    linear-gradient(#888, #888) 6px 15px / 1px 4px no-repeat,
+    #ddd;
+}
+
+.reference-dt-stepper-date { left: 142px; }
+.reference-dt-stepper-time { left: 319px; }
+
+/* Push buttons: :disabled inherits box-shadow: none and opacity: 1 from dist/platinum.css */
+.reference-dt-btn.pt-btn {
+  position: absolute;
+  width: 119px;
+  height: 20px;
+  min-height: 0;
+  padding: 0 4px;
+  border-radius: 3px;
+  font: bold 12px / 18px Charcoal, Geneva, Arial, sans-serif;
+}
+
+.reference-dt-btn.pt-btn:not(:disabled) {
+  border-color: #000;
+  color: #000;
+  box-shadow: inset 1px 1px 0 #ddd, inset -1px -1px 0 #777, inset 2px 2px 0 #fff, inset -2px -2px 0 #aaa;
+}
+
+.reference-dt-btn-date   { left: 36px; top: 63px; }
+.reference-dt-btn-time   { left: 213px; top: 63px; }
+.reference-dt-btn-zone   { left: 223px; top: 160px; }
+.reference-dt-btn-server { left: 222px; top: 226px; }
+.reference-dt-btn-clock  { left: 222px; top: 296px; }
+
+/* Checkboxes: :disabled inherits box-shadow: none and flat surface from dist/platinum.css */
+.reference-dt-chk.pt-checkbox {
+  position: absolute;
+  left: 24px;
+  width: 12px;
+  height: 12px;
+  margin: 0;
+}
+
+.reference-dt-chk.pt-checkbox:not(:disabled) {
+  border-color: #000;
+  box-shadow: none;
+  background:
+    linear-gradient(#fff, #fff) 0 0 / 9px 1px no-repeat,
+    linear-gradient(#fff, #fff) 0 0 / 1px 9px no-repeat,
+    linear-gradient(#888, #888) 9px 1px / 1px 9px no-repeat,
+    linear-gradient(#888, #888) 1px 9px / 9px 1px no-repeat,
+    #ddd;
+}
+
+.reference-dt-chk-auto { top: 122px; }
+.reference-dt-chk-dst  { top: 140px; }
+.reference-dt-chk-net  { top: 200px; z-index: 2; }
+
+.reference-dt-chk.pt-checkbox:checked::after {
+  box-sizing: border-box;
+  border-color: #000;
+  width: 6px;
+  height: 3px;
+  left: 2px;
+  top: 2px;
+}
+
+.reference-dt-rad.pt-radio {
+  position: absolute;
+  top: 300px;
+  width: 12px;
+  height: 12px;
+  margin: 0;
+}
+
+.reference-dt-rad-on  { left: 60px; }
+.reference-dt-rad-off { left: 109px; }
+
+.reference-dt-label {
+  position: absolute;
+  font: bold 12px / 13px Charcoal, Geneva, Arial, sans-serif;
+  color: #000;
+  white-space: nowrap;
+}
+
+.reference-dt-lbl-auto   { left: 41px; top: 122px; }
+.reference-dt-lbl-dst    { left: 41px; top: 140px; color: #777; }
+.reference-dt-mb-hdr     { left: 23px; top: 280px; }
+.reference-dt-rad-lbl-on { left: 77px; top: 300px; }
+.reference-dt-rad-lbl-off { left: 126px; top: 300px; }
+
+.reference-dt-text {
+  position: absolute;
+  left: 40px;
+  font: 10px / 12px Geneva, Arial, sans-serif;
+  color: #000;
+  white-space: pre-line;
+}
+
+.reference-dt-zone-note { top: 158px; }
+.reference-dt-net-1     { top: 219px; }
+.reference-dt-net-2     { top: 239px; }
+
+.reference-dt-help.reference-help.pt-btn {
+  left: 10px;
+  top: 311px;
+}
+
+/* Inactive Date & Time state */
+.sample-window[data-inactive="true"] .reference-datetime-panel {
+  border-color: #555;
+  box-shadow: none;
+}
+
+.sample-window[data-inactive="true"] .reference-dt-gb.pt-groupbox {
+  border-color: #bbb;
+  box-shadow: none;
+}
+
+.sample-window[data-inactive="true"] .reference-dt-gb.pt-groupbox > legend,
+.sample-window[data-inactive="true"] .reference-dt-label,
+.sample-window[data-inactive="true"] .reference-dt-text,
+.sample-window[data-inactive="true"] .reference-dt-field.pt-field,
+.sample-window[data-inactive="true"] .reference-dt-btn.pt-btn {
+  color: #777;
+}
+
+.sample-window[data-inactive="true"] .reference-dt-field.pt-field {
+  border-color: #555;
+  box-shadow: none;
+}
+
+.sample-window[data-inactive="true"] .reference-dt-btn.pt-btn,
+.sample-window[data-inactive="true"] .reference-dt-chk.pt-checkbox,
+.sample-window[data-inactive="true"] .reference-dt-rad.pt-radio {
+  border-color: #888;
+  background: #ddd;
+  color: #777;
+  box-shadow: none;
+}
+
+.sample-window[data-inactive="true"] .reference-dt-chk.pt-checkbox:checked::after {
+  border-color: #777;
 }

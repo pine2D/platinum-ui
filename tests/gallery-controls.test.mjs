@@ -238,6 +238,35 @@ describe("Platinum controls in Chromium", { skip: !playwright && "Playwright una
     assert.equal(pickerStyle.pickerRadius, "0px");
     await page.keyboard.press("Escape");
 
+    // Fractional Windows DPI scaling (125%, 150%, 175%, 225%, 250%) must keep both arrows solid without horizontal seams
+    for (const dpr of [1.25, 1.5, 1.75, 2.25, 2.5]) {
+      const fp = await browser.newPage({ deviceScaleFactor: dpr });
+      await fp.setContent(`<!doctype html><html><body><select id="s" class="pt-select" style="width:140px"><option>One</option></select></body></html>`);
+      await fp.addStyleTag({ path: cssPath("platinum") });
+      const shot = await fp.locator("#s").screenshot();
+      const segs = await fp.evaluate(async b64 => {
+        const img = new Image();
+        img.src = "data:image/png;base64," + b64;
+        await img.decode();
+        const c = document.createElement("canvas");
+        c.width = img.width;
+        c.height = img.height;
+        const ctx = c.getContext("2d");
+        ctx.drawImage(img, 0, 0);
+        const d = ctx.getImageData(0, 0, img.width, img.height).data;
+        const cx = img.width - Math.round(9.5 * window.devicePixelRatio);
+        let count = 0, dark = false;
+        for (let y = Math.round(4 * window.devicePixelRatio); y < img.height - Math.round(4 * window.devicePixelRatio); y++) {
+          const isInk = d[(y * img.width + cx) * 4] < 150;
+          if (isInk && !dark) count++;
+          dark = isInk;
+        }
+        return count;
+      }, shot.toString("base64"));
+      await fp.close();
+      assert.equal(segs, 2, `Expected 2 solid triangles without seam at DPR ${dpr}, got ${segs}`);
+    }
+
     // 2. Window 3 interactive listbox (click + keyboard ArrowDown/End) & user input preserved across language switch
     const searchInput = page.locator('[data-i18n-value="searchVal"]');
     await searchInput.fill("custom user query");
