@@ -4,7 +4,7 @@
    ========================================================================== */
 
 @layer pt.core {
-  :where(.pt-window, .pt-window *, .pt-btn, .pt-field, .pt-select, .pt-range, .pt-groupbox, .pt-menu, .pt-badge, .pt-chip, .pt-kbd, .pt-switch) {
+  :where(.pt-window, .pt-window *, .pt-btn, .pt-field, .pt-select, .pt-range, .pt-groupbox, .pt-menu, .pt-badge, .pt-chip, .pt-kbd, .pt-switch, .pt-switch *) {
     box-sizing: border-box;
   }
 
@@ -714,8 +714,16 @@
     border-end-end-radius: var(--pt-radius-control);
   }
 
-  .pt-segmented > .pt-btn:focus-visible {
+  .pt-segmented > .pt-btn:not(:disabled, [aria-disabled="true"]) {
+    z-index: 1;
+  }
+
+  .pt-segmented > .pt-btn:is(:active, [aria-pressed="true"], [aria-expanded="true"], [aria-selected="true"], .is-active):not(:disabled, [aria-disabled="true"]) {
     z-index: 2;
+  }
+
+  .pt-segmented > .pt-btn:focus-visible {
+    z-index: 3;
   }
 
   /* ---- Sunken Value Fields, HIG Pop-up Select & Platinum Slider ---- */
@@ -870,8 +878,8 @@
     );
   }
 
-  /* Multi-row listbox select (preserves natural UA row count, multiple size="1", and non-numeric size fallbacks) */
-  select.pt-select:where([multiple]:not([size="1"]), [size="2"], [size="3"], [size="4"], [size="5"], [size="6"], [size="7"], [size="8"], [size="9"], [size="10"], [size="12"], [size="15"], [size="20"]) {
+  /* Multi-row listbox select (covers all valid integers size >= 2 and multiple, while preserving multiple size="1" and non-numeric size fallbacks) */
+  select.pt-select:where([multiple]:not([size="1"]), [size^="2"], [size^="3"], [size^="4"], [size^="5"], [size^="6"], [size^="7"], [size^="8"], [size^="9"], [size^="10"], [size^="11"], [size^="12"], [size^="13"], [size^="14"], [size^="15"], [size^="16"], [size^="17"], [size^="18"], [size^="19"]) {
     height: auto;
     padding: 3px;
     background: var(--pt-paper);
@@ -889,20 +897,20 @@
     color: var(--pt-ink);
   }
 
-  select.pt-select:where([multiple]:not([size="1"]), [size="2"], [size="3"], [size="4"], [size="5"], [size="6"], [size="7"], [size="8"], [size="9"], [size="10"], [size="12"], [size="15"], [size="20"]) option,
-  select.pt-select:where([multiple]:not([size="1"]), [size="2"], [size="3"], [size="4"], [size="5"], [size="6"], [size="7"], [size="8"], [size="9"], [size="10"], [size="12"], [size="15"], [size="20"]) optgroup {
+  select.pt-select:where([multiple]:not([size="1"]), [size^="2"], [size^="3"], [size^="4"], [size^="5"], [size^="6"], [size^="7"], [size^="8"], [size^="9"], [size^="10"], [size^="11"], [size^="12"], [size^="13"], [size^="14"], [size^="15"], [size^="16"], [size^="17"], [size^="18"], [size^="19"]) option,
+  select.pt-select:where([multiple]:not([size="1"]), [size^="2"], [size^="3"], [size^="4"], [size^="5"], [size^="6"], [size^="7"], [size^="8"], [size^="9"], [size^="10"], [size^="11"], [size^="12"], [size^="13"], [size^="14"], [size^="15"], [size^="16"], [size^="17"], [size^="18"], [size^="19"]) optgroup {
     background-color: var(--pt-paper);
     color: var(--pt-ink);
     padding: 2px 6px;
   }
 
-  select.pt-select:where([multiple]:not([size="1"]), [size="2"], [size="3"], [size="4"], [size="5"], [size="6"], [size="7"], [size="8"], [size="9"], [size="10"], [size="12"], [size="15"], [size="20"]) option:checked {
+  select.pt-select:where([multiple]:not([size="1"]), [size^="2"], [size^="3"], [size^="4"], [size^="5"], [size^="6"], [size^="7"], [size^="8"], [size^="9"], [size^="10"], [size^="11"], [size^="12"], [size^="13"], [size^="14"], [size^="15"], [size^="16"], [size^="17"], [size^="18"], [size^="19"]) option:checked {
     background: linear-gradient(var(--pt-selection-bg), var(--pt-selection-bg)), var(--pt-selection-bg);
     color: var(--pt-selection-fg);
     font-weight: 700;
   }
 
-  select.pt-select:where([multiple]:not([size="1"]), [size="2"], [size="3"], [size="4"], [size="5"], [size="6"], [size="7"], [size="8"], [size="9"], [size="10"], [size="12"], [size="15"], [size="20"]) option:disabled {
+  select.pt-select:where([multiple]:not([size="1"]), [size^="2"], [size^="3"], [size^="4"], [size^="5"], [size^="6"], [size^="7"], [size^="8"], [size^="9"], [size^="10"], [size^="11"], [size^="12"], [size^="13"], [size^="14"], [size^="15"], [size^="16"], [size^="17"], [size^="18"], [size^="19"]) option:disabled {
     color: var(--pt-ink-muted);
   }
 
@@ -1256,6 +1264,7 @@
   }
 
   .pt-switch-track {
+    box-sizing: border-box;
     position: relative;
     width: 28px;
     height: 16px;
@@ -1271,7 +1280,7 @@
     position: absolute;
     box-sizing: border-box;
     top: 1px;
-    left: 1px;
+    inset-inline-start: 1px;
     width: 12px;
     height: 12px;
     background: var(--pt-face);
@@ -1284,7 +1293,7 @@
   }
 
   .pt-switch-input:checked ~ .pt-switch-track::before {
-    left: 13px;
+    inset-inline-start: 13px;
   }
 
   .pt-switch:has(.pt-switch-input:is(:disabled, [aria-disabled="true"])) {
@@ -1337,6 +1346,7 @@
   }
 
   .pt-menu {
+    --pt-surface-bg: var(--pt-face);
     flex-direction: column;
     min-width: 160px;
     padding: 3px 0;
@@ -1578,7 +1588,7 @@
       padding-inline: 8px;
       background-image: none;
     }
-    select.pt-select:where([multiple]:not([size="1"]), [size="2"], [size="3"], [size="4"], [size="5"], [size="6"], [size="7"], [size="8"], [size="9"], [size="10"], [size="12"], [size="15"], [size="20"]) option:checked {
+    select.pt-select:where([multiple]:not([size="1"]), [size^="2"], [size^="3"], [size^="4"], [size^="5"], [size^="6"], [size^="7"], [size^="8"], [size^="9"], [size^="10"], [size^="11"], [size^="12"], [size^="13"], [size^="14"], [size^="15"], [size^="16"], [size^="17"], [size^="18"], [size^="19"]) option:checked {
       background: Highlight;
       color: HighlightText;
       forced-color-adjust: none;

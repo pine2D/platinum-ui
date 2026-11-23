@@ -42,7 +42,7 @@
     margin: var(--pt-space-3) 0;
   }
 
-  .pt-prose a:not(.pt-btn, .pt-menu-item, .pt-unstyled) {
+  .pt-prose a:not(.pt-btn, .pt-menu-item, .pt-chip, .pt-badge, .pt-unstyled) {
     color: var(--pt-accent);
     text-underline-offset: 2px;
   }
@@ -58,6 +58,7 @@
   }
 
   .pt-prose pre {
+    --pt-surface-bg: var(--pt-code-bg);
     overflow-x: auto;
     padding: var(--pt-space-3);
     background: var(--pt-code-bg);
@@ -83,6 +84,7 @@
   }
 
   .pt-code-window-head {
+    --pt-surface-bg: var(--pt-face);
     align-items: center;
     justify-content: space-between;
     gap: var(--pt-space-2);

@@ -6,7 +6,7 @@
    ========================================================================== */
 
 @layer pt.elements {
-  __PT_ROOT__:not(.pt-window, .pt-surface, .pt-well, .pt-toolbar, .pt-statusbar, .pt-code-window, .pt-menu, .pt-unstyled) {
+  :where(__PT_ROOT__):where(:not(button, input, select, textarea, fieldset, legend, details, summary, table, thead, tbody, tr, th, td, progress, a, kbd, code, pre, [class^="pt-"], [class*=" pt-"], .pt-unstyled)) {
     --pt-surface-bg: var(--pt-canvas);
     background: var(--pt-canvas);
     color: var(--pt-ink);
@@ -21,7 +21,7 @@
     color: var(--pt-selection-fg);
   }
 
-  __PT_SCOPE__ a:not(.pt-btn, .pt-menu-item, .pt-unstyled) {
+  __PT_SCOPE__ a:not(.pt-btn, .pt-menu-item, .pt-chip, .pt-badge, .pt-unstyled) {
     color: var(--pt-accent);
     text-underline-offset: 2px;
   }
@@ -224,7 +224,7 @@
     );
   }
 
-  __PT_SCOPE__ select:not(.pt-select, .pt-unstyled):where([multiple]:not([size="1"]), [size="2"], [size="3"], [size="4"], [size="5"], [size="6"], [size="7"], [size="8"], [size="9"], [size="10"], [size="12"], [size="15"], [size="20"]) {
+  __PT_SCOPE__ select:not(.pt-select, .pt-unstyled):where([multiple]:not([size="1"]), [size^="2"], [size^="3"], [size^="4"], [size^="5"], [size^="6"], [size^="7"], [size^="8"], [size^="9"], [size^="10"], [size^="11"], [size^="12"], [size^="13"], [size^="14"], [size^="15"], [size^="16"], [size^="17"], [size^="18"], [size^="19"]) {
     box-sizing: border-box;
     height: auto;
     padding: 3px;
@@ -243,20 +243,20 @@
     color: var(--pt-ink);
   }
 
-  __PT_SCOPE__ select:not(.pt-select, .pt-unstyled):where([multiple]:not([size="1"]), [size="2"], [size="3"], [size="4"], [size="5"], [size="6"], [size="7"], [size="8"], [size="9"], [size="10"], [size="12"], [size="15"], [size="20"]) option,
-  __PT_SCOPE__ select:not(.pt-select, .pt-unstyled):where([multiple]:not([size="1"]), [size="2"], [size="3"], [size="4"], [size="5"], [size="6"], [size="7"], [size="8"], [size="9"], [size="10"], [size="12"], [size="15"], [size="20"]) optgroup {
+  __PT_SCOPE__ select:not(.pt-select, .pt-unstyled):where([multiple]:not([size="1"]), [size^="2"], [size^="3"], [size^="4"], [size^="5"], [size^="6"], [size^="7"], [size^="8"], [size^="9"], [size^="10"], [size^="11"], [size^="12"], [size^="13"], [size^="14"], [size^="15"], [size^="16"], [size^="17"], [size^="18"], [size^="19"]) option,
+  __PT_SCOPE__ select:not(.pt-select, .pt-unstyled):where([multiple]:not([size="1"]), [size^="2"], [size^="3"], [size^="4"], [size^="5"], [size^="6"], [size^="7"], [size^="8"], [size^="9"], [size^="10"], [size^="11"], [size^="12"], [size^="13"], [size^="14"], [size^="15"], [size^="16"], [size^="17"], [size^="18"], [size^="19"]) optgroup {
     background-color: var(--pt-paper);
     color: var(--pt-ink);
     padding: 2px 6px;
   }
 
-  __PT_SCOPE__ select:not(.pt-select, .pt-unstyled):where([multiple]:not([size="1"]), [size="2"], [size="3"], [size="4"], [size="5"], [size="6"], [size="7"], [size="8"], [size="9"], [size="10"], [size="12"], [size="15"], [size="20"]) option:checked {
+  __PT_SCOPE__ select:not(.pt-select, .pt-unstyled):where([multiple]:not([size="1"]), [size^="2"], [size^="3"], [size^="4"], [size^="5"], [size^="6"], [size^="7"], [size^="8"], [size^="9"], [size^="10"], [size^="11"], [size^="12"], [size^="13"], [size^="14"], [size^="15"], [size^="16"], [size^="17"], [size^="18"], [size^="19"]) option:checked {
     background: linear-gradient(var(--pt-selection-bg), var(--pt-selection-bg)), var(--pt-selection-bg);
     color: var(--pt-selection-fg);
     font-weight: 700;
   }
 
-  __PT_SCOPE__ select:not(.pt-select, .pt-unstyled):where([multiple]:not([size="1"]), [size="2"], [size="3"], [size="4"], [size="5"], [size="6"], [size="7"], [size="8"], [size="9"], [size="10"], [size="12"], [size="15"], [size="20"]) option:disabled {
+  __PT_SCOPE__ select:not(.pt-select, .pt-unstyled):where([multiple]:not([size="1"]), [size^="2"], [size^="3"], [size^="4"], [size^="5"], [size^="6"], [size^="7"], [size^="8"], [size^="9"], [size^="10"], [size^="11"], [size^="12"], [size^="13"], [size^="14"], [size^="15"], [size^="16"], [size^="17"], [size^="18"], [size^="19"]) option:disabled {
     color: var(--pt-ink-muted);
   }
 
@@ -730,7 +730,7 @@
       background-image: none;
     }
 
-    __PT_SCOPE__ select:not(.pt-select, .pt-unstyled):where([multiple]:not([size="1"]), [size="2"], [size="3"], [size="4"], [size="5"], [size="6"], [size="7"], [size="8"], [size="9"], [size="10"], [size="12"], [size="15"], [size="20"]) option:checked {
+    __PT_SCOPE__ select:not(.pt-select, .pt-unstyled):where([multiple]:not([size="1"]), [size^="2"], [size^="3"], [size^="4"], [size^="5"], [size^="6"], [size^="7"], [size^="8"], [size^="9"], [size^="10"], [size^="11"], [size^="12"], [size^="13"], [size^="14"], [size^="15"], [size^="16"], [size^="17"], [size^="18"], [size^="19"]) option:checked {
       background: Highlight;
       color: HighlightText;
       forced-color-adjust: none;

@@ -58,6 +58,7 @@ export function compileTokensCss(tokens, { scopedOnly = false } = {}) {
     : `:where(${forceDarkBase})`;
   const graySel = `:where([data-platinum-accent="gray"])${mountGuard}`;
   const lavSel = `:where([data-platinum-accent="lavender"])${mountGuard}`;
+  const compactSel = `:where([data-platinum-density="compact"])${mountGuard}`;
   const comfortableSel = `:where([data-platinum-density="comfortable"])${mountGuard}`;
   const rebindTargets = `:where(:scope, [data-platinum-accent="gray"], [data-platinum-accent="lavender"])${mountGuard}`;
 
@@ -136,6 +137,10 @@ ${bindVariantSlots(variantKeys, "d", tokens.scrollbar, "      ")}
     }
   }
 
+  ${compactSel} {
+${emitVars(tokens.density.compact)}
+  }
+
   ${comfortableSel} {
 ${emitVars(tokens.density.comfortable)}
   }
@@ -199,9 +204,33 @@ function findTopPseudoElementIndex(sel) {
   return -1;
 }
 
-function scopeSingleSelector(sel) {
-  const guard = ":where([data-platinum], [data-platinum] *)";
-  if (sel.includes("[data-platinum]")) return sel;
+function findFirstTopCombinatorIndex(sel) {
+  let paren = 0;
+  let bracket = 0;
+  let inStr = null;
+  for (let i = 0; i < sel.length; i++) {
+    const ch = sel[i];
+    if (inStr) {
+      if (ch === "\\") i++;
+      else if (ch === inStr) inStr = null;
+    } else if (ch === '"' || ch === "'") {
+      inStr = ch;
+    } else if (ch === "(") {
+      paren++;
+    } else if (ch === ")") {
+      paren = Math.max(0, paren - 1);
+    } else if (ch === "[") {
+      bracket++;
+    } else if (ch === "]") {
+      bracket = Math.max(0, bracket - 1);
+    } else if (paren === 0 && bracket === 0 && (ch === ">" || ch === "+" || ch === "~" || /\s/.test(ch))) {
+      return i;
+    }
+  }
+  return -1;
+}
+
+function guardRightmostSelector(sel, guard) {
   const pIdx = findTopPseudoElementIndex(sel);
   if (pIdx < 0) {
     return `${sel}${guard}`;
@@ -212,6 +241,18 @@ function scopeSingleSelector(sel) {
     return `${elemPart}*${guard}${pseudoPart}`;
   }
   return `${elemPart}${guard}${pseudoPart}`;
+}
+
+function scopeSingleSelector(sel) {
+  const guard = ":where([data-platinum], [data-platinum] *)";
+  if (sel.includes("[data-platinum]")) return sel;
+  const cIdx = findFirstTopCombinatorIndex(sel);
+  if (cIdx > 0) {
+    const leftPart = sel.slice(0, cIdx);
+    const restPart = sel.slice(cIdx);
+    return `${leftPart}${guard}${guardRightmostSelector(restPart, guard)}`;
+  }
+  return guardRightmostSelector(sel, guard);
 }
 
 export function scopeCssLayerRules(cssText) {

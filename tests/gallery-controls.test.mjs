@@ -303,12 +303,29 @@ describe("Platinum controls in Chromium", { skip: !playwright && "Playwright una
       <html data-platinum-scheme="dark" data-platinum-controls="win">
       <body>
         <div id="out-win" class="pt-window"><button id="out-tbox" class="pt-tbox pt-tbox-close"></button></div>
+        <section id="host-collapsed" class="pt-window" data-collapsed="true" data-window-focused="false">
+          <div data-platinum data-platinum-controls="win">
+            <header class="pt-titlebar"><button id="iso-tbox" class="pt-tbox pt-tbox-close"></button><span class="pt-titlebar-label">Isolated</span></header>
+            <button id="iso-btn" class="pt-btn">Save</button>
+          </div>
+        </section>
+        <label class="pt-switch" data-platinum><input type="checkbox" class="pt-switch-input" checked /><span id="standalone-sw-tr" class="pt-switch-track"></span></label>
         <section id="mount-root" class="pt-window" data-platinum data-platinum-scheme="dark" data-platinum-accent="lavender" data-platinum-density="comfortable">
           <section id="nested-bare-mount" data-platinum><button class="pt-btn">Sub</button></section>
+          <div id="nested-compact" data-platinum-density="compact"><button id="compact-btn" class="pt-btn">Compact</button></div>
           <div id="inner-light" data-platinum-scheme="light">
             <div class="pt-prose">
               <a id="prose-btn" href="#x" class="pt-btn" aria-pressed="true">Act</a>
+              <a id="prose-chip" href="#c" class="pt-chip">Tag</a>
+              <a id="prose-danger" href="#d" class="pt-badge pt-badge-danger">Err</a>
+              <div class="pt-code-window">
+                <div class="pt-code-window-head"><fieldset class="pt-groupbox"><legend id="head-lg">Cfg</legend></fieldset></div>
+              </div>
               <div id="hid-code-head" class="pt-code-window-head" hidden>sh</div>
+            </div>
+            <div id="seg-pair" class="pt-segmented">
+              <button id="seg-en" class="pt-btn">On</button>
+              <button id="seg-dis" class="pt-btn" disabled>Off</button>
             </div>
             <input id="dis-chk" type="checkbox" class="pt-checkbox" checked disabled />
             <input id="hid-chk" type="checkbox" class="pt-checkbox" hidden />
@@ -329,21 +346,47 @@ describe("Platinum controls in Chromium", { skip: !playwright && "Playwright una
             <select id="sel-m1" class="pt-select" multiple size="1"><option>One</option><option>Two</option></select>
             <select id="multi-sel" class="pt-select" multiple><option>A</option><option>B</option><option>C</option></select>
             <select id="listbox-3" class="pt-select" size="3"><option selected>Alpha</option><option>Beta</option><option>Gamma</option></select>
+            <select id="listbox-11" class="pt-select" size="11"><option selected>R1</option><option>R2</option><option>R3</option></select>
             <button id="after-lb" class="pt-btn">After</button>
           </div>
         </section>
-        <select id="self-mount-sel" data-platinum><option>Self</option></select>
+        <select id="self-mount-sel" data-platinum style="width:120px"><option>Self</option></select>
+        <select id="self-mount-cls" class="pt-select" data-platinum style="width:120px"><option>SelfCls</option></select>
         <input id="self-mount-rng" type="range" data-platinum value="40" />
       </body></html>`);
     await p2.addStyleTag({ path: cssPath("platinum-scoped") });
 
-    // Unfocused listbox selection must produce a visible pixel change when moving from row 0 to row 1
-    await p2.locator("#after-lb").focus();
-    const lbBefore = await p2.locator("#listbox-3").screenshot();
-    await p2.locator("#listbox-3").selectOption({ index: 1 });
-    await p2.locator("#after-lb").focus();
-    const lbAfter = await p2.locator("#listbox-3").screenshot();
-    assert.notDeepEqual(lbBefore, lbAfter);
+    // Unfocused listbox selection (both size=3 and unenumerated size=11) must produce a visible pixel change when moving from row 0 to row 1
+    for (const lbId of ["#listbox-3", "#listbox-11"]) {
+      await p2.locator("#after-lb").focus();
+      const lbBefore = await p2.locator(lbId).screenshot();
+      await p2.locator(lbId).selectOption({ index: 1 });
+      await p2.locator("#after-lb").focus();
+      const lbAfter = await p2.locator(lbId).screenshot();
+      assert.notDeepEqual(lbBefore, lbAfter, `${lbId} unfocused selection did not change pixels`);
+    }
+
+    // RTL switch thumb must move right-to-left (inline-start -> inline-end) when checked
+    const rtlSwOffShot = await p2.locator("#rtl-sw-tr").screenshot();
+    await p2.locator("#rtl-sw-in").check();
+    const rtlSwOnShot = await p2.locator("#rtl-sw-tr").screenshot();
+    await p2.locator("#rtl-sw-in").uncheck();
+    const rtlThumbCenters = await p2.evaluate(async ([bOff, bOn]) => {
+      const centerOfBrightThumb = async (b64) => {
+        const img = new Image(); img.src = "data:image/png;base64," + b64; await img.decode();
+        const c = document.createElement("canvas"); c.width = img.width; c.height = img.height;
+        const ctx = c.getContext("2d"); ctx.drawImage(img, 0, 0);
+        const y = Math.floor(img.height / 2);
+        const d = ctx.getImageData(0, y, img.width, 1).data;
+        const xs = [];
+        for (let x = 2; x < img.width - 2; x++) {
+          if (d[x * 4] === 221) xs.push(x);
+        }
+        return (xs[0] + xs.at(-1)) / 2;
+      };
+      return { offX: await centerOfBrightThumb(bOff), onX: await centerOfBrightThumb(bOn) };
+    }, [rtlSwOffShot.toString("base64"), rtlSwOnShot.toString("base64")]);
+    assert.equal(rtlThumbCenters.offX - rtlThumbCenters.onX, 12);
 
     // Focusable aria-disabled field must show a keyboard focus outline
     await p2.locator("#aria-dis-field").focus();
@@ -382,7 +425,18 @@ describe("Platinum controls in Chromium", { skip: !playwright && "Playwright una
         hidCodeH: rect("hid-code-head").height,
         hidSwTrH: rect("hid-sw-tr").height,
         selfSelApp: cs("self-mount-sel").appearance,
+        selfSelBg: cs("self-mount-sel").backgroundColor,
+        selfSelImg: cs("self-mount-sel").backgroundImage,
+        selfClsBg: cs("self-mount-cls").backgroundColor,
+        selfClsImg: cs("self-mount-cls").backgroundImage,
         selfRngApp: cs("self-mount-rng").appearance,
+        isoBtnH: rect("iso-btn").height,
+        isoTboxVis: cs("iso-tbox").visibility,
+        standaloneSwSize: `${rect("standalone-sw-tr").width}x${rect("standalone-sw-tr").height}`,
+        compactBtnH: rect("compact-btn").height,
+        proseChipFg: cs("prose-chip").color,
+        proseDangerFg: cs("prose-danger").color,
+        headLgBg: cs("head-lg").backgroundColor,
         multiSelH: rect("multi-sel").height
       };
     });
@@ -397,6 +451,9 @@ describe("Platinum controls in Chromium", { skip: !playwright && "Playwright una
     assert.equal(audit.innerLightAccent, "#333399");
     assert.equal(audit.proseBtnFg, "rgb(255, 255, 255)");
     assert.equal(audit.proseBtnBg, "rgb(102, 102, 102)");
+    assert.equal(audit.proseChipFg, "rgb(34, 34, 34)");
+    assert.equal(audit.proseDangerFg, "rgb(122, 16, 16)");
+    assert.equal(audit.headLgBg, "rgb(221, 221, 221)");
     assert.equal(audit.disChkMark, "rgb(77, 77, 77)");
     assert.equal(audit.disChkBg, "rgb(204, 204, 204)");
     assert.deepEqual(audit.disSel, ["rgb(204, 204, 204)", "none", "not-allowed"]);
@@ -413,8 +470,48 @@ describe("Platinum controls in Chromium", { skip: !playwright && "Playwright una
     assert.equal(audit.hidCodeH, 0);
     assert.equal(audit.hidSwTrH, 0);
     assert.equal(audit.selfSelApp, "base-select");
+    assert.equal(audit.selfSelBg, "rgb(221, 221, 221)");
+    assert.notEqual(audit.selfSelImg, "none");
+    assert.equal(audit.selfClsBg, "rgb(221, 221, 221)");
+    assert.notEqual(audit.selfClsImg, "none");
     assert.equal(audit.selfRngApp, "none");
+    assert.equal(audit.isoBtnH, 26);
+    assert.equal(audit.isoTboxVis, "visible");
+    assert.equal(audit.standaloneSwSize, "28x16");
+    assert.equal(audit.compactBtnH, 26);
     assert.ok(audit.multiSelH >= 60);
+
+    // Self-mounted <select data-platinum> and <select class="pt-select" data-platinum> must paint dark arrow/cap ink,
+    // and enabled+disabled .pt-segmented seam must retain the enabled button's #262626 (38) frame
+    const selfBareShot = await p2.locator("#self-mount-sel").screenshot();
+    const selfClsShot = await p2.locator("#self-mount-cls").screenshot();
+    const segShot = await p2.locator("#seg-pair").screenshot();
+    const pxAudit = await p2.evaluate(async ([bBare, bCls, bSeg]) => {
+      const countCapDark = async (b64) => {
+        const img = new Image(); img.src = "data:image/png;base64," + b64; await img.decode();
+        const c = document.createElement("canvas"); c.width = img.width; c.height = img.height;
+        const ctx = c.getContext("2d"); ctx.drawImage(img, 0, 0);
+        const d = ctx.getImageData(Math.max(0, img.width - 18), 3, Math.min(15, img.width), img.height - 6).data;
+        let dark = 0;
+        for (let i = 0; i < d.length; i += 4) if (d[i] < 100) dark++;
+        return dark;
+      };
+      const segImg = new Image(); segImg.src = "data:image/png;base64," + bSeg; await segImg.decode();
+      const sc = document.createElement("canvas"); sc.width = segImg.width; sc.height = segImg.height;
+      const sctx = sc.getContext("2d"); sctx.drawImage(segImg, 0, 0);
+      const rEn = document.getElementById("seg-en").getBoundingClientRect();
+      const rSeg = document.getElementById("seg-pair").getBoundingClientRect();
+      const seamX = Math.floor((rEn.right - rSeg.left - 0.5) * devicePixelRatio);
+      const seamByte = sctx.getImageData(seamX, Math.floor(segImg.height / 2), 1, 1).data[0];
+      return {
+        bareCapDark: await countCapDark(bBare),
+        clsCapDark: await countCapDark(bCls),
+        seamByte
+      };
+    }, [selfBareShot.toString("base64"), selfClsShot.toString("base64"), segShot.toString("base64")]);
+    assert.ok(pxAudit.bareCapDark >= 16, `Self-mounted bare <select> lost cap ink (${pxAudit.bareCapDark})`);
+    assert.ok(pxAudit.clsCapDark >= 16, `Self-mounted .pt-select lost cap ink (${pxAudit.clsCapDark})`);
+    assert.equal(pxAudit.seamByte, 38);
 
     // 5. Electron <main data-window-focused="false">, nested active child .pt-window, and pre-@scope single-layer fallback
     const pFocus = await browser.newPage();

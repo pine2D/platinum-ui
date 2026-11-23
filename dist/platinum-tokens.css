@@ -494,6 +494,17 @@
     }
   }
 
+  :where([data-platinum-density="compact"]) {
+    --pt-control-h: 26px;
+    --pt-control-h-sm: 20px;
+    --pt-icon-size: 14px;
+    --pt-icon-size-sm: 13px;
+    --pt-hit-min: 24px;
+    --pt-titlebar-h: 22px;
+    --pt-btn-pad-x: 10px;
+    --pt-field-pad-x: 7px;
+  }
+
   :where([data-platinum-density="comfortable"]) {
     --pt-control-h: 32px;
     --pt-control-h-sm: 24px;
