@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
-import { mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { execFileSync } from "node:child_process";
+import { cpSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
 import test from "node:test";
@@ -56,9 +57,11 @@ test("tokens pass zero-cast R=G=B neutrality and 4-quadrant WCAG AA contrast wit
 });
 
 test("static CSS anti-trap audit catches bevel occlusion, missing border-box, :is(#id) leak, -2px hit box, and purple leak", () => {
-  // 1. Occluded bevel
+  // 1. Occluded bevel (both literal and var()-indirected)
   const occluded = `.bad { box-shadow: inset 0 0 0 1px #000, inset 1px 1px 0 #fff; }`;
   assert.ok(auditStaticCssContracts(occluded).errors.some((e) => e.includes("occludes bevel")));
+  const varOccluded = `:root { --ring: inset 0 0 0 3px #888; --bev: inset 1px 1px 0 #fff; } .bad { box-shadow: var(--ring), var(--bev); }`;
+  assert.ok(auditStaticCssContracts(varOccluded).errors.some((e) => e.includes("occludes bevel")));
 
   // 2. Pseudo-element missing box-sizing: border-box (including CSS & nested blocks and inner @media)
   const badPseudo = `.bad::before { content: ""; inset: -3px; }`;
@@ -68,10 +71,12 @@ test("static CSS anti-trap audit catches bevel occlusion, missing border-box, :i
   const safeQuotedCss = `.note::before { content: "a{box-shadow: inset 0 0 0 3px red, inset 1px 1px blue;}; box-shadow: inset 0 0 0 3px red, inset 1px 1px blue;"; }`;
   assert.deepEqual(auditStaticCssContracts(safeQuotedCss).errors, []);
 
-  // 3. Un-:where()'d #id inside :is() / :not()
+  // 3. Un-:where()'d #id inside :is() / :not() (including nested functional selectors like :nth-child(1))
   const badSpec = `:is(.pt-btn, .act:not(#submit-btn)) { background: #ddd; }`;
   assert.ok(auditStaticCssContracts(badSpec).errors.some((e) => e.includes("un-:where()'d #id")));
-  const safeSpec = `:is(.pt-btn, .act:not(:where(#submit-btn))) { background: #ddd; }`;
+  const badNestedSpec = `.pt-btn:is(:nth-child(1), #unrelated) { background: red; }`;
+  assert.ok(auditStaticCssContracts(badNestedSpec).errors.some((e) => e.includes("un-:where()'d #id")));
+  const safeSpec = `:is(.pt-btn, :nth-child(1), .act:not(:where(#submit-btn))) { background: #ddd; }`;
   assert.deepEqual(auditStaticCssContracts(safeSpec).errors, []);
 
   // 4. 20x20 padding-box hit-area math (-2px -> 22px < 24px)
@@ -225,9 +230,77 @@ test("live Chromium probe detects circular FABs, flush table cells, and 3D/overl
       appearance: none !important; -webkit-appearance: none !important;
       background: transparent !important; border: 0 !important; box-shadow: none !important;
     }
+    #no-thumb::-webkit-slider-thumb { background: transparent !important; border: 0 !important; box-shadow: none !important; }
+    #no-track::-webkit-slider-runnable-track { background: transparent !important; border: 0 !important; box-shadow: none !important; }
+    .float-lg > legend { top: -8px !important; padding-bottom: 12px !important; }
   </style></head><body style="padding:16px; background:#ccc">
-    <div data-platinum><input id="blank-rng" type="range" aria-label="Blank slider" style="width:120px;height:24px" value="50" /></div>
+    <div data-platinum>
+      <input id="blank-rng" type="range" aria-label="Blank slider" style="width:120px;height:24px" value="50" />
+      <input id="no-thumb" type="range" class="pt-range" aria-label="Missing thumb" style="width:120px" value="50" />
+      <input id="no-track" type="range" class="pt-range" aria-label="Missing track" style="width:120px" value="50" />
+      <div style="width:20px;height:20px;overflow:hidden">
+        <button class="pt-btn pt-btn-sm pt-btn-icon" aria-label="Clipped small"><svg viewBox="0 0 12 12" width="12" height="12"><path d="M2 6h8" stroke="currentColor"/></svg></button>
+      </div>
+      <fieldset class="pt-groupbox float-lg"><legend>Floating Legend</legend></fieldset>
+    </div>
   </body></html>`;
   const blankRangeRes = await runBrowserAudit({ root: ROOT, url: probeUrl(blankRangeHtml) });
-  assert.ok(blankRangeRes.errors.some((e) => e.includes("blank range slider")));
+  assert.ok(blankRangeRes.errors.some((e) => e.includes("(Blank slider)")));
+  assert.ok(blankRangeRes.errors.some((e) => e.includes("(Missing thumb)") && e.includes("thumb")));
+  assert.ok(blankRangeRes.errors.some((e) => e.includes("(Missing track)") && e.includes("track")));
+  assert.ok(blankRangeRes.errors.some((e) => e.includes("(Clipped small): effective hit area 20x20px < 24x24px")));
+  assert.ok(blankRangeRes.errors.some((e) => e.includes("(Floating Legend)") && e.includes("floats above")));
+
+  // 4. Non-existent --scope must fail loudly instead of silently reporting 8 verified states
+  const typoScopeRes = await runBrowserAudit({ root: ROOT, url: probeUrl(cleanHtml), scopeSelector: "#does-not-exist" });
+  assert.equal(typoScopeRes.statesChecked, 0);
+  assert.ok(typoScopeRes.errors.some((e) => e.includes('matched 0 elements')));
+
+  // 5. [hidden] .pt-window and local data-platinum-controls="win" override must pass cleanly without false errors
+  const hiddenAndLocalWinHtml = `<!doctype html><html data-platinum><head><style>${platinumCss}</style></head><body style="padding:16px">
+    <section class="pt-window" hidden>
+      <header class="pt-titlebar">
+        <button class="pt-tbox pt-tbox-close" aria-label="Close"></button>
+        <button class="pt-tbox pt-tbox-minimize" aria-label="Minimize"></button>
+        <button class="pt-tbox pt-tbox-zoom" aria-label="Zoom"></button>
+        <span class="pt-titlebar-label">Hidden Window</span>
+      </header>
+    </section>
+    <section class="pt-window" data-platinum-controls="win" style="max-width:340px">
+      <header class="pt-titlebar">
+        <button class="pt-tbox pt-tbox-close" aria-label="Close"></button>
+        <button class="pt-tbox pt-tbox-minimize" aria-label="Minimize"></button>
+        <button class="pt-tbox pt-tbox-zoom" aria-label="Zoom"></button>
+        <span class="pt-titlebar-label">Win Override</span>
+      </header>
+    </section>
+  </body></html>`;
+  const hiddenAndLocalRes = await runBrowserAudit({ root: ROOT, url: probeUrl(hiddenAndLocalWinHtml) });
+  assert.equal(hiddenAndLocalRes.statesChecked, 8);
+  assert.deepEqual(hiddenAndLocalRes.errors, []);
+});
+
+test("unpacked npm package layout runs platinum-check and --browser without src/ or gallery/", async () => {
+  const tmp = mkdtempSync(join(tmpdir(), "pt-pack-"));
+  try {
+    const pkg = JSON.parse(readFileSync(join(ROOT, "package.json"), "utf8"));
+    for (const entry of pkg.files) {
+      const cleanRel = entry.replace(/\/+$/, "");
+      cpSync(join(ROOT, cleanRel), join(tmp, cleanRel), { recursive: true });
+    }
+    cpSync(join(ROOT, "package.json"), join(tmp, "package.json"));
+    const staticOut = execFileSync(process.execPath, [join(tmp, "bin/platinum-check.mjs")], {
+      cwd: tmp,
+      encoding: "utf8"
+    });
+    assert.match(staticOut, /\[platinum-check\] PASS/);
+
+    const bRes = await runBrowserAudit({ root: tmp });
+    if (!bRes.skipped) {
+      assert.equal(bRes.statesChecked, 8);
+      assert.deepEqual(bRes.errors, []);
+    }
+  } finally {
+    rmSync(tmp, { recursive: true, force: true });
+  }
 });

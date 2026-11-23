@@ -149,7 +149,15 @@
     }
   };
   const manifest = window.PLATINUM_REFERENCE;
-  const sampleList = Array.isArray(manifest?.samples) ? manifest.samples : [];
+  const sampleList = Array.isArray(manifest?.samples)
+    ? manifest.samples.filter(s =>
+        s && typeof s === 'object' &&
+        typeof s.id === 'string' && s.id.length > 0 &&
+        Number.isInteger(s.width) && s.width > 0 &&
+        Number.isInteger(s.height) && s.height > 0 &&
+        Array.isArray(s.crop) && s.crop.length === 4
+      )
+    : [];
   const parameters = new URL(location.href).searchParams;
   let locale = parameters.get('lang') === 'zh-CN' ? 'zh-CN' : 'en';
   let mode = 'original';

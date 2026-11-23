@@ -352,6 +352,101 @@ function stripWhereBlocks(selector) {
   return out;
 }
 
+function hasUnwheredIdInPseudo(selector) {
+  const cleaned = stripWhereBlocks(selector);
+  let i = 0;
+  let inStr = null;
+  while (i < cleaned.length) {
+    const ch = cleaned[i];
+    if (inStr) {
+      if (ch === "\\") i += 2;
+      else {
+        if (ch === inStr) inStr = null;
+        i++;
+      }
+      continue;
+    }
+    if (ch === '"' || ch === "'") {
+      inStr = ch;
+      i++;
+      continue;
+    }
+    const pseudoLen = cleaned.startsWith(":is(", i) ? 4 : (cleaned.startsWith(":not(", i) ? 5 : 0);
+    if (pseudoLen > 0) {
+      const start = i + pseudoLen;
+      let depth = 1;
+      let j = start;
+      let s = null;
+      while (j < cleaned.length && depth > 0) {
+        const c = cleaned[j];
+        if (s) {
+          if (c === "\\") j++;
+          else if (c === s) s = null;
+        } else if (c === '"' || c === "'") {
+          s = c;
+        } else if (c === "(") {
+          depth++;
+        } else if (c === ")") {
+          depth--;
+        }
+        j++;
+      }
+      const inner = cleaned.slice(start, Math.max(start, j - 1));
+      let k = 0;
+      let ks = null;
+      while (k < inner.length) {
+        const kc = inner[k];
+        if (ks) {
+          if (kc === "\\") k += 2;
+          else {
+            if (kc === ks) ks = null;
+            k++;
+          }
+          continue;
+        }
+        if (kc === '"' || kc === "'") {
+          ks = kc;
+          k++;
+          continue;
+        }
+        if (kc === "#" && /[A-Za-z_-]/.test(inner[k + 1] || "")) return true;
+        k++;
+      }
+      i = j;
+      continue;
+    }
+    i++;
+  }
+  return false;
+}
+
+function resolveCssVars(value, customProps, depth = 0) {
+  if (!value || depth > 5 || !value.includes("var(")) return value;
+  let out = "";
+  let i = 0;
+  while (i < value.length) {
+    if (value.startsWith("var(", i)) {
+      let d = 1;
+      let j = i + 4;
+      while (j < value.length && d > 0) {
+        if (value[j] === "(") d++;
+        else if (value[j] === ")") d--;
+        j++;
+      }
+      const inner = value.slice(i + 4, Math.max(i + 4, j - 1));
+      const parts = splitTopLevelCommas(inner);
+      const propName = (parts[0] || "").trim();
+      const fallback = parts.slice(1).join(", ").trim();
+      const resolved = customProps.get(propName) ?? fallback;
+      out += resolved ? resolveCssVars(resolved, customProps, depth + 1) : value.slice(i, j);
+      i = j;
+    } else {
+      out += value[i++];
+    }
+  }
+  return out;
+}
+
 export function auditStaticCssContracts(cssText, { label = "css", forbidPurple = false } = {}) {
   const errors = [];
   const cleanForBalance = stripCssComments(cssText);
@@ -380,24 +475,33 @@ export function auditStaticCssContracts(cssText, { label = "css", forbidPurple =
   const rules = scanCssRules(cssText);
 
   if (forbidPurple) {
-    const stripped = cssText.replace(/\/\*[\s\S]*?\*\//g, "");
-    const m = FORBIDDEN_PURPLE_RE.exec(stripped);
+    const m = FORBIDDEN_PURPLE_RE.exec(cleanForBalance);
     if (m) {
       errors.push(`${label}: forbidden purple/lavender color ${m[0]} found under --forbid-purple policy`);
+    }
+  }
+
+  const customProps = new Map();
+  for (const rule of rules) {
+    for (const [prop, val] of parseDecls(rule.body).entries()) {
+      if (prop.startsWith("--") && val && val !== "initial") {
+        customProps.set(prop, val);
+      }
     }
   }
 
   for (const rule of rules) {
     const decls = parseDecls(rule.body);
 
-    // 1. Box-shadow bevel occlusion: `inset 0 0 0 <N>px` before `inset ±1/2px` occludes inner bevels
-    const boxShadow = decls.get("box-shadow");
+    // 1. Box-shadow bevel occlusion: `inset 0 0 0 <N>px` before `inset ±1/2px` occludes inner bevels (including via var())
+    const rawBoxShadow = decls.get("box-shadow");
+    const boxShadow = rawBoxShadow ? resolveCssVars(rawBoxShadow, customProps) : "";
     if (boxShadow && boxShadow.includes("inset")) {
       const layers = splitTopLevelCommas(boxShadow);
       const ringIdx = layers.findIndex((l) => /^inset\s+0(?:px)?\s+0(?:px)?\s+0(?:px)?\s+[1-9]/.test(l));
       const bevelIdx = layers.findIndex((l) => /^inset\s+-?[12]px\s+-?[12]px\b/.test(l));
       if (ringIdx >= 0 && bevelIdx > ringIdx) {
-        errors.push(`${label}:${rule.line}: box-shadow "${boxShadow}" places solid inset ring before inner bevel (occludes bevel)`);
+        errors.push(`${label}:${rule.line}: box-shadow "${rawBoxShadow}" places solid inset ring before inner bevel (occludes bevel)`);
       }
     }
 
@@ -409,9 +513,8 @@ export function auditStaticCssContracts(cssText, { label = "css", forbidPurple =
       }
     }
 
-    // 3. :is() / :not() un-:where()'d #id specificity inflation on shared control rules
-    const withoutWhere = stripWhereBlocks(rule.selector);
-    if (/:(?:is|not)\([^)]*#[A-Za-z_]/.test(withoutWhere)) {
+    // 3. :is() / :not() un-:where()'d #id specificity inflation on shared control rules (supports nested parens)
+    if (hasUnwheredIdInPseudo(rule.selector)) {
       errors.push(`${label}:${rule.line}: "${rule.selector}" has an un-:where()'d #id inside :is()/:not(), inflating selector specificity`);
     }
 
@@ -479,6 +582,8 @@ export function auditDocsAndSkillParity(root = ROOT) {
       for (const imgMatch of line.matchAll(/!\[[^\]]*\]\(([^)\s]+)\)/g)) {
         const ref = imgMatch[1].trim();
         if (/^(?:https?:|data:)/i.test(ref)) continue;
+        // Repo-only gallery/docs screenshots are verified in source checkouts; npm tarballs omit heavy media
+        if (!existsSync(join(root, "src")) && /^(?:docs\/screenshots\/|gallery\/)/.test(ref)) continue;
         const imgAbs = resolve(dirname(join(root, rel)), ref);
         if (!existsSync(imgAbs) || statSync(imgAbs).size === 0) {
           errors.push(`${rel}:${idx + 1}: missing or empty image asset "${ref}"`);
@@ -513,24 +618,53 @@ export const ICON_BUTTON_PROBE_SOURCE = `(() => {
     const rect = el.getBoundingClientRect();
     if (rect.width <= 0 || rect.height <= 0) continue;
 
-    // Effective hit box including ::before absolute expansion
+    // Effective hit box including ::before absolute expansion, clipped by any non-visible overflow box
     let hitL = rect.left, hitR = rect.right, hitT = rect.top, hitB = rect.bottom;
-    let hitW = rect.width;
-    let hitH = rect.height;
     const before = getComputedStyle(el, '::before');
-    if (before && before.content && before.content !== 'none' && before.position === 'absolute') {
+    if (
+      before &&
+      before.content &&
+      before.content !== 'none' &&
+      before.position === 'absolute' &&
+      before.pointerEvents !== 'none'
+    ) {
       const bwL = parsePx(cs.borderLeftWidth), bwR = parsePx(cs.borderRightWidth);
       const bwT = parsePx(cs.borderTopWidth), bwB = parsePx(cs.borderBottomWidth);
       const padL = rect.left + bwL, padR = rect.right - bwR;
       const padT = rect.top + bwT, padB = rect.bottom - bwB;
+      const bW = parsePx(before.width), bH = parsePx(before.height);
       const top = parsePx(before.top), right = parsePx(before.right), bottom = parsePx(before.bottom), left = parsePx(before.left);
-      hitL = Math.min(hitL, padL + left);
-      hitR = Math.max(hitR, padR - right);
-      hitT = Math.min(hitT, padT + top);
-      hitB = Math.max(hitB, padB - bottom);
-      hitW = hitR - hitL;
-      hitH = hitB - hitT;
+      const boxL = before.left !== 'auto' ? padL + left : (before.right !== 'auto' ? padR - right - bW : padL);
+      const boxR = bW > 0 ? boxL + bW : (before.right !== 'auto' ? padR - right : boxL);
+      const boxT = before.top !== 'auto' ? padT + top : (before.bottom !== 'auto' ? padB - bottom - bH : padT);
+      const boxB = bH > 0 ? boxT + bH : (before.bottom !== 'auto' ? padB - bottom : boxT);
+      hitL = Math.min(hitL, boxL);
+      hitR = Math.max(hitR, boxR);
+      hitT = Math.min(hitT, boxT);
+      hitB = Math.max(hitB, boxB);
     }
+    for (let anc = el; anc && anc !== document.documentElement; anc = anc.parentElement) {
+      const acs = anc === el ? cs : getComputedStyle(anc);
+      const ox = acs.overflowX, oy = acs.overflowY;
+      const clipsX = ox === 'hidden' || ox === 'clip' || ox === 'auto' || ox === 'scroll';
+      const clipsY = oy === 'hidden' || oy === 'clip' || oy === 'auto' || oy === 'scroll';
+      if (!clipsX && !clipsY) continue;
+      const ar = anc.getBoundingClientRect();
+      if (clipsX) {
+        const cl = ar.left + parsePx(acs.borderLeftWidth);
+        const cr = anc.clientWidth > 0 ? cl + anc.clientWidth : ar.right - parsePx(acs.borderRightWidth);
+        hitL = Math.max(hitL, cl);
+        hitR = Math.min(hitR, cr);
+      }
+      if (clipsY) {
+        const ct = ar.top + parsePx(acs.borderTopWidth);
+        const cb = anc.clientHeight > 0 ? ct + anc.clientHeight : ar.bottom - parsePx(acs.borderBottomWidth);
+        hitT = Math.max(hitT, ct);
+        hitB = Math.min(hitB, cb);
+      }
+    }
+    const hitW = Math.max(0, hitR - hitL);
+    const hitH = Math.max(0, hitB - hitT);
 
     const svgs = [...el.querySelectorAll('svg')].filter((s) => {
       const scs = getComputedStyle(s);
@@ -740,17 +874,23 @@ export const ICON_BUTTON_PROBE_SOURCE = `(() => {
       });
       continue;
     }
-    if (lgRect.height <= 24 && !lg.querySelector('input, select, button')) {
+    const lgRange = document.createRange();
+    lgRange.selectNodeContents(lg);
+    const lgTextRect = lgRange.getBoundingClientRect();
+    const isSingleLine = lgTextRect.height > 0 && lgTextRect.height <= (parsePx(lcs.fontSize) || 12) * 1.8;
+    if (isSingleLine && !lg.querySelector('input, select, button')) {
       const probe = document.createElement('span');
       probe.style.cssText = 'display:inline-block;width:0;height:0;vertical-align:baseline;padding:0;margin:0;border:0';
       lg.appendChild(probe);
       const baseY = probe.getBoundingClientRect().top;
       probe.remove();
-      if (baseY > insetGrooveY + 1.5) {
+      if (baseY > insetGrooveY + 1.5 || baseY < borderTopY - 2.5) {
         groupboxIssues.push({
           kind: 'legend-baseline-sag',
           label,
-          detail: '<legend> baseline sags below etched top border instead of resting on groove line'
+          detail: baseY < borderTopY - 2.5
+            ? '<legend> baseline floats above etched top border instead of resting on groove line'
+            : '<legend> baseline sags below etched top border instead of resting on groove line'
         });
       }
     }
@@ -870,14 +1010,40 @@ export function resolvePlaywright() {
   return null;
 }
 
+function buildPackagedSmokeUrl(root) {
+  const css = readFileSync(join(root, "dist/platinum.css"), "utf8");
+  const html = `<!doctype html><html data-platinum><head><meta charset="utf-8"><style>${css}</style></head><body style="padding:16px">
+    <section class="pt-window" style="max-width:440px">
+      <header class="pt-titlebar">
+        <button class="pt-tbox pt-tbox-close" aria-label="Close"></button>
+        <button class="pt-tbox pt-tbox-minimize" aria-label="Minimize"></button>
+        <button class="pt-tbox pt-tbox-zoom" aria-label="Zoom"></button>
+        <span class="pt-titlebar-label">Platinum Package Smoke</span>
+      </header>
+      <div class="pt-window-body" style="display:grid;gap:10px">
+        <div class="pt-actions">
+          <button class="pt-btn pt-btn-primary">OK</button>
+          <button class="pt-btn pt-btn-sm pt-btn-icon" aria-label="Add"><svg viewBox="0 0 12 12" width="12" height="12"><path d="M6 2v8M2 6h8" stroke="currentColor" stroke-width="1.5"/></svg></button>
+          <select class="pt-select" aria-label="Mode" style="width:120px"><option>Gray</option><option>Lavender</option></select>
+        </div>
+        <input type="range" class="pt-range" aria-label="Volume" value="50" />
+        <fieldset class="pt-groupbox"><legend>Options</legend><input class="pt-field" aria-label="Name" value="Macintosh HD" /></fieldset>
+        <div class="pt-prose"><table><thead><tr><th>Bundle</th><th>Layer</th></tr></thead><tbody><tr><td>platinum.css</td><td>Full</td></tr></tbody></table></div>
+      </div>
+    </section>
+  </body></html>`;
+  return `data:text/html;charset=utf-8,${encodeURIComponent(html)}`;
+}
+
 export async function runBrowserAudit({ url, scopeSelector, root = ROOT } = {}) {
   const pw = resolvePlaywright();
   if (!pw) {
     return { skipped: true, errors: [], statesChecked: 0 };
   }
+  const galleryAbs = join(root, "gallery/index.html");
   const targetUrl = url
     ? (/^https?:|^file:|^data:/.test(url) ? url : pathToFileURL(resolve(url)).href)
-    : pathToFileURL(join(root, "gallery/index.html")).href;
+    : (existsSync(galleryAbs) ? pathToFileURL(galleryAbs).href : buildPackagedSmokeUrl(root));
 
   const browser = await pw.chromium.launch({
     headless: true,
@@ -889,7 +1055,17 @@ export async function runBrowserAudit({ url, scopeSelector, root = ROOT } = {}) 
     const page = await browser.newPage({ viewport: { width: 1180, height: 900 } });
     await page.goto(targetUrl, { waitUntil: "load" });
     if (scopeSelector) {
-      await page.evaluate((sel) => { window.__PT_AUDIT_SCOPE = sel; }, scopeSelector);
+      const matched = await page.evaluate((sel) => {
+        window.__PT_AUDIT_SCOPE = sel;
+        return document.querySelectorAll(sel).length;
+      }, scopeSelector);
+      if (matched === 0) {
+        return {
+          skipped: false,
+          errors: [`--scope "${scopeSelector}" matched 0 elements on target page`],
+          statesChecked: 0
+        };
+      }
     }
 
     for (const scheme of ["light", "dark"]) {
@@ -916,41 +1092,80 @@ export async function runBrowserAudit({ url, scopeSelector, root = ROOT } = {}) 
       }
     }
 
-    // Verify visible range sliders actually paint a distinguishable track/thumb (catches blank appearance:none)
+    // Verify visible range sliders actually paint both a distinguishable track AND a movable thumb
     const rangeHandles = await page.locator('input[type="range"]:visible').all();
     for (const rng of rangeHandles) {
-      const inScope = await rng.evaluate((el, sel) => {
-        if (el.closest(".pt-unstyled")) return false;
-        if (sel) return Boolean(el.closest(sel));
-        const hasScoped = !document.documentElement.hasAttribute("data-platinum") &&
+      const meta = await rng.evaluate((el, sel) => {
+        if (el.closest(".pt-unstyled")) return null;
+        const hasScoped = !sel &&
+          !document.documentElement.hasAttribute("data-platinum") &&
           !document.body?.hasAttribute("data-platinum") &&
           Boolean(document.querySelector("[data-platinum]"));
-        return !hasScoped || Boolean(el.closest("[data-platinum]"));
+        const inScope = sel ? Boolean(el.closest(sel)) : (!hasScoped || Boolean(el.closest("[data-platinum]")));
+        if (!inScope) return null;
+        const min = Number.isFinite(parseFloat(el.min)) ? parseFloat(el.min) : 0;
+        const max = Number.isFinite(parseFloat(el.max)) ? parseFloat(el.max) : 100;
+        return {
+          orig: el.value,
+          min: String(min),
+          max: String(max),
+          movable: max > min,
+          label: el.getAttribute("aria-label") || el.id || "range"
+        };
       }, scopeSelector || null);
-      if (!inScope) continue;
-      const shot = await rng.screenshot();
-      const hasContrast = await page.evaluate(async (b64) => {
-        const img = new Image();
-        img.src = "data:image/png;base64," + b64;
-        await img.decode();
-        const c = document.createElement("canvas");
-        c.width = img.width;
-        c.height = img.height;
-        const ctx = c.getContext("2d");
-        ctx.drawImage(img, 0, 0);
-        const d = ctx.getImageData(0, 0, img.width, img.height).data;
+      if (!meta) continue;
+      await rng.evaluate((el, v) => { el.value = v; }, meta.min);
+      const shotMin = await rng.screenshot();
+      let shotMax = shotMin;
+      if (meta.movable) {
+        await rng.evaluate((el, v) => { el.value = v; }, meta.max);
+        shotMax = await rng.screenshot();
+      }
+      await rng.evaluate((el, v) => { el.value = v; }, meta.orig);
+      const rangeDiag = await page.evaluate(async ([bMin, bMax, movable]) => {
+        const decode = async (b64) => {
+          const img = new Image();
+          img.src = "data:image/png;base64," + b64;
+          await img.decode();
+          const c = document.createElement("canvas");
+          c.width = img.width;
+          c.height = img.height;
+          const ctx = c.getContext("2d");
+          ctx.drawImage(img, 0, 0);
+          return { w: img.width, h: img.height, d: ctx.getImageData(0, 0, img.width, img.height).data };
+        };
+        const a = await decode(bMin);
+        const b = movable ? await decode(bMax) : a;
+        // Track-only slice on right side when thumb is parked at min
+        const tx0 = Math.floor(a.w * 0.58);
+        const tx1 = Math.max(tx0 + 1, Math.floor(a.w * 0.92));
         let minL = 255, maxL = 0;
-        for (let i = 0; i < d.length; i += 4) {
-          if (d[i + 3] < 32) continue;
-          const lum = (d[i] + d[i + 1] + d[i + 2]) / 3;
-          if (lum < minL) minL = lum;
-          if (lum > maxL) maxL = lum;
+        for (let y = 0; y < a.h; y++) {
+          for (let x = tx0; x < tx1; x++) {
+            const idx = (y * a.w + x) * 4;
+            if (a.d[idx + 3] < 32) continue;
+            const lum = (a.d[idx] + a.d[idx + 1] + a.d[idx + 2]) / 3;
+            if (lum < minL) minL = lum;
+            if (lum > maxL) maxL = lum;
+          }
         }
-        return maxL - minL >= 20;
-      }, shot.toString("base64"));
-      if (!hasContrast) {
-        const label = await rng.evaluate((el) => el.getAttribute("aria-label") || el.id || "range");
-        errors.push(`range-paint <input[type="range"]> (${label}): blank range slider has no visible track/thumb contrast`);
+        const hasTrack = maxL - minL >= 15;
+        let thumbMoved = !movable;
+        if (movable && a.w === b.w && a.h === b.h) {
+          let changed = 0;
+          for (let i = 0; i < a.d.length; i += 4) {
+            if (Math.abs(a.d[i] - b.d[i]) > 6 || Math.abs(a.d[i + 1] - b.d[i + 1]) > 6 || Math.abs(a.d[i + 2] - b.d[i + 2]) > 6) {
+              changed++;
+            }
+          }
+          thumbMoved = changed >= 12;
+        }
+        return { hasTrack, thumbMoved };
+      }, [shotMin.toString("base64"), shotMax.toString("base64"), meta.movable]);
+      if (!rangeDiag.hasTrack || !rangeDiag.thumbMoved) {
+        errors.push(
+          `range-paint <input[type="range"]> (${meta.label}): blank range slider missing visible ${!rangeDiag.hasTrack ? "track" : "thumb"} contrast`
+        );
       }
     }
 
@@ -978,28 +1193,33 @@ export async function runBrowserAudit({ url, scopeSelector, root = ROOT } = {}) 
           Boolean(document.querySelector("[data-platinum]"));
         for (const bar of document.querySelectorAll(".pt-titlebar")) {
           if (bar.closest(".pt-unstyled") || (sel ? !bar.closest(sel) : (hasScoped && !bar.closest("[data-platinum]")))) continue;
+          const bcs = getComputedStyle(bar);
+          if (bcs.display === "none" || bcs.visibility === "hidden") continue;
+          const rb = bar.getBoundingClientRect();
+          if (rb.width <= 0 || rb.height <= 0) continue;
           const close = bar.querySelector(".pt-tbox-close");
           const min = bar.querySelector(".pt-tbox-minimize");
           const zoom = bar.querySelector(".pt-tbox-zoom");
           const label = bar.querySelector(".pt-titlebar-label");
           if (!close || !min || !zoom || !label) continue;
-          const rb = bar.getBoundingClientRect();
           const rc = close.getBoundingClientRect();
           const rm = min.getBoundingClientRect();
           const rz = zoom.getBoundingClientRect();
           const rl = label.getBoundingClientRect();
+          if (rc.width <= 0 || rm.width <= 0 || rz.width <= 0) continue;
+          const eff = bar.closest("[data-platinum-controls]")?.getAttribute("data-platinum-controls") || p;
           const labelCx = (rl.left + rl.right) / 2;
           const barCx = (rb.left + rb.right) / 2;
           if (Math.abs(labelCx - barCx) > 2) {
-            errs.push(`controls=${p}: title "${label.textContent.trim()}" off-center by ${(labelCx - barCx).toFixed(1)}px`);
+            errs.push(`controls=${eff}: title "${label.textContent.trim()}" off-center by ${(labelCx - barCx).toFixed(1)}px`);
           }
-          if (p === "mac9" && !(rc.right < rl.left && rl.right < rz.left && rz.right < rm.left)) {
+          if (eff === "mac9" && !(rc.right < rl.left && rl.right < rz.left && rz.right < rm.left)) {
             errs.push(`controls=mac9: expected [close] < [title] < [zoom] < [collapse]`);
           }
-          if (p === "macos" && !(rc.right < rm.left && rm.right < rz.left && rz.right < rl.left)) {
+          if (eff === "macos" && !(rc.right < rm.left && rm.right < rz.left && rz.right < rl.left)) {
             errs.push(`controls=macos: expected [close] < [min] < [zoom] < [title]`);
           }
-          if (p === "win" && !(rl.right < rm.left && rm.right < rz.left && rz.right < rc.left)) {
+          if (eff === "win" && !(rl.right < rm.left && rm.right < rz.left && rz.right < rc.left)) {
             errs.push(`controls=win: expected [title] < [min] < [zoom] < [close]`);
           }
         }
@@ -1050,10 +1270,21 @@ async function main() {
     allErrors.push(...res.errors);
   }
 
-  // Also ensure src/core.css, src/elements.css, and src/prose.css themselves contain zero hardcoded purple hexes
-  for (const srcName of ["src/core.css", "src/elements.css", "src/prose.css"]) {
-    const res = auditStaticCssContracts(readFileSync(join(ROOT, srcName), "utf8"), {
-      label: srcName,
+  // Ensure component layers contain zero hardcoded purple hexes (works both in source repo and unpacked npm package)
+  const srcCandidates = ["src/core.css", "src/elements.css", "src/prose.css"];
+  if (srcCandidates.every((rel) => existsSync(join(ROOT, rel)))) {
+    for (const srcName of srcCandidates) {
+      const res = auditStaticCssContracts(readFileSync(join(ROOT, srcName), "utf8"), {
+        label: srcName,
+        forbidPurple: true
+      });
+      allErrors.push(...res.errors);
+    }
+  } else {
+    const fullCss = readFileSync(join(ROOT, "dist/platinum.css"), "utf8");
+    const nonTokenCss = fullCss.replace(/@layer\s+pt\.tokens\s*\{[\s\S]*?\n\}\n?/, "");
+    const res = auditStaticCssContracts(nonTokenCss, {
+      label: "dist/platinum.css (component layers)",
       forbidPurple: true
     });
     allErrors.push(...res.errors);

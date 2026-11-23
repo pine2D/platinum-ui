@@ -306,8 +306,12 @@ describe('Historical window screenshots at DPR 1', {
         assert.equal(await page.locator('html').getAttribute('lang'), 'zh-CN');
       }
 
-      // Malformed manifest ({} / { samples: null }) must degrade cleanly with zero uncaught errors and disabled controls
-      for (const payload of ['window.PLATINUM_REFERENCE = {};', 'window.PLATINUM_REFERENCE = { samples: null };']) {
+      // Malformed manifest ({} / { samples: null } / { samples: [null, invalid] }) must degrade cleanly with zero uncaught errors and disabled controls
+      for (const payload of [
+        'window.PLATINUM_REFERENCE = {};',
+        'window.PLATINUM_REFERENCE = { samples: null };',
+        'window.PLATINUM_REFERENCE = { samples: [null, { id: 123 }, { id: "bad", width: 0, height: 10 }] };'
+      ]) {
         const badPage = await browser.newPage();
         const pageErrors = [];
         badPage.on('pageerror', err => pageErrors.push(err.message));
