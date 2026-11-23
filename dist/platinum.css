@@ -86,6 +86,9 @@
     --pt-bevel-strip: inset 0 1px 0 #ffffff, inset 0 -1px 0 #999999;
     --pt-shadow-window: 2px 2px 0 #262626;
     --pt-ring-default-btn: 0 0 0 2px #cccccc, 0 0 0 3px #262626;
+    --pt-select-arrows: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 7 10' shape-rendering='crispEdges'%3E%3Cpath fill='%23222222' d='M3 0h1v1h1v1h1v1h1v1H0V3h1V2h1V1h1zM0 6h7v1H6v1H5v1H4v1H3V9H2V8H1V7H0z'/%3E%3C/svg%3E");
+    --pt-select-arrows-pressed: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 7 10' shape-rendering='crispEdges'%3E%3Cpath fill='%23ffffff' d='M3 0h1v1h1v1h1v1h1v1H0V3h1V2h1V1h1zM0 6h7v1H6v1H5v1H4v1H3V9H2V8H1V7H0z'/%3E%3C/svg%3E");
+    --pt-select-arrows-disabled: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 7 10' shape-rendering='crispEdges'%3E%3Cpath fill='%234d4d4d' d='M3 0h1v1h1v1h1v1h1v1H0V3h1V2h1V1h1zM0 6h7v1H6v1H5v1H4v1H3V9H2V8H1V7H0z'/%3E%3C/svg%3E");
     --pt-accent: var(--_pt-l-accent);
     --pt-on-accent: var(--_pt-l-on-accent);
     --pt-selection-bg: var(--_pt-l-selection-bg);
@@ -209,6 +212,9 @@
       --pt-bevel-strip: inset 0 1px 0 #525252, inset 0 -1px 0 #181818;
       --pt-shadow-window: 2px 2px 0 #050505;
       --pt-ring-default-btn: 0 0 0 2px #2c2c2c, 0 0 0 3px #080808;
+      --pt-select-arrows: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 7 10' shape-rendering='crispEdges'%3E%3Cpath fill='%23eeeeee' d='M3 0h1v1h1v1h1v1h1v1H0V3h1V2h1V1h1zM0 6h7v1H6v1H5v1H4v1H3V9H2V8H1V7H0z'/%3E%3C/svg%3E");
+      --pt-select-arrows-pressed: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 7 10' shape-rendering='crispEdges'%3E%3Cpath fill='%23ffffff' d='M3 0h1v1h1v1h1v1h1v1H0V3h1V2h1V1h1zM0 6h7v1H6v1H5v1H4v1H3V9H2V8H1V7H0z'/%3E%3C/svg%3E");
+      --pt-select-arrows-disabled: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 7 10' shape-rendering='crispEdges'%3E%3Cpath fill='%23c2c2c2' d='M3 0h1v1h1v1h1v1h1v1H0V3h1V2h1V1h1zM0 6h7v1H6v1H5v1H4v1H3V9H2V8H1V7H0z'/%3E%3C/svg%3E");
       --pt-accent: var(--_pt-d-accent);
       --pt-on-accent: var(--_pt-d-on-accent);
       --pt-selection-bg: var(--_pt-d-selection-bg);
@@ -260,6 +266,9 @@
         --pt-bevel-strip: inset 0 1px 0 #525252, inset 0 -1px 0 #181818;
         --pt-shadow-window: 2px 2px 0 #050505;
         --pt-ring-default-btn: 0 0 0 2px #2c2c2c, 0 0 0 3px #080808;
+        --pt-select-arrows: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 7 10' shape-rendering='crispEdges'%3E%3Cpath fill='%23eeeeee' d='M3 0h1v1h1v1h1v1h1v1H0V3h1V2h1V1h1zM0 6h7v1H6v1H5v1H4v1H3V9H2V8H1V7H0z'/%3E%3C/svg%3E");
+        --pt-select-arrows-pressed: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 7 10' shape-rendering='crispEdges'%3E%3Cpath fill='%23ffffff' d='M3 0h1v1h1v1h1v1h1v1H0V3h1V2h1V1h1zM0 6h7v1H6v1H5v1H4v1H3V9H2V8H1V7H0z'/%3E%3C/svg%3E");
+        --pt-select-arrows-disabled: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 7 10' shape-rendering='crispEdges'%3E%3Cpath fill='%23c2c2c2' d='M3 0h1v1h1v1h1v1h1v1H0V3h1V2h1V1h1zM0 6h7v1H6v1H5v1H4v1H3V9H2V8H1V7H0z'/%3E%3C/svg%3E");
       }
       :where(:scope, [data-platinum-accent="gray"], [data-platinum-accent="lavender"]) {
         --pt-accent: var(--_pt-d-accent);
@@ -316,6 +325,9 @@
     --pt-bevel-strip: inset 0 1px 0 #ffffff, inset 0 -1px 0 #999999;
     --pt-shadow-window: 2px 2px 0 #262626;
     --pt-ring-default-btn: 0 0 0 2px #cccccc, 0 0 0 3px #262626;
+    --pt-select-arrows: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 7 10' shape-rendering='crispEdges'%3E%3Cpath fill='%23222222' d='M3 0h1v1h1v1h1v1h1v1H0V3h1V2h1V1h1zM0 6h7v1H6v1H5v1H4v1H3V9H2V8H1V7H0z'/%3E%3C/svg%3E");
+    --pt-select-arrows-pressed: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 7 10' shape-rendering='crispEdges'%3E%3Cpath fill='%23ffffff' d='M3 0h1v1h1v1h1v1h1v1H0V3h1V2h1V1h1zM0 6h7v1H6v1H5v1H4v1H3V9H2V8H1V7H0z'/%3E%3C/svg%3E");
+    --pt-select-arrows-disabled: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 7 10' shape-rendering='crispEdges'%3E%3Cpath fill='%234d4d4d' d='M3 0h1v1h1v1h1v1h1v1H0V3h1V2h1V1h1zM0 6h7v1H6v1H5v1H4v1H3V9H2V8H1V7H0z'/%3E%3C/svg%3E");
     --pt-accent: var(--_pt-l-accent);
     --pt-on-accent: var(--_pt-l-on-accent);
     --pt-selection-bg: var(--_pt-l-selection-bg);
@@ -368,6 +380,9 @@
     --pt-bevel-strip: inset 0 1px 0 #525252, inset 0 -1px 0 #181818;
     --pt-shadow-window: 2px 2px 0 #050505;
     --pt-ring-default-btn: 0 0 0 2px #2c2c2c, 0 0 0 3px #080808;
+    --pt-select-arrows: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 7 10' shape-rendering='crispEdges'%3E%3Cpath fill='%23eeeeee' d='M3 0h1v1h1v1h1v1h1v1H0V3h1V2h1V1h1zM0 6h7v1H6v1H5v1H4v1H3V9H2V8H1V7H0z'/%3E%3C/svg%3E");
+    --pt-select-arrows-pressed: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 7 10' shape-rendering='crispEdges'%3E%3Cpath fill='%23ffffff' d='M3 0h1v1h1v1h1v1h1v1H0V3h1V2h1V1h1zM0 6h7v1H6v1H5v1H4v1H3V9H2V8H1V7H0z'/%3E%3C/svg%3E");
+    --pt-select-arrows-disabled: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 7 10' shape-rendering='crispEdges'%3E%3Cpath fill='%23c2c2c2' d='M3 0h1v1h1v1h1v1h1v1H0V3h1V2h1V1h1zM0 6h7v1H6v1H5v1H4v1H3V9H2V8H1V7H0z'/%3E%3C/svg%3E");
     --pt-accent: var(--_pt-d-accent);
     --pt-on-accent: var(--_pt-d-on-accent);
     --pt-selection-bg: var(--_pt-d-selection-bg);
@@ -421,6 +436,9 @@
       --pt-bevel-strip: inset 0 1px 0 #ffffff, inset 0 -1px 0 #999999;
       --pt-shadow-window: 2px 2px 0 #262626;
       --pt-ring-default-btn: 0 0 0 2px #cccccc, 0 0 0 3px #262626;
+      --pt-select-arrows: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 7 10' shape-rendering='crispEdges'%3E%3Cpath fill='%23222222' d='M3 0h1v1h1v1h1v1h1v1H0V3h1V2h1V1h1zM0 6h7v1H6v1H5v1H4v1H3V9H2V8H1V7H0z'/%3E%3C/svg%3E");
+      --pt-select-arrows-pressed: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 7 10' shape-rendering='crispEdges'%3E%3Cpath fill='%23ffffff' d='M3 0h1v1h1v1h1v1h1v1H0V3h1V2h1V1h1zM0 6h7v1H6v1H5v1H4v1H3V9H2V8H1V7H0z'/%3E%3C/svg%3E");
+      --pt-select-arrows-disabled: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 7 10' shape-rendering='crispEdges'%3E%3Cpath fill='%234d4d4d' d='M3 0h1v1h1v1h1v1h1v1H0V3h1V2h1V1h1zM0 6h7v1H6v1H5v1H4v1H3V9H2V8H1V7H0z'/%3E%3C/svg%3E");
     }
     :where(:scope, [data-platinum-accent="gray"], [data-platinum-accent="lavender"]) {
       --pt-accent: var(--_pt-l-accent);
@@ -477,6 +495,9 @@
       --pt-bevel-strip: inset 0 1px 0 #525252, inset 0 -1px 0 #181818;
       --pt-shadow-window: 2px 2px 0 #050505;
       --pt-ring-default-btn: 0 0 0 2px #2c2c2c, 0 0 0 3px #080808;
+      --pt-select-arrows: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 7 10' shape-rendering='crispEdges'%3E%3Cpath fill='%23eeeeee' d='M3 0h1v1h1v1h1v1h1v1H0V3h1V2h1V1h1zM0 6h7v1H6v1H5v1H4v1H3V9H2V8H1V7H0z'/%3E%3C/svg%3E");
+      --pt-select-arrows-pressed: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 7 10' shape-rendering='crispEdges'%3E%3Cpath fill='%23ffffff' d='M3 0h1v1h1v1h1v1h1v1H0V3h1V2h1V1h1zM0 6h7v1H6v1H5v1H4v1H3V9H2V8H1V7H0z'/%3E%3C/svg%3E");
+      --pt-select-arrows-disabled: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 7 10' shape-rendering='crispEdges'%3E%3Cpath fill='%23c2c2c2' d='M3 0h1v1h1v1h1v1h1v1H0V3h1V2h1V1h1zM0 6h7v1H6v1H5v1H4v1H3V9H2V8H1V7H0z'/%3E%3C/svg%3E");
     }
     :where(:scope, [data-platinum-accent="gray"], [data-platinum-accent="lavender"]) {
       --pt-accent: var(--_pt-d-accent);
@@ -900,12 +921,15 @@
     order: var(--pt-tb-order-min, 7);
   }
 
-  /* 13x13 border-box (11x11 padding-box) + gap: 5px -> inset: -5.5px -3.5px yields 18x22px exact edge-to-edge zero-overlap hit box */
+  /* 13x13 visual box + gap: 5px -> explicit centered 18x22px hit box stays exact across fractional DPRs in WebKit/Blink/Gecko */
   .pt-tbox::before {
     content: "";
     position: absolute;
     box-sizing: border-box;
-    inset: -5.5px -3.5px;
+    left: calc(50% - 9px);
+    top: calc(50% - 11px);
+    width: 18px;
+    height: var(--pt-titlebar-h, 22px);
   }
 
   .pt-tbox > svg {
@@ -943,10 +967,12 @@
 
   .pt-tbox-zoom:empty::after {
     --pt-classic-zoom: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 9 9' shape-rendering='crispEdges'%3E%3Cpath d='M5 0h1v6H0V5h5z'/%3E%3C/svg%3E");
+    -webkit-mask-image: var(--pt-tb-glyph-zoom, var(--pt-classic-zoom));
     mask-image: var(--pt-tb-glyph-zoom, var(--pt-classic-zoom));
   }
 
   :is(.pt-tbox-zoom[aria-pressed="true"], .pt-tbox-zoom[data-maximized="true"], :is([data-maximized="true"], [data-window-maximized="true"]) .pt-tbox-zoom):empty::after {
+    -webkit-mask-image: var(--pt-tb-glyph-restore, var(--pt-classic-zoom));
     mask-image: var(--pt-tb-glyph-restore, var(--pt-classic-zoom));
   }
 
@@ -1314,7 +1340,7 @@
     font-size: var(--pt-size-control);
     font-weight: 600;
     cursor: pointer;
-    --_pt-select-arrow: currentColor;
+    --_pt-select-glyph: var(--pt-select-arrows);
     --_pt-select-ax: 6px;
     --_pt-select-cap: linear-gradient(
       to right,
@@ -1323,31 +1349,10 @@
       var(--pt-groove-light) calc(100% - 18px) calc(100% - 17px),
       transparent calc(100% - 17px)
     );
-    background-image:
-      linear-gradient(var(--_pt-select-arrow), var(--_pt-select-arrow)),
-      linear-gradient(var(--_pt-select-arrow), var(--_pt-select-arrow)),
-      linear-gradient(var(--_pt-select-arrow), var(--_pt-select-arrow)),
-      linear-gradient(var(--_pt-select-arrow), var(--_pt-select-arrow)),
-      linear-gradient(var(--_pt-select-arrow), var(--_pt-select-arrow)),
-      linear-gradient(var(--_pt-select-arrow), var(--_pt-select-arrow)),
-      linear-gradient(var(--_pt-select-arrow), var(--_pt-select-arrow)),
-      linear-gradient(var(--_pt-select-arrow), var(--_pt-select-arrow)),
-      var(--_pt-select-cap);
-    background-size:
-      1px 4px, 3px 3px, 5px 2px, 7px 1px,
-      7px 1px, 5px 2px, 3px 3px, 1px 4px,
-      100% 100%;
+    background-image: var(--_pt-select-glyph), var(--_pt-select-cap);
+    background-size: 7px 10px, 100% 100%;
     background-repeat: no-repeat;
-    background-position:
-      right calc(var(--_pt-select-ax) + 3px) top calc(50% - 3px),
-      right calc(var(--_pt-select-ax) + 2px) top calc(50% - 2.5px),
-      right calc(var(--_pt-select-ax) + 1px) top calc(50% - 2px),
-      right var(--_pt-select-ax) top calc(50% - 1.5px),
-      right var(--_pt-select-ax) top calc(50% + 1.5px),
-      right calc(var(--_pt-select-ax) + 1px) top calc(50% + 2px),
-      right calc(var(--_pt-select-ax) + 2px) top calc(50% + 2.5px),
-      right calc(var(--_pt-select-ax) + 3px) top calc(50% + 3px),
-      0 0;
+    background-position: right var(--_pt-select-ax) center, 0 0;
   }
 
   .pt-select:where(:not([multiple]):not([size]:not([size="1"]))):dir(rtl) {
@@ -1358,16 +1363,7 @@
       var(--pt-groove-dark) calc(100% - 18px) calc(100% - 17px),
       transparent calc(100% - 17px)
     );
-    background-position:
-      left calc(var(--_pt-select-ax) + 3px) top calc(50% - 3px),
-      left calc(var(--_pt-select-ax) + 2px) top calc(50% - 2.5px),
-      left calc(var(--_pt-select-ax) + 1px) top calc(50% - 2px),
-      left var(--_pt-select-ax) top calc(50% - 1.5px),
-      left var(--_pt-select-ax) top calc(50% + 1.5px),
-      left calc(var(--_pt-select-ax) + 1px) top calc(50% + 2px),
-      left calc(var(--_pt-select-ax) + 2px) top calc(50% + 2.5px),
-      left calc(var(--_pt-select-ax) + 3px) top calc(50% + 3px),
-      0 0;
+    background-position: left var(--_pt-select-ax) center, 0 0;
   }
 
   .pt-select:where(:not([multiple]):not([size]:not([size="1"]))):hover:not(:disabled, [aria-disabled="true"], :active) {
@@ -1378,6 +1374,7 @@
     background-color: var(--pt-pressed-bg);
     color: var(--pt-pressed-fg);
     box-shadow: var(--pt-bevel-pressed);
+    --_pt-select-glyph: var(--pt-select-arrows-pressed);
     --_pt-select-cap: linear-gradient(
       to right,
       transparent calc(100% - 19px),
@@ -1388,6 +1385,7 @@
   }
 
   .pt-select:where(:not([multiple]):not([size]:not([size="1"]))):active:not(:disabled, [aria-disabled="true"]):dir(rtl) {
+    --_pt-select-glyph: var(--pt-select-arrows-pressed);
     --_pt-select-cap: linear-gradient(
       to left,
       transparent calc(100% - 19px),
@@ -1445,6 +1443,7 @@
     border-color: var(--pt-border-subtle);
     box-shadow: none;
     cursor: not-allowed;
+    --_pt-select-glyph: var(--pt-select-arrows-disabled);
     --_pt-select-ax: 5px;
     --_pt-select-cap: linear-gradient(
       to right,
@@ -1490,7 +1489,7 @@
 
     /* Authentic Mac OS 9 open popup state: right 19px arrow cap depresses with 4px - 7px - 4px symmetry */
     select.pt-select:not([multiple]):not([size]:not([size="1"])):open {
-      --_pt-select-arrow: var(--pt-pressed-fg);
+      --_pt-select-glyph: var(--pt-select-arrows-pressed);
       --_pt-select-cap: linear-gradient(
         to right,
         transparent calc(100% - 19px),
@@ -1501,7 +1500,7 @@
     }
 
     select.pt-select:not([multiple]):not([size]:not([size="1"])):open:dir(rtl) {
-      --_pt-select-arrow: var(--pt-pressed-fg);
+      --_pt-select-glyph: var(--pt-select-arrows-pressed);
       --_pt-select-cap: linear-gradient(
         to left,
         transparent calc(100% - 19px),
@@ -1948,13 +1947,16 @@
     content: "";
     box-sizing: border-box;
     display: inline-block;
-    width: 0;
-    height: 0;
-    border-style: solid;
-    border-width: 4.5px 0 4.5px 7px;
-    border-color: transparent transparent transparent var(--pt-ink);
+    width: 7px;
+    height: 9px;
+    background-color: currentColor;
+    clip-path: polygon(0 0, 100% 50%, 0 100%);
     filter: drop-shadow(1px 1px 0 var(--pt-groove-light));
     flex-shrink: 0;
+  }
+
+  .pt-disclosure:not([open]) > summary:dir(rtl)::before {
+    transform: scaleX(-1);
   }
 
   .pt-disclosure[open] > summary::before {
@@ -2126,6 +2128,18 @@
         forced-color-adjust: none;
       }
     }
+    :is(.pt-tbox-close, .pt-tbox-minimize, .pt-tbox-zoom):empty::after {
+      background-color: ButtonText;
+      forced-color-adjust: none;
+    }
+    .pt-tbox:is(:disabled, [aria-disabled="true"]):empty::after {
+      background-color: GrayText;
+    }
+    .pt-disclosure > summary::before {
+      background-color: CanvasText;
+      filter: none;
+      forced-color-adjust: none;
+    }
     .pt-checkbox:is(:checked, :indeterminate),
     .pt-radio:checked {
       background: Highlight;
@@ -2137,15 +2151,41 @@
       background: HighlightText;
       forced-color-adjust: none;
     }
+    .pt-switch-track {
+      background: Canvas;
+      border-color: ButtonText;
+      forced-color-adjust: none;
+    }
+    .pt-switch-track::before {
+      background: ButtonText;
+      border-color: ButtonText;
+      forced-color-adjust: none;
+    }
     .pt-switch-input:checked ~ .pt-switch-track {
       background: Highlight;
       border-color: Highlight;
+      forced-color-adjust: none;
+    }
+    .pt-switch-input:checked ~ .pt-switch-track::before {
+      background: HighlightText;
+      border-color: HighlightText;
+      forced-color-adjust: none;
+    }
+    .pt-switch-input:is(:disabled, [aria-disabled="true"]) ~ .pt-switch-track {
+      background: Canvas;
+      border-color: GrayText;
+      forced-color-adjust: none;
+    }
+    .pt-switch-input:is(:disabled, [aria-disabled="true"]) ~ .pt-switch-track::before {
+      background: GrayText;
+      border-color: GrayText;
       forced-color-adjust: none;
     }
     .pt-range::-webkit-slider-runnable-track {
       box-shadow: none;
       border-color: ButtonText;
       background: Canvas;
+      forced-color-adjust: none;
     }
     .pt-range::-webkit-slider-thumb {
       box-shadow: none;
@@ -2153,15 +2193,36 @@
       background: ButtonText;
       forced-color-adjust: none;
     }
+    .pt-range:is(:disabled, [aria-disabled="true"])::-webkit-slider-runnable-track {
+      border-color: GrayText;
+      background: Canvas;
+      forced-color-adjust: none;
+    }
+    .pt-range:is(:disabled, [aria-disabled="true"])::-webkit-slider-thumb {
+      border-color: GrayText;
+      background: GrayText;
+      forced-color-adjust: none;
+    }
     .pt-range::-moz-range-track {
       box-shadow: none;
       border-color: ButtonText;
       background: Canvas;
+      forced-color-adjust: none;
     }
     .pt-range::-moz-range-thumb {
       box-shadow: none;
       border-color: ButtonText;
       background: ButtonText;
+      forced-color-adjust: none;
+    }
+    .pt-range:is(:disabled, [aria-disabled="true"])::-moz-range-track {
+      border-color: GrayText;
+      background: Canvas;
+      forced-color-adjust: none;
+    }
+    .pt-range:is(:disabled, [aria-disabled="true"])::-moz-range-thumb {
+      border-color: GrayText;
+      background: GrayText;
       forced-color-adjust: none;
     }
     .pt-btn:is([aria-pressed="true"], [aria-expanded="true"], [aria-selected="true"], .is-active):not(:disabled, [aria-disabled="true"]),
@@ -2171,6 +2232,7 @@
       forced-color-adjust: none;
     }
     .pt-btn:is(:disabled, [aria-disabled="true"]),
+    .pt-tbox:is(:disabled, [aria-disabled="true"]),
     .pt-field:is(:disabled, [aria-disabled="true"]),
     .pt-select:is(:disabled, [aria-disabled="true"]),
     .pt-checkbox:is(:disabled, [aria-disabled="true"]),
@@ -2332,7 +2394,7 @@
     font-size: var(--pt-size-control);
     font-weight: 600;
     cursor: pointer;
-    --_pt-select-arrow: currentColor;
+    --_pt-select-glyph: var(--pt-select-arrows);
     --_pt-select-ax: 6px;
     --_pt-select-cap: linear-gradient(
       to right,
@@ -2341,31 +2403,10 @@
       var(--pt-groove-light) calc(100% - 18px) calc(100% - 17px),
       transparent calc(100% - 17px)
     );
-    background-image:
-      linear-gradient(var(--_pt-select-arrow), var(--_pt-select-arrow)),
-      linear-gradient(var(--_pt-select-arrow), var(--_pt-select-arrow)),
-      linear-gradient(var(--_pt-select-arrow), var(--_pt-select-arrow)),
-      linear-gradient(var(--_pt-select-arrow), var(--_pt-select-arrow)),
-      linear-gradient(var(--_pt-select-arrow), var(--_pt-select-arrow)),
-      linear-gradient(var(--_pt-select-arrow), var(--_pt-select-arrow)),
-      linear-gradient(var(--_pt-select-arrow), var(--_pt-select-arrow)),
-      linear-gradient(var(--_pt-select-arrow), var(--_pt-select-arrow)),
-      var(--_pt-select-cap);
-    background-size:
-      1px 4px, 3px 3px, 5px 2px, 7px 1px,
-      7px 1px, 5px 2px, 3px 3px, 1px 4px,
-      100% 100%;
+    background-image: var(--_pt-select-glyph), var(--_pt-select-cap);
+    background-size: 7px 10px, 100% 100%;
     background-repeat: no-repeat;
-    background-position:
-      right calc(var(--_pt-select-ax) + 3px) top calc(50% - 3px),
-      right calc(var(--_pt-select-ax) + 2px) top calc(50% - 2.5px),
-      right calc(var(--_pt-select-ax) + 1px) top calc(50% - 2px),
-      right var(--_pt-select-ax) top calc(50% - 1.5px),
-      right var(--_pt-select-ax) top calc(50% + 1.5px),
-      right calc(var(--_pt-select-ax) + 1px) top calc(50% + 2px),
-      right calc(var(--_pt-select-ax) + 2px) top calc(50% + 2.5px),
-      right calc(var(--_pt-select-ax) + 3px) top calc(50% + 3px),
-      0 0;
+    background-position: right var(--_pt-select-ax) center, 0 0;
   }
 
   :is(:root, body) select:not(.pt-select, .pt-unstyled):where(:not([multiple]):not([size]:not([size="1"]))):dir(rtl) {
@@ -2376,16 +2417,7 @@
       var(--pt-groove-dark) calc(100% - 18px) calc(100% - 17px),
       transparent calc(100% - 17px)
     );
-    background-position:
-      left calc(var(--_pt-select-ax) + 3px) top calc(50% - 3px),
-      left calc(var(--_pt-select-ax) + 2px) top calc(50% - 2.5px),
-      left calc(var(--_pt-select-ax) + 1px) top calc(50% - 2px),
-      left var(--_pt-select-ax) top calc(50% - 1.5px),
-      left var(--_pt-select-ax) top calc(50% + 1.5px),
-      left calc(var(--_pt-select-ax) + 1px) top calc(50% + 2px),
-      left calc(var(--_pt-select-ax) + 2px) top calc(50% + 2.5px),
-      left calc(var(--_pt-select-ax) + 3px) top calc(50% + 3px),
-      0 0;
+    background-position: left var(--_pt-select-ax) center, 0 0;
   }
 
   :is(:root, body) select:not(.pt-select, .pt-unstyled):where(:not([multiple]):not([size]:not([size="1"]))):hover:not(:disabled, [aria-disabled="true"], :active) {
@@ -2396,6 +2428,7 @@
     background-color: var(--pt-pressed-bg);
     color: var(--pt-pressed-fg);
     box-shadow: var(--pt-bevel-pressed);
+    --_pt-select-glyph: var(--pt-select-arrows-pressed);
     --_pt-select-cap: linear-gradient(
       to right,
       transparent calc(100% - 19px),
@@ -2406,6 +2439,7 @@
   }
 
   :is(:root, body) select:not(.pt-select, .pt-unstyled):where(:not([multiple]):not([size]:not([size="1"]))):active:not(:disabled, [aria-disabled="true"]):dir(rtl) {
+    --_pt-select-glyph: var(--pt-select-arrows-pressed);
     --_pt-select-cap: linear-gradient(
       to left,
       transparent calc(100% - 19px),
@@ -2463,6 +2497,7 @@
     border-color: var(--pt-border-subtle);
     box-shadow: none;
     cursor: not-allowed;
+    --_pt-select-glyph: var(--pt-select-arrows-disabled);
     --_pt-select-ax: 5px;
     --_pt-select-cap: linear-gradient(
       to right,
@@ -2506,7 +2541,7 @@
     }
 
     :is(:root, body) select:not(.pt-select, .pt-unstyled, [multiple], [size]:not([size="1"])):open {
-      --_pt-select-arrow: var(--pt-pressed-fg);
+      --_pt-select-glyph: var(--pt-select-arrows-pressed);
       --_pt-select-cap: linear-gradient(
         to right,
         transparent calc(100% - 19px),
@@ -2517,7 +2552,7 @@
     }
 
     :is(:root, body) select:not(.pt-select, .pt-unstyled, [multiple], [size]:not([size="1"])):open:dir(rtl) {
-      --_pt-select-arrow: var(--pt-pressed-fg);
+      --_pt-select-glyph: var(--pt-select-arrows-pressed);
       --_pt-select-cap: linear-gradient(
         to left,
         transparent calc(100% - 19px),
@@ -2809,13 +2844,16 @@
     content: "";
     box-sizing: border-box;
     display: inline-block;
-    width: 0;
-    height: 0;
-    border-style: solid;
-    border-width: 4.5px 0 4.5px 7px;
-    border-color: transparent transparent transparent var(--pt-ink);
+    width: 7px;
+    height: 9px;
+    background-color: currentColor;
+    clip-path: polygon(0 0, 100% 50%, 0 100%);
     filter: drop-shadow(1px 1px 0 var(--pt-groove-light));
     flex-shrink: 0;
+  }
+
+  :is(:root, body) details:not(.pt-disclosure, .pt-unstyled):not([open]) > summary:dir(rtl)::before {
+    transform: scaleX(-1);
   }
 
   :is(:root, body) details:not(.pt-disclosure, .pt-unstyled)[open] > summary::before {
@@ -2955,10 +2993,17 @@
       forced-color-adjust: none;
     }
 
+    :is(:root, body) details:not(.pt-disclosure, .pt-unstyled) > summary::before {
+      background-color: CanvasText;
+      filter: none;
+      forced-color-adjust: none;
+    }
+
     :is(:root, body) input[type="range"]:not(.pt-range, .pt-unstyled)::-webkit-slider-runnable-track {
       box-shadow: none;
       border-color: ButtonText;
       background: Canvas;
+      forced-color-adjust: none;
     }
 
     :is(:root, body) input[type="range"]:not(.pt-range, .pt-unstyled)::-webkit-slider-thumb {
@@ -2968,16 +3013,41 @@
       forced-color-adjust: none;
     }
 
+    :is(:root, body) input[type="range"]:not(.pt-range, .pt-unstyled):is(:disabled, [aria-disabled="true"])::-webkit-slider-runnable-track {
+      border-color: GrayText;
+      background: Canvas;
+      forced-color-adjust: none;
+    }
+
+    :is(:root, body) input[type="range"]:not(.pt-range, .pt-unstyled):is(:disabled, [aria-disabled="true"])::-webkit-slider-thumb {
+      border-color: GrayText;
+      background: GrayText;
+      forced-color-adjust: none;
+    }
+
     :is(:root, body) input[type="range"]:not(.pt-range, .pt-unstyled)::-moz-range-track {
       box-shadow: none;
       border-color: ButtonText;
       background: Canvas;
+      forced-color-adjust: none;
     }
 
     :is(:root, body) input[type="range"]:not(.pt-range, .pt-unstyled)::-moz-range-thumb {
       box-shadow: none;
       border-color: ButtonText;
       background: ButtonText;
+      forced-color-adjust: none;
+    }
+
+    :is(:root, body) input[type="range"]:not(.pt-range, .pt-unstyled):is(:disabled, [aria-disabled="true"])::-moz-range-track {
+      border-color: GrayText;
+      background: Canvas;
+      forced-color-adjust: none;
+    }
+
+    :is(:root, body) input[type="range"]:not(.pt-range, .pt-unstyled):is(:disabled, [aria-disabled="true"])::-moz-range-thumb {
+      border-color: GrayText;
+      background: GrayText;
       forced-color-adjust: none;
     }
 

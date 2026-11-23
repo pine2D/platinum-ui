@@ -30,7 +30,7 @@
   - 可选 **`data-platinum-controls="win"`**（Windows / Linux 右置三连）：右上依次排列最小化（`−`）、缩放（`□↔▣`）、关闭（`×`）。
   - 同一份零冗余 DOM（在 `.pt-titlebar` 内直写 3 个空 `.pt-tbox-*` 按钮 + `.pt-titlebar-label`）通过 CSS 变量与 Flex `order` 跨平台重排并自动绘制当前预设的符号与斜面（检测到内嵌 `<svg>` 时自动让位）；支持在单个页面内按窗口级嵌套混排不同系统预设。
   - 标题栏采用居中 `12px` 高（`2px` 周期 6 条）经典细横纹；窗口失焦（`data-inactive="true"` / `data-window-focused="false"`，自动按最近一层 `.pt-window` 定界而不误伤内部聚焦子窗）时横纹隐去、窗体与标题栏外框降为 `--pt-border-subtle`、内高光与内部 `.pt-btn-primary` 默认双黑外环隐去；经典窗控在原位隐去，现代平台预设保留淡化的窗控；窗口设置 `data-collapsed="true"` 自动进入 Mac OS 9 WindowShade 卷起态；Electron 无边框主窗可叠加 `.pt-titlebar--draggable` 自动配置拖拽区与 `no-drag`。
-  - **连排窗控无重叠热区**：`.pt-tbox` 为 `13×13px` 视觉盒配 `gap: 5px`，通过 `::before { inset: -5.5px -3.5px }` 形成 `18×22px` 边贴边无缝零重叠热区（纵向铺满 `22px` 标题栏、横向绝不侵入相邻按钮），由 `bin/platinum-check.mjs` 自动检测相邻窗控零重叠。
+  - **连排窗控无重叠热区**：`.pt-tbox` 为 `13×13px` 视觉盒配 `gap: 5px`，通过 `::before` 居中显式定宽 `18×22px`（`left: calc(50% - 9px); top: calc(50% - 11px)`，消除分数 DPR 边框舍入漂移）形成边贴边无缝零重叠热区，由 `bin/platinum-check.mjs` 自动检测相邻窗控零重叠。
 
 ---
 

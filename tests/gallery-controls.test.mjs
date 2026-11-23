@@ -238,13 +238,23 @@ describe("Platinum controls in Chromium", { skip: !playwright && "Playwright una
     assert.equal(pickerStyle.pickerRadius, "0px");
     await page.keyboard.press("Escape");
 
-    // Fractional Windows DPI scaling (125%, 150%, 175%, 225%, 250%) must keep both arrows solid without horizontal seams
+    // Fractional Windows DPI scaling (125%, 150%, 175%, 225%, 250%) across subpixel (left, top, width, height) grid:
+    // must keep 2 solid triangles AND monotonic row widths (zero base-hook reversals)
     for (const dpr of [1.25, 1.5, 1.75, 2.25, 2.5]) {
-      const fp = await browser.newPage({ deviceScaleFactor: dpr });
-      await fp.setContent(`<!doctype html><html><body><select id="s" class="pt-select" style="width:140px"><option>One</option></select></body></html>`);
+      const fp = await browser.newPage({ viewport: { width: 680, height: 220 }, deviceScaleFactor: dpr });
+      const gridItems = [];
+      for (let i = 0; i < 16; i++) {
+        const col = i % 4, row = Math.floor(i / 4);
+        const left = 8 + col * 160 + col * 0.25;
+        const top = 8 + row * 42 + ((row * 3 + col) % 4) * 0.25;
+        const w = 139 + col;
+        const h = 26 + row;
+        gridItems.push(`<select id="s${i}" class="pt-select" style="position:absolute;left:${left}px;top:${top}px;width:${w}px;height:${h}px"><option>One</option></select>`);
+      }
+      await fp.setContent(`<!doctype html><html data-platinum><body style="margin:0;background:#bfbfbf">${gridItems.join("")}</body></html>`);
       await fp.addStyleTag({ path: cssPath("platinum") });
-      const shot = await fp.locator("#s").screenshot();
-      const segs = await fp.evaluate(async b64 => {
+      const shot = await fp.screenshot();
+      const diag = await fp.evaluate(async b64 => {
         const img = new Image();
         img.src = "data:image/png;base64," + b64;
         await img.decode();
@@ -253,18 +263,35 @@ describe("Platinum controls in Chromium", { skip: !playwright && "Playwright una
         c.height = img.height;
         const ctx = c.getContext("2d");
         ctx.drawImage(img, 0, 0);
-        const d = ctx.getImageData(0, 0, img.width, img.height).data;
-        const cx = img.width - Math.round(9.5 * window.devicePixelRatio);
-        let count = 0, dark = false;
-        for (let y = Math.round(4 * window.devicePixelRatio); y < img.height - Math.round(4 * window.devicePixelRatio); y++) {
-          const isInk = d[(y * img.width + cx) * 4] < 150;
-          if (isInk && !dark) count++;
-          dark = isInk;
+        let broken = 0, hooked = 0;
+        for (let i = 0; i < 16; i++) {
+          const r = document.getElementById("s" + i).getBoundingClientRect();
+          const x0 = Math.round((r.right - 15) * window.devicePixelRatio);
+          const x1 = Math.round((r.right - 4) * window.devicePixelRatio);
+          const y0 = Math.round((r.top + 4) * window.devicePixelRatio);
+          const y1 = Math.round((r.bottom - 4) * window.devicePixelRatio);
+          const segs = [];
+          let cur = [];
+          for (let y = y0; y <= y1; y++) {
+            let w = 0;
+            for (let x = x0; x <= x1; x++) {
+              if (ctx.getImageData(x, y, 1, 1).data[0] < 150) w++;
+            }
+            if (w > 0) cur.push(w);
+            else if (cur.length) { segs.push(cur); cur = []; }
+          }
+          if (cur.length) segs.push(cur);
+          if (segs.length !== 2) { broken++; continue; }
+          const [up, dn] = segs;
+          let rev = false;
+          for (let k = 1; k < up.length; k++) if (up[k] < up[k - 1] - 1) rev = true;
+          for (let k = 1; k < dn.length; k++) if (dn[k] > dn[k - 1] + 1) rev = true;
+          if (rev) hooked++;
         }
-        return count;
+        return { broken, hooked };
       }, shot.toString("base64"));
       await fp.close();
-      assert.equal(segs, 2, `Expected 2 solid triangles without seam at DPR ${dpr}, got ${segs}`);
+      assert.deepEqual(diag, { broken: 0, hooked: 0 }, `Arrow seam or base-hook reversal at DPR ${dpr}: ${JSON.stringify(diag)}`);
     }
 
     // 2. Window 3 interactive listbox (click + keyboard ArrowDown/End) & user input preserved across language switch
@@ -563,15 +590,71 @@ describe("Platinum controls in Chromium", { skip: !playwright && "Playwright una
     assert.equal(fallbackAudit.darkWin, "#2c2c2c");
     assert.equal(fallbackAudit.outerStripes, "none");
 
-    // 6. Forced-colors radio dot stays distinguishable between unchecked and checked
+    // 6. Forced-colors radio dot, tbox action glyphs, triangular disclosure marker, and disabled switch/range feedback
     const p3 = await browser.newPage();
     t.after(() => p3.close());
     await p3.emulateMedia({ forcedColors: "active" });
-    await p3.setContent(`<!doctype html><div data-platinum><input id="r" type="radio" class="pt-radio"></div>`);
+    await p3.setContent(`<!doctype html><html data-platinum data-platinum-controls="win"><body>
+      <div class="pt-window" style="width:200px"><header class="pt-titlebar">
+        <button id="fc-close" class="pt-tbox pt-tbox-close" aria-label="Close"></button>
+        <button id="fc-min" class="pt-tbox pt-tbox-minimize" aria-label="Minimize"></button>
+        <button id="fc-zoom" class="pt-tbox pt-tbox-zoom" aria-label="Zoom"></button>
+        <span class="pt-titlebar-label">FC</span>
+      </header></div>
+      <details id="fc-det" class="pt-disclosure"><summary>Details</summary><div>Body</div></details>
+      <input id="r" type="radio" class="pt-radio">
+      <label class="pt-switch"><input id="fc-sw-in" type="checkbox" class="pt-switch-input" /><span id="fc-sw-tr" class="pt-switch-track"></span></label>
+      <input id="fc-rng" type="range" class="pt-range" value="50" />
+    </body></html>`);
     await p3.addStyleTag({ path: cssPath("platinum") });
     const offPng = await p3.locator("#r").screenshot();
     await p3.locator("#r").check();
     const onPng = await p3.locator("#r").screenshot();
     assert.notDeepEqual(offPng, onPng);
+
+    const swEnPng = await p3.locator("#fc-sw-tr").screenshot();
+    const rngEnPng = await p3.locator("#fc-rng").screenshot();
+    await p3.evaluate(() => {
+      document.getElementById("fc-sw-in").disabled = true;
+      document.getElementById("fc-rng").disabled = true;
+    });
+    const swDisPng = await p3.locator("#fc-sw-tr").screenshot();
+    const rngDisPng = await p3.locator("#fc-rng").screenshot();
+    assert.notDeepEqual(swEnPng, swDisPng, "Forced-colors unchecked switch must visibly change when disabled");
+    assert.notDeepEqual(rngEnPng, rngDisPng, "Forced-colors range must visibly change when disabled");
+
+    const closeFcPng = await p3.locator("#fc-close").screenshot();
+    const minFcPng = await p3.locator("#fc-min").screenshot();
+    const zoomFcPng = await p3.locator("#fc-zoom").screenshot();
+    const detFcPng = await p3.locator("#fc-det summary").screenshot();
+    await p3.addStyleTag({ content: ".pt-tbox::after { display: none !important; }" });
+    assert.notDeepEqual(closeFcPng, await p3.locator("#fc-close").screenshot(), "Forced-colors close glyph vanished");
+    assert.notDeepEqual(minFcPng, await p3.locator("#fc-min").screenshot(), "Forced-colors minimize glyph vanished");
+    assert.notDeepEqual(zoomFcPng, await p3.locator("#fc-zoom").screenshot(), "Forced-colors zoom glyph vanished");
+    const fcShapes = await p3.evaluate(async ([bClose, bDet]) => {
+      const decode = async (b64) => {
+        const img = new Image(); img.src = "data:image/png;base64," + b64; await img.decode();
+        const c = document.createElement("canvas"); c.width = img.width; c.height = img.height;
+        const ctx = c.getContext("2d"); ctx.drawImage(img, 0, 0);
+        return { w: img.width, h: img.height, d: ctx.getImageData(0, 0, img.width, img.height).data };
+      };
+      const cl = await decode(bClose);
+      let closeInk = 0;
+      for (let y = 2; y < cl.h - 2; y++) {
+        for (let x = 2; x < cl.w - 2; x++) {
+          if (cl.d[(y * cl.w + x) * 4] < 245) closeInk++;
+        }
+      }
+      const dt = await decode(bDet);
+      const colHeights = [];
+      for (let x = 0; x < 7; x++) {
+        let h = 0;
+        for (let y = 0; y < dt.h; y++) if (dt.d[(y * dt.w + x) * 4] < 128) h++;
+        if (h > 0) colHeights.push(h);
+      }
+      return { closeInk, colHeights };
+    }, [closeFcPng.toString("base64"), detFcPng.toString("base64")]);
+    assert.ok(fcShapes.closeInk >= 25, `Forced-colors close box lost glyph (${fcShapes.closeInk})`);
+    assert.ok(fcShapes.colHeights[0] > fcShapes.colHeights.at(-1), `Forced-colors disclosure turned into solid block: ${JSON.stringify(fcShapes.colHeights)}`);
   });
 });

@@ -162,12 +162,14 @@ window.PLATINUM_REFERENCE = {
       {"name": "Groupbox lower etched border", "x": 24, "y": 214, "width": 328, "height": 2, "zh": "时区分组框底部双线蚀刻边"},
       {"name": "Date field sunken top edge", "x": 44, "y": 53, "width": 98, "height": 2, "zh": "日期输入框上凹槽与黑边"},
       {"name": "Date stepper arrows", "x": 148, "y": 54, "width": 13, "height": 23, "zh": "日期微调上下箭头"},
+      {"name": "Time stepper arrows", "x": 325, "y": 54, "width": 13, "height": 23, "zh": "时间微调上下箭头"},
       {"name": "Enabled Date Formats button bevel", "x": 50, "y": 85, "width": 100, "height": 4, "zh": "启用按钮上边缘与内高光"},
       {"name": "Enabled Date Formats button bottom bevel", "x": 50, "y": 102, "width": 100, "height": 3, "zh": "启用按钮下暗角斜面"},
       {"name": "Disabled Server Options flat top edge", "x": 236, "y": 248, "width": 100, "height": 4, "zh": "禁用按钮无斜面平边"},
       {"name": "Disabled Server Options flat bottom edge", "x": 236, "y": 265, "width": 100, "height": 3, "zh": "禁用按钮底部无斜面平边"},
       {"name": "Disabled DST checkbox flat box", "x": 30, "y": 162, "width": 12, "height": 12, "zh": "禁用复选框实色无斜面方框"},
       {"name": "Unchecked Network Time checkbox bevel", "x": 30, "y": 222, "width": 12, "height": 12, "zh": "未选中复选框斜面方框"},
+      {"name": "Menu Bar Clock On radio dot", "x": 70, "y": 326, "width": 4, "height": 4, "zh": "菜单栏时钟启用单选圆点"},
       {"name": "Labels, live clock text, and glyphs", "x": 20, "y": 28, "width": 340, "height": 330, "mode": "review", "zh": "标签、实时时钟文字与图标字形"}
     ]
   },

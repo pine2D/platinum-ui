@@ -1,5 +1,5 @@
 {
-  "sourceDigest": "ae7bb451993e81a61385b453444ec7dc02c65e4f9c26ba192ca3f80814280e56",
+  "sourceDigest": "e216039e416ec6073de11d5d9e984211533987eb3a7813bd2be38ab14128167d",
   "reports": [
     {
       "id": "finder-active",
@@ -2007,9 +2007,9 @@
     },
     {
       "id": "date-time-active",
-      "changed": 15939,
+      "changed": 15919,
       "pixels": 139490,
-      "absoluteError": 5034763,
+      "absoluteError": 5010946,
       "regions": [
         {
           "name": "Top keyline and inner highlight",
@@ -2096,6 +2096,12 @@
           "review": false
         },
         {
+          "name": "Time stepper arrows",
+          "changed": 0,
+          "pixels": 299,
+          "review": false
+        },
+        {
           "name": "Enabled Date Formats button bevel",
           "changed": 0,
           "pixels": 400,
@@ -2132,8 +2138,14 @@
           "review": false
         },
         {
+          "name": "Menu Bar Clock On radio dot",
+          "changed": 0,
+          "pixels": 16,
+          "review": false
+        },
+        {
           "name": "Labels, live clock text, and glyphs",
-          "changed": 14347,
+          "changed": 14327,
           "pixels": 112200,
           "review": true
         },
@@ -2158,16 +2170,16 @@
       ],
       "hashes": {
         "original": "8a19afe637d29fda673d8b3f7c927923571d8864d5d494517e932f76e8334b8f",
-        "rendered": "dc6f806ce1eba07f39c53bba75359baea45773e2447ce2e5bfd1384556f2b289",
-        "difference": "e46210a2d4ba218f1221197b46471d8a6b9820281659bc827bc74cc89b991934",
+        "rendered": "139f4e4a8140aa7b32f3c8eead9b57620d2d79e8e2bb0a4ee35c3b71a041cad3",
+        "difference": "d878627dfc6a7a2f26d1ffe91013db90e6bf4f04b39cd1b6c33a3722788320ac",
         "capture": "41b99960a422de072829221402bc8c7125571eb0fe7502d0c2c81dbf7322b875"
       }
     },
     {
       "id": "date-time-inactive",
-      "changed": 14775,
+      "changed": 14759,
       "pixels": 139490,
-      "absoluteError": 2456877,
+      "absoluteError": 2456217,
       "regions": [
         {
           "name": "Top keyline and inner highlight",
@@ -2254,6 +2266,12 @@
           "review": false
         },
         {
+          "name": "Time stepper arrows",
+          "changed": 0,
+          "pixels": 299,
+          "review": false
+        },
+        {
           "name": "Enabled Date Formats button bevel",
           "changed": 0,
           "pixels": 400,
@@ -2290,8 +2308,14 @@
           "review": false
         },
         {
+          "name": "Menu Bar Clock On radio dot",
+          "changed": 0,
+          "pixels": 16,
+          "review": false
+        },
+        {
           "name": "Labels, live clock text, and glyphs",
-          "changed": 14218,
+          "changed": 14202,
           "pixels": 112200,
           "review": true
         },
@@ -2316,8 +2340,8 @@
       ],
       "hashes": {
         "original": "c1d54ac3989742f05ca2e27a44ef26854780a8d4f09aaf4d9c66a45e609f6f10",
-        "rendered": "b23278634e1d28983eeeaf4b6ff3924116b79c8436b8c1df16d06e55f3ffc0d4",
-        "difference": "cf0fe8e7b382881168ba6a818d5b64cdf240c0d1ed2e98ff094e38ab9b0f117b",
+        "rendered": "7536d72451583c7eaa3983f736a06f262b0ea5ed0f0b4531293580c3e7eb4cdc",
+        "difference": "f24cbbf87c2af92cf3f1b7590fa8e5b7f2aef7ca2991b5bffe0e9df10eaed944",
         "capture": "1dfbc0fbed658ace32c19b922d71b575faafd3a3329341c343d0894ecf55d6fd"
       }
     },

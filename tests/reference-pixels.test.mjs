@@ -236,6 +236,24 @@ describe('Historical window screenshots at DPR 1', {
       strictFailures(disabledReport).some(r => /Disabled Server Options/i.test(r.name)),
       'Closed-loop negative control failed: beveled .pt-btn:disabled must fail Disabled Server Options check'
     );
+
+    const missingRadioDot = await captureSample(browser, dtSample, page => {
+      return page.addStyleTag({ content: '.pt-radio:checked::after { background: transparent !important; }' });
+    });
+    const radioReport = await compareImages(browser, readReference('original/date-time-active.png'), missingRadioDot, dtSample.regions);
+    assert.ok(
+      strictFailures(radioReport).some(r => /Menu Bar Clock On radio dot/i.test(r.name)),
+      'Closed-loop negative control failed: transparent .pt-radio:checked::after must fail Menu Bar Clock On radio dot check'
+    );
+
+    const hiddenTimeStepper = await captureSample(browser, dtSample, page => {
+      return page.addStyleTag({ content: '.reference-dt-stepper-time { visibility: hidden !important; }' });
+    });
+    const stepperReport = await compareImages(browser, readReference('original/date-time-active.png'), hiddenTimeStepper, dtSample.regions);
+    assert.ok(
+      strictFailures(stepperReport).some(r => /Time stepper arrows/i.test(r.name)),
+      'Closed-loop negative control failed: hidden time stepper must fail Time stepper arrows check'
+    );
   });
 
   it('opens both native file and Pages-style paths with a persistent Chinese locale', async () => {
