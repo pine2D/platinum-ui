@@ -947,27 +947,35 @@
       display: none;
     }
 
-    /* Authentic Mac OS 9 open popup state: right 19px arrow cap depresses with 4px - 7px - 4px symmetry */
-    select.pt-select:not([multiple]):not([size]:not([size="1"])):open {
+    /* Depress entire trigger in :open identically to :active so mousedown -> open has zero visual jump */
+    select.pt-select:not([multiple]):not([size]:not([size="1"])):open:not(:disabled, [aria-disabled="true"]) {
+      background-color: var(--pt-pressed-bg);
+      color: var(--pt-pressed-fg);
+      box-shadow: var(--pt-bevel-pressed);
       --_pt-select-glyph: var(--pt-select-arrows-pressed);
       --_pt-select-cap: linear-gradient(
         to right,
         transparent calc(100% - 19px),
         var(--pt-frame) calc(100% - 19px) calc(100% - 18px),
         color-mix(in srgb, var(--pt-pressed-bg) 68%, #000) calc(100% - 18px) calc(100% - 17px),
-        var(--pt-pressed-bg) calc(100% - 17px)
+        transparent calc(100% - 17px)
       );
     }
 
-    select.pt-select:not([multiple]):not([size]:not([size="1"])):open:dir(rtl) {
+    select.pt-select:not([multiple]):not([size]:not([size="1"])):open:not(:disabled, [aria-disabled="true"]):dir(rtl) {
       --_pt-select-glyph: var(--pt-select-arrows-pressed);
       --_pt-select-cap: linear-gradient(
         to left,
         transparent calc(100% - 19px),
         var(--pt-frame) calc(100% - 19px) calc(100% - 18px),
         color-mix(in srgb, var(--pt-pressed-bg) 68%, #000) calc(100% - 18px) calc(100% - 17px),
-        var(--pt-pressed-bg) calc(100% - 17px)
+        transparent calc(100% - 17px)
       );
+    }
+
+    select.pt-select:not([multiple]):not([size]:not([size="1"])) optgroup {
+      background: transparent;
+      color: var(--pt-ink);
     }
 
     select.pt-select:not([multiple]):not([size]:not([size="1"]))::picker(select) {
@@ -1578,6 +1586,13 @@
       select.pt-select:not([multiple]):not([size]:not([size="1"])) {
         appearance: base-select;
         padding-inline: 8px;
+      }
+      select.pt-select:not([multiple]):not([size]:not([size="1"])):open:not(:disabled, [aria-disabled="true"]) {
+        background: Highlight;
+        color: HighlightText;
+        border-color: Highlight;
+        box-shadow: none;
+        forced-color-adjust: none;
       }
       select.pt-select:not([multiple]):not([size]:not([size="1"]))::picker-icon {
         display: inline-block;

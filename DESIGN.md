@@ -53,7 +53,7 @@
 - **机械瞬切**：按钮、分段组、菜单与开关全部 `0ms` 瞬时响应（`transition: none`），禁止添加按压缩放（`scale`）或悬停缓动。
 - **复选框三态与实色禁用契约**：宿主用原生 `input.indeterminate` 表达部分选中。半选显示横线，选中显示勾，两者共用内凹底面并在子项变化后重算父项状态。全套表单与按钮禁用态（`:disabled` / `[aria-disabled="true"]`）禁用半透明 `opacity` 漂白，统一采用 `opacity: 1` 实色无斜面（`box-shadow: none; border-color: var(--pt-border-subtle); color: var(--pt-ink-muted)`，按钮/复选框回 `--pt-window` 底，输入框回 `--pt-face` 底），勾号、半选横线与单选圆点跟随 `currentColor` 保证四象限 `>= 4.5:1` 可读。
 - **滚动条刻纹与设置滑块（`.pt-range`）**：滑块中央的四组明暗刻纹垂直于滚动方向（通用 CSS 滚动条定制轨道、滑块与拐角，省略两端步进箭头按钮以保持跨引擎稳定命中；历史 Finder 参照帧单独按像素复刻箭头）。设置滑块 `input[type="range"]` / `.pt-range` 采用 `6px` 下凹轨道与 `12×18px` 双层轻斜面矩形滑块，避免现代浏览器蓝色胶囊圆球泄漏。
-- **单选弹出选择器（`.pt-select`）与命令菜单（`.pt-menu`）**：单选 `<select>` 在支持 `appearance: base-select` 的现代内核下自动启用纯 CSS Platinum 弹层（`--pt-face` + `1px` 黑框 + `--pt-bevel-window` + 硬投影、左侧 `✓` 勾选列、`--pt-menu-active-bg` 反白与 `:open` 右侧箭头帽压暗；因 `base-select` 闭合宽度跟随当前选中项，并排工具栏应由容器或 `min-width`/`width` 定宽；RTL 方向须标注 HTML `dir="rtl"`），多行列表框（`multiple` 或规范整数 `size >= 2`）独立走下凹白底列表井并保持失焦 `option:checked` 可见选区；不支持 `base-select` 的内核优雅回退闭合按钮与 `option` 前背景色。命令型弹出菜单由宿主管理展开状态与焦点，`gallery/index.html` 提供支持方向键、Enter/Space 与 Escape 的可复制示例。
+- **单选弹出选择器（`.pt-select`）与命令菜单（`.pt-menu`）**：单选 `<select>` 在支持 `appearance: base-select` 的现代内核下自动启用纯 CSS Platinum 弹层（`--pt-face` + `1px` 黑框 + `--pt-bevel-window` + 硬投影、左侧 `✓` 勾选列、`--pt-menu-active-bg` 反白，且 `:open` 整颗触发器与 `:active` 同步下凹变深灰反白、零按压跳变；因 `base-select` 闭合宽度跟随当前选中项，并排工具栏应由容器或 `min-width`/`width` 定宽；RTL 方向须标注 HTML `dir="rtl"`），多行列表框（`multiple` 或规范整数 `size >= 2`）独立走下凹白底列表井并保持失焦 `option:checked` 可见选区；不支持 `base-select` 的内核优雅回退闭合按钮与 `option` 前背景色。命令型弹出菜单由宿主管理展开状态与焦点，`gallery/index.html` 提供支持方向键、Enter/Space 与 Escape 的可复制示例。
 
 ---
 

@@ -217,22 +217,32 @@ describe("Platinum controls in Chromium", { skip: !playwright && "Playwright una
     const w2 = (await sel.boundingBox()).width;
     assert.equal(w0, w1);
     assert.equal(w1, w2);
-    await sel.click();
-    const openArrowRows = await measureCapSymmetry(await sel.screenshot(), 0x66, 0xff);
+    await sel.hover();
+    await page.mouse.down();
+    const heldOpenShot = await sel.screenshot();
+    await page.mouse.up();
+    const openShot = await sel.screenshot();
+    assert.deepEqual(openShot, heldOpenShot, "Releasing mouse from :active into :open must produce zero pixel jump");
+    const openArrowRows = await measureCapSymmetry(openShot, 0x66, 0xff);
     assert.equal(openArrowRows.length, 16);
     for (const r of openArrowRows) assert.equal(r.leftGap, r.rightGap);
     assert.equal(openArrowRows[6].w, 14);
     assert.equal(openArrowRows[8].w, 14);
     const pickerStyle = await sel.evaluate(el => {
+      const cs = getComputedStyle(el);
       const pcs = getComputedStyle(el, "::picker(select)");
       return {
         open: el.matches(":open"),
+        triggerBg: cs.backgroundColor,
+        triggerFg: cs.color,
         pickerBg: pcs.backgroundColor,
         pickerBorder: pcs.borderTopColor,
         pickerRadius: pcs.borderTopLeftRadius
       };
     });
     assert.equal(pickerStyle.open, true);
+    assert.equal(pickerStyle.triggerBg, "rgb(102, 102, 102)");
+    assert.equal(pickerStyle.triggerFg, "rgb(255, 255, 255)");
     assert.equal(pickerStyle.pickerBg, "rgb(221, 221, 221)");
     assert.equal(pickerStyle.pickerBorder, "rgb(38, 38, 38)");
     assert.equal(pickerStyle.pickerRadius, "0px");
