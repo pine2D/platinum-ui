@@ -70,6 +70,7 @@
 9. **交互控件内 `<kbd>` 禁套立体键帽**：独立文档与帮助页可使用 `.pt-kbd`（或非嵌套独立 `<kbd>`）呈现 `2px` 斜面键帽；按钮、菜单项（`[role="menuitem"]`）与 Tooltip 内部的快捷键提示必须保持无框纯等宽平字并继承前景色，严禁把 `+` 符号和组合键撑成 3D 方块撞穿按钮文字。
 10. **有框表格首尾列对称内距保护**：从无框现代 Markdown 切换为 `1px` 实框 + 表头灰底的 Platinum 表格时，必须显式覆写 `:is(th, td):is(:first-child, :last-child)` 的水平内边距（`>= 6px`，默认 `6px 10px`）与四边边框，杜绝首尾列文字死贴左/右框线。
 11. **全界面清零正圆/胶囊动作钮与宏观窗口化**：除 `input[type="radio"]` 外禁用 `border-radius >= 8px` 的正圆或胶囊按钮（如悬浮回底 `↓`、圆形发送 `↑` 须转为 `2px/3px` 实体方形斜面钮）；对存量现代 SaaS 做第三方宿主换肤时，须先建立宏观四层物理骨架（桌面底/窗框/金属顶栏或横纹标题条/下凹内容井），详见 `skills/platinum-ui/references/host-overlay-and-migration.md`。
+12. **蚀刻分组框 `<legend>` 遮断白线与基线踩线**：原生 `<fieldset>` 仅会为 `<legend>` 截断 `border-top`（暗线），不会截断 `inset box-shadow`（`1px` 高光亮线），且默认把边框插在 `<legend>` 行高腰部；`<legend>` 必须绑定所在容器底色（`--pt-groupbox-bg` / `--pt-surface-bg`）遮断亮线，并通过 `position: relative; top: -3px; padding: 0 5px 3px; line-height: 1.15` 使标题基线对齐凹槽顶边（遵循 Mac OS 8/9 HIG Group Box Layout）。
 
 ---
 

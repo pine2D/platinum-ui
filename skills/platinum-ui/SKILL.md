@@ -55,5 +55,5 @@ description: 跨项目 Mac OS 9 Platinum 立体桌面设计系统接入、界面
    ```
 3. **真实浏览器几何、残余现代 UI 与目视双模自查**：在 Chromium / Playwright 下同时验证 `light` 与 `dark` 两态（复用 `<platinum-ui>/bin/platinum-check.mjs` 导出的 `ICON_BUTTON_PROBE_SOURCE` 与 `findIconButtonIssues`），确保：
    - 所有常规可见按钮有效热区 `>= 24×24px`（`.pt-tbox` 窗控 `>= 18×22px` 且相邻零重叠）、纯图标按钮居中偏差 `<= 0.6px`、零横向滚动溢出；
-   - **零残余现代 UI 泄漏**：除 `radio` 外无 `border-radius >= 8px` 圆形/胶囊按钮、有框表格首尾列 `padding-inline >= 6px` 不贴边、按钮/菜单内无 3D `<kbd>` 键帽膨胀或子元素撞字；
+   - **零残余现代 UI 泄漏与分组框对位**：除 `radio` 外无 `border-radius >= 8px` 圆形/胶囊按钮、有框表格首尾列 `padding-inline >= 6px` 不贴边、按钮/菜单内无 3D `<kbd>` 键帽膨胀或子元素撞字、蚀刻 `<fieldset> > <legend>` 遮断内侧高光线且标题基线对齐凹槽顶边；
    - **真机目视门（宿主换肤必做）**：不可只用合成 mock DOM 过测即宣告完工，须对真实运行页（默认态 + 按钮/菜单悬停态 + 含表格长文页）截屏核对宏观窗口化层级与观感。

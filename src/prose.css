@@ -72,6 +72,7 @@
 
   /* Classic mini code window with beveled header & 20x20 copy action */
   .pt-code-window {
+    --pt-surface-bg: var(--pt-code-bg);
     border: 1px solid var(--pt-frame);
     border-radius: var(--pt-radius-window);
     background: var(--pt-code-bg);
@@ -98,6 +99,7 @@
   }
 
   .pt-prose blockquote {
+    --pt-surface-bg: var(--pt-code-bg);
     padding: var(--pt-space-2) var(--pt-space-3);
     background: var(--pt-code-bg);
     border-inline-start: 3px solid var(--pt-border-subtle);

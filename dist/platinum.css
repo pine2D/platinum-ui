@@ -327,6 +327,7 @@
 
   /* ---- Desktop Canvas & Window Chrome ---- */
   .pt-desktop {
+    --pt-surface-bg: var(--pt-canvas);
     background: var(--pt-canvas);
     color: var(--pt-ink);
     font-family: var(--pt-font-ui);
@@ -335,6 +336,7 @@
   }
 
   .pt-surface {
+    --pt-surface-bg: var(--pt-window);
     background: var(--pt-window);
     color: var(--pt-ink);
     font-family: var(--pt-font-ui);
@@ -343,6 +345,7 @@
   }
 
   .pt-window {
+    --pt-surface-bg: var(--pt-window);
     flex-direction: column;
     background: var(--pt-window);
     color: var(--pt-ink);
@@ -721,6 +724,7 @@
 
   .pt-toolbar,
   .pt-statusbar {
+    --pt-surface-bg: var(--pt-face);
     display: flex;
     align-items: center;
     gap: var(--pt-space-2);
@@ -741,6 +745,7 @@
   }
 
   .pt-window-body {
+    --pt-surface-bg: var(--pt-window);
     padding: var(--pt-space-3);
     background: var(--pt-window);
     color: var(--pt-ink);
@@ -748,6 +753,7 @@
 
   /* Sunken white/charcoal content well: rebinds surface context cleanly */
   .pt-well {
+    --pt-surface-bg: var(--pt-paper);
     background: var(--pt-paper);
     color: var(--pt-ink);
     border: 1px solid var(--pt-frame);
@@ -1160,11 +1166,17 @@
     box-shadow: inset 1px 1px 0 var(--pt-groove-light), 1px 1px 0 var(--pt-groove-light);
   }
 
+  /* HIG Group Box Layout: mask the inset highlight groove cleanly across the gap
+     and align the title baseline with the etched top border line. */
   .pt-groupbox > legend {
-    padding: 0 6px;
+    position: relative;
+    top: -3px;
+    padding: 0 5px 3px;
+    background: var(--pt-groupbox-bg, var(--pt-surface-bg, var(--pt-window)));
     color: var(--pt-ink);
     font-size: var(--pt-size-control);
     font-weight: 700;
+    line-height: 1.15;
   }
 
   /* ---- Bevel Popup Menu ---- */
@@ -1410,6 +1422,7 @@
 
 @layer pt.elements {
   :is(:root, body) {
+    --pt-surface-bg: var(--pt-canvas);
     background: var(--pt-canvas);
     color: var(--pt-ink);
     font-family: var(--pt-font-ui);
@@ -1588,9 +1601,14 @@
   }
 
   :is(:root, body) fieldset:not(.pt-groupbox, .pt-unstyled) > legend {
-    padding: 0 6px;
+    position: relative;
+    top: -3px;
+    padding: 0 5px 3px;
+    background: var(--pt-groupbox-bg, var(--pt-surface-bg, var(--pt-window)));
+    color: var(--pt-ink);
     font-size: var(--pt-size-control);
     font-weight: 700;
+    line-height: 1.15;
   }
 
   :is(:root, body) details:not(.pt-disclosure, .pt-unstyled) > summary {
@@ -1760,6 +1778,7 @@
 
   /* Classic mini code window with beveled header & 20x20 copy action */
   .pt-code-window {
+    --pt-surface-bg: var(--pt-code-bg);
     border: 1px solid var(--pt-frame);
     border-radius: var(--pt-radius-window);
     background: var(--pt-code-bg);
@@ -1786,6 +1805,7 @@
   }
 
   .pt-prose blockquote {
+    --pt-surface-bg: var(--pt-code-bg);
     padding: var(--pt-space-2) var(--pt-space-3);
     background: var(--pt-code-bg);
     border-inline-start: 3px solid var(--pt-border-subtle);

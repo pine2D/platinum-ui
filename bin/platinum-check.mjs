@@ -595,8 +595,60 @@ export const ICON_BUTTON_PROBE_SOURCE = `(() => {
     }
   }
 
+  // Probe D: Etched <fieldset> + <legend> groove bleed & HIG baseline alignment
+  const groupboxIssues = [];
+  for (const fs of document.querySelectorAll('fieldset')) {
+    if (fs.closest('.pt-unstyled')) continue;
+    const fcs = getComputedStyle(fs);
+    if (fcs.display === 'none' || fcs.visibility === 'hidden') continue;
+    const fsRect = fs.getBoundingClientRect();
+    if (fsRect.width <= 0 || fsRect.height <= 0) continue;
+    const bwT = parsePx(fcs.borderTopWidth);
+    if (bwT <= 0 || !fcs.boxShadow || !fcs.boxShadow.includes('inset')) continue;
+    const lg = [...fs.children].find((c) => c.tagName === 'LEGEND');
+    if (!lg) continue;
+    const lcs = getComputedStyle(lg);
+    if (lcs.display === 'none' || lcs.visibility === 'hidden') continue;
+    const lgRect = lg.getBoundingClientRect();
+    const label = (lg.textContent || '').trim().slice(0, 32);
+    if (!label || lgRect.width <= 0 || lgRect.height <= 0) continue;
+
+    if (!lcs.backgroundColor || lcs.backgroundColor === 'rgba(0, 0, 0, 0)' || lcs.backgroundColor === 'transparent') {
+      groupboxIssues.push({
+        kind: 'legend-groove-bleed',
+        label,
+        detail: 'etched <fieldset> <legend> has transparent background (inset groove line cuts through title)'
+      });
+      continue;
+    }
+    const borderTopY = fsRect.top + Math.max(0, (lgRect.height - bwT) / 2);
+    const insetGrooveY = borderTopY + 1;
+    if (lgRect.bottom < insetGrooveY + 1) {
+      groupboxIssues.push({
+        kind: 'legend-groove-uncovered',
+        label,
+        detail: '<legend> background stops above fieldset inset groove line'
+      });
+      continue;
+    }
+    if (lgRect.height <= 24 && !lg.querySelector('input, select, button')) {
+      const probe = document.createElement('span');
+      probe.style.cssText = 'display:inline-block;width:0;height:0;vertical-align:baseline;padding:0;margin:0;border:0';
+      lg.appendChild(probe);
+      const baseY = probe.getBoundingClientRect().top;
+      probe.remove();
+      if (baseY > insetGrooveY + 1.5) {
+        groupboxIssues.push({
+          kind: 'legend-baseline-sag',
+          label,
+          detail: '<legend> baseline sags below etched top border instead of resting on groove line'
+        });
+      }
+    }
+  }
+
   const overflowX = document.documentElement.scrollWidth - document.documentElement.clientWidth;
-  return { items, overflowX, pillLeaks, crampedTableCells, buttonChildIssues };
+  return { items, overflowX, pillLeaks, crampedTableCells, buttonChildIssues, groupboxIssues };
 })()`;
 
 export function findIconButtonIssues(probeData, contextLabel = "page") {
@@ -649,6 +701,9 @@ export function findIconButtonIssues(probeData, contextLabel = "page") {
   }
   for (const k of probeData.buttonChildIssues || []) {
     issues.push(`${contextLabel} control (${k.label}): ${k.detail}`);
+  }
+  for (const g of probeData.groupboxIssues || []) {
+    issues.push(`${contextLabel} groupbox (${g.label}): ${g.detail}`);
   }
   return issues;
 }

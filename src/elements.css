@@ -7,6 +7,7 @@
 
 @layer pt.elements {
   __PT_ROOT__ {
+    --pt-surface-bg: var(--pt-canvas);
     background: var(--pt-canvas);
     color: var(--pt-ink);
     font-family: var(--pt-font-ui);
@@ -185,9 +186,14 @@
   }
 
   __PT_SCOPE__ fieldset:not(.pt-groupbox, .pt-unstyled) > legend {
-    padding: 0 6px;
+    position: relative;
+    top: -3px;
+    padding: 0 5px 3px;
+    background: var(--pt-groupbox-bg, var(--pt-surface-bg, var(--pt-window)));
+    color: var(--pt-ink);
     font-size: var(--pt-size-control);
     font-weight: 700;
+    line-height: 1.15;
   }
 
   __PT_SCOPE__ details:not(.pt-disclosure, .pt-unstyled) > summary {

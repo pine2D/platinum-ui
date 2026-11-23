@@ -116,13 +116,15 @@ test("icon button geometry detector flags off-center, undersized hit area, non-s
     ],
     pillLeaks: [{ tag: "button", cls: "send-fab", label: "Send", maxRadius: 18 }],
     crampedTableCells: [{ tag: "td", text: "AGENTS.md", paddingLeft: 0, paddingRight: 10 }],
-    buttonChildIssues: [{ kind: "kbd-overlap", label: "New Chat", detail: "<kbd> overlaps button label text" }]
+    buttonChildIssues: [{ kind: "kbd-overlap", label: "New Chat", detail: "<kbd> overlaps button label text" }],
+    groupboxIssues: [{ kind: "legend-groove-bleed", label: "Push Buttons", detail: "etched <fieldset> <legend> has transparent background (inset groove line cuts through title)" }]
   }, "mock");
-  assert.equal(bad.length, 6);
+  assert.equal(bad.length, 7);
   assert.ok(bad.some((m) => m.includes("overlapping .pt-tbox hit boxes")));
   assert.ok(bad.some((m) => m.includes("residual pill/circle")));
   assert.ok(bad.some((m) => m.includes("flush cell padding")));
   assert.ok(bad.some((m) => m.includes("<kbd> overlaps button label text")));
+  assert.ok(bad.some((m) => m.includes("inset groove line cuts through title")));
 });
 
 test("live Chromium gallery passes all 8 (scheme x accent x density) states in EN and zh-CN plus mac9/macos/win window controls", async () => {
@@ -151,13 +153,15 @@ test("live Chromium probe detects circular FABs, flush table cells, and 3D/overl
     @layer host { .md td:first-child { padding-left: 0; } }
   </style></head><body style="padding:16px">
     <button style="display:inline-flex;gap:8px;align-items:center">New Chat <kbd><kbd>Ctrl</kbd><kbd>+</kbd><kbd>N</kbd></kbd></button>
+    <fieldset><legend>Bare Canvas Group</legend><button>Apply</button></fieldset>
+    <div class="pt-well"><fieldset class="pt-groupbox"><legend>Well Nested Group</legend><button class="pt-btn">Save</button></fieldset></div>
     <div class="pt-prose md"><table><thead><tr><th>File</th><th>Role</th></tr></thead><tbody><tr><td>AGENTS.md</td><td>Guide</td></tr></tbody></table></div>
   </body></html>`;
   const cleanRes = await runBrowserAudit({ root: ROOT, url: probeUrl(cleanHtml) });
   if (cleanRes.skipped) return;
   assert.deepEqual(cleanRes.errors, []);
 
-  // 2. Defective host overlay page -> must catch all 3 residual modern-UI traps
+  // 2. Defective host overlay page -> must catch residual modern-UI traps & broken etched <fieldset> legends
   const badHtml = `<!doctype html><html><head><style>
     .fab { width: 32px; height: 32px; border-radius: 50%; }
     table { border-collapse: collapse; border: 1px solid #262626; }
@@ -165,9 +169,14 @@ test("live Chromium probe detects circular FABs, flush table cells, and 3D/overl
     td:first-child { padding-left: 0; }
     .btn-hit { position: relative; width: 90px; height: 28px; display: inline-flex; align-items: center; }
     .btn-hit kbd { position: absolute; left: 8px; border: 1px solid #262626; box-shadow: inset 1px 1px 0 #fff; padding: 2px 5px; }
-  </style></head><body style="padding:16px">
+    .gb-bleed { border: 1px solid #888; box-shadow: inset 1px 1px 0 #fff; padding: 12px; }
+    .gb-sag { border: 1px solid #888; box-shadow: inset 1px 1px 0 #fff; padding: 12px; }
+    .gb-sag > legend { background: #ccc; padding: 0 6px; line-height: 1.5; }
+  </style></head><body style="padding:16px; background:#ccc">
     <button class="fab" aria-label="Scroll down">↓</button>
     <button class="btn-hit">New Chat <kbd>Ctrl+Alt+N</kbd></button>
+    <fieldset class="gb-bleed"><legend>Bleed Title</legend></fieldset>
+    <fieldset class="gb-sag"><legend>Sagging Title</legend></fieldset>
     <table><tbody><tr><td>AGENTS.md</td><td>Guide</td></tr></tbody></table>
   </body></html>`;
   const badRes = await runBrowserAudit({ root: ROOT, url: probeUrl(badHtml) });
@@ -176,4 +185,6 @@ test("live Chromium probe detects circular FABs, flush table cells, and 3D/overl
   assert.ok(badRes.errors.some((e) => e.includes("3D bordered/beveled <kbd>")));
   assert.ok(badRes.errors.some((e) => e.includes("<kbd> overflows enclosing control bounds")));
   assert.ok(badRes.errors.some((e) => e.includes("<kbd> overlaps button label text")));
+  assert.ok(badRes.errors.some((e) => e.includes("inset groove line cuts through title")));
+  assert.ok(badRes.errors.some((e) => e.includes("baseline sags below etched top border")));
 });
