@@ -2,7 +2,7 @@
 @layer pt.tokens, pt.core, pt.elements, pt.prose;
 
 @layer pt.tokens {
-  [data-platinum] {
+  :where([data-platinum]:not([data-platinum] *)) {
     color-scheme: light dark;
     --pt-font-ui: "Charcoal", "Lucida Grande", "Segoe UI", "Microsoft YaHei UI", "PingFang SC", "Noto Sans CJK SC", system-ui, sans-serif;
     --pt-font-mono: "Monaco", "SF Mono", "Cascadia Mono", "Consolas", "PingFang SC", "Microsoft YaHei UI", "Noto Sans CJK SC", ui-monospace, monospace;
@@ -30,6 +30,26 @@
     --pt-titlebar-h: 22px;
     --pt-btn-pad-x: 10px;
     --pt-field-pad-x: 7px;
+    --_pt-l-accent: #1d4496;
+    --_pt-d-accent: #8ec0ff;
+    --_pt-l-on-accent: #ffffff;
+    --_pt-d-on-accent: #101828;
+    --_pt-l-selection-bg: #b8b8b8;
+    --_pt-d-selection-bg: #383838;
+    --_pt-l-selection-fg: #111111;
+    --_pt-d-selection-fg: #ffffff;
+    --_pt-l-menu-active-bg: #333333;
+    --_pt-d-menu-active-bg: #e0e0e0;
+    --_pt-l-menu-active-fg: #ffffff;
+    --_pt-d-menu-active-fg: #141414;
+    --_pt-l-scroll-track: #aaaaaa;
+    --_pt-d-scroll-track: #1a1a1a;
+    --_pt-l-scroll-thumb: #cccccc;
+    --_pt-d-scroll-thumb: #525252;
+    --_pt-l-scroll-thumb-hi: #ffffff;
+    --_pt-d-scroll-thumb-hi: #737373;
+    --_pt-l-scroll-thumb-lo: #777777;
+    --_pt-d-scroll-thumb-lo: #242424;
     --pt-canvas: #bfbfbf;
     --pt-window: #cccccc;
     --pt-face: #dddddd;
@@ -66,88 +86,199 @@
     --pt-bevel-strip: inset 0 1px 0 #ffffff, inset 0 -1px 0 #999999;
     --pt-shadow-window: 2px 2px 0 #262626;
     --pt-ring-default-btn: 0 0 0 2px #cccccc, 0 0 0 3px #262626;
-    --pt-accent: #1d4496;
-    --pt-on-accent: #ffffff;
-    --pt-selection-bg: #b8b8b8;
-    --pt-selection-fg: #111111;
-    --pt-menu-active-bg: #333333;
-    --pt-menu-active-fg: #ffffff;
-    --pt-scroll-track: #aaaaaa;
-    --pt-scroll-thumb: #cccccc;
-    --pt-scroll-thumb-hi: #ffffff;
-    --pt-scroll-thumb-lo: #777777;
+    --pt-accent: var(--_pt-l-accent);
+    --pt-on-accent: var(--_pt-l-on-accent);
+    --pt-selection-bg: var(--_pt-l-selection-bg);
+    --pt-selection-fg: var(--_pt-l-selection-fg);
+    --pt-menu-active-bg: var(--_pt-l-menu-active-bg);
+    --pt-menu-active-fg: var(--_pt-l-menu-active-fg);
+    --pt-scroll-track: var(--_pt-l-scroll-track);
+    --pt-scroll-thumb: var(--_pt-l-scroll-thumb);
+    --pt-scroll-thumb-hi: var(--_pt-l-scroll-thumb-hi);
+    --pt-scroll-thumb-lo: var(--_pt-l-scroll-thumb-lo);
     --pt-scroll-grip-v: repeating-linear-gradient(to bottom, var(--pt-scroll-glint) 0 1px, transparent 1px 2px) calc(50% - 3.5px) center / 1px 8px no-repeat, repeating-linear-gradient(to bottom, var(--pt-scroll-thumb-hi) 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center / 6px 8px no-repeat, repeating-linear-gradient(to bottom, transparent 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) calc(50% + 3.5px) center / 1px 8px no-repeat;
     --pt-scroll-grip-h: repeating-linear-gradient(to right, var(--pt-scroll-glint) 0 1px, transparent 1px 2px) center calc(50% - 3.5px) / 8px 1px no-repeat, repeating-linear-gradient(to right, var(--pt-scroll-thumb-hi) 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center / 8px 6px no-repeat, repeating-linear-gradient(to right, transparent 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center calc(50% + 3.5px) / 8px 1px no-repeat;
   }
 
+  :where([data-platinum-accent="gray"]):where([data-platinum], [data-platinum] *) {
+    --_pt-l-accent: #1d4496;
+    --_pt-d-accent: #8ec0ff;
+    --_pt-l-on-accent: #ffffff;
+    --_pt-d-on-accent: #101828;
+    --_pt-l-selection-bg: #b8b8b8;
+    --_pt-d-selection-bg: #383838;
+    --_pt-l-selection-fg: #111111;
+    --_pt-d-selection-fg: #ffffff;
+    --_pt-l-menu-active-bg: #333333;
+    --_pt-d-menu-active-bg: #e0e0e0;
+    --_pt-l-menu-active-fg: #ffffff;
+    --_pt-d-menu-active-fg: #141414;
+    --_pt-l-scroll-track: #aaaaaa;
+    --_pt-d-scroll-track: #1a1a1a;
+    --_pt-l-scroll-thumb: #cccccc;
+    --_pt-d-scroll-thumb: #525252;
+    --_pt-l-scroll-thumb-hi: #ffffff;
+    --_pt-d-scroll-thumb-hi: #737373;
+    --_pt-l-scroll-thumb-lo: #777777;
+    --_pt-d-scroll-thumb-lo: #242424;
+    --pt-accent: var(--_pt-l-accent);
+    --pt-on-accent: var(--_pt-l-on-accent);
+    --pt-selection-bg: var(--_pt-l-selection-bg);
+    --pt-selection-fg: var(--_pt-l-selection-fg);
+    --pt-menu-active-bg: var(--_pt-l-menu-active-bg);
+    --pt-menu-active-fg: var(--_pt-l-menu-active-fg);
+    --pt-scroll-track: var(--_pt-l-scroll-track);
+    --pt-scroll-thumb: var(--_pt-l-scroll-thumb);
+    --pt-scroll-thumb-hi: var(--_pt-l-scroll-thumb-hi);
+    --pt-scroll-thumb-lo: var(--_pt-l-scroll-thumb-lo);
+    --pt-scroll-grip-v: repeating-linear-gradient(to bottom, var(--pt-scroll-glint) 0 1px, transparent 1px 2px) calc(50% - 3.5px) center / 1px 8px no-repeat, repeating-linear-gradient(to bottom, var(--pt-scroll-thumb-hi) 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center / 6px 8px no-repeat, repeating-linear-gradient(to bottom, transparent 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) calc(50% + 3.5px) center / 1px 8px no-repeat;
+    --pt-scroll-grip-h: repeating-linear-gradient(to right, var(--pt-scroll-glint) 0 1px, transparent 1px 2px) center calc(50% - 3.5px) / 8px 1px no-repeat, repeating-linear-gradient(to right, var(--pt-scroll-thumb-hi) 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center / 8px 6px no-repeat, repeating-linear-gradient(to right, transparent 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center calc(50% + 3.5px) / 8px 1px no-repeat;
+  }
+
+  :where([data-platinum-accent="lavender"]):where([data-platinum], [data-platinum] *) {
+    --_pt-l-accent: #333399;
+    --_pt-d-accent: #b3b3ff;
+    --_pt-l-on-accent: #ffffff;
+    --_pt-d-on-accent: #141428;
+    --_pt-l-selection-bg: #ccccff;
+    --_pt-d-selection-bg: #3d3dad;
+    --_pt-l-selection-fg: #000000;
+    --_pt-d-selection-fg: #ffffff;
+    --_pt-l-menu-active-bg: #333399;
+    --_pt-d-menu-active-bg: #4b4bb8;
+    --_pt-l-menu-active-fg: #ffffff;
+    --_pt-d-menu-active-fg: #ffffff;
+    --_pt-l-scroll-track: #aaaaaa;
+    --_pt-d-scroll-track: #1a1a1a;
+    --_pt-l-scroll-thumb: #9999ff;
+    --_pt-d-scroll-thumb: #5c5c9e;
+    --_pt-l-scroll-thumb-hi: #ccccff;
+    --_pt-d-scroll-thumb-hi: #8585cc;
+    --_pt-l-scroll-thumb-lo: #333399;
+    --_pt-d-scroll-thumb-lo: #32325c;
+    --pt-accent: var(--_pt-l-accent);
+    --pt-on-accent: var(--_pt-l-on-accent);
+    --pt-selection-bg: var(--_pt-l-selection-bg);
+    --pt-selection-fg: var(--_pt-l-selection-fg);
+    --pt-menu-active-bg: var(--_pt-l-menu-active-bg);
+    --pt-menu-active-fg: var(--_pt-l-menu-active-fg);
+    --pt-scroll-track: var(--_pt-l-scroll-track);
+    --pt-scroll-thumb: var(--_pt-l-scroll-thumb);
+    --pt-scroll-thumb-hi: var(--_pt-l-scroll-thumb-hi);
+    --pt-scroll-thumb-lo: var(--_pt-l-scroll-thumb-lo);
+    --pt-scroll-grip-v: repeating-linear-gradient(to bottom, var(--pt-scroll-glint) 0 1px, transparent 1px 2px) calc(50% - 3.5px) center / 1px 8px no-repeat, repeating-linear-gradient(to bottom, var(--pt-scroll-thumb-hi) 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center / 6px 8px no-repeat, repeating-linear-gradient(to bottom, transparent 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) calc(50% + 3.5px) center / 1px 8px no-repeat;
+    --pt-scroll-grip-h: repeating-linear-gradient(to right, var(--pt-scroll-glint) 0 1px, transparent 1px 2px) center calc(50% - 3.5px) / 8px 1px no-repeat, repeating-linear-gradient(to right, var(--pt-scroll-thumb-hi) 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center / 8px 6px no-repeat, repeating-linear-gradient(to right, transparent 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center calc(50% + 3.5px) / 8px 1px no-repeat;
+  }
+
+  /* Single-layer fallback for engines without @scope, refined by @scope below for arbitrary nesting */
   @media (prefers-color-scheme: dark) {
-    [data-platinum]:not([data-platinum-scheme="light"], [data-theme="platinum-light"]) {
-    --pt-canvas: #181818;
-    --pt-window: #2c2c2c;
-    --pt-face: #3b3b3b;
-    --pt-face-hover: #474747;
-    --pt-pressed-bg: #161616;
-    --pt-pressed-fg: #ffffff;
-    --pt-paper: #1c1c1c;
-    --pt-code-bg: #161616;
-    --pt-ink: #eeeeee;
-    --pt-ink-muted: #c2c2c2;
-    --pt-frame: #080808;
-    --pt-border-subtle: #5c5c5c;
-    --pt-groove-dark: #141414;
-    --pt-groove-light: #4a4a4a;
-    --pt-scroll-glint: #888888;
-    --pt-tbox-lip: #444444;
-    --pt-tbox-polish: linear-gradient(135deg, #333 0% 18%, #3b3b3b 18% 32%, #444 32% 46%, #505050 46% 60%, #595959 60% 75%, #626262 75% 89%, #737373 89% 100%);
-    --pt-tbox-polish-pressed: linear-gradient(135deg, #111 0% 14%, #171717 14% 25%, #1e1e1e 25% 36%, #252525 36% 47%, #2c2c2c 47% 58%, #333 58% 69%, #3b3b3b 69% 81%, #414141 81% 92%, #494949 92% 100%);
-    --pt-pinstripe-hi: #525252;
-    --pt-pinstripe-lo: #1d1d1d;
-    --pt-danger: #ffbab4;
-    --pt-on-danger: #1c1c1c;
-    --pt-danger-soft: #3b1818;
-    --pt-success: #86efac;
-    --pt-on-success: #14261a;
-    --pt-success-soft: #1a3628;
-    --pt-warning: #fde047;
-    --pt-warning-soft: #36331e;
-    --pt-bevel-btn: inset 1px 1px 0 #4a4a4a, inset -1px -1px 0 #141414, inset 2px 2px 0 #666666, inset -2px -2px 0 #262626;
-    --pt-bevel-mini: inset 1px 1px 0 #666666, inset -1px -1px 0 #181818;
-    --pt-bevel-pressed: inset 1px 1px 0 #080808, inset -1px -1px 0 #3a3a3a, inset 2px 2px 0 #101010, inset -2px -2px 0 #262626;
-    --pt-bevel-sunken: inset 1px 1px 0 #0a0a0a, inset -1px -1px 0 #444444;
-    --pt-bevel-window: inset 1px 1px 0 #565656, inset -1px -1px 0 #181818;
-    --pt-bevel-strip: inset 0 1px 0 #525252, inset 0 -1px 0 #181818;
-    --pt-shadow-window: 2px 2px 0 #050505;
-    --pt-ring-default-btn: 0 0 0 2px #2c2c2c, 0 0 0 3px #080808;
-    --pt-accent: #8ec0ff;
-    --pt-on-accent: #101828;
-    --pt-selection-bg: #383838;
-    --pt-selection-fg: #ffffff;
-    --pt-menu-active-bg: #e0e0e0;
-    --pt-menu-active-fg: #141414;
-    --pt-scroll-track: #1a1a1a;
-    --pt-scroll-thumb: #525252;
-    --pt-scroll-thumb-hi: #737373;
-    --pt-scroll-thumb-lo: #242424;
-    --pt-scroll-grip-v: repeating-linear-gradient(to bottom, var(--pt-scroll-glint) 0 1px, transparent 1px 2px) calc(50% - 3.5px) center / 1px 8px no-repeat, repeating-linear-gradient(to bottom, var(--pt-scroll-thumb-hi) 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center / 6px 8px no-repeat, repeating-linear-gradient(to bottom, transparent 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) calc(50% + 3.5px) center / 1px 8px no-repeat;
-    --pt-scroll-grip-h: repeating-linear-gradient(to right, var(--pt-scroll-glint) 0 1px, transparent 1px 2px) center calc(50% - 3.5px) / 8px 1px no-repeat, repeating-linear-gradient(to right, var(--pt-scroll-thumb-hi) 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center / 8px 6px no-repeat, repeating-linear-gradient(to right, transparent 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center calc(50% + 3.5px) / 8px 1px no-repeat;
+    :where([data-platinum]:not([data-platinum] *)):not([data-platinum-scheme="light"], [data-theme="platinum-light"], [data-platinum-scheme="dark"], [data-theme="platinum-dark"]) {
+      --pt-canvas: #181818;
+      --pt-window: #2c2c2c;
+      --pt-face: #3b3b3b;
+      --pt-face-hover: #474747;
+      --pt-pressed-bg: #161616;
+      --pt-pressed-fg: #ffffff;
+      --pt-paper: #1c1c1c;
+      --pt-code-bg: #161616;
+      --pt-ink: #eeeeee;
+      --pt-ink-muted: #c2c2c2;
+      --pt-frame: #080808;
+      --pt-border-subtle: #5c5c5c;
+      --pt-groove-dark: #141414;
+      --pt-groove-light: #4a4a4a;
+      --pt-scroll-glint: #888888;
+      --pt-tbox-lip: #444444;
+      --pt-tbox-polish: linear-gradient(135deg, #333 0% 18%, #3b3b3b 18% 32%, #444 32% 46%, #505050 46% 60%, #595959 60% 75%, #626262 75% 89%, #737373 89% 100%);
+      --pt-tbox-polish-pressed: linear-gradient(135deg, #111 0% 14%, #171717 14% 25%, #1e1e1e 25% 36%, #252525 36% 47%, #2c2c2c 47% 58%, #333 58% 69%, #3b3b3b 69% 81%, #414141 81% 92%, #494949 92% 100%);
+      --pt-pinstripe-hi: #525252;
+      --pt-pinstripe-lo: #1d1d1d;
+      --pt-danger: #ffbab4;
+      --pt-on-danger: #1c1c1c;
+      --pt-danger-soft: #3b1818;
+      --pt-success: #86efac;
+      --pt-on-success: #14261a;
+      --pt-success-soft: #1a3628;
+      --pt-warning: #fde047;
+      --pt-warning-soft: #36331e;
+      --pt-bevel-btn: inset 1px 1px 0 #4a4a4a, inset -1px -1px 0 #141414, inset 2px 2px 0 #666666, inset -2px -2px 0 #262626;
+      --pt-bevel-mini: inset 1px 1px 0 #666666, inset -1px -1px 0 #181818;
+      --pt-bevel-pressed: inset 1px 1px 0 #080808, inset -1px -1px 0 #3a3a3a, inset 2px 2px 0 #101010, inset -2px -2px 0 #262626;
+      --pt-bevel-sunken: inset 1px 1px 0 #0a0a0a, inset -1px -1px 0 #444444;
+      --pt-bevel-window: inset 1px 1px 0 #565656, inset -1px -1px 0 #181818;
+      --pt-bevel-strip: inset 0 1px 0 #525252, inset 0 -1px 0 #181818;
+      --pt-shadow-window: 2px 2px 0 #050505;
+      --pt-ring-default-btn: 0 0 0 2px #2c2c2c, 0 0 0 3px #080808;
+      --pt-accent: var(--_pt-d-accent);
+      --pt-on-accent: var(--_pt-d-on-accent);
+      --pt-selection-bg: var(--_pt-d-selection-bg);
+      --pt-selection-fg: var(--_pt-d-selection-fg);
+      --pt-menu-active-bg: var(--_pt-d-menu-active-bg);
+      --pt-menu-active-fg: var(--_pt-d-menu-active-fg);
+      --pt-scroll-track: var(--_pt-d-scroll-track);
+      --pt-scroll-thumb: var(--_pt-d-scroll-thumb);
+      --pt-scroll-thumb-hi: var(--_pt-d-scroll-thumb-hi);
+      --pt-scroll-thumb-lo: var(--_pt-d-scroll-thumb-lo);
+      --pt-scroll-grip-v: repeating-linear-gradient(to bottom, var(--pt-scroll-glint) 0 1px, transparent 1px 2px) calc(50% - 3.5px) center / 1px 8px no-repeat, repeating-linear-gradient(to bottom, var(--pt-scroll-thumb-hi) 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center / 6px 8px no-repeat, repeating-linear-gradient(to bottom, transparent 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) calc(50% + 3.5px) center / 1px 8px no-repeat;
+      --pt-scroll-grip-h: repeating-linear-gradient(to right, var(--pt-scroll-glint) 0 1px, transparent 1px 2px) center calc(50% - 3.5px) / 8px 1px no-repeat, repeating-linear-gradient(to right, var(--pt-scroll-thumb-hi) 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center / 8px 6px no-repeat, repeating-linear-gradient(to right, transparent 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center calc(50% + 3.5px) / 8px 1px no-repeat;
     }
-    [data-platinum-accent="lavender"]:not([data-platinum-scheme="light"], [data-theme="platinum-light"]) {
-    --pt-accent: #b3b3ff;
-    --pt-on-accent: #141428;
-    --pt-selection-bg: #3d3dad;
-    --pt-selection-fg: #ffffff;
-    --pt-menu-active-bg: #4b4bb8;
-    --pt-menu-active-fg: #ffffff;
-    --pt-scroll-track: #1a1a1a;
-    --pt-scroll-thumb: #5c5c9e;
-    --pt-scroll-thumb-hi: #8585cc;
-    --pt-scroll-thumb-lo: #32325c;
-    --pt-scroll-grip-v: repeating-linear-gradient(to bottom, var(--pt-scroll-glint) 0 1px, transparent 1px 2px) calc(50% - 3.5px) center / 1px 8px no-repeat, repeating-linear-gradient(to bottom, var(--pt-scroll-thumb-hi) 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center / 6px 8px no-repeat, repeating-linear-gradient(to bottom, transparent 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) calc(50% + 3.5px) center / 1px 8px no-repeat;
-    --pt-scroll-grip-h: repeating-linear-gradient(to right, var(--pt-scroll-glint) 0 1px, transparent 1px 2px) center calc(50% - 3.5px) / 8px 1px no-repeat, repeating-linear-gradient(to right, var(--pt-scroll-thumb-hi) 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center / 8px 6px no-repeat, repeating-linear-gradient(to right, transparent 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center calc(50% + 3.5px) / 8px 1px no-repeat;
+    @scope (:where([data-platinum]:not([data-platinum] *)):not([data-platinum-scheme="light"], [data-theme="platinum-light"], [data-platinum-scheme="dark"], [data-theme="platinum-dark"])) to ([data-platinum-scheme="light"], [data-theme="platinum-light"], [data-platinum-scheme="dark"], [data-theme="platinum-dark"]) {
+      :where(:scope):where([data-platinum], [data-platinum] *) {
+        --pt-canvas: #181818;
+        --pt-window: #2c2c2c;
+        --pt-face: #3b3b3b;
+        --pt-face-hover: #474747;
+        --pt-pressed-bg: #161616;
+        --pt-pressed-fg: #ffffff;
+        --pt-paper: #1c1c1c;
+        --pt-code-bg: #161616;
+        --pt-ink: #eeeeee;
+        --pt-ink-muted: #c2c2c2;
+        --pt-frame: #080808;
+        --pt-border-subtle: #5c5c5c;
+        --pt-groove-dark: #141414;
+        --pt-groove-light: #4a4a4a;
+        --pt-scroll-glint: #888888;
+        --pt-tbox-lip: #444444;
+        --pt-tbox-polish: linear-gradient(135deg, #333 0% 18%, #3b3b3b 18% 32%, #444 32% 46%, #505050 46% 60%, #595959 60% 75%, #626262 75% 89%, #737373 89% 100%);
+        --pt-tbox-polish-pressed: linear-gradient(135deg, #111 0% 14%, #171717 14% 25%, #1e1e1e 25% 36%, #252525 36% 47%, #2c2c2c 47% 58%, #333 58% 69%, #3b3b3b 69% 81%, #414141 81% 92%, #494949 92% 100%);
+        --pt-pinstripe-hi: #525252;
+        --pt-pinstripe-lo: #1d1d1d;
+        --pt-danger: #ffbab4;
+        --pt-on-danger: #1c1c1c;
+        --pt-danger-soft: #3b1818;
+        --pt-success: #86efac;
+        --pt-on-success: #14261a;
+        --pt-success-soft: #1a3628;
+        --pt-warning: #fde047;
+        --pt-warning-soft: #36331e;
+        --pt-bevel-btn: inset 1px 1px 0 #4a4a4a, inset -1px -1px 0 #141414, inset 2px 2px 0 #666666, inset -2px -2px 0 #262626;
+        --pt-bevel-mini: inset 1px 1px 0 #666666, inset -1px -1px 0 #181818;
+        --pt-bevel-pressed: inset 1px 1px 0 #080808, inset -1px -1px 0 #3a3a3a, inset 2px 2px 0 #101010, inset -2px -2px 0 #262626;
+        --pt-bevel-sunken: inset 1px 1px 0 #0a0a0a, inset -1px -1px 0 #444444;
+        --pt-bevel-window: inset 1px 1px 0 #565656, inset -1px -1px 0 #181818;
+        --pt-bevel-strip: inset 0 1px 0 #525252, inset 0 -1px 0 #181818;
+        --pt-shadow-window: 2px 2px 0 #050505;
+        --pt-ring-default-btn: 0 0 0 2px #2c2c2c, 0 0 0 3px #080808;
+      }
+      :where(:scope, [data-platinum-accent="gray"], [data-platinum-accent="lavender"]):where([data-platinum], [data-platinum] *) {
+        --pt-accent: var(--_pt-d-accent);
+        --pt-on-accent: var(--_pt-d-on-accent);
+        --pt-selection-bg: var(--_pt-d-selection-bg);
+        --pt-selection-fg: var(--_pt-d-selection-fg);
+        --pt-menu-active-bg: var(--_pt-d-menu-active-bg);
+        --pt-menu-active-fg: var(--_pt-d-menu-active-fg);
+        --pt-scroll-track: var(--_pt-d-scroll-track);
+        --pt-scroll-thumb: var(--_pt-d-scroll-thumb);
+        --pt-scroll-thumb-hi: var(--_pt-d-scroll-thumb-hi);
+        --pt-scroll-thumb-lo: var(--_pt-d-scroll-thumb-lo);
+        --pt-scroll-grip-v: repeating-linear-gradient(to bottom, var(--pt-scroll-glint) 0 1px, transparent 1px 2px) calc(50% - 3.5px) center / 1px 8px no-repeat, repeating-linear-gradient(to bottom, var(--pt-scroll-thumb-hi) 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center / 6px 8px no-repeat, repeating-linear-gradient(to bottom, transparent 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) calc(50% + 3.5px) center / 1px 8px no-repeat;
+        --pt-scroll-grip-h: repeating-linear-gradient(to right, var(--pt-scroll-glint) 0 1px, transparent 1px 2px) center calc(50% - 3.5px) / 8px 1px no-repeat, repeating-linear-gradient(to right, var(--pt-scroll-thumb-hi) 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center / 8px 6px no-repeat, repeating-linear-gradient(to right, transparent 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center calc(50% + 3.5px) / 8px 1px no-repeat;
+      }
     }
   }
 
-  [data-platinum-scheme="light"], [data-theme="platinum-light"] {
+  :is([data-platinum-scheme="light"], [data-theme="platinum-light"]):where([data-platinum], [data-platinum] *) {
     color-scheme: light;
     --pt-canvas: #bfbfbf;
     --pt-window: #cccccc;
@@ -185,21 +316,21 @@
     --pt-bevel-strip: inset 0 1px 0 #ffffff, inset 0 -1px 0 #999999;
     --pt-shadow-window: 2px 2px 0 #262626;
     --pt-ring-default-btn: 0 0 0 2px #cccccc, 0 0 0 3px #262626;
-    --pt-accent: #1d4496;
-    --pt-on-accent: #ffffff;
-    --pt-selection-bg: #b8b8b8;
-    --pt-selection-fg: #111111;
-    --pt-menu-active-bg: #333333;
-    --pt-menu-active-fg: #ffffff;
-    --pt-scroll-track: #aaaaaa;
-    --pt-scroll-thumb: #cccccc;
-    --pt-scroll-thumb-hi: #ffffff;
-    --pt-scroll-thumb-lo: #777777;
+    --pt-accent: var(--_pt-l-accent);
+    --pt-on-accent: var(--_pt-l-on-accent);
+    --pt-selection-bg: var(--_pt-l-selection-bg);
+    --pt-selection-fg: var(--_pt-l-selection-fg);
+    --pt-menu-active-bg: var(--_pt-l-menu-active-bg);
+    --pt-menu-active-fg: var(--_pt-l-menu-active-fg);
+    --pt-scroll-track: var(--_pt-l-scroll-track);
+    --pt-scroll-thumb: var(--_pt-l-scroll-thumb);
+    --pt-scroll-thumb-hi: var(--_pt-l-scroll-thumb-hi);
+    --pt-scroll-thumb-lo: var(--_pt-l-scroll-thumb-lo);
     --pt-scroll-grip-v: repeating-linear-gradient(to bottom, var(--pt-scroll-glint) 0 1px, transparent 1px 2px) calc(50% - 3.5px) center / 1px 8px no-repeat, repeating-linear-gradient(to bottom, var(--pt-scroll-thumb-hi) 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center / 6px 8px no-repeat, repeating-linear-gradient(to bottom, transparent 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) calc(50% + 3.5px) center / 1px 8px no-repeat;
     --pt-scroll-grip-h: repeating-linear-gradient(to right, var(--pt-scroll-glint) 0 1px, transparent 1px 2px) center calc(50% - 3.5px) / 8px 1px no-repeat, repeating-linear-gradient(to right, var(--pt-scroll-thumb-hi) 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center / 8px 6px no-repeat, repeating-linear-gradient(to right, transparent 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center calc(50% + 3.5px) / 8px 1px no-repeat;
   }
 
-  [data-platinum-scheme="dark"], [data-theme="platinum-dark"] {
+  :is([data-platinum-scheme="dark"], [data-theme="platinum-dark"]):where([data-platinum], [data-platinum] *) {
     color-scheme: dark;
     --pt-canvas: #181818;
     --pt-window: #2c2c2c;
@@ -237,66 +368,133 @@
     --pt-bevel-strip: inset 0 1px 0 #525252, inset 0 -1px 0 #181818;
     --pt-shadow-window: 2px 2px 0 #050505;
     --pt-ring-default-btn: 0 0 0 2px #2c2c2c, 0 0 0 3px #080808;
-    --pt-accent: #8ec0ff;
-    --pt-on-accent: #101828;
-    --pt-selection-bg: #383838;
-    --pt-selection-fg: #ffffff;
-    --pt-menu-active-bg: #e0e0e0;
-    --pt-menu-active-fg: #141414;
-    --pt-scroll-track: #1a1a1a;
-    --pt-scroll-thumb: #525252;
-    --pt-scroll-thumb-hi: #737373;
-    --pt-scroll-thumb-lo: #242424;
+    --pt-accent: var(--_pt-d-accent);
+    --pt-on-accent: var(--_pt-d-on-accent);
+    --pt-selection-bg: var(--_pt-d-selection-bg);
+    --pt-selection-fg: var(--_pt-d-selection-fg);
+    --pt-menu-active-bg: var(--_pt-d-menu-active-bg);
+    --pt-menu-active-fg: var(--_pt-d-menu-active-fg);
+    --pt-scroll-track: var(--_pt-d-scroll-track);
+    --pt-scroll-thumb: var(--_pt-d-scroll-thumb);
+    --pt-scroll-thumb-hi: var(--_pt-d-scroll-thumb-hi);
+    --pt-scroll-thumb-lo: var(--_pt-d-scroll-thumb-lo);
     --pt-scroll-grip-v: repeating-linear-gradient(to bottom, var(--pt-scroll-glint) 0 1px, transparent 1px 2px) calc(50% - 3.5px) center / 1px 8px no-repeat, repeating-linear-gradient(to bottom, var(--pt-scroll-thumb-hi) 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center / 6px 8px no-repeat, repeating-linear-gradient(to bottom, transparent 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) calc(50% + 3.5px) center / 1px 8px no-repeat;
     --pt-scroll-grip-h: repeating-linear-gradient(to right, var(--pt-scroll-glint) 0 1px, transparent 1px 2px) center calc(50% - 3.5px) / 8px 1px no-repeat, repeating-linear-gradient(to right, var(--pt-scroll-thumb-hi) 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center / 8px 6px no-repeat, repeating-linear-gradient(to right, transparent 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center calc(50% + 3.5px) / 8px 1px no-repeat;
   }
 
-  [data-platinum-accent="lavender"] {
-    --pt-accent: #333399;
-    --pt-on-accent: #ffffff;
-    --pt-selection-bg: #ccccff;
-    --pt-selection-fg: #000000;
-    --pt-menu-active-bg: #333399;
-    --pt-menu-active-fg: #ffffff;
-    --pt-scroll-track: #aaaaaa;
-    --pt-scroll-thumb: #9999ff;
-    --pt-scroll-thumb-hi: #ccccff;
-    --pt-scroll-thumb-lo: #333399;
-    --pt-scroll-grip-v: repeating-linear-gradient(to bottom, var(--pt-scroll-glint) 0 1px, transparent 1px 2px) calc(50% - 3.5px) center / 1px 8px no-repeat, repeating-linear-gradient(to bottom, var(--pt-scroll-thumb-hi) 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center / 6px 8px no-repeat, repeating-linear-gradient(to bottom, transparent 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) calc(50% + 3.5px) center / 1px 8px no-repeat;
-    --pt-scroll-grip-h: repeating-linear-gradient(to right, var(--pt-scroll-glint) 0 1px, transparent 1px 2px) center calc(50% - 3.5px) / 8px 1px no-repeat, repeating-linear-gradient(to right, var(--pt-scroll-thumb-hi) 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center / 8px 6px no-repeat, repeating-linear-gradient(to right, transparent 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center calc(50% + 3.5px) / 8px 1px no-repeat;
+  @scope (:is([data-platinum-scheme="light"], [data-theme="platinum-light"]):where([data-platinum], [data-platinum] *)) to ([data-platinum-scheme="light"], [data-theme="platinum-light"], [data-platinum-scheme="dark"], [data-theme="platinum-dark"]) {
+    :where(:scope) {
+      color-scheme: light;
+      --pt-canvas: #bfbfbf;
+      --pt-window: #cccccc;
+      --pt-face: #dddddd;
+      --pt-face-hover: #e8e8e8;
+      --pt-pressed-bg: #666666;
+      --pt-pressed-fg: #ffffff;
+      --pt-paper: #ffffff;
+      --pt-code-bg: #f5f5f5;
+      --pt-ink: #222222;
+      --pt-ink-muted: #4d4d4d;
+      --pt-frame: #262626;
+      --pt-border-subtle: #8c8c8c;
+      --pt-groove-dark: #888888;
+      --pt-groove-light: #ffffff;
+      --pt-scroll-glint: #eeeeee;
+      --pt-tbox-lip: #999999;
+      --pt-tbox-polish: linear-gradient(135deg, #999 0% 18%, #aaa 18% 32%, #bbb 32% 46%, #ccc 46% 60%, #ddd 60% 75%, #eee 75% 89%, #fff 89% 100%);
+      --pt-tbox-polish-pressed: linear-gradient(135deg, #444 0% 14%, #555 14% 25%, #666 25% 36%, #777 36% 47%, #888 47% 58%, #999 58% 69%, #aaa 69% 81%, #bbb 81% 92%, #ccc 92% 100%);
+      --pt-pinstripe-hi: #ffffff;
+      --pt-pinstripe-lo: #777777;
+      --pt-danger: #7a1010;
+      --pt-on-danger: #ffffff;
+      --pt-danger-soft: #fee2e2;
+      --pt-success: #235c1e;
+      --pt-on-success: #ffffff;
+      --pt-success-soft: #dcfce7;
+      --pt-warning: #78350f;
+      --pt-warning-soft: #ffffcc;
+      --pt-bevel-btn: inset 1px 1px 0 #eeeeee, inset -1px -1px 0 #777777, inset 2px 2px 0 #ffffff, inset -2px -2px 0 #aaaaaa;
+      --pt-bevel-mini: inset 1px 1px 0 #ffffff, inset -1px -1px 0 #808080;
+      --pt-bevel-pressed: inset 1px 1px 0 #444444, inset -1px -1px 0 #888888, inset 2px 2px 0 #555555, inset -2px -2px 0 #777777;
+      --pt-bevel-sunken: inset 1px 1px 0 #808080, inset -1px -1px 0 #f4f4f4;
+      --pt-bevel-window: inset 1px 1px 0 #ffffff, inset -1px -1px 0 #8e8e8e;
+      --pt-bevel-strip: inset 0 1px 0 #ffffff, inset 0 -1px 0 #999999;
+      --pt-shadow-window: 2px 2px 0 #262626;
+      --pt-ring-default-btn: 0 0 0 2px #cccccc, 0 0 0 3px #262626;
+    }
+    :where(:scope, [data-platinum-accent="gray"], [data-platinum-accent="lavender"]):where([data-platinum], [data-platinum] *) {
+      --pt-accent: var(--_pt-l-accent);
+      --pt-on-accent: var(--_pt-l-on-accent);
+      --pt-selection-bg: var(--_pt-l-selection-bg);
+      --pt-selection-fg: var(--_pt-l-selection-fg);
+      --pt-menu-active-bg: var(--_pt-l-menu-active-bg);
+      --pt-menu-active-fg: var(--_pt-l-menu-active-fg);
+      --pt-scroll-track: var(--_pt-l-scroll-track);
+      --pt-scroll-thumb: var(--_pt-l-scroll-thumb);
+      --pt-scroll-thumb-hi: var(--_pt-l-scroll-thumb-hi);
+      --pt-scroll-thumb-lo: var(--_pt-l-scroll-thumb-lo);
+      --pt-scroll-grip-v: repeating-linear-gradient(to bottom, var(--pt-scroll-glint) 0 1px, transparent 1px 2px) calc(50% - 3.5px) center / 1px 8px no-repeat, repeating-linear-gradient(to bottom, var(--pt-scroll-thumb-hi) 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center / 6px 8px no-repeat, repeating-linear-gradient(to bottom, transparent 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) calc(50% + 3.5px) center / 1px 8px no-repeat;
+      --pt-scroll-grip-h: repeating-linear-gradient(to right, var(--pt-scroll-glint) 0 1px, transparent 1px 2px) center calc(50% - 3.5px) / 8px 1px no-repeat, repeating-linear-gradient(to right, var(--pt-scroll-thumb-hi) 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center / 8px 6px no-repeat, repeating-linear-gradient(to right, transparent 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center calc(50% + 3.5px) / 8px 1px no-repeat;
+    }
   }
 
-  :is([data-platinum-scheme="light"], [data-theme="platinum-light"])[data-platinum-accent="lavender"], [data-platinum-scheme="light"] [data-platinum-accent="lavender"] {
-    --pt-accent: #333399;
-    --pt-on-accent: #ffffff;
-    --pt-selection-bg: #ccccff;
-    --pt-selection-fg: #000000;
-    --pt-menu-active-bg: #333399;
-    --pt-menu-active-fg: #ffffff;
-    --pt-scroll-track: #aaaaaa;
-    --pt-scroll-thumb: #9999ff;
-    --pt-scroll-thumb-hi: #ccccff;
-    --pt-scroll-thumb-lo: #333399;
-    --pt-scroll-grip-v: repeating-linear-gradient(to bottom, var(--pt-scroll-glint) 0 1px, transparent 1px 2px) calc(50% - 3.5px) center / 1px 8px no-repeat, repeating-linear-gradient(to bottom, var(--pt-scroll-thumb-hi) 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center / 6px 8px no-repeat, repeating-linear-gradient(to bottom, transparent 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) calc(50% + 3.5px) center / 1px 8px no-repeat;
-    --pt-scroll-grip-h: repeating-linear-gradient(to right, var(--pt-scroll-glint) 0 1px, transparent 1px 2px) center calc(50% - 3.5px) / 8px 1px no-repeat, repeating-linear-gradient(to right, var(--pt-scroll-thumb-hi) 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center / 8px 6px no-repeat, repeating-linear-gradient(to right, transparent 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center calc(50% + 3.5px) / 8px 1px no-repeat;
+  @scope (:is([data-platinum-scheme="dark"], [data-theme="platinum-dark"]):where([data-platinum], [data-platinum] *)) to ([data-platinum-scheme="light"], [data-theme="platinum-light"], [data-platinum-scheme="dark"], [data-theme="platinum-dark"]) {
+    :where(:scope) {
+      color-scheme: dark;
+      --pt-canvas: #181818;
+      --pt-window: #2c2c2c;
+      --pt-face: #3b3b3b;
+      --pt-face-hover: #474747;
+      --pt-pressed-bg: #161616;
+      --pt-pressed-fg: #ffffff;
+      --pt-paper: #1c1c1c;
+      --pt-code-bg: #161616;
+      --pt-ink: #eeeeee;
+      --pt-ink-muted: #c2c2c2;
+      --pt-frame: #080808;
+      --pt-border-subtle: #5c5c5c;
+      --pt-groove-dark: #141414;
+      --pt-groove-light: #4a4a4a;
+      --pt-scroll-glint: #888888;
+      --pt-tbox-lip: #444444;
+      --pt-tbox-polish: linear-gradient(135deg, #333 0% 18%, #3b3b3b 18% 32%, #444 32% 46%, #505050 46% 60%, #595959 60% 75%, #626262 75% 89%, #737373 89% 100%);
+      --pt-tbox-polish-pressed: linear-gradient(135deg, #111 0% 14%, #171717 14% 25%, #1e1e1e 25% 36%, #252525 36% 47%, #2c2c2c 47% 58%, #333 58% 69%, #3b3b3b 69% 81%, #414141 81% 92%, #494949 92% 100%);
+      --pt-pinstripe-hi: #525252;
+      --pt-pinstripe-lo: #1d1d1d;
+      --pt-danger: #ffbab4;
+      --pt-on-danger: #1c1c1c;
+      --pt-danger-soft: #3b1818;
+      --pt-success: #86efac;
+      --pt-on-success: #14261a;
+      --pt-success-soft: #1a3628;
+      --pt-warning: #fde047;
+      --pt-warning-soft: #36331e;
+      --pt-bevel-btn: inset 1px 1px 0 #4a4a4a, inset -1px -1px 0 #141414, inset 2px 2px 0 #666666, inset -2px -2px 0 #262626;
+      --pt-bevel-mini: inset 1px 1px 0 #666666, inset -1px -1px 0 #181818;
+      --pt-bevel-pressed: inset 1px 1px 0 #080808, inset -1px -1px 0 #3a3a3a, inset 2px 2px 0 #101010, inset -2px -2px 0 #262626;
+      --pt-bevel-sunken: inset 1px 1px 0 #0a0a0a, inset -1px -1px 0 #444444;
+      --pt-bevel-window: inset 1px 1px 0 #565656, inset -1px -1px 0 #181818;
+      --pt-bevel-strip: inset 0 1px 0 #525252, inset 0 -1px 0 #181818;
+      --pt-shadow-window: 2px 2px 0 #050505;
+      --pt-ring-default-btn: 0 0 0 2px #2c2c2c, 0 0 0 3px #080808;
+    }
+    :where(:scope, [data-platinum-accent="gray"], [data-platinum-accent="lavender"]):where([data-platinum], [data-platinum] *) {
+      --pt-accent: var(--_pt-d-accent);
+      --pt-on-accent: var(--_pt-d-on-accent);
+      --pt-selection-bg: var(--_pt-d-selection-bg);
+      --pt-selection-fg: var(--_pt-d-selection-fg);
+      --pt-menu-active-bg: var(--_pt-d-menu-active-bg);
+      --pt-menu-active-fg: var(--_pt-d-menu-active-fg);
+      --pt-scroll-track: var(--_pt-d-scroll-track);
+      --pt-scroll-thumb: var(--_pt-d-scroll-thumb);
+      --pt-scroll-thumb-hi: var(--_pt-d-scroll-thumb-hi);
+      --pt-scroll-thumb-lo: var(--_pt-d-scroll-thumb-lo);
+      --pt-scroll-grip-v: repeating-linear-gradient(to bottom, var(--pt-scroll-glint) 0 1px, transparent 1px 2px) calc(50% - 3.5px) center / 1px 8px no-repeat, repeating-linear-gradient(to bottom, var(--pt-scroll-thumb-hi) 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center / 6px 8px no-repeat, repeating-linear-gradient(to bottom, transparent 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) calc(50% + 3.5px) center / 1px 8px no-repeat;
+      --pt-scroll-grip-h: repeating-linear-gradient(to right, var(--pt-scroll-glint) 0 1px, transparent 1px 2px) center calc(50% - 3.5px) / 8px 1px no-repeat, repeating-linear-gradient(to right, var(--pt-scroll-thumb-hi) 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center / 8px 6px no-repeat, repeating-linear-gradient(to right, transparent 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center calc(50% + 3.5px) / 8px 1px no-repeat;
+    }
   }
 
-  :is([data-platinum-scheme="dark"], [data-theme="platinum-dark"])[data-platinum-accent="lavender"], [data-platinum-scheme="dark"] [data-platinum-accent="lavender"], [data-platinum-accent="lavender"] [data-platinum-scheme="dark"] {
-    --pt-accent: #b3b3ff;
-    --pt-on-accent: #141428;
-    --pt-selection-bg: #3d3dad;
-    --pt-selection-fg: #ffffff;
-    --pt-menu-active-bg: #4b4bb8;
-    --pt-menu-active-fg: #ffffff;
-    --pt-scroll-track: #1a1a1a;
-    --pt-scroll-thumb: #5c5c9e;
-    --pt-scroll-thumb-hi: #8585cc;
-    --pt-scroll-thumb-lo: #32325c;
-    --pt-scroll-grip-v: repeating-linear-gradient(to bottom, var(--pt-scroll-glint) 0 1px, transparent 1px 2px) calc(50% - 3.5px) center / 1px 8px no-repeat, repeating-linear-gradient(to bottom, var(--pt-scroll-thumb-hi) 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center / 6px 8px no-repeat, repeating-linear-gradient(to bottom, transparent 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) calc(50% + 3.5px) center / 1px 8px no-repeat;
-    --pt-scroll-grip-h: repeating-linear-gradient(to right, var(--pt-scroll-glint) 0 1px, transparent 1px 2px) center calc(50% - 3.5px) / 8px 1px no-repeat, repeating-linear-gradient(to right, var(--pt-scroll-thumb-hi) 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center / 8px 6px no-repeat, repeating-linear-gradient(to right, transparent 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center calc(50% + 3.5px) / 8px 1px no-repeat;
-  }
-
-  [data-platinum-density="comfortable"] {
+  :where([data-platinum-density="comfortable"]):where([data-platinum], [data-platinum] *) {
     --pt-control-h: 32px;
     --pt-control-h-sm: 24px;
     --pt-icon-size: 15px;
@@ -314,19 +512,19 @@
    ========================================================================== */
 
 @layer pt.core {
-  :where(.pt-window, .pt-window *, .pt-btn, .pt-field, .pt-select, .pt-groupbox, .pt-menu, .pt-badge, .pt-chip, .pt-kbd, .pt-switch) {
+  :where(.pt-window, .pt-window *, .pt-btn, .pt-field, .pt-select, .pt-range, .pt-groupbox, .pt-menu, .pt-badge, .pt-chip, .pt-kbd, .pt-switch):where([data-platinum], [data-platinum] *) {
     box-sizing: border-box;
   }
 
   /* ---- Selection inside Platinum containers ---- */
-  :is(.pt-surface, .pt-window, .pt-well, .pt-prose)::selection,
-  :is(.pt-surface, .pt-window, .pt-well, .pt-prose) ::selection {
+  :is(.pt-surface, .pt-window, .pt-well, .pt-prose):where([data-platinum], [data-platinum] *)::selection,
+  :is(.pt-surface, .pt-window, .pt-well, .pt-prose) *:where([data-platinum], [data-platinum] *)::selection {
     background: var(--pt-selection-bg);
     color: var(--pt-selection-fg);
   }
 
   /* ---- Desktop Canvas & Window Chrome ---- */
-  .pt-desktop {
+  .pt-desktop:where([data-platinum], [data-platinum] *) {
     --pt-surface-bg: var(--pt-canvas);
     background: var(--pt-canvas);
     color: var(--pt-ink);
@@ -335,7 +533,7 @@
     line-height: 1.45;
   }
 
-  .pt-surface {
+  .pt-surface:where([data-platinum], [data-platinum] *) {
     --pt-surface-bg: var(--pt-window);
     background: var(--pt-window);
     color: var(--pt-ink);
@@ -344,7 +542,7 @@
     line-height: 1.45;
   }
 
-  .pt-window {
+  .pt-window:where([data-platinum], [data-platinum] *) {
     --pt-surface-bg: var(--pt-window);
     flex-direction: column;
     background: var(--pt-window);
@@ -356,21 +554,21 @@
     box-shadow: var(--pt-bevel-window), var(--pt-shadow-window);
   }
 
-  .pt-window:where(:not([hidden])) {
+  :where(.pt-window):where(:not([hidden])):where([data-platinum], [data-platinum] *) {
     display: flex;
   }
 
   /* !important beats unlayered author display utilities (e.g. .demo-stack / Tailwind flex) inside @layer */
-  .pt-window[data-collapsed="true"] > :not(.pt-titlebar) {
+  .pt-window[data-collapsed="true"] > :not(.pt-titlebar):where([data-platinum], [data-platinum] *) {
     display: none !important;
   }
 
-  .pt-window[data-collapsed="true"] > .pt-titlebar {
+  .pt-window[data-collapsed="true"] > .pt-titlebar:where([data-platinum], [data-platinum] *) {
     border-bottom: 0;
   }
 
   /* ---- Multi-OS Window Controls Presets (mac9 default | macos | win) ---- */
-  [data-platinum-controls="mac9"] {
+  [data-platinum-controls="mac9"]:where([data-platinum], [data-platinum] *) {
     --pt-tb-close-content: none;
     --pt-tb-inactive-visibility: hidden;
     --pt-tb-modern: initial;
@@ -394,7 +592,7 @@
     --pt-tb-glyph-min: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 9 9' shape-rendering='crispEdges'%3E%3Crect x='0' y='3' width='9' height='1' fill='%23000'/%3E%3Crect x='0' y='5' width='9' height='1' fill='%23000'/%3E%3C/svg%3E");
   }
 
-  :is([data-platinum-controls="macos"], [data-platinum-controls="win"]) {
+  :is([data-platinum-controls="macos"], [data-platinum-controls="win"]):where([data-platinum], [data-platinum] *) {
     --pt-tb-close-content: "";
     --pt-tb-inactive-visibility: visible;
     --pt-tb-modern: ;
@@ -402,7 +600,7 @@
     --pt-tb-glyph-zoom: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 9 9' shape-rendering='crispEdges'%3E%3Crect x='1.5' y='1.5' width='6' height='6' fill='none' stroke='%23000'/%3E%3C/svg%3E");
   }
 
-  [data-platinum-controls="macos"] {
+  [data-platinum-controls="macos"]:where([data-platinum], [data-platinum] *) {
     --pt-tb-order-close: 1;
     --pt-tb-order-min: 2;
     --pt-tb-order-zoom: 3;
@@ -421,7 +619,7 @@
     --pt-tb-glyph-min: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 9 9' shape-rendering='crispEdges'%3E%3Crect x='2' y='5' width='5' height='1' fill='%23000'/%3E%3C/svg%3E");
   }
 
-  [data-platinum-controls="win"] {
+  [data-platinum-controls="win"]:where([data-platinum], [data-platinum] *) {
     --pt-tb-order-min: 6;
     --pt-tb-order-zoom: 7;
     --pt-tb-order-close: 8;
@@ -441,9 +639,12 @@
   }
 
   /* Authentic 22px titlebar with vertically centered 12px 6-ridge (2px period) pinstripes */
-  .pt-titlebar {
-    position: relative;
+  :where(.pt-titlebar):where(:not([hidden])):where([data-platinum], [data-platinum] *) {
     display: flex;
+  }
+
+  .pt-titlebar:where([data-platinum], [data-platinum] *) {
+    position: relative;
     align-items: center;
     gap: var(--pt-tb-gap, 5px);
     min-height: var(--pt-titlebar-h);
@@ -464,23 +665,23 @@
     user-select: none;
   }
 
-  .pt-titlebar--sticky {
+  .pt-titlebar--sticky:where([data-platinum], [data-platinum] *) {
     position: sticky;
     top: 0;
     z-index: 5;
   }
 
   /* Electron frameless drag region opt-in */
-  .pt-titlebar--draggable {
+  .pt-titlebar--draggable:where([data-platinum], [data-platinum] *) {
     -webkit-app-region: drag;
   }
 
-  .pt-titlebar--draggable :is(.pt-tbox, button, a, input, select) {
+  .pt-titlebar--draggable :is(.pt-tbox, button, a, input, select):where([data-platinum], [data-platinum] *) {
     -webkit-app-region: no-drag;
   }
 
   /* Shrinkable optical counterweights keep title dead-centered across mac9 / macos / win without extra DOM */
-  .pt-titlebar:has(.pt-tbox-close):has(.pt-tbox-minimize):has(.pt-tbox-zoom)::before {
+  .pt-titlebar:has(.pt-tbox-close):has(.pt-tbox-minimize):has(.pt-tbox-zoom):where([data-platinum], [data-platinum] *)::before {
     content: "";
     box-sizing: border-box;
     display: var(--pt-tb-bal3-l-disp, block);
@@ -490,7 +691,7 @@
     pointer-events: none;
   }
 
-  .pt-titlebar:has(.pt-tbox-close):has(.pt-tbox-minimize):has(.pt-tbox-zoom)::after {
+  .pt-titlebar:has(.pt-tbox-close):has(.pt-tbox-minimize):has(.pt-tbox-zoom):where([data-platinum], [data-platinum] *)::after {
     content: "";
     box-sizing: border-box;
     display: var(--pt-tb-bal3-r-disp, none);
@@ -500,7 +701,7 @@
     pointer-events: none;
   }
 
-  .pt-titlebar:has(.pt-tbox-close):has(.pt-tbox-minimize):not(:has(.pt-tbox-zoom))::before {
+  .pt-titlebar:has(.pt-tbox-close):has(.pt-tbox-minimize):not(:has(.pt-tbox-zoom)):where([data-platinum], [data-platinum] *)::before {
     content: "";
     box-sizing: border-box;
     display: var(--pt-tb-bal2-l-disp, none);
@@ -510,7 +711,7 @@
     pointer-events: none;
   }
 
-  .pt-titlebar:has(.pt-tbox-close):has(.pt-tbox-minimize):not(:has(.pt-tbox-zoom))::after {
+  .pt-titlebar:has(.pt-tbox-close):has(.pt-tbox-minimize):not(:has(.pt-tbox-zoom)):where([data-platinum], [data-platinum] *)::after {
     content: "";
     box-sizing: border-box;
     display: var(--pt-tb-bal2-r-disp, none);
@@ -520,7 +721,7 @@
     pointer-events: none;
   }
 
-  .pt-titlebar:has(.pt-tbox-close):not(:has(.pt-tbox-minimize)):not(:has(.pt-tbox-zoom))::before {
+  .pt-titlebar:has(.pt-tbox-close):not(:has(.pt-tbox-minimize)):not(:has(.pt-tbox-zoom)):where([data-platinum], [data-platinum] *)::before {
     content: "";
     box-sizing: border-box;
     display: var(--pt-tb-bal1-l-disp, none);
@@ -530,7 +731,7 @@
     pointer-events: none;
   }
 
-  .pt-titlebar:has(.pt-tbox-close):not(:has(.pt-tbox-minimize)):not(:has(.pt-tbox-zoom))::after {
+  .pt-titlebar:has(.pt-tbox-close):not(:has(.pt-tbox-minimize)):not(:has(.pt-tbox-zoom)):where([data-platinum], [data-platinum] *)::after {
     content: "";
     box-sizing: border-box;
     display: var(--pt-tb-bal1-r-disp, block);
@@ -541,12 +742,12 @@
   }
 
   /* Prevent sticky titlebars from occluding focused controls on Tab / scrollIntoView */
-  .pt-scroll-pane {
+  .pt-scroll-pane:where([data-platinum], [data-platinum] *) {
     overflow: auto;
     scroll-padding-top: calc(var(--pt-titlebar-h) + 6px);
   }
 
-  .pt-titlebar-label {
+  .pt-titlebar-label:where([data-platinum], [data-platinum] *) {
     order: 5;
     margin-inline: auto;
     padding: 0 8px;
@@ -560,16 +761,25 @@
     text-overflow: ellipsis;
   }
 
-  /* Authentic Mac OS 9 inactive window: stripes vanish and chrome + tboxes flatten to muted gray */
-  :is(.pt-window[data-inactive="true"], [data-window-focused="false"]) .pt-titlebar {
-    background-image: none;
+  /* Authentic Mac OS 9 inactive window:
+     1) Single-layer fallback supports pre-@scope engines and Electron frameless <main data-window-focused="false"><header class="pt-titlebar">;
+     2) @scope stops at nested active .pt-window while preserving identical semantics between data-inactive and data-window-focused. */
+  .pt-window:is([data-inactive="true"], [data-window-focused="false"]):where([data-platinum], [data-platinum] *) {
+    border-color: var(--pt-border-subtle);
+    box-shadow: var(--pt-shadow-window);
   }
 
-  :is(.pt-window[data-inactive="true"], [data-window-focused="false"]) .pt-titlebar-label {
+  :is(.pt-window[data-inactive="true"], [data-window-focused="false"]) > .pt-titlebar:where([data-platinum], [data-platinum] *) {
+    background-image: none;
+    border-bottom-color: var(--pt-border-subtle);
+    box-shadow: none;
+  }
+
+  :is(.pt-window[data-inactive="true"], [data-window-focused="false"]) > .pt-titlebar .pt-titlebar-label:where([data-platinum], [data-platinum] *) {
     color: var(--pt-ink-muted);
   }
 
-  :is(.pt-window[data-inactive="true"], [data-window-focused="false"]) .pt-tbox {
+  :is(.pt-window[data-inactive="true"], [data-window-focused="false"]) > .pt-titlebar .pt-tbox:where([data-platinum], [data-platinum] *) {
     visibility: var(--pt-tb-inactive-visibility, hidden);
     background: var(--pt-window);
     border-color: var(--pt-border-subtle);
@@ -577,12 +787,46 @@
     box-shadow: none;
   }
 
+  @scope (:is(.pt-window[data-inactive="true"], [data-window-focused="false"]):where([data-platinum], [data-platinum] *)) to (:scope .pt-window:not([data-inactive="true"], [data-window-focused="false"])) {
+    :scope:where(.pt-window),
+    .pt-window {
+      border-color: var(--pt-border-subtle);
+      box-shadow: var(--pt-shadow-window);
+    }
+
+    .pt-titlebar {
+      background-image: none;
+      border-bottom-color: var(--pt-border-subtle);
+      box-shadow: none;
+    }
+
+    .pt-titlebar-label {
+      color: var(--pt-ink-muted);
+    }
+
+    .pt-tbox {
+      visibility: var(--pt-tb-inactive-visibility, hidden);
+      background: var(--pt-window);
+      border-color: var(--pt-border-subtle);
+      color: var(--pt-ink-muted);
+      box-shadow: none;
+    }
+
+    .pt-btn-primary:not(:disabled, [aria-disabled="true"]) {
+      box-shadow: var(--pt-bevel-btn);
+    }
+
+    .pt-btn-primary:is(:active, [aria-pressed="true"], .is-active):not(:disabled, [aria-disabled="true"]) {
+      box-shadow: var(--pt-bevel-pressed);
+    }
+  }
+
   /* Classic 13x13 Platinum window control box (.pt-tbox) */
-  :where(.pt-tbox):where(:not([hidden])) {
+  :where(.pt-tbox):where(:not([hidden])):where([data-platinum], [data-platinum] *) {
     display: inline-grid;
   }
 
-  .pt-tbox {
+  .pt-tbox:where([data-platinum], [data-platinum] *) {
     position: relative;
     z-index: 1;
     flex-shrink: 0;
@@ -633,34 +877,34 @@
     transition: none;
   }
 
-  .pt-tbox-close {
+  .pt-tbox-close:where([data-platinum], [data-platinum] *) {
     order: var(--pt-tb-order-close, 1);
   }
 
-  .pt-tbox-zoom {
+  .pt-tbox-zoom:where([data-platinum], [data-platinum] *) {
     order: var(--pt-tb-order-zoom, 6);
   }
 
-  .pt-tbox-minimize {
+  .pt-tbox-minimize:where([data-platinum], [data-platinum] *) {
     order: var(--pt-tb-order-min, 7);
   }
 
   /* 13x13 border-box (11x11 padding-box) + gap: 5px -> inset: -5.5px -3.5px yields 18x22px exact edge-to-edge zero-overlap hit box */
-  .pt-tbox::before {
+  .pt-tbox:where([data-platinum], [data-platinum] *)::before {
     content: "";
     position: absolute;
     box-sizing: border-box;
     inset: -5.5px -3.5px;
   }
 
-  .pt-tbox > svg {
+  .pt-tbox > svg:where([data-platinum], [data-platinum] *) {
     display: block;
     width: 9px;
     height: 9px;
   }
 
   /* Pure-CSS auto-rendered 9x9 crisp currentColor SVG masks (yields automatically when author embeds inline <svg>) */
-  :is(.pt-tbox-close, .pt-tbox-minimize, .pt-tbox-zoom):empty::after {
+  :is(.pt-tbox-close, .pt-tbox-minimize, .pt-tbox-zoom):empty:where([data-platinum], [data-platinum] *)::after {
     content: "";
     box-sizing: border-box;
     display: block;
@@ -675,57 +919,63 @@
     mask-size: 9px 9px;
   }
 
-  .pt-tbox-close:empty::after {
+  .pt-tbox-close:empty:where([data-platinum], [data-platinum] *)::after {
     content: var(--pt-tb-close-content, none);
     -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 9 9'%3E%3Cpath d='M2 2L7 7M7 2L2 7' fill='none' stroke='%23000' stroke-width='1.35' stroke-linecap='square'/%3E%3C/svg%3E");
     mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 9 9'%3E%3Cpath d='M2 2L7 7M7 2L2 7' fill='none' stroke='%23000' stroke-width='1.35' stroke-linecap='square'/%3E%3C/svg%3E");
   }
 
-  .pt-tbox-minimize:empty::after {
+  .pt-tbox-minimize:empty:where([data-platinum], [data-platinum] *)::after {
     -webkit-mask-image: var(--pt-tb-glyph-min, url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 9 9' shape-rendering='crispEdges'%3E%3Crect x='0' y='3' width='9' height='1' fill='%23000'/%3E%3Crect x='0' y='5' width='9' height='1' fill='%23000'/%3E%3C/svg%3E"));
     mask-image: var(--pt-tb-glyph-min, url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 9 9' shape-rendering='crispEdges'%3E%3Crect x='0' y='3' width='9' height='1' fill='%23000'/%3E%3Crect x='0' y='5' width='9' height='1' fill='%23000'/%3E%3C/svg%3E"));
   }
 
-  .pt-tbox-zoom:empty::after {
+  .pt-tbox-zoom:empty:where([data-platinum], [data-platinum] *)::after {
     --pt-classic-zoom: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 9 9' shape-rendering='crispEdges'%3E%3Cpath d='M5 0h1v6H0V5h5z'/%3E%3C/svg%3E");
     mask-image: var(--pt-tb-glyph-zoom, var(--pt-classic-zoom));
   }
 
-  :is(.pt-tbox-zoom[aria-pressed="true"], .pt-tbox-zoom[data-maximized="true"], :is([data-maximized="true"], [data-window-maximized="true"]) .pt-tbox-zoom):empty::after {
+  :is(.pt-tbox-zoom[aria-pressed="true"], .pt-tbox-zoom[data-maximized="true"], :is([data-maximized="true"], [data-window-maximized="true"]) .pt-tbox-zoom):empty:where([data-platinum], [data-platinum] *)::after {
     mask-image: var(--pt-tb-glyph-restore, var(--pt-classic-zoom));
   }
 
-  .pt-tbox:hover:not(:disabled, :active) {
+  .pt-tbox:hover:not(:disabled, [aria-disabled="true"], :active):where([data-platinum], [data-platinum] *) {
     background: var(--pt-tb-hover, var(--pt-tb-raised-face));
     background-origin: border-box;
   }
 
-  .pt-tbox-close:hover:not(:disabled, :active) {
+  .pt-tbox-close:hover:not(:disabled, [aria-disabled="true"], :active):where([data-platinum], [data-platinum] *) {
     color: var(--pt-danger);
   }
 
-  .pt-tbox:is(:active, .is-active):not(:disabled) {
+  .pt-tbox:is(:active, .is-active):not(:disabled, [aria-disabled="true"]):where([data-platinum], [data-platinum] *) {
     background: var(--pt-tb-pressed, var(--pt-tb-down-face));
     background-origin: border-box;
     color: var(--pt-pressed-fg);
     box-shadow: var(--pt-tb-pressed-shadow, var(--pt-tb-halo, 0 0 0 3px var(--pt-window)));
   }
 
-  .pt-tbox:disabled {
-    opacity: 0.42;
+  .pt-tbox:is(:disabled, [aria-disabled="true"]):where([data-platinum], [data-platinum] *) {
+    background: var(--pt-window);
+    border-color: var(--pt-border-subtle);
+    color: var(--pt-ink-muted);
+    box-shadow: none;
     cursor: not-allowed;
   }
 
-  .pt-tbox:focus-visible {
+  .pt-tbox:focus-visible:where([data-platinum], [data-platinum] *) {
     outline: 2px solid var(--pt-accent);
     outline-offset: 1px;
     z-index: 2;
   }
 
-  .pt-toolbar,
-  .pt-statusbar {
-    --pt-surface-bg: var(--pt-face);
+  :where(.pt-toolbar, .pt-statusbar):where(:not([hidden])):where([data-platinum], [data-platinum] *) {
     display: flex;
+  }
+
+  .pt-toolbar:where([data-platinum], [data-platinum] *),
+  .pt-statusbar:where([data-platinum], [data-platinum] *) {
+    --pt-surface-bg: var(--pt-face);
     align-items: center;
     gap: var(--pt-space-2);
     padding: var(--pt-space-1) var(--pt-space-2);
@@ -734,17 +984,17 @@
     box-shadow: var(--pt-bevel-strip);
   }
 
-  .pt-toolbar {
+  .pt-toolbar:where([data-platinum], [data-platinum] *) {
     border-bottom: 1px solid var(--pt-frame);
   }
 
-  .pt-statusbar {
+  .pt-statusbar:where([data-platinum], [data-platinum] *) {
     border-top: 1px solid var(--pt-frame);
     font-size: var(--pt-size-meta);
     color: var(--pt-ink-muted);
   }
 
-  .pt-window-body {
+  .pt-window-body:where([data-platinum], [data-platinum] *) {
     --pt-surface-bg: var(--pt-window);
     padding: var(--pt-space-3);
     background: var(--pt-window);
@@ -752,7 +1002,7 @@
   }
 
   /* Sunken white/charcoal content well: rebinds surface context cleanly */
-  .pt-well {
+  .pt-well:where([data-platinum], [data-platinum] *) {
     --pt-surface-bg: var(--pt-paper);
     background: var(--pt-paper);
     color: var(--pt-ink);
@@ -763,29 +1013,35 @@
   }
 
   /* ---- Relationships: Action Rows & Compact Icon Clusters ---- */
-  .pt-actions {
+  :where(.pt-actions):where(:not([hidden])):where([data-platinum], [data-platinum] *) {
     display: flex;
+  }
+
+  .pt-actions:where([data-platinum], [data-platinum] *) {
     flex-wrap: wrap;
     align-items: center;
     gap: var(--pt-space-2);
   }
 
-  .pt-icon-cluster {
+  :where(.pt-icon-cluster):where(:not([hidden])):where([data-platinum], [data-platinum] *) {
     display: inline-flex;
+  }
+
+  .pt-icon-cluster:where([data-platinum], [data-platinum] *) {
     align-items: center;
     gap: var(--pt-space-1);
   }
 
   /* ---- Push Buttons, Default Ring, Mini Bevel & Atomic Icon Centering ---- */
-  :where(.pt-btn):where(:not([hidden])) {
+  :where(.pt-btn):where(:not([hidden])):where([data-platinum], [data-platinum] *) {
     display: inline-flex;
   }
 
-  :where(.pt-btn-icon):where(:not([hidden])) {
+  :where(.pt-btn-icon):where(:not([hidden])):where([data-platinum], [data-platinum] *) {
     display: inline-grid;
   }
 
-  .pt-btn {
+  .pt-btn:where([data-platinum], [data-platinum] *) {
     position: relative;
     align-items: center;
     justify-content: center;
@@ -811,12 +1067,12 @@
   }
 
   /* Prevent helper-injected empty <span> nodes from eating flex gap */
-  .pt-btn > span:empty:not(.pt-btn-ic) {
+  .pt-btn > span:empty:not(.pt-btn-ic):where([data-platinum], [data-platinum] *) {
     display: none;
   }
 
-  .pt-btn > svg,
-  .pt-btn .pt-btn-ic > svg {
+  .pt-btn > svg:where([data-platinum], [data-platinum] *),
+  .pt-btn .pt-btn-ic > svg:where([data-platinum], [data-platinum] *) {
     display: block;
     flex-shrink: 0;
     width: var(--pt-icon-size);
@@ -824,62 +1080,70 @@
   }
 
   /* Hover never overrides depressed/expanded/selected states */
-  .pt-btn:hover:not(:disabled, [aria-disabled="true"], :active, [aria-pressed="true"], [aria-expanded="true"], [aria-selected="true"], .is-active) {
+  .pt-btn:hover:not(:disabled, [aria-disabled="true"], :active, [aria-pressed="true"], [aria-expanded="true"], [aria-selected="true"], .is-active):where([data-platinum], [data-platinum] *) {
     background: var(--pt-face-hover);
   }
 
-  .pt-btn:active:not(:disabled, [aria-disabled="true"]),
-  .pt-btn:is([aria-pressed="true"], [aria-expanded="true"], [aria-selected="true"], .is-active) {
+  .pt-btn:active:not(:disabled, [aria-disabled="true"]):where([data-platinum], [data-platinum] *),
+  .pt-btn:is([aria-pressed="true"], [aria-expanded="true"], [aria-selected="true"], .is-active):not(:disabled, [aria-disabled="true"]):where([data-platinum], [data-platinum] *) {
     background: var(--pt-pressed-bg);
     color: var(--pt-pressed-fg);
     box-shadow: var(--pt-bevel-pressed);
   }
 
-  .pt-btn:disabled,
-  .pt-btn[aria-disabled="true"] {
-    opacity: 0.52;
+  /* Mac OS 9 real-color flat disabled contract: zero alpha washout, >= 5.26:1 across 4 quadrants */
+  .pt-btn:disabled:where([data-platinum], [data-platinum] *),
+  .pt-btn[aria-disabled="true"]:where([data-platinum], [data-platinum] *) {
+    opacity: 1;
+    background: var(--pt-window);
+    color: var(--pt-ink-muted);
+    border-color: var(--pt-border-subtle);
     box-shadow: none;
     cursor: not-allowed;
   }
 
   /* Focus ring uses outline so 3D bevel box-shadow is never wiped */
-  .pt-btn:focus-visible {
+  .pt-btn:focus-visible:where([data-platinum], [data-platinum] *) {
     outline: 2px solid var(--pt-accent);
     outline-offset: 1px;
   }
 
   /* Mac OS 9 HIG Default Push Button: silver face + outer double black ring */
-  .pt-btn-primary {
+  .pt-btn-primary:where([data-platinum], [data-platinum] *) {
     margin: 3px;
     box-shadow: var(--pt-bevel-btn), var(--pt-ring-default-btn);
   }
 
-  .pt-btn-primary:active:not(:disabled, [aria-disabled="true"]),
-  .pt-btn-primary:is([aria-pressed="true"], .is-active) {
+  .pt-btn-primary:active:not(:disabled, [aria-disabled="true"]):where([data-platinum], [data-platinum] *),
+  .pt-btn-primary:is([aria-pressed="true"], .is-active):not(:disabled, [aria-disabled="true"]):where([data-platinum], [data-platinum] *) {
     box-shadow: var(--pt-bevel-pressed), var(--pt-ring-default-btn);
   }
 
-  .pt-btn-primary:focus-visible {
+  .pt-btn-primary:is(:disabled, [aria-disabled="true"]):where([data-platinum], [data-platinum] *) {
+    box-shadow: none;
+  }
+
+  .pt-btn-primary:focus-visible:where([data-platinum], [data-platinum] *) {
     outline-offset: 4px;
   }
 
-  .pt-btn-danger {
+  .pt-btn-danger:not(:disabled, [aria-disabled="true"]):where([data-platinum], [data-platinum] *) {
     color: var(--pt-danger);
   }
 
-  .pt-btn-danger-solid {
+  .pt-btn-danger-solid:not(:disabled, [aria-disabled="true"]):where([data-platinum], [data-platinum] *) {
     background: var(--pt-danger);
     color: var(--pt-on-danger);
     box-shadow: var(--pt-bevel-mini);
   }
 
-  .pt-btn-danger-solid:hover:not(:disabled, [aria-disabled="true"], :active) {
+  .pt-btn-danger-solid:hover:not(:disabled, [aria-disabled="true"], :active):where([data-platinum], [data-platinum] *) {
     background: var(--pt-danger);
     filter: brightness(1.06);
   }
 
   /* Compact sm rung (20px default / 24px comfortable) with 2-layer mini bevel */
-  .pt-btn-sm {
+  .pt-btn-sm:where([data-platinum], [data-platinum] *) {
     min-height: var(--pt-control-h-sm);
     height: var(--pt-control-h-sm);
     padding: 0 7px;
@@ -888,14 +1152,14 @@
     font-size: var(--pt-size-meta);
   }
 
-  .pt-btn-sm > svg,
-  .pt-btn-sm .pt-btn-ic > svg {
+  .pt-btn-sm > svg:where([data-platinum], [data-platinum] *),
+  .pt-btn-sm .pt-btn-ic > svg:where([data-platinum], [data-platinum] *) {
     width: var(--pt-icon-size-sm);
     height: var(--pt-icon-size-sm);
   }
 
   /* Atomic icon-only button contract: zero padding, exact square, dead-centered SVG */
-  .pt-btn-icon {
+  .pt-btn-icon:where([data-platinum], [data-platinum] *) {
     width: var(--pt-control-h);
     min-width: var(--pt-control-h);
     height: var(--pt-control-h);
@@ -908,14 +1172,14 @@
     line-height: 0;
   }
 
-  .pt-btn-sm.pt-btn-icon {
+  .pt-btn-sm.pt-btn-icon:where([data-platinum], [data-platinum] *) {
     width: var(--pt-control-h-sm);
     min-width: var(--pt-control-h-sm);
     height: var(--pt-control-h-sm);
   }
 
   /* 20px-tall border-box with 1px border has 18px padding-box height -> inset: -3px 0 yields 24px vertical hit area */
-  .pt-btn-sm::before {
+  .pt-btn-sm:where([data-platinum], [data-platinum] *)::before {
     content: "";
     position: absolute;
     box-sizing: border-box;
@@ -923,7 +1187,7 @@
   }
 
   /* 20x20 border-box with 1px border has an 18x18 padding-box -> inset: -3px yields 24x24 hit area */
-  .pt-btn-sm.pt-btn-icon::before {
+  .pt-btn-sm.pt-btn-icon:where([data-platinum], [data-platinum] *)::before {
     content: "";
     position: absolute;
     box-sizing: border-box;
@@ -931,36 +1195,39 @@
   }
 
   /* Connected Segmented Control (.pt-segmented) */
-  .pt-segmented {
+  :where(.pt-segmented):where(:not([hidden])):where([data-platinum], [data-platinum] *) {
     display: inline-flex;
+  }
+
+  .pt-segmented:where([data-platinum], [data-platinum] *) {
     align-items: center;
   }
 
-  .pt-segmented > .pt-btn {
+  .pt-segmented > .pt-btn:where([data-platinum], [data-platinum] *) {
     border-radius: 0;
     margin: 0;
   }
 
-  .pt-segmented > .pt-btn + .pt-btn {
+  .pt-segmented > .pt-btn + .pt-btn:where([data-platinum], [data-platinum] *) {
     margin-inline-start: -1px;
   }
 
-  .pt-segmented > .pt-btn:first-child {
+  .pt-segmented > .pt-btn:first-child:where([data-platinum], [data-platinum] *) {
     border-start-start-radius: var(--pt-radius-control);
     border-end-start-radius: var(--pt-radius-control);
   }
 
-  .pt-segmented > .pt-btn:last-child {
+  .pt-segmented > .pt-btn:last-child:where([data-platinum], [data-platinum] *) {
     border-start-end-radius: var(--pt-radius-control);
     border-end-end-radius: var(--pt-radius-control);
   }
 
-  .pt-segmented > .pt-btn:focus-visible {
+  .pt-segmented > .pt-btn:focus-visible:where([data-platinum], [data-platinum] *) {
     z-index: 2;
   }
 
-  /* ---- Sunken Value Fields & HIG Pop-up Select ---- */
-  .pt-field {
+  /* ---- Sunken Value Fields, HIG Pop-up Select & Platinum Slider ---- */
+  .pt-field:where([data-platinum], [data-platinum] *) {
     min-height: var(--pt-control-h);
     height: var(--pt-control-h);
     padding: 0 var(--pt-field-pad-x);
@@ -974,26 +1241,46 @@
     line-height: 1.35;
   }
 
-  textarea.pt-field {
+  textarea.pt-field:where([data-platinum], [data-platinum] *) {
     height: auto;
     min-height: 68px;
     padding: 6px var(--pt-field-pad-x);
     resize: vertical;
   }
 
-  .pt-field::placeholder {
+  textarea.pt-field:where([data-platinum], [data-platinum] *)::-webkit-resizer {
+    background-color: var(--pt-window);
+    background-image: linear-gradient(135deg, transparent 42%, var(--pt-groove-light) 42% 48%, var(--pt-groove-dark) 48% 55%, transparent 55% 68%, var(--pt-groove-light) 68% 74%, var(--pt-groove-dark) 74% 81%, transparent 81%);
+  }
+
+  .pt-field:where([data-platinum], [data-platinum] *)::placeholder {
     color: var(--pt-ink-muted);
     opacity: 0.85;
   }
 
-  .pt-field:focus-visible {
+  .pt-field:focus-visible:where([data-platinum], [data-platinum] *) {
     outline: none;
     border-color: var(--pt-accent);
     box-shadow: 0 0 0 1px var(--pt-accent), var(--pt-bevel-sunken);
   }
 
-  /* Mac OS 9 HIG Pop-up Menu Select: beveled button + right 20px double-arrow well */
-  .pt-select {
+  .pt-field:is(:disabled, [aria-disabled="true"]):where([data-platinum], [data-platinum] *) {
+    opacity: 1;
+    background: var(--pt-face);
+    color: var(--pt-ink-muted);
+    border-color: var(--pt-border-subtle);
+    box-shadow: none;
+    cursor: not-allowed;
+  }
+
+  .pt-field[aria-disabled="true"]:focus-visible:where([data-platinum], [data-platinum] *) {
+    outline: 2px solid var(--pt-accent);
+    outline-offset: 1px;
+  }
+
+  /* Mac OS 9 HIG Single-Select Pop-up Menu: beveled button + inline-end 20px double-arrow cap
+     (:where() keeps classification zero-specificity so :disabled always wins) */
+  .pt-select:where(:not([multiple]):not([size]:not([size="1"]))):where([data-platinum], [data-platinum] *) {
     appearance: none;
     -webkit-appearance: none;
     min-height: var(--pt-control-h);
@@ -1023,105 +1310,403 @@
     background-position: right 6px top calc(50% - 3.5px), right 6px top calc(50% + 3.5px), 0 0;
   }
 
-  .pt-select:hover:not(:disabled) {
+  .pt-select:where(:not([multiple]):not([size]:not([size="1"]))):dir(rtl):where([data-platinum], [data-platinum] *) {
+    background-image:
+      conic-gradient(from 135deg at 50% 0%, currentColor 0 90deg, transparent 0),
+      conic-gradient(from -45deg at 50% 100%, currentColor 0 90deg, transparent 0),
+      linear-gradient(
+        to left,
+        transparent calc(100% - 20px),
+        var(--pt-groove-light) calc(100% - 20px) calc(100% - 19px),
+        var(--pt-groove-dark) calc(100% - 19px) calc(100% - 18px),
+        transparent calc(100% - 18px)
+      );
+    background-position: left 6px top calc(50% - 3.5px), left 6px top calc(50% + 3.5px), 0 0;
+  }
+
+  .pt-select:where(:not([multiple]):not([size]:not([size="1"]))):hover:not(:disabled, [aria-disabled="true"], :active):where([data-platinum], [data-platinum] *) {
     background-color: var(--pt-face-hover);
   }
 
-  .pt-select:active:not(:disabled) {
+  .pt-select:where(:not([multiple]):not([size]:not([size="1"]))):active:not(:disabled, [aria-disabled="true"]):where([data-platinum], [data-platinum] *) {
     background-color: var(--pt-pressed-bg);
     color: var(--pt-pressed-fg);
     box-shadow: var(--pt-bevel-pressed);
   }
 
-  .pt-select:focus-visible {
+  /* Multi-row listbox select (preserves natural UA row count, multiple size="1", and non-numeric size fallbacks) */
+  select.pt-select:where([multiple]:not([size="1"]), [size="2"], [size="3"], [size="4"], [size="5"], [size="6"], [size="7"], [size="8"], [size="9"], [size="10"], [size="12"], [size="15"], [size="20"]):where([data-platinum], [data-platinum] *) {
+    height: auto;
+    padding: 3px;
+    background: var(--pt-paper);
+    color: var(--pt-ink);
+    border: 1px solid var(--pt-frame);
+    border-radius: var(--pt-radius-window);
+    box-shadow: var(--pt-bevel-sunken);
+    font-family: var(--pt-font-ui);
+    font-size: var(--pt-size-body);
+  }
+
+  select.pt-select option:where([data-platinum], [data-platinum] *),
+  select.pt-select optgroup:where([data-platinum], [data-platinum] *) {
+    background-color: var(--pt-face);
+    color: var(--pt-ink);
+  }
+
+  select.pt-select:where([multiple]:not([size="1"]), [size="2"], [size="3"], [size="4"], [size="5"], [size="6"], [size="7"], [size="8"], [size="9"], [size="10"], [size="12"], [size="15"], [size="20"]) option:where([data-platinum], [data-platinum] *),
+  select.pt-select:where([multiple]:not([size="1"]), [size="2"], [size="3"], [size="4"], [size="5"], [size="6"], [size="7"], [size="8"], [size="9"], [size="10"], [size="12"], [size="15"], [size="20"]) optgroup:where([data-platinum], [data-platinum] *) {
+    background-color: var(--pt-paper);
+    color: var(--pt-ink);
+    padding: 2px 6px;
+  }
+
+  select.pt-select:where([multiple]:not([size="1"]), [size="2"], [size="3"], [size="4"], [size="5"], [size="6"], [size="7"], [size="8"], [size="9"], [size="10"], [size="12"], [size="15"], [size="20"]) option:checked:where([data-platinum], [data-platinum] *) {
+    background: linear-gradient(var(--pt-selection-bg), var(--pt-selection-bg)), var(--pt-selection-bg);
+    color: var(--pt-selection-fg);
+    font-weight: 700;
+  }
+
+  select.pt-select:where([multiple]:not([size="1"]), [size="2"], [size="3"], [size="4"], [size="5"], [size="6"], [size="7"], [size="8"], [size="9"], [size="10"], [size="12"], [size="15"], [size="20"]) option:disabled:where([data-platinum], [data-platinum] *) {
+    color: var(--pt-ink-muted);
+  }
+
+  .pt-select:focus-visible:where([data-platinum], [data-platinum] *) {
     outline: 2px solid var(--pt-accent);
     outline-offset: 1px;
   }
 
+  .pt-select:is(:disabled, [aria-disabled="true"]):where([data-platinum], [data-platinum] *) {
+    opacity: 1;
+    background-color: var(--pt-window);
+    color: var(--pt-ink-muted);
+    border-color: var(--pt-border-subtle);
+    box-shadow: none;
+    cursor: not-allowed;
+  }
+
+  select.pt-select:is(:disabled, [aria-disabled="true"]) option:where([data-platinum], [data-platinum] *) {
+    background-color: var(--pt-window);
+    color: var(--pt-ink-muted);
+  }
+
+  select.pt-select:is(:disabled, [aria-disabled="true"]) option:checked:where([data-platinum], [data-platinum] *) {
+    background: linear-gradient(var(--pt-face), var(--pt-face)), var(--pt-face);
+    color: var(--pt-ink-muted);
+  }
+
+  /* Progressive pure-CSS Platinum Pop-up Menu picker (Chromium 135+ customizable select) */
+  @supports (appearance: base-select) {
+    select.pt-select:not([multiple]):not([size]:not([size="1"])):where([data-platinum], [data-platinum] *),
+  select.pt-select:not([multiple]):not([size]:not([size="1"])):where([data-platinum], [data-platinum] *)::picker(select) {
+      appearance: base-select;
+    }
+
+    select.pt-select:not([multiple]):not([size]:not([size="1"])):where([data-platinum], [data-platinum] *) {
+      align-items: center;
+    }
+
+    select.pt-select:not([multiple]):not([size]:not([size="1"])):where([data-platinum], [data-platinum] *)::picker-icon {
+      display: none;
+    }
+
+    /* Authentic Mac OS 9 open popup state: right 20px arrow cap depresses to dark charcoal + white arrows */
+    select.pt-select:not([multiple]):not([size]:not([size="1"])):open:where([data-platinum], [data-platinum] *) {
+      background-image:
+        conic-gradient(from 135deg at 50% 0%, var(--pt-pressed-fg) 0 90deg, transparent 0),
+        conic-gradient(from -45deg at 50% 100%, var(--pt-pressed-fg) 0 90deg, transparent 0),
+        linear-gradient(
+          to right,
+          transparent calc(100% - 20px),
+          var(--pt-frame) calc(100% - 20px) calc(100% - 19px),
+          var(--pt-pressed-bg) calc(100% - 19px)
+        );
+    }
+
+    select.pt-select:not([multiple]):not([size]:not([size="1"])):open:dir(rtl):where([data-platinum], [data-platinum] *) {
+      background-image:
+        conic-gradient(from 135deg at 50% 0%, var(--pt-pressed-fg) 0 90deg, transparent 0),
+        conic-gradient(from -45deg at 50% 100%, var(--pt-pressed-fg) 0 90deg, transparent 0),
+        linear-gradient(
+          to left,
+          transparent calc(100% - 20px),
+          var(--pt-frame) calc(100% - 20px) calc(100% - 19px),
+          var(--pt-pressed-bg) calc(100% - 19px)
+        );
+    }
+
+    select.pt-select:not([multiple]):not([size]:not([size="1"])):where([data-platinum], [data-platinum] *)::picker(select) {
+      margin: 1px 0 0;
+      padding: 3px 0;
+      background: var(--pt-face);
+      color: var(--pt-ink);
+      border: 1px solid var(--pt-frame);
+      border-radius: var(--pt-radius-window);
+      box-shadow: var(--pt-bevel-window), var(--pt-shadow-window);
+      font-family: var(--pt-font-ui);
+      font-size: var(--pt-size-control);
+    }
+
+    :where(select.pt-select:not([multiple]):not([size]:not([size="1"])) option):where(:not([hidden])):where([data-platinum], [data-platinum] *) {
+      display: flex;
+    }
+
+    select.pt-select:not([multiple]):not([size]:not([size="1"])) option:where([data-platinum], [data-platinum] *) {
+      align-items: center;
+      gap: 6px;
+      min-height: var(--pt-hit-min);
+      padding: 2px 12px 2px 8px;
+      background: transparent;
+      color: var(--pt-ink);
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    select.pt-select:not([multiple]):not([size]:not([size="1"])) option:where([data-platinum], [data-platinum] *)::checkmark {
+      content: "✓";
+      display: inline-block;
+      width: 12px;
+      flex-shrink: 0;
+      font-weight: 700;
+      visibility: hidden;
+    }
+
+    select.pt-select:not([multiple]):not([size]:not([size="1"])) option:checked:where([data-platinum], [data-platinum] *)::checkmark {
+      visibility: visible;
+    }
+
+    select.pt-select:not([multiple]):not([size]:not([size="1"])) option:is(:hover, :focus-visible):not(:disabled):where([data-platinum], [data-platinum] *) {
+      outline: none;
+      background: var(--pt-menu-active-bg);
+      color: var(--pt-menu-active-fg);
+    }
+
+    select.pt-select:not([multiple]):not([size]:not([size="1"])) option:disabled:where([data-platinum], [data-platinum] *),
+  select.pt-select:not([multiple]):not([size]:not([size="1"])) optgroup:disabled option:where([data-platinum], [data-platinum] *) {
+      color: var(--pt-ink-muted);
+      cursor: not-allowed;
+    }
+
+    select.pt-select:not([multiple]):not([size]:not([size="1"])) hr:where([data-platinum], [data-platinum] *) {
+      height: 2px;
+      margin: 3px 0;
+      border: 0;
+      background: linear-gradient(to bottom, var(--pt-groove-dark) 0 1px, var(--pt-groove-light) 1px 2px);
+    }
+  }
+
+  /* ---- Platinum Settings Slider (.pt-range) ---- */
+  .pt-range:where([data-platinum], [data-platinum] *) {
+    appearance: none;
+    -webkit-appearance: none;
+    height: var(--pt-control-h);
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    color: var(--pt-ink);
+    cursor: pointer;
+  }
+
+  .pt-range:where([data-platinum], [data-platinum] *)::-webkit-slider-runnable-track {
+    box-sizing: border-box;
+    height: 6px;
+    background: var(--pt-scroll-track);
+    border: 1px solid var(--pt-frame);
+    border-radius: 0;
+    box-shadow: var(--pt-bevel-sunken);
+  }
+
+  .pt-range:where([data-platinum], [data-platinum] *)::-webkit-slider-thumb {
+    box-sizing: border-box;
+    appearance: none;
+    -webkit-appearance: none;
+    width: 12px;
+    height: 18px;
+    margin-top: -7px;
+    background: var(--pt-face);
+    border: 1px solid var(--pt-frame);
+    border-radius: var(--pt-radius-sm);
+    box-shadow: var(--pt-bevel-mini);
+  }
+
+  .pt-range:hover:not(:disabled, [aria-disabled="true"]):where([data-platinum], [data-platinum] *)::-webkit-slider-thumb {
+    background: var(--pt-face-hover);
+  }
+
+  .pt-range:active:not(:disabled, [aria-disabled="true"]):where([data-platinum], [data-platinum] *)::-webkit-slider-thumb {
+    background: var(--pt-pressed-bg);
+    box-shadow: var(--pt-bevel-pressed);
+  }
+
+  .pt-range:where([data-platinum], [data-platinum] *)::-moz-range-track {
+    box-sizing: border-box;
+    height: 6px;
+    background: var(--pt-scroll-track);
+    border: 1px solid var(--pt-frame);
+    border-radius: 0;
+    box-shadow: var(--pt-bevel-sunken);
+  }
+
+  .pt-range:where([data-platinum], [data-platinum] *)::-moz-range-thumb {
+    box-sizing: border-box;
+    width: 12px;
+    height: 18px;
+    background: var(--pt-face);
+    border: 1px solid var(--pt-frame);
+    border-radius: var(--pt-radius-sm);
+    box-shadow: var(--pt-bevel-mini);
+  }
+
+  .pt-range:hover:not(:disabled, [aria-disabled="true"]):where([data-platinum], [data-platinum] *)::-moz-range-thumb {
+    background: var(--pt-face-hover);
+  }
+
+  .pt-range:active:not(:disabled, [aria-disabled="true"]):where([data-platinum], [data-platinum] *)::-moz-range-thumb {
+    background: var(--pt-pressed-bg);
+    box-shadow: var(--pt-bevel-pressed);
+  }
+
+  .pt-range:focus-visible:where([data-platinum], [data-platinum] *) {
+    outline: 2px solid var(--pt-accent);
+    outline-offset: 2px;
+  }
+
+  .pt-range:is(:disabled, [aria-disabled="true"]):where([data-platinum], [data-platinum] *) {
+    cursor: not-allowed;
+  }
+
+  .pt-range:is(:disabled, [aria-disabled="true"]):where([data-platinum], [data-platinum] *)::-webkit-slider-runnable-track {
+    background: var(--pt-window);
+    border-color: var(--pt-border-subtle);
+    box-shadow: none;
+  }
+
+  .pt-range:is(:disabled, [aria-disabled="true"]):where([data-platinum], [data-platinum] *)::-webkit-slider-thumb {
+    background: var(--pt-window);
+    border-color: var(--pt-border-subtle);
+    box-shadow: none;
+  }
+
+  .pt-range:is(:disabled, [aria-disabled="true"]):where([data-platinum], [data-platinum] *)::-moz-range-track {
+    background: var(--pt-window);
+    border-color: var(--pt-border-subtle);
+    box-shadow: none;
+  }
+
+  .pt-range:is(:disabled, [aria-disabled="true"]):where([data-platinum], [data-platinum] *)::-moz-range-thumb {
+    background: var(--pt-window);
+    border-color: var(--pt-border-subtle);
+    box-shadow: none;
+  }
+
   /* ---- Beveled Checkbox, Radio & Recessed Square Switch ---- */
-  .pt-checkbox,
-  .pt-radio {
+  :where(.pt-checkbox, .pt-radio):where(:not([hidden])):where([data-platinum], [data-platinum] *) {
+    display: inline-grid;
+  }
+
+  .pt-checkbox:where([data-platinum], [data-platinum] *),
+  .pt-radio:where([data-platinum], [data-platinum] *) {
     appearance: none;
     -webkit-appearance: none;
     position: relative;
-    display: inline-grid;
     place-content: center;
     width: 14px;
     height: 14px;
     margin: 0;
     flex-shrink: 0;
     background: var(--pt-face);
+    color: var(--pt-ink);
     border: 1px solid var(--pt-frame);
     box-shadow: var(--pt-bevel-mini);
     cursor: pointer;
   }
 
-  .pt-checkbox {
+  .pt-checkbox:where([data-platinum], [data-platinum] *) {
     border-radius: 0;
   }
 
-  .pt-radio {
+  .pt-radio:where([data-platinum], [data-platinum] *) {
     border-radius: 50%;
   }
 
-  .pt-checkbox:is(:checked, :indeterminate),
-  .pt-radio:checked {
+  .pt-checkbox:is(:checked, :indeterminate):where([data-platinum], [data-platinum] *),
+  .pt-radio:checked:where([data-platinum], [data-platinum] *) {
     background: var(--pt-pressed-bg);
+    color: var(--pt-pressed-fg);
     box-shadow: var(--pt-bevel-pressed);
   }
 
-  .pt-checkbox:checked:not(:indeterminate)::after {
+  .pt-checkbox:checked:not(:indeterminate):where([data-platinum], [data-platinum] *)::after {
     content: "";
     box-sizing: border-box;
     width: 8px;
     height: 5px;
-    border-left: 2px solid var(--pt-pressed-fg);
-    border-bottom: 2px solid var(--pt-pressed-fg);
+    border-left: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
     transform: translateY(-1px) rotate(-45deg);
   }
 
-  .pt-checkbox:indeterminate::after {
+  .pt-checkbox:indeterminate:where([data-platinum], [data-platinum] *)::after {
     content: "";
     box-sizing: border-box;
     width: 8px;
-    border-top: 2px solid var(--pt-pressed-fg);
+    border-top: 2px solid currentColor;
   }
 
-  .pt-radio:checked::after {
+  .pt-radio:checked:where([data-platinum], [data-platinum] *)::after {
     content: "";
     box-sizing: border-box;
     width: 6px;
     height: 6px;
     border-radius: 50%;
-    background: var(--pt-pressed-fg);
+    background: currentColor;
   }
 
-  .pt-checkbox:focus-visible,
-  .pt-radio:focus-visible {
+  .pt-checkbox:is(:disabled, [aria-disabled="true"]):where([data-platinum], [data-platinum] *),
+  .pt-radio:is(:disabled, [aria-disabled="true"]):where([data-platinum], [data-platinum] *) {
+    opacity: 1;
+    background: var(--pt-window);
+    color: var(--pt-ink-muted);
+    border-color: var(--pt-border-subtle);
+    box-shadow: none;
+    cursor: not-allowed;
+  }
+
+  .pt-checkbox:focus-visible:where([data-platinum], [data-platinum] *),
+  .pt-radio:focus-visible:where([data-platinum], [data-platinum] *) {
     outline: 2px solid var(--pt-accent);
     outline-offset: 2px;
   }
 
-  .pt-switch {
+  :where(.pt-switch):where(:not([hidden])):where([data-platinum], [data-platinum] *) {
     display: inline-flex;
+  }
+
+  .pt-switch:where([data-platinum], [data-platinum] *) {
+    position: relative;
     align-items: center;
     gap: var(--pt-space-2);
     cursor: pointer;
     user-select: none;
   }
 
-  .pt-switch-input {
+  .pt-switch-input:where([data-platinum], [data-platinum] *) {
     position: absolute;
-    width: 1px;
-    height: 1px;
-    margin: 0;
+    inset-block: 0;
+    inset-inline-start: 0;
+    width: 28px;
+    height: 16px;
+    margin: auto 0;
     opacity: 0;
-    pointer-events: none;
+    cursor: inherit;
+    z-index: 1;
   }
 
-  .pt-switch-track {
-    position: relative;
+  :where(.pt-switch-track):where(:not([hidden])):where([data-platinum], [data-platinum] *) {
     display: inline-block;
+  }
+
+  .pt-switch-track:where([data-platinum], [data-platinum] *) {
+    position: relative;
     width: 28px;
     height: 16px;
     flex-shrink: 0;
@@ -1131,7 +1716,7 @@
     box-shadow: var(--pt-bevel-sunken);
   }
 
-  .pt-switch-track::before {
+  .pt-switch-track:where([data-platinum], [data-platinum] *)::before {
     content: "";
     position: absolute;
     box-sizing: border-box;
@@ -1144,21 +1729,38 @@
     box-shadow: var(--pt-bevel-mini);
   }
 
-  .pt-switch-input:checked ~ .pt-switch-track {
+  .pt-switch-input:checked ~ .pt-switch-track:where([data-platinum], [data-platinum] *) {
     background: var(--pt-pressed-bg);
   }
 
-  .pt-switch-input:checked ~ .pt-switch-track::before {
+  .pt-switch-input:checked ~ .pt-switch-track:where([data-platinum], [data-platinum] *)::before {
     left: 13px;
   }
 
-  .pt-switch-input:focus-visible ~ .pt-switch-track {
+  .pt-switch:has(.pt-switch-input:is(:disabled, [aria-disabled="true"])):where([data-platinum], [data-platinum] *) {
+    color: var(--pt-ink-muted);
+    cursor: not-allowed;
+  }
+
+  .pt-switch-input:is(:disabled, [aria-disabled="true"]) ~ .pt-switch-track:where([data-platinum], [data-platinum] *) {
+    background: var(--pt-window);
+    border-color: var(--pt-border-subtle);
+    box-shadow: none;
+  }
+
+  .pt-switch-input:is(:disabled, [aria-disabled="true"]) ~ .pt-switch-track:where([data-platinum], [data-platinum] *)::before {
+    background: var(--pt-window);
+    border-color: var(--pt-border-subtle);
+    box-shadow: none;
+  }
+
+  .pt-switch-input:focus-visible ~ .pt-switch-track:where([data-platinum], [data-platinum] *) {
     outline: 2px solid var(--pt-accent);
     outline-offset: 2px;
   }
 
   /* ---- Etched Groove Group Box ---- */
-  .pt-groupbox {
+  .pt-groupbox:where([data-platinum], [data-platinum] *) {
     margin: 0;
     padding: var(--pt-space-3) var(--pt-space-4);
     border: 1px solid var(--pt-groove-dark);
@@ -1168,7 +1770,7 @@
 
   /* HIG Group Box Layout: mask the inset highlight groove cleanly across the gap
      and align the title baseline with the etched top border line. */
-  .pt-groupbox > legend {
+  .pt-groupbox > legend:where([data-platinum], [data-platinum] *) {
     position: relative;
     top: -3px;
     padding: 0 5px 3px;
@@ -1180,11 +1782,11 @@
   }
 
   /* ---- Bevel Popup Menu ---- */
-  :where(.pt-menu):where(:not([hidden])) {
+  :where(.pt-menu):where(:not([hidden])):where([data-platinum], [data-platinum] *) {
     display: flex;
   }
 
-  .pt-menu {
+  .pt-menu:where([data-platinum], [data-platinum] *) {
     flex-direction: column;
     min-width: 160px;
     padding: 3px 0;
@@ -1197,8 +1799,11 @@
     font-size: var(--pt-size-control);
   }
 
-  .pt-menu-item {
+  :where(.pt-menu-item):where(:not([hidden])):where([data-platinum], [data-platinum] *) {
     display: flex;
+  }
+
+  .pt-menu-item:where([data-platinum], [data-platinum] *) {
     align-items: center;
     justify-content: space-between;
     gap: var(--pt-space-4);
@@ -1213,21 +1818,26 @@
     cursor: pointer;
   }
 
-  .pt-menu-item:hover:not(:disabled),
-  .pt-menu-item:focus-visible,
-  .pt-menu-item[aria-selected="true"] {
+  .pt-menu-item:hover:not(:disabled, [aria-disabled="true"]):where([data-platinum], [data-platinum] *),
+  .pt-menu-item:focus-visible:not(:disabled, [aria-disabled="true"]):where([data-platinum], [data-platinum] *),
+  .pt-menu-item[aria-selected="true"]:not(:disabled, [aria-disabled="true"]):where([data-platinum], [data-platinum] *) {
     outline: none;
     background: var(--pt-menu-active-bg);
     color: var(--pt-menu-active-fg);
   }
 
-  .pt-menu-shortcut {
+  .pt-menu-item:is(:disabled, [aria-disabled="true"]):where([data-platinum], [data-platinum] *) {
+    color: var(--pt-ink-muted);
+    cursor: not-allowed;
+  }
+
+  .pt-menu-shortcut:where([data-platinum], [data-platinum] *) {
     font-family: var(--pt-font-mono);
     font-size: var(--pt-size-meta);
     opacity: 0.85;
   }
 
-  .pt-menu-sep {
+  .pt-menu-sep:where([data-platinum], [data-platinum] *) {
     height: 2px;
     margin: 3px 0;
     border: 0;
@@ -1235,8 +1845,11 @@
   }
 
   /* ---- 3D Disclosure Triangle (<details class="pt-disclosure">) ---- */
-  .pt-disclosure > summary {
+  :where(.pt-disclosure > summary):where(:not([hidden])):where([data-platinum], [data-platinum] *) {
     display: inline-flex;
+  }
+
+  .pt-disclosure > summary:where([data-platinum], [data-platinum] *) {
     align-items: center;
     gap: 6px;
     min-height: var(--pt-hit-min);
@@ -1248,11 +1861,11 @@
     user-select: none;
   }
 
-  .pt-disclosure > summary::-webkit-details-marker {
+  .pt-disclosure > summary:where([data-platinum], [data-platinum] *)::-webkit-details-marker {
     display: none;
   }
 
-  .pt-disclosure > summary::before {
+  .pt-disclosure > summary:where([data-platinum], [data-platinum] *)::before {
     content: "";
     box-sizing: border-box;
     display: inline-block;
@@ -1265,19 +1878,22 @@
     flex-shrink: 0;
   }
 
-  .pt-disclosure[open] > summary::before {
+  .pt-disclosure[open] > summary:where([data-platinum], [data-platinum] *)::before {
     transform: rotate(90deg);
   }
 
-  .pt-disclosure > summary:focus-visible {
+  .pt-disclosure > summary:focus-visible:where([data-platinum], [data-platinum] *) {
     outline: 2px solid var(--pt-accent);
     outline-offset: 2px;
   }
 
   /* ---- Neutral Metallic Chips, Status Square Badges & Keycaps ---- */
-  .pt-chip,
-  .pt-badge {
+  :where(.pt-chip, .pt-badge):where(:not([hidden])):where([data-platinum], [data-platinum] *) {
     display: inline-flex;
+  }
+
+  .pt-chip:where([data-platinum], [data-platinum] *),
+  .pt-badge:where([data-platinum], [data-platinum] *) {
     align-items: center;
     gap: 4px;
     min-height: 20px;
@@ -1292,26 +1908,29 @@
     line-height: 1.2;
   }
 
-  .pt-badge-success {
+  .pt-badge-success:where([data-platinum], [data-platinum] *) {
     background: var(--pt-success-soft);
     color: var(--pt-success);
     border-color: var(--pt-success);
   }
 
-  .pt-badge-warning {
+  .pt-badge-warning:where([data-platinum], [data-platinum] *) {
     background: var(--pt-warning-soft);
     color: var(--pt-warning);
     border-color: var(--pt-warning);
   }
 
-  .pt-badge-danger {
+  .pt-badge-danger:where([data-platinum], [data-platinum] *) {
     background: var(--pt-danger-soft);
     color: var(--pt-danger);
     border-color: var(--pt-danger);
   }
 
-  .pt-kbd {
+  :where(.pt-kbd):where(:not([hidden])):where([data-platinum], [data-platinum] *) {
     display: inline-flex;
+  }
+
+  .pt-kbd:where([data-platinum], [data-platinum] *) {
     align-items: center;
     justify-content: center;
     min-width: 20px;
@@ -1327,43 +1946,43 @@
     line-height: 1;
   }
 
-  .pt-link {
+  .pt-link:where([data-platinum], [data-platinum] *) {
     color: var(--pt-accent);
     text-underline-offset: 2px;
   }
 
   /* ---- 15px four-ridge Platinum Scrollbars (.pt-scroll) ---- */
-  .pt-scroll {
+  .pt-scroll:where([data-platinum], [data-platinum] *) {
     scrollbar-width: auto;
   }
 
-  .pt-scroll::-webkit-scrollbar {
+  .pt-scroll:where([data-platinum], [data-platinum] *)::-webkit-scrollbar {
     width: 15px;
     height: 15px;
   }
 
-  .pt-scroll::-webkit-scrollbar-track {
+  .pt-scroll:where([data-platinum], [data-platinum] *)::-webkit-scrollbar-track {
     background: var(--pt-scroll-track);
     border-left: 1px solid var(--pt-frame);
     border-top: 1px solid var(--pt-frame);
     box-shadow: var(--pt-bevel-sunken);
   }
 
-  .pt-scroll::-webkit-scrollbar-thumb {
+  .pt-scroll:where([data-platinum], [data-platinum] *)::-webkit-scrollbar-thumb {
     background: var(--pt-scroll-grip-v), var(--pt-scroll-thumb);
     border: 1px solid var(--pt-frame);
     box-shadow: inset 1px 1px 0 var(--pt-scroll-thumb-hi), inset -1px -1px 0 var(--pt-scroll-thumb-lo);
   }
 
-  .pt-scroll::-webkit-scrollbar-thumb:horizontal {
+  .pt-scroll:where([data-platinum], [data-platinum] *)::-webkit-scrollbar-thumb:horizontal {
     background: var(--pt-scroll-grip-h), var(--pt-scroll-thumb);
   }
 
-  .pt-scroll::-webkit-scrollbar-thumb:active {
+  .pt-scroll:where([data-platinum], [data-platinum] *)::-webkit-scrollbar-thumb:active {
     background-color: var(--pt-pressed-bg);
   }
 
-  .pt-scroll::-webkit-scrollbar-corner {
+  .pt-scroll:where([data-platinum], [data-platinum] *)::-webkit-scrollbar-corner {
     background: var(--pt-window);
     border-left: 1px solid var(--pt-frame);
     border-top: 1px solid var(--pt-frame);
@@ -1371,42 +1990,120 @@
 
   /* ---- Forced Colors & Reduced Motion ---- */
   @media (prefers-reduced-motion: reduce) {
-    .pt-btn,
-    .pt-field,
-    .pt-select,
-    .pt-menu-item {
+    .pt-btn:where([data-platinum], [data-platinum] *),
+  .pt-field:where([data-platinum], [data-platinum] *),
+  .pt-select:where([data-platinum], [data-platinum] *),
+  .pt-range:where([data-platinum], [data-platinum] *),
+  .pt-menu-item:where([data-platinum], [data-platinum] *) {
       transition: none;
       animation: none;
     }
   }
 
   @media (forced-colors: active) {
-    .pt-titlebar {
+    .pt-titlebar:where([data-platinum], [data-platinum] *) {
       background-image: none;
     }
-    .pt-window,
-    .pt-well,
-    .pt-tbox,
-    .pt-btn,
-    .pt-field,
-    .pt-select,
-    .pt-groupbox,
-    .pt-menu,
-    .pt-badge,
-    .pt-chip,
-    .pt-kbd {
+    .pt-window:where([data-platinum], [data-platinum] *),
+  .pt-well:where([data-platinum], [data-platinum] *),
+  .pt-tbox:where([data-platinum], [data-platinum] *),
+  .pt-btn:where([data-platinum], [data-platinum] *),
+  .pt-field:where([data-platinum], [data-platinum] *),
+  .pt-select:where([data-platinum], [data-platinum] *),
+  .pt-checkbox:where([data-platinum], [data-platinum] *),
+  .pt-radio:where([data-platinum], [data-platinum] *),
+  .pt-switch-track:where([data-platinum], [data-platinum] *),
+  .pt-switch-track:where([data-platinum], [data-platinum] *)::before,
+  .pt-groupbox:where([data-platinum], [data-platinum] *),
+  .pt-menu:where([data-platinum], [data-platinum] *),
+  .pt-badge:where([data-platinum], [data-platinum] *),
+  .pt-chip:where([data-platinum], [data-platinum] *),
+  .pt-kbd:where([data-platinum], [data-platinum] *) {
       box-shadow: none;
       border-color: ButtonText;
     }
-    .pt-btn:is([aria-pressed="true"], [aria-expanded="true"], [aria-selected="true"], .is-active),
-    .pt-menu-item:hover {
+    .pt-select:where(:not([multiple]):not([size]:not([size="1"]))):where([data-platinum], [data-platinum] *) {
+      appearance: auto;
+      -webkit-appearance: auto;
+      padding-inline: 8px;
+      background-image: none;
+    }
+    select.pt-select:where([multiple]:not([size="1"]), [size="2"], [size="3"], [size="4"], [size="5"], [size="6"], [size="7"], [size="8"], [size="9"], [size="10"], [size="12"], [size="15"], [size="20"]) option:checked:where([data-platinum], [data-platinum] *) {
       background: Highlight;
       color: HighlightText;
       forced-color-adjust: none;
     }
-    .pt-btn:focus-visible,
-    .pt-field:focus-visible,
-    .pt-select:focus-visible {
+    @supports (appearance: base-select) {
+      select.pt-select:not([multiple]):not([size]:not([size="1"])):where([data-platinum], [data-platinum] *) {
+        appearance: base-select;
+        padding-inline: 8px;
+      }
+      select.pt-select:not([multiple]):not([size]:not([size="1"])):where([data-platinum], [data-platinum] *)::picker-icon {
+        display: inline-block;
+      }
+      select.pt-select:not([multiple]):not([size]:not([size="1"])) option:is(:hover, :focus-visible):not(:disabled):where([data-platinum], [data-platinum] *) {
+        background: Highlight;
+        color: HighlightText;
+        forced-color-adjust: none;
+      }
+    }
+    .pt-checkbox:is(:checked, :indeterminate):where([data-platinum], [data-platinum] *),
+  .pt-radio:checked:where([data-platinum], [data-platinum] *) {
+      background: Highlight;
+      color: HighlightText;
+      border-color: Highlight;
+      forced-color-adjust: none;
+    }
+    .pt-radio:checked:where([data-platinum], [data-platinum] *)::after {
+      background: HighlightText;
+      forced-color-adjust: none;
+    }
+    .pt-switch-input:checked ~ .pt-switch-track:where([data-platinum], [data-platinum] *) {
+      background: Highlight;
+      border-color: Highlight;
+      forced-color-adjust: none;
+    }
+    .pt-range:where([data-platinum], [data-platinum] *)::-webkit-slider-runnable-track {
+      box-shadow: none;
+      border-color: ButtonText;
+      background: Canvas;
+    }
+    .pt-range:where([data-platinum], [data-platinum] *)::-webkit-slider-thumb {
+      box-shadow: none;
+      border-color: ButtonText;
+      background: ButtonText;
+      forced-color-adjust: none;
+    }
+    .pt-range:where([data-platinum], [data-platinum] *)::-moz-range-track {
+      box-shadow: none;
+      border-color: ButtonText;
+      background: Canvas;
+    }
+    .pt-range:where([data-platinum], [data-platinum] *)::-moz-range-thumb {
+      box-shadow: none;
+      border-color: ButtonText;
+      background: ButtonText;
+      forced-color-adjust: none;
+    }
+    .pt-btn:is([aria-pressed="true"], [aria-expanded="true"], [aria-selected="true"], .is-active):not(:disabled, [aria-disabled="true"]):where([data-platinum], [data-platinum] *),
+  .pt-menu-item:is(:hover, :focus-visible, [aria-selected="true"]):not(:disabled, [aria-disabled="true"]):where([data-platinum], [data-platinum] *) {
+      background: Highlight;
+      color: HighlightText;
+      forced-color-adjust: none;
+    }
+    .pt-btn:is(:disabled, [aria-disabled="true"]):where([data-platinum], [data-platinum] *),
+  .pt-field:is(:disabled, [aria-disabled="true"]):where([data-platinum], [data-platinum] *),
+  .pt-select:is(:disabled, [aria-disabled="true"]):where([data-platinum], [data-platinum] *),
+  .pt-checkbox:is(:disabled, [aria-disabled="true"]):where([data-platinum], [data-platinum] *),
+  .pt-radio:is(:disabled, [aria-disabled="true"]):where([data-platinum], [data-platinum] *),
+  .pt-menu-item:is(:disabled, [aria-disabled="true"]):where([data-platinum], [data-platinum] *) {
+      color: GrayText;
+      border-color: GrayText;
+    }
+    .pt-btn:focus-visible:where([data-platinum], [data-platinum] *),
+  .pt-field:focus-visible:where([data-platinum], [data-platinum] *),
+  .pt-select:focus-visible:where([data-platinum], [data-platinum] *),
+  .pt-range:focus-visible:where([data-platinum], [data-platinum] *) {
       outline: 2px solid Highlight;
       outline-offset: 2px;
     }
@@ -1421,7 +2118,7 @@
    ========================================================================== */
 
 @layer pt.elements {
-  [data-platinum] {
+  [data-platinum]:not(.pt-window, .pt-surface, .pt-well, .pt-toolbar, .pt-statusbar, .pt-code-window, .pt-menu, .pt-unstyled) {
     --pt-surface-bg: var(--pt-canvas);
     background: var(--pt-canvas);
     color: var(--pt-ink);
@@ -1431,21 +2128,22 @@
   }
 
   [data-platinum]::selection,
-  [data-platinum] ::selection {
+  *:where([data-platinum], [data-platinum] *)::selection {
     background: var(--pt-selection-bg);
     color: var(--pt-selection-fg);
   }
 
-  [data-platinum] a:not(.pt-btn, .pt-menu-item, .pt-unstyled) {
+  a:not(.pt-btn, .pt-menu-item, .pt-unstyled):where([data-platinum], [data-platinum] *) {
     color: var(--pt-accent);
     text-underline-offset: 2px;
   }
 
-  :where([data-platinum] button:not(.pt-btn, .pt-tbox, .pt-menu-item, .pt-unstyled)):where(:not([hidden])) {
+  /* ---- Bare Push Buttons (<button> & <input type="button|submit|reset">) ---- */
+  :where(:is(button, input[type="button"], input[type="submit"], input[type="reset"]):not(.pt-btn, .pt-tbox, .pt-menu-item, .pt-unstyled)):where(:not([hidden])):where([data-platinum], [data-platinum] *) {
     display: inline-flex;
   }
 
-  [data-platinum] button:not(.pt-btn, .pt-tbox, .pt-menu-item, .pt-unstyled) {
+  :is(button, input[type="button"], input[type="submit"], input[type="reset"]):not(.pt-btn, .pt-tbox, .pt-menu-item, .pt-unstyled):where([data-platinum], [data-platinum] *) {
     box-sizing: border-box;
     align-items: center;
     justify-content: center;
@@ -1466,23 +2164,33 @@
     transition: none;
   }
 
-  [data-platinum] button:not(.pt-btn, .pt-tbox, .pt-menu-item, .pt-unstyled):hover:not(:disabled, [aria-disabled="true"], :active, [aria-pressed="true"], [aria-expanded="true"], [aria-selected="true"]) {
+  :is(button, input[type="button"], input[type="submit"], input[type="reset"]):not(.pt-btn, .pt-tbox, .pt-menu-item, .pt-unstyled):hover:not(:disabled, [aria-disabled="true"], :active, [aria-pressed="true"], [aria-expanded="true"], [aria-selected="true"]):where([data-platinum], [data-platinum] *) {
     background: var(--pt-face-hover);
   }
 
-  [data-platinum] button:not(.pt-btn, .pt-tbox, .pt-menu-item, .pt-unstyled):active:not(:disabled),
-  [data-platinum] button:not(.pt-btn, .pt-tbox, .pt-menu-item, .pt-unstyled):is([aria-pressed="true"], [aria-expanded="true"], [aria-selected="true"]) {
+  :is(button, input[type="button"], input[type="submit"], input[type="reset"]):not(.pt-btn, .pt-tbox, .pt-menu-item, .pt-unstyled):active:not(:disabled, [aria-disabled="true"]):where([data-platinum], [data-platinum] *),
+  :is(button, input[type="button"], input[type="submit"], input[type="reset"]):not(.pt-btn, .pt-tbox, .pt-menu-item, .pt-unstyled):is([aria-pressed="true"], [aria-expanded="true"], [aria-selected="true"]):not(:disabled, [aria-disabled="true"]):where([data-platinum], [data-platinum] *) {
     background: var(--pt-pressed-bg);
     color: var(--pt-pressed-fg);
     box-shadow: var(--pt-bevel-pressed);
   }
 
-  [data-platinum] button:not(.pt-btn, .pt-tbox, .pt-menu-item, .pt-unstyled):focus-visible {
+  :is(button, input[type="button"], input[type="submit"], input[type="reset"]):not(.pt-btn, .pt-tbox, .pt-menu-item, .pt-unstyled):is(:disabled, [aria-disabled="true"]):where([data-platinum], [data-platinum] *) {
+    opacity: 1;
+    background: var(--pt-window);
+    color: var(--pt-ink-muted);
+    border-color: var(--pt-border-subtle);
+    box-shadow: none;
+    cursor: not-allowed;
+  }
+
+  :is(button, input[type="button"], input[type="submit"], input[type="reset"]):not(.pt-btn, .pt-tbox, .pt-menu-item, .pt-unstyled):focus-visible:where([data-platinum], [data-platinum] *) {
     outline: 2px solid var(--pt-accent);
     outline-offset: 1px;
   }
 
-  [data-platinum] :is(input[type="text"], input[type="search"], input[type="url"], input[type="email"], input[type="password"], input[type="number"], textarea):not(.pt-field, .pt-unstyled) {
+  /* ---- Bare Text Inputs (including default <input> without type & tel) & <textarea> ---- */
+  :is(input:not([type]), input[type="text"], input[type="search"], input[type="url"], input[type="email"], input[type="tel"], input[type="password"], input[type="number"], textarea):not(.pt-field, .pt-unstyled):where([data-platinum], [data-platinum] *) {
     box-sizing: border-box;
     min-height: var(--pt-control-h);
     height: var(--pt-control-h);
@@ -1496,19 +2204,40 @@
     font-size: var(--pt-size-body);
   }
 
-  [data-platinum] textarea:not(.pt-field, .pt-unstyled) {
+  textarea:not(.pt-field, .pt-unstyled):where([data-platinum], [data-platinum] *) {
     height: auto;
     min-height: 68px;
     padding: 6px var(--pt-field-pad-x);
+    resize: vertical;
   }
 
-  [data-platinum] :is(input[type="text"], input[type="search"], input[type="url"], input[type="email"], input[type="password"], input[type="number"], textarea):not(.pt-field, .pt-unstyled):focus-visible {
+  textarea:not(.pt-field, .pt-unstyled):where([data-platinum], [data-platinum] *)::-webkit-resizer {
+    background-color: var(--pt-window);
+    background-image: linear-gradient(135deg, transparent 42%, var(--pt-groove-light) 42% 48%, var(--pt-groove-dark) 48% 55%, transparent 55% 68%, var(--pt-groove-light) 68% 74%, var(--pt-groove-dark) 74% 81%, transparent 81%);
+  }
+
+  :is(input:not([type]), input[type="text"], input[type="search"], input[type="url"], input[type="email"], input[type="tel"], input[type="password"], input[type="number"], textarea):not(.pt-field, .pt-unstyled):focus-visible:where([data-platinum], [data-platinum] *) {
     outline: none;
     border-color: var(--pt-accent);
     box-shadow: 0 0 0 1px var(--pt-accent), var(--pt-bevel-sunken);
   }
 
-  [data-platinum] select:not(.pt-select, .pt-unstyled) {
+  :is(input:not([type]), input[type="text"], input[type="search"], input[type="url"], input[type="email"], input[type="tel"], input[type="password"], input[type="number"], textarea):not(.pt-field, .pt-unstyled):is(:disabled, [aria-disabled="true"]):where([data-platinum], [data-platinum] *) {
+    opacity: 1;
+    background: var(--pt-face);
+    color: var(--pt-ink-muted);
+    border-color: var(--pt-border-subtle);
+    box-shadow: none;
+    cursor: not-allowed;
+  }
+
+  :is(input:not([type]), input[type="text"], input[type="search"], input[type="url"], input[type="email"], input[type="tel"], input[type="password"], input[type="number"], textarea):not(.pt-field, .pt-unstyled)[aria-disabled="true"]:focus-visible:where([data-platinum], [data-platinum] *) {
+    outline: 2px solid var(--pt-accent);
+    outline-offset: 1px;
+  }
+
+  /* ---- Bare <select> (Single-Select Pop-up Menu + Multi-Row Listbox) ---- */
+  select:not(.pt-select, .pt-unstyled):where(:not([multiple]):not([size]:not([size="1"]))):where([data-platinum], [data-platinum] *) {
     box-sizing: border-box;
     appearance: none;
     -webkit-appearance: none;
@@ -1539,59 +2268,369 @@
     background-position: right 6px top calc(50% - 3.5px), right 6px top calc(50% + 3.5px), 0 0;
   }
 
-  [data-platinum] input[type="checkbox"]:not(.pt-checkbox, .pt-switch-input, .pt-unstyled),
-  [data-platinum] input[type="radio"]:not(.pt-radio, .pt-unstyled) {
+  select:not(.pt-select, .pt-unstyled):where(:not([multiple]):not([size]:not([size="1"]))):dir(rtl):where([data-platinum], [data-platinum] *) {
+    background-image:
+      conic-gradient(from 135deg at 50% 0%, currentColor 0 90deg, transparent 0),
+      conic-gradient(from -45deg at 50% 100%, currentColor 0 90deg, transparent 0),
+      linear-gradient(
+        to left,
+        transparent calc(100% - 20px),
+        var(--pt-groove-light) calc(100% - 20px) calc(100% - 19px),
+        var(--pt-groove-dark) calc(100% - 19px) calc(100% - 18px),
+        transparent calc(100% - 18px)
+      );
+    background-position: left 6px top calc(50% - 3.5px), left 6px top calc(50% + 3.5px), 0 0;
+  }
+
+  select:not(.pt-select, .pt-unstyled):where(:not([multiple]):not([size]:not([size="1"]))):hover:not(:disabled, [aria-disabled="true"], :active):where([data-platinum], [data-platinum] *) {
+    background-color: var(--pt-face-hover);
+  }
+
+  select:not(.pt-select, .pt-unstyled):where(:not([multiple]):not([size]:not([size="1"]))):active:not(:disabled, [aria-disabled="true"]):where([data-platinum], [data-platinum] *) {
+    background-color: var(--pt-pressed-bg);
+    color: var(--pt-pressed-fg);
+    box-shadow: var(--pt-bevel-pressed);
+  }
+
+  select:not(.pt-select, .pt-unstyled):where([multiple]:not([size="1"]), [size="2"], [size="3"], [size="4"], [size="5"], [size="6"], [size="7"], [size="8"], [size="9"], [size="10"], [size="12"], [size="15"], [size="20"]):where([data-platinum], [data-platinum] *) {
+    box-sizing: border-box;
+    height: auto;
+    padding: 3px;
+    background: var(--pt-paper);
+    color: var(--pt-ink);
+    border: 1px solid var(--pt-frame);
+    border-radius: var(--pt-radius-window);
+    box-shadow: var(--pt-bevel-sunken);
+    font-family: var(--pt-font-ui);
+    font-size: var(--pt-size-body);
+  }
+
+  select:not(.pt-select, .pt-unstyled) option:where([data-platinum], [data-platinum] *),
+  select:not(.pt-select, .pt-unstyled) optgroup:where([data-platinum], [data-platinum] *) {
+    background-color: var(--pt-face);
+    color: var(--pt-ink);
+  }
+
+  select:not(.pt-select, .pt-unstyled):where([multiple]:not([size="1"]), [size="2"], [size="3"], [size="4"], [size="5"], [size="6"], [size="7"], [size="8"], [size="9"], [size="10"], [size="12"], [size="15"], [size="20"]) option:where([data-platinum], [data-platinum] *),
+  select:not(.pt-select, .pt-unstyled):where([multiple]:not([size="1"]), [size="2"], [size="3"], [size="4"], [size="5"], [size="6"], [size="7"], [size="8"], [size="9"], [size="10"], [size="12"], [size="15"], [size="20"]) optgroup:where([data-platinum], [data-platinum] *) {
+    background-color: var(--pt-paper);
+    color: var(--pt-ink);
+    padding: 2px 6px;
+  }
+
+  select:not(.pt-select, .pt-unstyled):where([multiple]:not([size="1"]), [size="2"], [size="3"], [size="4"], [size="5"], [size="6"], [size="7"], [size="8"], [size="9"], [size="10"], [size="12"], [size="15"], [size="20"]) option:checked:where([data-platinum], [data-platinum] *) {
+    background: linear-gradient(var(--pt-selection-bg), var(--pt-selection-bg)), var(--pt-selection-bg);
+    color: var(--pt-selection-fg);
+    font-weight: 700;
+  }
+
+  select:not(.pt-select, .pt-unstyled):where([multiple]:not([size="1"]), [size="2"], [size="3"], [size="4"], [size="5"], [size="6"], [size="7"], [size="8"], [size="9"], [size="10"], [size="12"], [size="15"], [size="20"]) option:disabled:where([data-platinum], [data-platinum] *) {
+    color: var(--pt-ink-muted);
+  }
+
+  select:not(.pt-select, .pt-unstyled):focus-visible:where([data-platinum], [data-platinum] *) {
+    outline: 2px solid var(--pt-accent);
+    outline-offset: 1px;
+  }
+
+  select:not(.pt-select, .pt-unstyled):is(:disabled, [aria-disabled="true"]):where([data-platinum], [data-platinum] *) {
+    opacity: 1;
+    background-color: var(--pt-window);
+    color: var(--pt-ink-muted);
+    border-color: var(--pt-border-subtle);
+    box-shadow: none;
+    cursor: not-allowed;
+  }
+
+  select:not(.pt-select, .pt-unstyled):is(:disabled, [aria-disabled="true"]) option:where([data-platinum], [data-platinum] *) {
+    background-color: var(--pt-window);
+    color: var(--pt-ink-muted);
+  }
+
+  select:not(.pt-select, .pt-unstyled):is(:disabled, [aria-disabled="true"]) option:checked:where([data-platinum], [data-platinum] *) {
+    background: linear-gradient(var(--pt-face), var(--pt-face)), var(--pt-face);
+    color: var(--pt-ink-muted);
+  }
+
+  @supports (appearance: base-select) {
+    select:not(.pt-select, .pt-unstyled, [multiple], [size]:not([size="1"])):where([data-platinum], [data-platinum] *),
+  select:not(.pt-select, .pt-unstyled, [multiple], [size]:not([size="1"])):where([data-platinum], [data-platinum] *)::picker(select) {
+      appearance: base-select;
+    }
+
+    select:not(.pt-select, .pt-unstyled, [multiple], [size]:not([size="1"])):where([data-platinum], [data-platinum] *) {
+      align-items: center;
+    }
+
+    select:not(.pt-select, .pt-unstyled, [multiple], [size]:not([size="1"])):where([data-platinum], [data-platinum] *)::picker-icon {
+      display: none;
+    }
+
+    select:not(.pt-select, .pt-unstyled, [multiple], [size]:not([size="1"])):open:where([data-platinum], [data-platinum] *) {
+      background-image:
+        conic-gradient(from 135deg at 50% 0%, var(--pt-pressed-fg) 0 90deg, transparent 0),
+        conic-gradient(from -45deg at 50% 100%, var(--pt-pressed-fg) 0 90deg, transparent 0),
+        linear-gradient(
+          to right,
+          transparent calc(100% - 20px),
+          var(--pt-frame) calc(100% - 20px) calc(100% - 19px),
+          var(--pt-pressed-bg) calc(100% - 19px)
+        );
+    }
+
+    select:not(.pt-select, .pt-unstyled, [multiple], [size]:not([size="1"])):open:dir(rtl):where([data-platinum], [data-platinum] *) {
+      background-image:
+        conic-gradient(from 135deg at 50% 0%, var(--pt-pressed-fg) 0 90deg, transparent 0),
+        conic-gradient(from -45deg at 50% 100%, var(--pt-pressed-fg) 0 90deg, transparent 0),
+        linear-gradient(
+          to left,
+          transparent calc(100% - 20px),
+          var(--pt-frame) calc(100% - 20px) calc(100% - 19px),
+          var(--pt-pressed-bg) calc(100% - 19px)
+        );
+    }
+
+    select:not(.pt-select, .pt-unstyled, [multiple], [size]:not([size="1"])):where([data-platinum], [data-platinum] *)::picker(select) {
+      margin: 1px 0 0;
+      padding: 3px 0;
+      background: var(--pt-face);
+      color: var(--pt-ink);
+      border: 1px solid var(--pt-frame);
+      border-radius: var(--pt-radius-window);
+      box-shadow: var(--pt-bevel-window), var(--pt-shadow-window);
+      font-family: var(--pt-font-ui);
+      font-size: var(--pt-size-control);
+    }
+
+    :where(select:not(.pt-select, .pt-unstyled, [multiple], [size]:not([size="1"])) option):where(:not([hidden])):where([data-platinum], [data-platinum] *) {
+      display: flex;
+    }
+
+    select:not(.pt-select, .pt-unstyled, [multiple], [size]:not([size="1"])) option:where([data-platinum], [data-platinum] *) {
+      align-items: center;
+      gap: 6px;
+      min-height: var(--pt-hit-min);
+      padding: 2px 12px 2px 8px;
+      background: transparent;
+      color: var(--pt-ink);
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    select:not(.pt-select, .pt-unstyled, [multiple], [size]:not([size="1"])) option:where([data-platinum], [data-platinum] *)::checkmark {
+      content: "✓";
+      display: inline-block;
+      width: 12px;
+      flex-shrink: 0;
+      font-weight: 700;
+      visibility: hidden;
+    }
+
+    select:not(.pt-select, .pt-unstyled, [multiple], [size]:not([size="1"])) option:checked:where([data-platinum], [data-platinum] *)::checkmark {
+      visibility: visible;
+    }
+
+    select:not(.pt-select, .pt-unstyled, [multiple], [size]:not([size="1"])) option:is(:hover, :focus-visible):not(:disabled):where([data-platinum], [data-platinum] *) {
+      outline: none;
+      background: var(--pt-menu-active-bg);
+      color: var(--pt-menu-active-fg);
+    }
+
+    select:not(.pt-select, .pt-unstyled, [multiple], [size]:not([size="1"])) option:disabled:where([data-platinum], [data-platinum] *),
+  select:not(.pt-select, .pt-unstyled, [multiple], [size]:not([size="1"])) optgroup:disabled option:where([data-platinum], [data-platinum] *) {
+      color: var(--pt-ink-muted);
+      cursor: not-allowed;
+    }
+
+    select:not(.pt-select, .pt-unstyled, [multiple], [size]:not([size="1"])) hr:where([data-platinum], [data-platinum] *) {
+      height: 2px;
+      margin: 3px 0;
+      border: 0;
+      background: linear-gradient(to bottom, var(--pt-groove-dark) 0 1px, var(--pt-groove-light) 1px 2px);
+    }
+  }
+
+  /* ---- Bare <input type="range"> Slider ---- */
+  input[type="range"]:not(.pt-range, .pt-unstyled):where([data-platinum], [data-platinum] *) {
     box-sizing: border-box;
     appearance: none;
     -webkit-appearance: none;
+    height: var(--pt-control-h);
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    color: var(--pt-ink);
+    cursor: pointer;
+  }
+
+  input[type="range"]:not(.pt-range, .pt-unstyled):where([data-platinum], [data-platinum] *)::-webkit-slider-runnable-track {
+    box-sizing: border-box;
+    height: 6px;
+    background: var(--pt-scroll-track);
+    border: 1px solid var(--pt-frame);
+    border-radius: 0;
+    box-shadow: var(--pt-bevel-sunken);
+  }
+
+  input[type="range"]:not(.pt-range, .pt-unstyled):where([data-platinum], [data-platinum] *)::-webkit-slider-thumb {
+    box-sizing: border-box;
+    appearance: none;
+    -webkit-appearance: none;
+    width: 12px;
+    height: 18px;
+    margin-top: -7px;
+    background: var(--pt-face);
+    border: 1px solid var(--pt-frame);
+    border-radius: var(--pt-radius-sm);
+    box-shadow: var(--pt-bevel-mini);
+  }
+
+  input[type="range"]:not(.pt-range, .pt-unstyled):hover:not(:disabled, [aria-disabled="true"]):where([data-platinum], [data-platinum] *)::-webkit-slider-thumb {
+    background: var(--pt-face-hover);
+  }
+
+  input[type="range"]:not(.pt-range, .pt-unstyled):active:not(:disabled, [aria-disabled="true"]):where([data-platinum], [data-platinum] *)::-webkit-slider-thumb {
+    background: var(--pt-pressed-bg);
+    box-shadow: var(--pt-bevel-pressed);
+  }
+
+  input[type="range"]:not(.pt-range, .pt-unstyled):where([data-platinum], [data-platinum] *)::-moz-range-track {
+    box-sizing: border-box;
+    height: 6px;
+    background: var(--pt-scroll-track);
+    border: 1px solid var(--pt-frame);
+    border-radius: 0;
+    box-shadow: var(--pt-bevel-sunken);
+  }
+
+  input[type="range"]:not(.pt-range, .pt-unstyled):where([data-platinum], [data-platinum] *)::-moz-range-thumb {
+    box-sizing: border-box;
+    width: 12px;
+    height: 18px;
+    background: var(--pt-face);
+    border: 1px solid var(--pt-frame);
+    border-radius: var(--pt-radius-sm);
+    box-shadow: var(--pt-bevel-mini);
+  }
+
+  input[type="range"]:not(.pt-range, .pt-unstyled):hover:not(:disabled, [aria-disabled="true"]):where([data-platinum], [data-platinum] *)::-moz-range-thumb {
+    background: var(--pt-face-hover);
+  }
+
+  input[type="range"]:not(.pt-range, .pt-unstyled):active:not(:disabled, [aria-disabled="true"]):where([data-platinum], [data-platinum] *)::-moz-range-thumb {
+    background: var(--pt-pressed-bg);
+    box-shadow: var(--pt-bevel-pressed);
+  }
+
+  input[type="range"]:not(.pt-range, .pt-unstyled):focus-visible:where([data-platinum], [data-platinum] *) {
+    outline: 2px solid var(--pt-accent);
+    outline-offset: 2px;
+  }
+
+  input[type="range"]:not(.pt-range, .pt-unstyled):is(:disabled, [aria-disabled="true"]):where([data-platinum], [data-platinum] *) {
+    cursor: not-allowed;
+  }
+
+  input[type="range"]:not(.pt-range, .pt-unstyled):is(:disabled, [aria-disabled="true"]):where([data-platinum], [data-platinum] *)::-webkit-slider-runnable-track {
+    background: var(--pt-window);
+    border-color: var(--pt-border-subtle);
+    box-shadow: none;
+  }
+
+  input[type="range"]:not(.pt-range, .pt-unstyled):is(:disabled, [aria-disabled="true"]):where([data-platinum], [data-platinum] *)::-webkit-slider-thumb {
+    background: var(--pt-window);
+    border-color: var(--pt-border-subtle);
+    box-shadow: none;
+  }
+
+  input[type="range"]:not(.pt-range, .pt-unstyled):is(:disabled, [aria-disabled="true"]):where([data-platinum], [data-platinum] *)::-moz-range-track {
+    background: var(--pt-window);
+    border-color: var(--pt-border-subtle);
+    box-shadow: none;
+  }
+
+  input[type="range"]:not(.pt-range, .pt-unstyled):is(:disabled, [aria-disabled="true"]):where([data-platinum], [data-platinum] *)::-moz-range-thumb {
+    background: var(--pt-window);
+    border-color: var(--pt-border-subtle);
+    box-shadow: none;
+  }
+
+  /* ---- Bare Checkbox & Radio ---- */
+  :where(input[type="checkbox"]:not(.pt-checkbox, .pt-switch-input, .pt-unstyled), input[type="radio"]:not(.pt-radio, .pt-unstyled)):where(:not([hidden])):where([data-platinum], [data-platinum] *) {
     display: inline-grid;
+  }
+
+  input[type="checkbox"]:not(.pt-checkbox, .pt-switch-input, .pt-unstyled):where([data-platinum], [data-platinum] *),
+  input[type="radio"]:not(.pt-radio, .pt-unstyled):where([data-platinum], [data-platinum] *) {
+    box-sizing: border-box;
+    appearance: none;
+    -webkit-appearance: none;
     place-content: center;
     width: 14px;
     height: 14px;
     margin: 0;
     background: var(--pt-face);
+    color: var(--pt-ink);
     border: 1px solid var(--pt-frame);
     box-shadow: var(--pt-bevel-mini);
     cursor: pointer;
   }
 
-  [data-platinum] input[type="radio"]:not(.pt-radio, .pt-unstyled) {
+  input[type="radio"]:not(.pt-radio, .pt-unstyled):where([data-platinum], [data-platinum] *) {
     border-radius: 50%;
   }
 
-  [data-platinum] input[type="checkbox"]:not(.pt-checkbox, .pt-switch-input, .pt-unstyled):is(:checked, :indeterminate),
-  [data-platinum] input[type="radio"]:not(.pt-radio, .pt-unstyled):checked {
+  input[type="checkbox"]:not(.pt-checkbox, .pt-switch-input, .pt-unstyled):is(:checked, :indeterminate):where([data-platinum], [data-platinum] *),
+  input[type="radio"]:not(.pt-radio, .pt-unstyled):checked:where([data-platinum], [data-platinum] *) {
     background: var(--pt-pressed-bg);
+    color: var(--pt-pressed-fg);
     box-shadow: var(--pt-bevel-pressed);
   }
 
-  [data-platinum] input[type="checkbox"]:not(.pt-checkbox, .pt-switch-input, .pt-unstyled):checked:not(:indeterminate)::after {
+  input[type="checkbox"]:not(.pt-checkbox, .pt-switch-input, .pt-unstyled):checked:not(:indeterminate):where([data-platinum], [data-platinum] *)::after {
     content: "";
     box-sizing: border-box;
     width: 8px;
     height: 5px;
-    border-left: 2px solid var(--pt-pressed-fg);
-    border-bottom: 2px solid var(--pt-pressed-fg);
+    border-left: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
     transform: translateY(-1px) rotate(-45deg);
   }
 
-  [data-platinum] input[type="checkbox"]:not(.pt-checkbox, .pt-switch-input, .pt-unstyled):indeterminate::after {
+  input[type="checkbox"]:not(.pt-checkbox, .pt-switch-input, .pt-unstyled):indeterminate:where([data-platinum], [data-platinum] *)::after {
     content: "";
     box-sizing: border-box;
     width: 8px;
-    border-top: 2px solid var(--pt-pressed-fg);
+    border-top: 2px solid currentColor;
   }
 
-  [data-platinum] input[type="radio"]:not(.pt-radio, .pt-unstyled):checked::after {
+  input[type="radio"]:not(.pt-radio, .pt-unstyled):checked:where([data-platinum], [data-platinum] *)::after {
     content: "";
     box-sizing: border-box;
     width: 6px;
     height: 6px;
     border-radius: 50%;
-    background: var(--pt-pressed-fg);
+    background: currentColor;
   }
 
-  [data-platinum] fieldset:not(.pt-groupbox, .pt-unstyled) {
+  input[type="checkbox"]:not(.pt-checkbox, .pt-switch-input, .pt-unstyled):is(:disabled, [aria-disabled="true"]):where([data-platinum], [data-platinum] *),
+  input[type="radio"]:not(.pt-radio, .pt-unstyled):is(:disabled, [aria-disabled="true"]):where([data-platinum], [data-platinum] *) {
+    opacity: 1;
+    background: var(--pt-window);
+    color: var(--pt-ink-muted);
+    border-color: var(--pt-border-subtle);
+    box-shadow: none;
+    cursor: not-allowed;
+  }
+
+  input[type="checkbox"]:not(.pt-checkbox, .pt-switch-input, .pt-unstyled):focus-visible:where([data-platinum], [data-platinum] *),
+  input[type="radio"]:not(.pt-radio, .pt-unstyled):focus-visible:where([data-platinum], [data-platinum] *) {
+    outline: 2px solid var(--pt-accent);
+    outline-offset: 2px;
+  }
+
+  /* ---- Bare <fieldset>, <details> & <kbd> ---- */
+  fieldset:not(.pt-groupbox, .pt-unstyled):where([data-platinum], [data-platinum] *) {
     box-sizing: border-box;
     margin: 0;
     padding: var(--pt-space-3) var(--pt-space-4);
@@ -1600,7 +2639,7 @@
     box-shadow: inset 1px 1px 0 var(--pt-groove-light), 1px 1px 0 var(--pt-groove-light);
   }
 
-  [data-platinum] fieldset:not(.pt-groupbox, .pt-unstyled) > legend {
+  fieldset:not(.pt-groupbox, .pt-unstyled) > legend:where([data-platinum], [data-platinum] *) {
     position: relative;
     top: -3px;
     padding: 0 5px 3px;
@@ -1611,8 +2650,11 @@
     line-height: 1.15;
   }
 
-  [data-platinum] details:not(.pt-disclosure, .pt-unstyled) > summary {
+  :where(details:not(.pt-disclosure, .pt-unstyled) > summary):where(:not([hidden])):where([data-platinum], [data-platinum] *) {
     display: inline-flex;
+  }
+
+  details:not(.pt-disclosure, .pt-unstyled) > summary:where([data-platinum], [data-platinum] *) {
     align-items: center;
     gap: 6px;
     min-height: var(--pt-hit-min);
@@ -1622,11 +2664,11 @@
     cursor: pointer;
   }
 
-  [data-platinum] details:not(.pt-disclosure, .pt-unstyled) > summary::-webkit-details-marker {
+  details:not(.pt-disclosure, .pt-unstyled) > summary:where([data-platinum], [data-platinum] *)::-webkit-details-marker {
     display: none;
   }
 
-  [data-platinum] details:not(.pt-disclosure, .pt-unstyled) > summary::before {
+  details:not(.pt-disclosure, .pt-unstyled) > summary:where([data-platinum], [data-platinum] *)::before {
     content: "";
     box-sizing: border-box;
     display: inline-block;
@@ -1635,17 +2677,26 @@
     border-style: solid;
     border-width: 4.5px 0 4.5px 7px;
     border-color: transparent transparent transparent var(--pt-ink);
+    filter: drop-shadow(1px 1px 0 var(--pt-groove-light));
     flex-shrink: 0;
   }
 
-  [data-platinum] details:not(.pt-disclosure, .pt-unstyled)[open] > summary::before {
+  details:not(.pt-disclosure, .pt-unstyled)[open] > summary:where([data-platinum], [data-platinum] *)::before {
     transform: rotate(90deg);
   }
 
+  details:not(.pt-disclosure, .pt-unstyled) > summary:focus-visible:where([data-platinum], [data-platinum] *) {
+    outline: 2px solid var(--pt-accent);
+    outline-offset: 2px;
+  }
+
   /* Standalone 3D keycaps only; skip nested wrapper <kbd><kbd>...</kbd></kbd> to prevent double-boxing */
-  [data-platinum] kbd:not(.pt-kbd, .pt-unstyled, :has(kbd)) {
-    box-sizing: border-box;
+  :where(kbd:not(.pt-kbd, .pt-unstyled, :has(kbd))):where(:not([hidden])):where([data-platinum], [data-platinum] *) {
     display: inline-flex;
+  }
+
+  kbd:not(.pt-kbd, .pt-unstyled, :has(kbd)):where([data-platinum], [data-platinum] *) {
+    box-sizing: border-box;
     align-items: center;
     justify-content: center;
     min-width: 20px;
@@ -1662,8 +2713,11 @@
   }
 
   /* Inside buttons, menus, and tooltips, keep shortcut hints as flat monospace text (Mac OS 9 HIG) */
-  [data-platinum] :is(button, a, [role="button"], [role="menuitem"], [role="menuitemcheckbox"], [role="menuitemradio"], [role="tooltip"]) kbd:not(.pt-kbd, .pt-unstyled) {
+  :where(:is(button, a, [role="button"], [role="menuitem"], [role="menuitemcheckbox"], [role="menuitemradio"], [role="tooltip"]) kbd:not(.pt-kbd, .pt-unstyled)):where(:not([hidden])):where([data-platinum], [data-platinum] *) {
     display: inline;
+  }
+
+  :is(button, a, [role="button"], [role="menuitem"], [role="menuitemcheckbox"], [role="menuitemradio"], [role="tooltip"]) kbd:not(.pt-kbd, .pt-unstyled):where([data-platinum], [data-platinum] *) {
     min-width: 0;
     height: auto;
     padding: 0;
@@ -1677,30 +2731,134 @@
     line-height: inherit;
   }
 
-  [data-platinum] *::-webkit-scrollbar {
+  /* ---- Bare Scrollbars & Corner ---- */
+  [data-platinum]::-webkit-scrollbar,
+  *:where([data-platinum], [data-platinum] *)::-webkit-scrollbar {
     width: 15px;
     height: 15px;
   }
 
-  [data-platinum] *::-webkit-scrollbar-track {
+  [data-platinum]::-webkit-scrollbar-track,
+  *:where([data-platinum], [data-platinum] *)::-webkit-scrollbar-track {
     background: var(--pt-scroll-track);
     border-left: 1px solid var(--pt-frame);
     border-top: 1px solid var(--pt-frame);
     box-shadow: var(--pt-bevel-sunken);
   }
 
-  [data-platinum] *::-webkit-scrollbar-thumb {
+  [data-platinum]::-webkit-scrollbar-thumb,
+  *:where([data-platinum], [data-platinum] *)::-webkit-scrollbar-thumb {
     background: var(--pt-scroll-grip-v), var(--pt-scroll-thumb);
     border: 1px solid var(--pt-frame);
     box-shadow: inset 1px 1px 0 var(--pt-scroll-thumb-hi), inset -1px -1px 0 var(--pt-scroll-thumb-lo);
   }
 
+  [data-platinum]::-webkit-scrollbar-thumb:horizontal,
   [data-platinum] *::-webkit-scrollbar-thumb:horizontal {
     background: var(--pt-scroll-grip-h), var(--pt-scroll-thumb);
   }
 
-  [data-platinum] *::-webkit-scrollbar-thumb:active {
+  [data-platinum]::-webkit-scrollbar-thumb:active,
+  *:where([data-platinum], [data-platinum] *)::-webkit-scrollbar-thumb:active {
     background-color: var(--pt-pressed-bg);
+  }
+
+  [data-platinum]::-webkit-scrollbar-corner,
+  *:where([data-platinum], [data-platinum] *)::-webkit-scrollbar-corner {
+    background: var(--pt-window);
+    border-left: 1px solid var(--pt-frame);
+    border-top: 1px solid var(--pt-frame);
+  }
+
+  /* ---- Forced Colors Parity for Bare Elements ---- */
+  @media (forced-colors: active) {
+    :is(button, input:not([type]), input[type="button"], input[type="submit"], input[type="reset"], input[type="text"], input[type="search"], input[type="url"], input[type="email"], input[type="tel"], input[type="password"], input[type="number"], input[type="checkbox"], input[type="radio"], select, textarea, fieldset, kbd):not(.pt-unstyled):where([data-platinum], [data-platinum] *) {
+      box-shadow: none;
+      border-color: ButtonText;
+    }
+
+    select:not(.pt-select, .pt-unstyled):where(:not([multiple]):not([size]:not([size="1"]))):where([data-platinum], [data-platinum] *) {
+      appearance: auto;
+      -webkit-appearance: auto;
+      padding-inline: 8px;
+      background-image: none;
+    }
+
+    select:not(.pt-select, .pt-unstyled):where([multiple]:not([size="1"]), [size="2"], [size="3"], [size="4"], [size="5"], [size="6"], [size="7"], [size="8"], [size="9"], [size="10"], [size="12"], [size="15"], [size="20"]) option:checked:where([data-platinum], [data-platinum] *) {
+      background: Highlight;
+      color: HighlightText;
+      forced-color-adjust: none;
+    }
+
+    @supports (appearance: base-select) {
+      select:not(.pt-select, .pt-unstyled, [multiple], [size]:not([size="1"])):where([data-platinum], [data-platinum] *) {
+        appearance: base-select;
+        padding-inline: 8px;
+      }
+      select:not(.pt-select, .pt-unstyled, [multiple], [size]:not([size="1"])):where([data-platinum], [data-platinum] *)::picker-icon {
+        display: inline-block;
+      }
+      select:not(.pt-select, .pt-unstyled, [multiple], [size]:not([size="1"])) option:is(:hover, :focus-visible):not(:disabled):where([data-platinum], [data-platinum] *) {
+        background: Highlight;
+        color: HighlightText;
+        forced-color-adjust: none;
+      }
+    }
+
+    input[type="checkbox"]:not(.pt-checkbox, .pt-switch-input, .pt-unstyled):is(:checked, :indeterminate):where([data-platinum], [data-platinum] *),
+  input[type="radio"]:not(.pt-radio, .pt-unstyled):checked:where([data-platinum], [data-platinum] *) {
+      background: Highlight;
+      color: HighlightText;
+      border-color: Highlight;
+      forced-color-adjust: none;
+    }
+
+    input[type="radio"]:not(.pt-radio, .pt-unstyled):checked:where([data-platinum], [data-platinum] *)::after {
+      background: HighlightText;
+      forced-color-adjust: none;
+    }
+
+    input[type="range"]:not(.pt-range, .pt-unstyled):where([data-platinum], [data-platinum] *)::-webkit-slider-runnable-track {
+      box-shadow: none;
+      border-color: ButtonText;
+      background: Canvas;
+    }
+
+    input[type="range"]:not(.pt-range, .pt-unstyled):where([data-platinum], [data-platinum] *)::-webkit-slider-thumb {
+      box-shadow: none;
+      border-color: ButtonText;
+      background: ButtonText;
+      forced-color-adjust: none;
+    }
+
+    input[type="range"]:not(.pt-range, .pt-unstyled):where([data-platinum], [data-platinum] *)::-moz-range-track {
+      box-shadow: none;
+      border-color: ButtonText;
+      background: Canvas;
+    }
+
+    input[type="range"]:not(.pt-range, .pt-unstyled):where([data-platinum], [data-platinum] *)::-moz-range-thumb {
+      box-shadow: none;
+      border-color: ButtonText;
+      background: ButtonText;
+      forced-color-adjust: none;
+    }
+
+    :is(button, input[type="button"], input[type="submit"], input[type="reset"]):not(.pt-btn, .pt-tbox, .pt-menu-item, .pt-unstyled):is([aria-pressed="true"], [aria-expanded="true"], [aria-selected="true"]):not(:disabled, [aria-disabled="true"]):where([data-platinum], [data-platinum] *) {
+      background: Highlight;
+      color: HighlightText;
+      forced-color-adjust: none;
+    }
+
+    :is(button, input:not([type]), input[type="button"], input[type="submit"], input[type="reset"], input[type="text"], input[type="search"], input[type="url"], input[type="email"], input[type="tel"], input[type="password"], input[type="number"], input[type="checkbox"], input[type="radio"], select, textarea):not(.pt-unstyled):is(:disabled, [aria-disabled="true"]):where([data-platinum], [data-platinum] *) {
+      color: GrayText;
+      border-color: GrayText;
+    }
+
+    :is(button, input:not([type]), input[type="button"], input[type="submit"], input[type="reset"], input[type="text"], input[type="search"], input[type="url"], input[type="email"], input[type="tel"], input[type="password"], input[type="number"], input[type="range"], select, textarea):not(.pt-unstyled):focus-visible:where([data-platinum], [data-platinum] *) {
+      outline: 2px solid Highlight;
+      outline-offset: 2px;
+    }
   }
 }
 
@@ -1710,7 +2868,7 @@
    ========================================================================== */
 
 @layer pt.prose {
-  .pt-prose {
+  .pt-prose:where([data-platinum], [data-platinum] *) {
     color: var(--pt-ink);
     font-family: var(--pt-font-ui);
     font-size: var(--pt-size-reading);
@@ -1718,42 +2876,42 @@
     overflow-wrap: anywhere;
   }
 
-  .pt-prose > :first-child {
+  .pt-prose > :first-child:where([data-platinum], [data-platinum] *) {
     margin-top: 0;
   }
 
-  .pt-prose > :last-child {
+  .pt-prose > :last-child:where([data-platinum], [data-platinum] *) {
     margin-bottom: 0;
   }
 
-  .pt-prose :is(h1, h2, h3, h4) {
+  .pt-prose :is(h1, h2, h3, h4):where([data-platinum], [data-platinum] *) {
     color: var(--pt-ink);
     font-weight: 700;
     line-height: 1.3;
     margin: var(--pt-space-4) 0 var(--pt-space-2);
   }
 
-  .pt-prose h1 { font-size: 18px; }
-  .pt-prose h2 { font-size: 16px; border-bottom: 1px solid var(--pt-border-subtle); padding-bottom: 4px; }
-  .pt-prose h3 { font-size: var(--pt-size-title); }
-  .pt-prose h4 { font-size: var(--pt-size-body); }
+  .pt-prose h1:where([data-platinum], [data-platinum] *) { font-size: 18px; }
+  .pt-prose h2:where([data-platinum], [data-platinum] *) { font-size: 16px; border-bottom: 1px solid var(--pt-border-subtle); padding-bottom: 4px; }
+  .pt-prose h3:where([data-platinum], [data-platinum] *) { font-size: var(--pt-size-title); }
+  .pt-prose h4:where([data-platinum], [data-platinum] *) { font-size: var(--pt-size-body); }
 
-  .pt-prose p,
-  .pt-prose ul,
-  .pt-prose ol,
-  .pt-prose blockquote,
-  .pt-prose table,
-  .pt-prose pre,
-  .pt-code-window {
+  .pt-prose p:where([data-platinum], [data-platinum] *),
+  .pt-prose ul:where([data-platinum], [data-platinum] *),
+  .pt-prose ol:where([data-platinum], [data-platinum] *),
+  .pt-prose blockquote:where([data-platinum], [data-platinum] *),
+  .pt-prose table:where([data-platinum], [data-platinum] *),
+  .pt-prose pre:where([data-platinum], [data-platinum] *),
+  .pt-code-window:where([data-platinum], [data-platinum] *) {
     margin: var(--pt-space-3) 0;
   }
 
-  .pt-prose a {
+  .pt-prose a:not(.pt-btn, .pt-menu-item, .pt-unstyled):where([data-platinum], [data-platinum] *) {
     color: var(--pt-accent);
     text-underline-offset: 2px;
   }
 
-  .pt-prose :not(pre) > code {
+  .pt-prose :not(pre) > code:where([data-platinum], [data-platinum] *) {
     padding: 1px 4px;
     background: var(--pt-code-bg);
     color: var(--pt-ink);
@@ -1763,7 +2921,7 @@
     font-size: var(--pt-size-control);
   }
 
-  .pt-prose pre {
+  .pt-prose pre:where([data-platinum], [data-platinum] *) {
     overflow-x: auto;
     padding: var(--pt-space-3);
     background: var(--pt-code-bg);
@@ -1777,15 +2935,18 @@
   }
 
   /* Classic mini code window with beveled header & 20x20 copy action */
-  .pt-code-window {
+  .pt-code-window:where([data-platinum], [data-platinum] *) {
     --pt-surface-bg: var(--pt-code-bg);
     border: 1px solid var(--pt-frame);
     border-radius: var(--pt-radius-window);
     background: var(--pt-code-bg);
   }
 
-  .pt-code-window-head {
+  :where(.pt-code-window-head):where(:not([hidden])):where([data-platinum], [data-platinum] *) {
     display: flex;
+  }
+
+  .pt-code-window-head:where([data-platinum], [data-platinum] *) {
     align-items: center;
     justify-content: space-between;
     gap: var(--pt-space-2);
@@ -1799,12 +2960,12 @@
     color: var(--pt-ink-muted);
   }
 
-  .pt-code-window > pre {
+  .pt-code-window > pre:where([data-platinum], [data-platinum] *) {
     margin: 0;
     border: 0;
   }
 
-  .pt-prose blockquote {
+  .pt-prose blockquote:where([data-platinum], [data-platinum] *) {
     --pt-surface-bg: var(--pt-code-bg);
     padding: var(--pt-space-2) var(--pt-space-3);
     background: var(--pt-code-bg);
@@ -1813,22 +2974,31 @@
   }
 
   /* 1px crisp framed table with beveled #ddd header */
-  .pt-prose table {
+  .pt-prose table:where([data-platinum], [data-platinum] *) {
     width: 100%;
     border-collapse: collapse;
     border: 1px solid var(--pt-frame);
     font-size: var(--pt-size-control);
   }
 
-  .pt-prose th,
-  .pt-prose td,
-  .pt-prose :is(th, td):is(:first-child, :last-child) {
+  .pt-prose caption:where([data-platinum], [data-platinum] *) {
+    padding: 0 0 6px;
+    color: var(--pt-ink);
+    font-size: var(--pt-size-control);
+    font-weight: 700;
+    text-align: start;
+    caption-side: top;
+  }
+
+  .pt-prose th:where([data-platinum], [data-platinum] *),
+  .pt-prose td:where([data-platinum], [data-platinum] *),
+  .pt-prose :is(th, td):is(:first-child, :last-child):where([data-platinum], [data-platinum] *) {
     padding: 6px 10px;
     border: 1px solid var(--pt-border-subtle);
     text-align: start;
   }
 
-  .pt-prose thead th {
+  .pt-prose thead th:where([data-platinum], [data-platinum] *) {
     background: var(--pt-face);
     color: var(--pt-ink);
     border-bottom: 1px solid var(--pt-frame);

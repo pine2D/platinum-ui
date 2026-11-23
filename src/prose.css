@@ -42,7 +42,7 @@
     margin: var(--pt-space-3) 0;
   }
 
-  .pt-prose a {
+  .pt-prose a:not(.pt-btn, .pt-menu-item, .pt-unstyled) {
     color: var(--pt-accent);
     text-underline-offset: 2px;
   }
@@ -78,8 +78,11 @@
     background: var(--pt-code-bg);
   }
 
-  .pt-code-window-head {
+  :where(.pt-code-window-head):where(:not([hidden])) {
     display: flex;
+  }
+
+  .pt-code-window-head {
     align-items: center;
     justify-content: space-between;
     gap: var(--pt-space-2);
@@ -112,6 +115,15 @@
     border-collapse: collapse;
     border: 1px solid var(--pt-frame);
     font-size: var(--pt-size-control);
+  }
+
+  .pt-prose caption {
+    padding: 0 0 6px;
+    color: var(--pt-ink);
+    font-size: var(--pt-size-control);
+    font-weight: 700;
+    text-align: start;
+    caption-side: top;
   }
 
   .pt-prose th,

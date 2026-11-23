@@ -86,7 +86,7 @@
     <input type="range" id="opacity" min="0" max="100" step="1" value="50">
     <output for="opacity" id="opacity-value">50%</output>
   </div>
-  <p class="help" data-i18n="keyboard">Keyboard: Tab to a control, arrow keys to choose a sample or adjust opacity, Enter/Space to switch views.</p>
+  <p class="help" data-i18n="keyboard">Keyboard: Tab to controls or the image, arrow keys to browse options or adjust opacity (Enter confirms open menu, Esc cancels), Enter/Space to switch views.</p>
   <div id="samples"></div>
   <details>
     <summary data-i18n="environment">Capture environment and test scope</summary>
@@ -109,7 +109,7 @@
       difference: 'Full difference ×4',
       overlay: 'Overlay',
       opacity: 'Historical image opacity',
-      keyboard: 'Keyboard: Tab to controls or the image, arrow keys to select, adjust opacity or scroll, Enter/Space to switch views.',
+      keyboard: 'Keyboard: Tab to controls or the image, arrow keys to browse options, adjust opacity or scroll (Enter confirms open menu, Esc cancels), Enter/Space to switch views.',
       stage: 'Comparison at 1:1 CSS pixels',
       environment: 'Capture environment and test scope',
       limits: 'Named geometry regions are checked exactly. Text height and vertical placement allow a 3px tolerance. The full saved difference preserves individual glyphs for visual review.',
@@ -134,7 +134,7 @@
       difference: '完整差分 ×4',
       overlay: '叠加对照',
       opacity: '历史原图不透明度',
-      keyboard: '键盘：Tab 选择控件或图像，方向键选择样本、调整不透明度或滚动，Enter／空格切换视图。',
+      keyboard: '键盘：Tab 选择控件或图像，方向键浏览选项、调整不透明度或滚动（菜单展开时按 Enter 确认、Esc 取消），Enter／空格切换视图。',
       stage: '1∶1 CSS 像素对照区',
       environment: '采集环境与检查范围',
       limits: '具名几何区域逐像素精确检查。抽检文字的墨迹高度和垂直位置允许 3px 差异。完整差分保留了每个字形，供人工核对。',
@@ -149,10 +149,11 @@
     }
   };
   const manifest = window.PLATINUM_REFERENCE;
+  const sampleList = Array.isArray(manifest?.samples) ? manifest.samples : [];
   const parameters = new URL(location.href).searchParams;
   let locale = parameters.get('lang') === 'zh-CN' ? 'zh-CN' : 'en';
   let mode = 'original';
-  let selected = Math.max(0, manifest?.samples.findIndex(sample => sample.id === parameters.get('id')) ?? 0);
+  let selected = Math.max(0, sampleList.findIndex(sample => sample.id === parameters.get('id')));
   let opacity = 50;
 
   function sampleLabel(sample) {
@@ -165,7 +166,7 @@
     const url = new URL(location.href);
     if (locale === 'en') url.searchParams.delete('lang');
     else url.searchParams.set('lang', locale);
-    if (manifest?.samples[selected]) url.searchParams.set('id', manifest.samples[selected].id);
+    if (sampleList[selected]) url.searchParams.set('id', sampleList[selected].id);
     history.replaceState(null, '', url);
   }
 
@@ -176,7 +177,8 @@
   }
 
   function selectSample(index) {
-    selected = (index + manifest.samples.length) % manifest.samples.length;
+    if (!sampleList.length) return;
+    selected = (index + sampleList.length) % sampleList.length;
     updateURL();
     render();
   }
@@ -204,10 +206,19 @@
     document.querySelectorAll('[data-mode]').forEach(button => {
       button.setAttribute('aria-pressed', button.dataset.mode === mode);
     });
-    document.querySelector('#overlay-control').hidden = mode !== 'overlay';
+    const hasSamples = sampleList.length > 0;
+    document.querySelector('#sample-select').disabled = !hasSamples;
+    document.querySelector('#previous').disabled = !hasSamples;
+    document.querySelector('#next').disabled = !hasSamples;
+    document.querySelectorAll('[data-mode]').forEach(button => {
+      button.disabled = !hasSamples;
+    });
+    document.querySelector('#overlay-control').hidden = !hasSamples || mode !== 'overlay';
     const container = document.querySelector('#samples');
     container.replaceChildren();
-    if (!manifest?.samples?.length) {
+    if (!hasSamples) {
+      document.querySelector('#sample-select').replaceChildren();
+      document.querySelector('#environment').textContent = '';
       const error = document.createElement('p');
       error.className = 'error';
       error.textContent = text.missing;
@@ -215,18 +226,18 @@
       return;
     }
     const select = document.querySelector('#sample-select');
-    select.replaceChildren(...manifest.samples.map((sample, index) => {
+    select.replaceChildren(...sampleList.map((sample, index) => {
       const option = document.createElement('option');
       option.value = index;
-      option.textContent = `${index + 1}/${manifest.samples.length} · ${sampleLabel(sample)}`;
+      option.textContent = `${index + 1}/${sampleList.length} · ${sampleLabel(sample)}`;
       option.selected = index === selected;
       return option;
     }));
-    document.querySelector('#environment').textContent = Object.entries(manifest.environment ?? {}).map(([key, value]) => {
+    document.querySelector('#environment').textContent = Object.entries(manifest?.environment ?? {}).map(([key, value]) => {
       return `${text.fields[key] ?? key} · ${value}`;
     }).join(' · ');
 
-    const sample = manifest.samples[selected];
+    const sample = sampleList[selected];
     const article = document.createElement('article');
     const heading = document.createElement('h2');
     heading.textContent = `${sampleLabel(sample)} · ${sample.width} × ${sample.height}`;

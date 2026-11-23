@@ -60,9 +60,13 @@ test("static CSS anti-trap audit catches bevel occlusion, missing border-box, :i
   const occluded = `.bad { box-shadow: inset 0 0 0 1px #000, inset 1px 1px 0 #fff; }`;
   assert.ok(auditStaticCssContracts(occluded).errors.some((e) => e.includes("occludes bevel")));
 
-  // 2. Pseudo-element missing box-sizing: border-box
+  // 2. Pseudo-element missing box-sizing: border-box (including CSS & nested blocks and inner @media)
   const badPseudo = `.bad::before { content: ""; inset: -3px; }`;
   assert.ok(auditStaticCssContracts(badPseudo).errors.some((e) => e.includes("box-sizing: border-box")));
+  const badNestedPseudo = `@layer pt.core { .pt-range { &::before { content: ""; @media (min-width: 0px) { width: 4px; } } } }`;
+  assert.ok(auditStaticCssContracts(badNestedPseudo).errors.some((e) => e.includes("box-sizing: border-box")));
+  const safeQuotedCss = `.note::before { content: "a{box-shadow: inset 0 0 0 3px red, inset 1px 1px blue;}; box-shadow: inset 0 0 0 3px red, inset 1px 1px blue;"; }`;
+  assert.deepEqual(auditStaticCssContracts(safeQuotedCss).errors, []);
 
   // 3. Un-:where()'d #id inside :is() / :not()
   const badSpec = `:is(.pt-btn, .act:not(#submit-btn)) { background: #ddd; }`;
@@ -74,9 +78,10 @@ test("static CSS anti-trap audit catches bevel occlusion, missing border-box, :i
   const badHit = `.pt-btn-sm.pt-btn-icon::before { content: ""; box-sizing: border-box; inset: -2px; }`;
   assert.ok(auditStaticCssContracts(badHit).errors.some((e) => e.includes("<= -3px")));
 
-  // 5. Purple leak under --forbid-purple
+  // 5. Purple leak under --forbid-purple & unbalanced CSS braces
   const purpleCss = `.chip { background: #ccccff; }`;
   assert.ok(auditStaticCssContracts(purpleCss, { forbidPurple: true }).errors.some((e) => e.includes("forbidden purple")));
+  assert.ok(auditStaticCssContracts(`@layer pt.tokens { .a { color: #222; }`).errors.some((e) => e.includes("unbalanced CSS braces")));
 });
 
 test("sync-vendor writes stamped bundle, passes --check, and detects hand-edits", () => {
@@ -117,14 +122,16 @@ test("icon button geometry detector flags off-center, undersized hit area, non-s
     pillLeaks: [{ tag: "button", cls: "send-fab", label: "Send", maxRadius: 18 }],
     crampedTableCells: [{ tag: "td", text: "AGENTS.md", paddingLeft: 0, paddingRight: 10 }],
     buttonChildIssues: [{ kind: "kbd-overlap", label: "New Chat", detail: "<kbd> overlaps button label text" }],
-    groupboxIssues: [{ kind: "legend-groove-bleed", label: "Push Buttons", detail: "etched <fieldset> <legend> has transparent background (inset groove line cuts through title)" }]
+    groupboxIssues: [{ kind: "legend-groove-bleed", label: "Push Buttons", detail: "etched <fieldset> <legend> has transparent background (inset groove line cuts through title)" }],
+    unstyledRanges: [{ cls: "", label: "opacity" }]
   }, "mock");
-  assert.equal(bad.length, 7);
+  assert.equal(bad.length, 8);
   assert.ok(bad.some((m) => m.includes("overlapping .pt-tbox hit boxes")));
   assert.ok(bad.some((m) => m.includes("residual pill/circle")));
   assert.ok(bad.some((m) => m.includes("flush cell padding")));
   assert.ok(bad.some((m) => m.includes("<kbd> overlaps button label text")));
   assert.ok(bad.some((m) => m.includes("inset groove line cuts through title")));
+  assert.ok(bad.some((m) => m.includes("unstyled native range slider")));
 });
 
 test("live Chromium gallery passes all 8 (scheme x accent x density) states in EN and zh-CN plus mac9/macos/win window controls", async () => {
@@ -153,15 +160,19 @@ test("live Chromium probe detects circular FABs, flush table cells, and 3D/overl
     @layer host { .md td:first-child { padding-left: 0; } }
   </style></head><body style="padding:16px">
     <button style="display:inline-flex;gap:8px;align-items:center">New Chat <kbd><kbd>Ctrl</kbd><kbd>+</kbd><kbd>N</kbd></kbd></button>
+    <input type="range" aria-label="Clean range" value="50" />
     <fieldset><legend>Bare Canvas Group</legend><button>Apply</button></fieldset>
     <div class="pt-well"><fieldset class="pt-groupbox"><legend>Well Nested Group</legend><button class="pt-btn">Save</button></fieldset></div>
-    <div class="pt-prose md"><table><thead><tr><th>File</th><th>Role</th></tr></thead><tbody><tr><td>AGENTS.md</td><td>Guide</td></tr></tbody></table></div>
+    <div class="pt-prose md">
+      <a href="#btn" class="pt-btn" aria-pressed="true">Pressed Link Button</a>
+      <table><caption>Bundles</caption><thead><tr><th>File</th><th>Role</th></tr></thead><tbody><tr><td>AGENTS.md</td><td>Guide</td></tr></tbody></table>
+    </div>
   </body></html>`;
   const cleanRes = await runBrowserAudit({ root: ROOT, url: probeUrl(cleanHtml) });
   if (cleanRes.skipped) return;
   assert.deepEqual(cleanRes.errors, []);
 
-  // 2. Defective host overlay page -> must catch residual modern-UI traps & broken etched <fieldset> legends
+  // 2. Defective host overlay page -> must catch residual modern-UI traps, unstyled range & broken etched <fieldset> legends
   const badHtml = `<!doctype html><html><head><style>
     .fab { width: 32px; height: 32px; border-radius: 50%; }
     table { border-collapse: collapse; border: 1px solid #262626; }
@@ -175,6 +186,7 @@ test("live Chromium probe detects circular FABs, flush table cells, and 3D/overl
   </style></head><body style="padding:16px; background:#ccc">
     <button class="fab" aria-label="Scroll down">↓</button>
     <button class="btn-hit">New Chat <kbd>Ctrl+Alt+N</kbd></button>
+    <input type="range" aria-label="Raw slider" value="40" />
     <fieldset class="gb-bleed"><legend>Bleed Title</legend></fieldset>
     <fieldset class="gb-sag"><legend>Sagging Title</legend></fieldset>
     <table><tbody><tr><td>AGENTS.md</td><td>Guide</td></tr></tbody></table>
@@ -187,4 +199,35 @@ test("live Chromium probe detects circular FABs, flush table cells, and 3D/overl
   assert.ok(badRes.errors.some((e) => e.includes("<kbd> overlaps button label text")));
   assert.ok(badRes.errors.some((e) => e.includes("inset groove line cuts through title")));
   assert.ok(badRes.errors.some((e) => e.includes("baseline sags below etched top border")));
+  assert.ok(badRes.errors.some((e) => e.includes("unstyled native range slider")));
+
+  // 3. Partial [data-platinum] scoped mount ignores host controls outside mount while catching blank appearance:none sliders inside mount
+  const scopedCss = readFileSync(join(ROOT, "dist/platinum-scoped.css"), "utf8");
+  const partialCleanHtml = `<!doctype html><html><head><style>${scopedCss}</style></head><body style="padding:16px">
+    <input type="range" aria-label="Host unmounted slider" value="30" />
+    <section class="pt-window" data-platinum style="max-width:360px">
+      <header class="pt-titlebar">
+        <button class="pt-tbox pt-tbox-close" aria-label="Close"></button>
+        <span class="pt-titlebar-label">Scoped Island</span>
+        <button class="pt-tbox pt-tbox-zoom" aria-label="Zoom"></button>
+        <button class="pt-tbox pt-tbox-minimize" aria-label="Collapse"></button>
+      </header>
+      <div class="pt-window-body"><input type="range" aria-label="Island slider" value="60" /></div>
+    </section>
+  </body></html>`;
+  const partialCleanRes = await runBrowserAudit({ root: ROOT, url: probeUrl(partialCleanHtml) });
+  assert.equal(partialCleanRes.statesChecked, 8);
+  assert.deepEqual(partialCleanRes.errors, []);
+
+  const blankRangeHtml = `<!doctype html><html><head><style>
+    ${scopedCss}
+    #blank-rng, #blank-rng::-webkit-slider-runnable-track, #blank-rng::-webkit-slider-thumb {
+      appearance: none !important; -webkit-appearance: none !important;
+      background: transparent !important; border: 0 !important; box-shadow: none !important;
+    }
+  </style></head><body style="padding:16px; background:#ccc">
+    <div data-platinum><input id="blank-rng" type="range" aria-label="Blank slider" style="width:120px;height:24px" value="50" /></div>
+  </body></html>`;
+  const blankRangeRes = await runBrowserAudit({ root: ROOT, url: probeUrl(blankRangeHtml) });
+  assert.ok(blankRangeRes.errors.some((e) => e.includes("blank range slider")));
 });

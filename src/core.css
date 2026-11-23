@@ -4,7 +4,7 @@
    ========================================================================== */
 
 @layer pt.core {
-  :where(.pt-window, .pt-window *, .pt-btn, .pt-field, .pt-select, .pt-groupbox, .pt-menu, .pt-badge, .pt-chip, .pt-kbd, .pt-switch) {
+  :where(.pt-window, .pt-window *, .pt-btn, .pt-field, .pt-select, .pt-range, .pt-groupbox, .pt-menu, .pt-badge, .pt-chip, .pt-kbd, .pt-switch) {
     box-sizing: border-box;
   }
 
@@ -46,7 +46,7 @@
     box-shadow: var(--pt-bevel-window), var(--pt-shadow-window);
   }
 
-  .pt-window:where(:not([hidden])) {
+  :where(.pt-window):where(:not([hidden])) {
     display: flex;
   }
 
@@ -131,9 +131,12 @@
   }
 
   /* Authentic 22px titlebar with vertically centered 12px 6-ridge (2px period) pinstripes */
+  :where(.pt-titlebar):where(:not([hidden])) {
+    display: flex;
+  }
+
   .pt-titlebar {
     position: relative;
-    display: flex;
     align-items: center;
     gap: var(--pt-tb-gap, 5px);
     min-height: var(--pt-titlebar-h);
@@ -250,21 +253,64 @@
     text-overflow: ellipsis;
   }
 
-  /* Authentic Mac OS 9 inactive window: stripes vanish and chrome + tboxes flatten to muted gray */
-  :is(.pt-window[data-inactive="true"], [data-window-focused="false"]) .pt-titlebar {
-    background-image: none;
+  /* Authentic Mac OS 9 inactive window:
+     1) Single-layer fallback supports pre-@scope engines and Electron frameless <main data-window-focused="false"><header class="pt-titlebar">;
+     2) @scope stops at nested active .pt-window while preserving identical semantics between data-inactive and data-window-focused. */
+  .pt-window:is([data-inactive="true"], [data-window-focused="false"]) {
+    border-color: var(--pt-border-subtle);
+    box-shadow: var(--pt-shadow-window);
   }
 
-  :is(.pt-window[data-inactive="true"], [data-window-focused="false"]) .pt-titlebar-label {
+  :is(.pt-window[data-inactive="true"], [data-window-focused="false"]) > .pt-titlebar {
+    background-image: none;
+    border-bottom-color: var(--pt-border-subtle);
+    box-shadow: none;
+  }
+
+  :is(.pt-window[data-inactive="true"], [data-window-focused="false"]) > .pt-titlebar .pt-titlebar-label {
     color: var(--pt-ink-muted);
   }
 
-  :is(.pt-window[data-inactive="true"], [data-window-focused="false"]) .pt-tbox {
+  :is(.pt-window[data-inactive="true"], [data-window-focused="false"]) > .pt-titlebar .pt-tbox {
     visibility: var(--pt-tb-inactive-visibility, hidden);
     background: var(--pt-window);
     border-color: var(--pt-border-subtle);
     color: var(--pt-ink-muted);
     box-shadow: none;
+  }
+
+  @scope (:is(.pt-window[data-inactive="true"], [data-window-focused="false"])) to (:scope .pt-window:not([data-inactive="true"], [data-window-focused="false"])) {
+    :scope:where(.pt-window),
+    .pt-window {
+      border-color: var(--pt-border-subtle);
+      box-shadow: var(--pt-shadow-window);
+    }
+
+    .pt-titlebar {
+      background-image: none;
+      border-bottom-color: var(--pt-border-subtle);
+      box-shadow: none;
+    }
+
+    .pt-titlebar-label {
+      color: var(--pt-ink-muted);
+    }
+
+    .pt-tbox {
+      visibility: var(--pt-tb-inactive-visibility, hidden);
+      background: var(--pt-window);
+      border-color: var(--pt-border-subtle);
+      color: var(--pt-ink-muted);
+      box-shadow: none;
+    }
+
+    .pt-btn-primary:not(:disabled, [aria-disabled="true"]) {
+      box-shadow: var(--pt-bevel-btn);
+    }
+
+    .pt-btn-primary:is(:active, [aria-pressed="true"], .is-active):not(:disabled, [aria-disabled="true"]) {
+      box-shadow: var(--pt-bevel-pressed);
+    }
   }
 
   /* Classic 13x13 Platinum window control box (.pt-tbox) */
@@ -385,24 +431,27 @@
     mask-image: var(--pt-tb-glyph-restore, var(--pt-classic-zoom));
   }
 
-  .pt-tbox:hover:not(:disabled, :active) {
+  .pt-tbox:hover:not(:disabled, [aria-disabled="true"], :active) {
     background: var(--pt-tb-hover, var(--pt-tb-raised-face));
     background-origin: border-box;
   }
 
-  .pt-tbox-close:hover:not(:disabled, :active) {
+  .pt-tbox-close:hover:not(:disabled, [aria-disabled="true"], :active) {
     color: var(--pt-danger);
   }
 
-  .pt-tbox:is(:active, .is-active):not(:disabled) {
+  .pt-tbox:is(:active, .is-active):not(:disabled, [aria-disabled="true"]) {
     background: var(--pt-tb-pressed, var(--pt-tb-down-face));
     background-origin: border-box;
     color: var(--pt-pressed-fg);
     box-shadow: var(--pt-tb-pressed-shadow, var(--pt-tb-halo, 0 0 0 3px var(--pt-window)));
   }
 
-  .pt-tbox:disabled {
-    opacity: 0.42;
+  .pt-tbox:is(:disabled, [aria-disabled="true"]) {
+    background: var(--pt-window);
+    border-color: var(--pt-border-subtle);
+    color: var(--pt-ink-muted);
+    box-shadow: none;
     cursor: not-allowed;
   }
 
@@ -412,10 +461,13 @@
     z-index: 2;
   }
 
+  :where(.pt-toolbar, .pt-statusbar):where(:not([hidden])) {
+    display: flex;
+  }
+
   .pt-toolbar,
   .pt-statusbar {
     --pt-surface-bg: var(--pt-face);
-    display: flex;
     align-items: center;
     gap: var(--pt-space-2);
     padding: var(--pt-space-1) var(--pt-space-2);
@@ -453,15 +505,21 @@
   }
 
   /* ---- Relationships: Action Rows & Compact Icon Clusters ---- */
-  .pt-actions {
+  :where(.pt-actions):where(:not([hidden])) {
     display: flex;
+  }
+
+  .pt-actions {
     flex-wrap: wrap;
     align-items: center;
     gap: var(--pt-space-2);
   }
 
-  .pt-icon-cluster {
+  :where(.pt-icon-cluster):where(:not([hidden])) {
     display: inline-flex;
+  }
+
+  .pt-icon-cluster {
     align-items: center;
     gap: var(--pt-space-1);
   }
@@ -519,15 +577,19 @@
   }
 
   .pt-btn:active:not(:disabled, [aria-disabled="true"]),
-  .pt-btn:is([aria-pressed="true"], [aria-expanded="true"], [aria-selected="true"], .is-active) {
+  .pt-btn:is([aria-pressed="true"], [aria-expanded="true"], [aria-selected="true"], .is-active):not(:disabled, [aria-disabled="true"]) {
     background: var(--pt-pressed-bg);
     color: var(--pt-pressed-fg);
     box-shadow: var(--pt-bevel-pressed);
   }
 
+  /* Mac OS 9 real-color flat disabled contract: zero alpha washout, >= 5.26:1 across 4 quadrants */
   .pt-btn:disabled,
   .pt-btn[aria-disabled="true"] {
-    opacity: 0.52;
+    opacity: 1;
+    background: var(--pt-window);
+    color: var(--pt-ink-muted);
+    border-color: var(--pt-border-subtle);
     box-shadow: none;
     cursor: not-allowed;
   }
@@ -545,19 +607,23 @@
   }
 
   .pt-btn-primary:active:not(:disabled, [aria-disabled="true"]),
-  .pt-btn-primary:is([aria-pressed="true"], .is-active) {
+  .pt-btn-primary:is([aria-pressed="true"], .is-active):not(:disabled, [aria-disabled="true"]) {
     box-shadow: var(--pt-bevel-pressed), var(--pt-ring-default-btn);
+  }
+
+  .pt-btn-primary:is(:disabled, [aria-disabled="true"]) {
+    box-shadow: none;
   }
 
   .pt-btn-primary:focus-visible {
     outline-offset: 4px;
   }
 
-  .pt-btn-danger {
+  .pt-btn-danger:not(:disabled, [aria-disabled="true"]) {
     color: var(--pt-danger);
   }
 
-  .pt-btn-danger-solid {
+  .pt-btn-danger-solid:not(:disabled, [aria-disabled="true"]) {
     background: var(--pt-danger);
     color: var(--pt-on-danger);
     box-shadow: var(--pt-bevel-mini);
@@ -621,8 +687,11 @@
   }
 
   /* Connected Segmented Control (.pt-segmented) */
-  .pt-segmented {
+  :where(.pt-segmented):where(:not([hidden])) {
     display: inline-flex;
+  }
+
+  .pt-segmented {
     align-items: center;
   }
 
@@ -649,7 +718,7 @@
     z-index: 2;
   }
 
-  /* ---- Sunken Value Fields & HIG Pop-up Select ---- */
+  /* ---- Sunken Value Fields, HIG Pop-up Select & Platinum Slider ---- */
   .pt-field {
     min-height: var(--pt-control-h);
     height: var(--pt-control-h);
@@ -671,6 +740,11 @@
     resize: vertical;
   }
 
+  textarea.pt-field::-webkit-resizer {
+    background-color: var(--pt-window);
+    background-image: linear-gradient(135deg, transparent 42%, var(--pt-groove-light) 42% 48%, var(--pt-groove-dark) 48% 55%, transparent 55% 68%, var(--pt-groove-light) 68% 74%, var(--pt-groove-dark) 74% 81%, transparent 81%);
+  }
+
   .pt-field::placeholder {
     color: var(--pt-ink-muted);
     opacity: 0.85;
@@ -682,8 +756,23 @@
     box-shadow: 0 0 0 1px var(--pt-accent), var(--pt-bevel-sunken);
   }
 
-  /* Mac OS 9 HIG Pop-up Menu Select: beveled button + right 20px double-arrow well */
-  .pt-select {
+  .pt-field:is(:disabled, [aria-disabled="true"]) {
+    opacity: 1;
+    background: var(--pt-face);
+    color: var(--pt-ink-muted);
+    border-color: var(--pt-border-subtle);
+    box-shadow: none;
+    cursor: not-allowed;
+  }
+
+  .pt-field[aria-disabled="true"]:focus-visible {
+    outline: 2px solid var(--pt-accent);
+    outline-offset: 1px;
+  }
+
+  /* Mac OS 9 HIG Single-Select Pop-up Menu: beveled button + inline-end 20px double-arrow cap
+     (:where() keeps classification zero-specificity so :disabled always wins) */
+  .pt-select:where(:not([multiple]):not([size]:not([size="1"]))) {
     appearance: none;
     -webkit-appearance: none;
     min-height: var(--pt-control-h);
@@ -713,14 +802,64 @@
     background-position: right 6px top calc(50% - 3.5px), right 6px top calc(50% + 3.5px), 0 0;
   }
 
-  .pt-select:hover:not(:disabled) {
+  .pt-select:where(:not([multiple]):not([size]:not([size="1"]))):dir(rtl) {
+    background-image:
+      conic-gradient(from 135deg at 50% 0%, currentColor 0 90deg, transparent 0),
+      conic-gradient(from -45deg at 50% 100%, currentColor 0 90deg, transparent 0),
+      linear-gradient(
+        to left,
+        transparent calc(100% - 20px),
+        var(--pt-groove-light) calc(100% - 20px) calc(100% - 19px),
+        var(--pt-groove-dark) calc(100% - 19px) calc(100% - 18px),
+        transparent calc(100% - 18px)
+      );
+    background-position: left 6px top calc(50% - 3.5px), left 6px top calc(50% + 3.5px), 0 0;
+  }
+
+  .pt-select:where(:not([multiple]):not([size]:not([size="1"]))):hover:not(:disabled, [aria-disabled="true"], :active) {
     background-color: var(--pt-face-hover);
   }
 
-  .pt-select:active:not(:disabled) {
+  .pt-select:where(:not([multiple]):not([size]:not([size="1"]))):active:not(:disabled, [aria-disabled="true"]) {
     background-color: var(--pt-pressed-bg);
     color: var(--pt-pressed-fg);
     box-shadow: var(--pt-bevel-pressed);
+  }
+
+  /* Multi-row listbox select (preserves natural UA row count, multiple size="1", and non-numeric size fallbacks) */
+  select.pt-select:where([multiple]:not([size="1"]), [size="2"], [size="3"], [size="4"], [size="5"], [size="6"], [size="7"], [size="8"], [size="9"], [size="10"], [size="12"], [size="15"], [size="20"]) {
+    height: auto;
+    padding: 3px;
+    background: var(--pt-paper);
+    color: var(--pt-ink);
+    border: 1px solid var(--pt-frame);
+    border-radius: var(--pt-radius-window);
+    box-shadow: var(--pt-bevel-sunken);
+    font-family: var(--pt-font-ui);
+    font-size: var(--pt-size-body);
+  }
+
+  select.pt-select option,
+  select.pt-select optgroup {
+    background-color: var(--pt-face);
+    color: var(--pt-ink);
+  }
+
+  select.pt-select:where([multiple]:not([size="1"]), [size="2"], [size="3"], [size="4"], [size="5"], [size="6"], [size="7"], [size="8"], [size="9"], [size="10"], [size="12"], [size="15"], [size="20"]) option,
+  select.pt-select:where([multiple]:not([size="1"]), [size="2"], [size="3"], [size="4"], [size="5"], [size="6"], [size="7"], [size="8"], [size="9"], [size="10"], [size="12"], [size="15"], [size="20"]) optgroup {
+    background-color: var(--pt-paper);
+    color: var(--pt-ink);
+    padding: 2px 6px;
+  }
+
+  select.pt-select:where([multiple]:not([size="1"]), [size="2"], [size="3"], [size="4"], [size="5"], [size="6"], [size="7"], [size="8"], [size="9"], [size="10"], [size="12"], [size="15"], [size="20"]) option:checked {
+    background: linear-gradient(var(--pt-selection-bg), var(--pt-selection-bg)), var(--pt-selection-bg);
+    color: var(--pt-selection-fg);
+    font-weight: 700;
+  }
+
+  select.pt-select:where([multiple]:not([size="1"]), [size="2"], [size="3"], [size="4"], [size="5"], [size="6"], [size="7"], [size="8"], [size="9"], [size="10"], [size="12"], [size="15"], [size="20"]) option:disabled {
+    color: var(--pt-ink-muted);
   }
 
   .pt-select:focus-visible {
@@ -728,19 +867,246 @@
     outline-offset: 1px;
   }
 
+  .pt-select:is(:disabled, [aria-disabled="true"]) {
+    opacity: 1;
+    background-color: var(--pt-window);
+    color: var(--pt-ink-muted);
+    border-color: var(--pt-border-subtle);
+    box-shadow: none;
+    cursor: not-allowed;
+  }
+
+  select.pt-select:is(:disabled, [aria-disabled="true"]) option {
+    background-color: var(--pt-window);
+    color: var(--pt-ink-muted);
+  }
+
+  select.pt-select:is(:disabled, [aria-disabled="true"]) option:checked {
+    background: linear-gradient(var(--pt-face), var(--pt-face)), var(--pt-face);
+    color: var(--pt-ink-muted);
+  }
+
+  /* Progressive pure-CSS Platinum Pop-up Menu picker (Chromium 135+ customizable select) */
+  @supports (appearance: base-select) {
+    select.pt-select:not([multiple]):not([size]:not([size="1"])),
+    select.pt-select:not([multiple]):not([size]:not([size="1"]))::picker(select) {
+      appearance: base-select;
+    }
+
+    select.pt-select:not([multiple]):not([size]:not([size="1"])) {
+      align-items: center;
+    }
+
+    select.pt-select:not([multiple]):not([size]:not([size="1"]))::picker-icon {
+      display: none;
+    }
+
+    /* Authentic Mac OS 9 open popup state: right 20px arrow cap depresses to dark charcoal + white arrows */
+    select.pt-select:not([multiple]):not([size]:not([size="1"])):open {
+      background-image:
+        conic-gradient(from 135deg at 50% 0%, var(--pt-pressed-fg) 0 90deg, transparent 0),
+        conic-gradient(from -45deg at 50% 100%, var(--pt-pressed-fg) 0 90deg, transparent 0),
+        linear-gradient(
+          to right,
+          transparent calc(100% - 20px),
+          var(--pt-frame) calc(100% - 20px) calc(100% - 19px),
+          var(--pt-pressed-bg) calc(100% - 19px)
+        );
+    }
+
+    select.pt-select:not([multiple]):not([size]:not([size="1"])):open:dir(rtl) {
+      background-image:
+        conic-gradient(from 135deg at 50% 0%, var(--pt-pressed-fg) 0 90deg, transparent 0),
+        conic-gradient(from -45deg at 50% 100%, var(--pt-pressed-fg) 0 90deg, transparent 0),
+        linear-gradient(
+          to left,
+          transparent calc(100% - 20px),
+          var(--pt-frame) calc(100% - 20px) calc(100% - 19px),
+          var(--pt-pressed-bg) calc(100% - 19px)
+        );
+    }
+
+    select.pt-select:not([multiple]):not([size]:not([size="1"]))::picker(select) {
+      margin: 1px 0 0;
+      padding: 3px 0;
+      background: var(--pt-face);
+      color: var(--pt-ink);
+      border: 1px solid var(--pt-frame);
+      border-radius: var(--pt-radius-window);
+      box-shadow: var(--pt-bevel-window), var(--pt-shadow-window);
+      font-family: var(--pt-font-ui);
+      font-size: var(--pt-size-control);
+    }
+
+    :where(select.pt-select:not([multiple]):not([size]:not([size="1"])) option):where(:not([hidden])) {
+      display: flex;
+    }
+
+    select.pt-select:not([multiple]):not([size]:not([size="1"])) option {
+      align-items: center;
+      gap: 6px;
+      min-height: var(--pt-hit-min);
+      padding: 2px 12px 2px 8px;
+      background: transparent;
+      color: var(--pt-ink);
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    select.pt-select:not([multiple]):not([size]:not([size="1"])) option::checkmark {
+      content: "✓";
+      display: inline-block;
+      width: 12px;
+      flex-shrink: 0;
+      font-weight: 700;
+      visibility: hidden;
+    }
+
+    select.pt-select:not([multiple]):not([size]:not([size="1"])) option:checked::checkmark {
+      visibility: visible;
+    }
+
+    select.pt-select:not([multiple]):not([size]:not([size="1"])) option:is(:hover, :focus-visible):not(:disabled) {
+      outline: none;
+      background: var(--pt-menu-active-bg);
+      color: var(--pt-menu-active-fg);
+    }
+
+    select.pt-select:not([multiple]):not([size]:not([size="1"])) option:disabled,
+    select.pt-select:not([multiple]):not([size]:not([size="1"])) optgroup:disabled option {
+      color: var(--pt-ink-muted);
+      cursor: not-allowed;
+    }
+
+    select.pt-select:not([multiple]):not([size]:not([size="1"])) hr {
+      height: 2px;
+      margin: 3px 0;
+      border: 0;
+      background: linear-gradient(to bottom, var(--pt-groove-dark) 0 1px, var(--pt-groove-light) 1px 2px);
+    }
+  }
+
+  /* ---- Platinum Settings Slider (.pt-range) ---- */
+  .pt-range {
+    appearance: none;
+    -webkit-appearance: none;
+    height: var(--pt-control-h);
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    color: var(--pt-ink);
+    cursor: pointer;
+  }
+
+  .pt-range::-webkit-slider-runnable-track {
+    box-sizing: border-box;
+    height: 6px;
+    background: var(--pt-scroll-track);
+    border: 1px solid var(--pt-frame);
+    border-radius: 0;
+    box-shadow: var(--pt-bevel-sunken);
+  }
+
+  .pt-range::-webkit-slider-thumb {
+    box-sizing: border-box;
+    appearance: none;
+    -webkit-appearance: none;
+    width: 12px;
+    height: 18px;
+    margin-top: -7px;
+    background: var(--pt-face);
+    border: 1px solid var(--pt-frame);
+    border-radius: var(--pt-radius-sm);
+    box-shadow: var(--pt-bevel-mini);
+  }
+
+  .pt-range:hover:not(:disabled, [aria-disabled="true"])::-webkit-slider-thumb {
+    background: var(--pt-face-hover);
+  }
+
+  .pt-range:active:not(:disabled, [aria-disabled="true"])::-webkit-slider-thumb {
+    background: var(--pt-pressed-bg);
+    box-shadow: var(--pt-bevel-pressed);
+  }
+
+  .pt-range::-moz-range-track {
+    box-sizing: border-box;
+    height: 6px;
+    background: var(--pt-scroll-track);
+    border: 1px solid var(--pt-frame);
+    border-radius: 0;
+    box-shadow: var(--pt-bevel-sunken);
+  }
+
+  .pt-range::-moz-range-thumb {
+    box-sizing: border-box;
+    width: 12px;
+    height: 18px;
+    background: var(--pt-face);
+    border: 1px solid var(--pt-frame);
+    border-radius: var(--pt-radius-sm);
+    box-shadow: var(--pt-bevel-mini);
+  }
+
+  .pt-range:hover:not(:disabled, [aria-disabled="true"])::-moz-range-thumb {
+    background: var(--pt-face-hover);
+  }
+
+  .pt-range:active:not(:disabled, [aria-disabled="true"])::-moz-range-thumb {
+    background: var(--pt-pressed-bg);
+    box-shadow: var(--pt-bevel-pressed);
+  }
+
+  .pt-range:focus-visible {
+    outline: 2px solid var(--pt-accent);
+    outline-offset: 2px;
+  }
+
+  .pt-range:is(:disabled, [aria-disabled="true"]) {
+    cursor: not-allowed;
+  }
+
+  .pt-range:is(:disabled, [aria-disabled="true"])::-webkit-slider-runnable-track {
+    background: var(--pt-window);
+    border-color: var(--pt-border-subtle);
+    box-shadow: none;
+  }
+
+  .pt-range:is(:disabled, [aria-disabled="true"])::-webkit-slider-thumb {
+    background: var(--pt-window);
+    border-color: var(--pt-border-subtle);
+    box-shadow: none;
+  }
+
+  .pt-range:is(:disabled, [aria-disabled="true"])::-moz-range-track {
+    background: var(--pt-window);
+    border-color: var(--pt-border-subtle);
+    box-shadow: none;
+  }
+
+  .pt-range:is(:disabled, [aria-disabled="true"])::-moz-range-thumb {
+    background: var(--pt-window);
+    border-color: var(--pt-border-subtle);
+    box-shadow: none;
+  }
+
   /* ---- Beveled Checkbox, Radio & Recessed Square Switch ---- */
+  :where(.pt-checkbox, .pt-radio):where(:not([hidden])) {
+    display: inline-grid;
+  }
+
   .pt-checkbox,
   .pt-radio {
     appearance: none;
     -webkit-appearance: none;
     position: relative;
-    display: inline-grid;
     place-content: center;
     width: 14px;
     height: 14px;
     margin: 0;
     flex-shrink: 0;
     background: var(--pt-face);
+    color: var(--pt-ink);
     border: 1px solid var(--pt-frame);
     box-shadow: var(--pt-bevel-mini);
     cursor: pointer;
@@ -757,6 +1123,7 @@
   .pt-checkbox:is(:checked, :indeterminate),
   .pt-radio:checked {
     background: var(--pt-pressed-bg);
+    color: var(--pt-pressed-fg);
     box-shadow: var(--pt-bevel-pressed);
   }
 
@@ -765,8 +1132,8 @@
     box-sizing: border-box;
     width: 8px;
     height: 5px;
-    border-left: 2px solid var(--pt-pressed-fg);
-    border-bottom: 2px solid var(--pt-pressed-fg);
+    border-left: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
     transform: translateY(-1px) rotate(-45deg);
   }
 
@@ -774,7 +1141,7 @@
     content: "";
     box-sizing: border-box;
     width: 8px;
-    border-top: 2px solid var(--pt-pressed-fg);
+    border-top: 2px solid currentColor;
   }
 
   .pt-radio:checked::after {
@@ -783,7 +1150,17 @@
     width: 6px;
     height: 6px;
     border-radius: 50%;
-    background: var(--pt-pressed-fg);
+    background: currentColor;
+  }
+
+  .pt-checkbox:is(:disabled, [aria-disabled="true"]),
+  .pt-radio:is(:disabled, [aria-disabled="true"]) {
+    opacity: 1;
+    background: var(--pt-window);
+    color: var(--pt-ink-muted);
+    border-color: var(--pt-border-subtle);
+    box-shadow: none;
+    cursor: not-allowed;
   }
 
   .pt-checkbox:focus-visible,
@@ -792,8 +1169,12 @@
     outline-offset: 2px;
   }
 
-  .pt-switch {
+  :where(.pt-switch):where(:not([hidden])) {
     display: inline-flex;
+  }
+
+  .pt-switch {
+    position: relative;
     align-items: center;
     gap: var(--pt-space-2);
     cursor: pointer;
@@ -802,16 +1183,22 @@
 
   .pt-switch-input {
     position: absolute;
-    width: 1px;
-    height: 1px;
-    margin: 0;
+    inset-block: 0;
+    inset-inline-start: 0;
+    width: 28px;
+    height: 16px;
+    margin: auto 0;
     opacity: 0;
-    pointer-events: none;
+    cursor: inherit;
+    z-index: 1;
+  }
+
+  :where(.pt-switch-track):where(:not([hidden])) {
+    display: inline-block;
   }
 
   .pt-switch-track {
     position: relative;
-    display: inline-block;
     width: 28px;
     height: 16px;
     flex-shrink: 0;
@@ -840,6 +1227,23 @@
 
   .pt-switch-input:checked ~ .pt-switch-track::before {
     left: 13px;
+  }
+
+  .pt-switch:has(.pt-switch-input:is(:disabled, [aria-disabled="true"])) {
+    color: var(--pt-ink-muted);
+    cursor: not-allowed;
+  }
+
+  .pt-switch-input:is(:disabled, [aria-disabled="true"]) ~ .pt-switch-track {
+    background: var(--pt-window);
+    border-color: var(--pt-border-subtle);
+    box-shadow: none;
+  }
+
+  .pt-switch-input:is(:disabled, [aria-disabled="true"]) ~ .pt-switch-track::before {
+    background: var(--pt-window);
+    border-color: var(--pt-border-subtle);
+    box-shadow: none;
   }
 
   .pt-switch-input:focus-visible ~ .pt-switch-track {
@@ -887,8 +1291,11 @@
     font-size: var(--pt-size-control);
   }
 
-  .pt-menu-item {
+  :where(.pt-menu-item):where(:not([hidden])) {
     display: flex;
+  }
+
+  .pt-menu-item {
     align-items: center;
     justify-content: space-between;
     gap: var(--pt-space-4);
@@ -903,12 +1310,17 @@
     cursor: pointer;
   }
 
-  .pt-menu-item:hover:not(:disabled),
-  .pt-menu-item:focus-visible,
-  .pt-menu-item[aria-selected="true"] {
+  .pt-menu-item:hover:not(:disabled, [aria-disabled="true"]),
+  .pt-menu-item:focus-visible:not(:disabled, [aria-disabled="true"]),
+  .pt-menu-item[aria-selected="true"]:not(:disabled, [aria-disabled="true"]) {
     outline: none;
     background: var(--pt-menu-active-bg);
     color: var(--pt-menu-active-fg);
+  }
+
+  .pt-menu-item:is(:disabled, [aria-disabled="true"]) {
+    color: var(--pt-ink-muted);
+    cursor: not-allowed;
   }
 
   .pt-menu-shortcut {
@@ -925,8 +1337,11 @@
   }
 
   /* ---- 3D Disclosure Triangle (<details class="pt-disclosure">) ---- */
-  .pt-disclosure > summary {
+  :where(.pt-disclosure > summary):where(:not([hidden])) {
     display: inline-flex;
+  }
+
+  .pt-disclosure > summary {
     align-items: center;
     gap: 6px;
     min-height: var(--pt-hit-min);
@@ -965,9 +1380,12 @@
   }
 
   /* ---- Neutral Metallic Chips, Status Square Badges & Keycaps ---- */
+  :where(.pt-chip, .pt-badge):where(:not([hidden])) {
+    display: inline-flex;
+  }
+
   .pt-chip,
   .pt-badge {
-    display: inline-flex;
     align-items: center;
     gap: 4px;
     min-height: 20px;
@@ -1000,8 +1418,11 @@
     border-color: var(--pt-danger);
   }
 
-  .pt-kbd {
+  :where(.pt-kbd):where(:not([hidden])) {
     display: inline-flex;
+  }
+
+  .pt-kbd {
     align-items: center;
     justify-content: center;
     min-width: 20px;
@@ -1064,6 +1485,7 @@
     .pt-btn,
     .pt-field,
     .pt-select,
+    .pt-range,
     .pt-menu-item {
       transition: none;
       animation: none;
@@ -1080,6 +1502,10 @@
     .pt-btn,
     .pt-field,
     .pt-select,
+    .pt-checkbox,
+    .pt-radio,
+    .pt-switch-track,
+    .pt-switch-track::before,
     .pt-groupbox,
     .pt-menu,
     .pt-badge,
@@ -1088,15 +1514,88 @@
       box-shadow: none;
       border-color: ButtonText;
     }
-    .pt-btn:is([aria-pressed="true"], [aria-expanded="true"], [aria-selected="true"], .is-active),
-    .pt-menu-item:hover {
+    .pt-select:where(:not([multiple]):not([size]:not([size="1"]))) {
+      appearance: auto;
+      -webkit-appearance: auto;
+      padding-inline: 8px;
+      background-image: none;
+    }
+    select.pt-select:where([multiple]:not([size="1"]), [size="2"], [size="3"], [size="4"], [size="5"], [size="6"], [size="7"], [size="8"], [size="9"], [size="10"], [size="12"], [size="15"], [size="20"]) option:checked {
       background: Highlight;
       color: HighlightText;
       forced-color-adjust: none;
     }
+    @supports (appearance: base-select) {
+      select.pt-select:not([multiple]):not([size]:not([size="1"])) {
+        appearance: base-select;
+        padding-inline: 8px;
+      }
+      select.pt-select:not([multiple]):not([size]:not([size="1"]))::picker-icon {
+        display: inline-block;
+      }
+      select.pt-select:not([multiple]):not([size]:not([size="1"])) option:is(:hover, :focus-visible):not(:disabled) {
+        background: Highlight;
+        color: HighlightText;
+        forced-color-adjust: none;
+      }
+    }
+    .pt-checkbox:is(:checked, :indeterminate),
+    .pt-radio:checked {
+      background: Highlight;
+      color: HighlightText;
+      border-color: Highlight;
+      forced-color-adjust: none;
+    }
+    .pt-radio:checked::after {
+      background: HighlightText;
+      forced-color-adjust: none;
+    }
+    .pt-switch-input:checked ~ .pt-switch-track {
+      background: Highlight;
+      border-color: Highlight;
+      forced-color-adjust: none;
+    }
+    .pt-range::-webkit-slider-runnable-track {
+      box-shadow: none;
+      border-color: ButtonText;
+      background: Canvas;
+    }
+    .pt-range::-webkit-slider-thumb {
+      box-shadow: none;
+      border-color: ButtonText;
+      background: ButtonText;
+      forced-color-adjust: none;
+    }
+    .pt-range::-moz-range-track {
+      box-shadow: none;
+      border-color: ButtonText;
+      background: Canvas;
+    }
+    .pt-range::-moz-range-thumb {
+      box-shadow: none;
+      border-color: ButtonText;
+      background: ButtonText;
+      forced-color-adjust: none;
+    }
+    .pt-btn:is([aria-pressed="true"], [aria-expanded="true"], [aria-selected="true"], .is-active):not(:disabled, [aria-disabled="true"]),
+    .pt-menu-item:is(:hover, :focus-visible, [aria-selected="true"]):not(:disabled, [aria-disabled="true"]) {
+      background: Highlight;
+      color: HighlightText;
+      forced-color-adjust: none;
+    }
+    .pt-btn:is(:disabled, [aria-disabled="true"]),
+    .pt-field:is(:disabled, [aria-disabled="true"]),
+    .pt-select:is(:disabled, [aria-disabled="true"]),
+    .pt-checkbox:is(:disabled, [aria-disabled="true"]),
+    .pt-radio:is(:disabled, [aria-disabled="true"]),
+    .pt-menu-item:is(:disabled, [aria-disabled="true"]) {
+      color: GrayText;
+      border-color: GrayText;
+    }
     .pt-btn:focus-visible,
     .pt-field:focus-visible,
-    .pt-select:focus-visible {
+    .pt-select:focus-visible,
+    .pt-range:focus-visible {
       outline: 2px solid Highlight;
       outline-offset: 2px;
     }

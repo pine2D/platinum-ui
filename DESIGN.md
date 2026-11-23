@@ -29,7 +29,7 @@
   - 可选 **`data-platinum-controls="macos"`**（现代 macOS 左置三连）：左上依次排列关闭、最小化（`−`）、缩放（`□↔▣`）。
   - 可选 **`data-platinum-controls="win"`**（Windows / Linux 右置三连）：右上依次排列最小化（`−`）、缩放（`□↔▣`）、关闭（`×`）。
   - 同一份零冗余 DOM（在 `.pt-titlebar` 内直写 3 个空 `.pt-tbox-*` 按钮 + `.pt-titlebar-label`）通过 CSS 变量与 Flex `order` 跨平台重排并自动绘制当前预设的符号与斜面（检测到内嵌 `<svg>` 时自动让位）；支持在单个页面内按窗口级嵌套混排不同系统预设。
-  - 标题栏采用居中 `12px` 高（`2px` 周期 6 条）经典细横纹；窗口失焦（`data-inactive="true"` / `data-window-focused="false"`）时横纹隐去，经典窗控在原位隐去；现代平台预设保留淡化的窗控；窗口设置 `data-collapsed="true"` 自动进入 Mac OS 9 WindowShade 卷起态；Electron 无边框主窗可叠加 `.pt-titlebar--draggable` 自动配置拖拽区与 `no-drag`。
+  - 标题栏采用居中 `12px` 高（`2px` 周期 6 条）经典细横纹；窗口失焦（`data-inactive="true"` / `data-window-focused="false"`，自动按最近一层 `.pt-window` 定界而不误伤内部聚焦子窗）时横纹隐去、窗体与标题栏外框降为 `--pt-border-subtle`、内高光与内部 `.pt-btn-primary` 默认双黑外环隐去；经典窗控在原位隐去，现代平台预设保留淡化的窗控；窗口设置 `data-collapsed="true"` 自动进入 Mac OS 9 WindowShade 卷起态；Electron 无边框主窗可叠加 `.pt-titlebar--draggable` 自动配置拖拽区与 `no-drag`。
   - **连排窗控无重叠热区**：`.pt-tbox` 为 `13×13px` 视觉盒配 `gap: 5px`，通过 `::before { inset: -5.5px -3.5px }` 形成 `18×22px` 边贴边无缝零重叠热区（纵向铺满 `22px` 标题栏、横向绝不侵入相邻按钮），由 `bin/platinum-check.mjs` 自动检测相邻窗控零重叠。
 
 ---
@@ -51,9 +51,9 @@
   - **下凹内容井（`.pt-well` / `.pt-field`）**：白底/深碳内井 `--pt-paper` + 左上暗右下亮 `--pt-bevel-sunken`；在桌面灰窗口内部放置长列表或阅读区时，优先包入 `.pt-well` 以就地切换背景上下文。
 - **圆角纪律**：窗口、面板、内容井、分组框、菜单、代码块、表格、输入框、芯片与状态方标一律 `0px` 直角（`--pt-radius-window`）；独立按钮与下拉触发器 `3px`（`--pt-radius-control`）；`20px` 迷你按钮与键帽 `2px`（`--pt-radius-sm`）；连体分段组 `.pt-segmented` 内部 `0px` 并以 `margin-inline-start: -1px` 共用分隔黑边。
 - **机械瞬切**：按钮、分段组、菜单与开关全部 `0ms` 瞬时响应（`transition: none`），禁止添加按压缩放（`scale`）或悬停缓动。
-- **复选框三态**：宿主用原生 `input.indeterminate` 表达部分选中。半选显示横线，选中显示勾，两者共用内凹底面。在“全选”场景中，每次更改子项后重新计算父项的 `checked` 和 `indeterminate`。
-- **滚动条刻纹**：滑块中央的四组明暗刻纹垂直于滚动方向。横向表格和纵向列表各自在内容区内滚动。
-- **弹出菜单**：宿主管理菜单的展开状态与焦点。`gallery/index.html` 提供可直接复制的菜单按钮示例，支持方向键移动、Enter 或空格执行命令、Escape 关闭并回到触发按钮。
+- **复选框三态与实色禁用契约**：宿主用原生 `input.indeterminate` 表达部分选中。半选显示横线，选中显示勾，两者共用内凹底面并在子项变化后重算父项状态。全套表单与按钮禁用态（`:disabled` / `[aria-disabled="true"]`）禁用半透明 `opacity` 漂白，统一采用 `opacity: 1` 实色无斜面（`box-shadow: none; border-color: var(--pt-border-subtle); color: var(--pt-ink-muted)`，按钮/复选框回 `--pt-window` 底，输入框回 `--pt-face` 底），勾号、半选横线与单选圆点跟随 `currentColor` 保证四象限 `>= 4.5:1` 可读。
+- **滚动条刻纹与设置滑块（`.pt-range`）**：滑块中央的四组明暗刻纹垂直于滚动方向（通用 CSS 滚动条定制轨道、滑块与拐角，省略两端步进箭头按钮以保持跨引擎稳定命中；历史 Finder 参照帧单独按像素复刻箭头）。设置滑块 `input[type="range"]` / `.pt-range` 采用 `6px` 下凹轨道与 `12×18px` 双层轻斜面矩形滑块，避免现代浏览器蓝色胶囊圆球泄漏。
+- **单选弹出选择器（`.pt-select`）与命令菜单（`.pt-menu`）**：单选 `<select>` 在支持 `appearance: base-select` 的现代内核下自动启用纯 CSS Platinum 弹层（`--pt-face` + `1px` 黑框 + `--pt-bevel-window` + 硬投影、左侧 `✓` 勾选列、`--pt-menu-active-bg` 反白与 `:open` 右侧箭头帽压暗；因 `base-select` 闭合宽度跟随当前选中项，并排工具栏应由容器或 `min-width`/`width` 定宽；RTL 方向须标注 HTML `dir="rtl"`），多行列表框（`multiple` 或规范整数 `size >= 2`）独立走下凹白底列表井并保持失焦 `option:checked` 可见选区；不支持 `base-select` 的内核优雅回退闭合按钮与 `option` 前背景色。命令型弹出菜单由宿主管理展开状态与焦点，`gallery/index.html` 提供支持方向键、Enter/Space 与 Escape 的可复制示例。
 
 ---
 

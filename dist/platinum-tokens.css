@@ -2,7 +2,7 @@
 @layer pt.tokens, pt.core, pt.elements, pt.prose;
 
 @layer pt.tokens {
-  :root, [data-platinum] {
+  :where(:root) {
     color-scheme: light dark;
     --pt-font-ui: "Charcoal", "Lucida Grande", "Segoe UI", "Microsoft YaHei UI", "PingFang SC", "Noto Sans CJK SC", system-ui, sans-serif;
     --pt-font-mono: "Monaco", "SF Mono", "Cascadia Mono", "Consolas", "PingFang SC", "Microsoft YaHei UI", "Noto Sans CJK SC", ui-monospace, monospace;
@@ -30,6 +30,26 @@
     --pt-titlebar-h: 22px;
     --pt-btn-pad-x: 10px;
     --pt-field-pad-x: 7px;
+    --_pt-l-accent: #1d4496;
+    --_pt-d-accent: #8ec0ff;
+    --_pt-l-on-accent: #ffffff;
+    --_pt-d-on-accent: #101828;
+    --_pt-l-selection-bg: #b8b8b8;
+    --_pt-d-selection-bg: #383838;
+    --_pt-l-selection-fg: #111111;
+    --_pt-d-selection-fg: #ffffff;
+    --_pt-l-menu-active-bg: #333333;
+    --_pt-d-menu-active-bg: #e0e0e0;
+    --_pt-l-menu-active-fg: #ffffff;
+    --_pt-d-menu-active-fg: #141414;
+    --_pt-l-scroll-track: #aaaaaa;
+    --_pt-d-scroll-track: #1a1a1a;
+    --_pt-l-scroll-thumb: #cccccc;
+    --_pt-d-scroll-thumb: #525252;
+    --_pt-l-scroll-thumb-hi: #ffffff;
+    --_pt-d-scroll-thumb-hi: #737373;
+    --_pt-l-scroll-thumb-lo: #777777;
+    --_pt-d-scroll-thumb-lo: #242424;
     --pt-canvas: #bfbfbf;
     --pt-window: #cccccc;
     --pt-face: #dddddd;
@@ -66,88 +86,199 @@
     --pt-bevel-strip: inset 0 1px 0 #ffffff, inset 0 -1px 0 #999999;
     --pt-shadow-window: 2px 2px 0 #262626;
     --pt-ring-default-btn: 0 0 0 2px #cccccc, 0 0 0 3px #262626;
-    --pt-accent: #1d4496;
-    --pt-on-accent: #ffffff;
-    --pt-selection-bg: #b8b8b8;
-    --pt-selection-fg: #111111;
-    --pt-menu-active-bg: #333333;
-    --pt-menu-active-fg: #ffffff;
-    --pt-scroll-track: #aaaaaa;
-    --pt-scroll-thumb: #cccccc;
-    --pt-scroll-thumb-hi: #ffffff;
-    --pt-scroll-thumb-lo: #777777;
+    --pt-accent: var(--_pt-l-accent);
+    --pt-on-accent: var(--_pt-l-on-accent);
+    --pt-selection-bg: var(--_pt-l-selection-bg);
+    --pt-selection-fg: var(--_pt-l-selection-fg);
+    --pt-menu-active-bg: var(--_pt-l-menu-active-bg);
+    --pt-menu-active-fg: var(--_pt-l-menu-active-fg);
+    --pt-scroll-track: var(--_pt-l-scroll-track);
+    --pt-scroll-thumb: var(--_pt-l-scroll-thumb);
+    --pt-scroll-thumb-hi: var(--_pt-l-scroll-thumb-hi);
+    --pt-scroll-thumb-lo: var(--_pt-l-scroll-thumb-lo);
     --pt-scroll-grip-v: repeating-linear-gradient(to bottom, var(--pt-scroll-glint) 0 1px, transparent 1px 2px) calc(50% - 3.5px) center / 1px 8px no-repeat, repeating-linear-gradient(to bottom, var(--pt-scroll-thumb-hi) 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center / 6px 8px no-repeat, repeating-linear-gradient(to bottom, transparent 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) calc(50% + 3.5px) center / 1px 8px no-repeat;
     --pt-scroll-grip-h: repeating-linear-gradient(to right, var(--pt-scroll-glint) 0 1px, transparent 1px 2px) center calc(50% - 3.5px) / 8px 1px no-repeat, repeating-linear-gradient(to right, var(--pt-scroll-thumb-hi) 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center / 8px 6px no-repeat, repeating-linear-gradient(to right, transparent 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center calc(50% + 3.5px) / 8px 1px no-repeat;
   }
 
+  :where([data-platinum-accent="gray"]) {
+    --_pt-l-accent: #1d4496;
+    --_pt-d-accent: #8ec0ff;
+    --_pt-l-on-accent: #ffffff;
+    --_pt-d-on-accent: #101828;
+    --_pt-l-selection-bg: #b8b8b8;
+    --_pt-d-selection-bg: #383838;
+    --_pt-l-selection-fg: #111111;
+    --_pt-d-selection-fg: #ffffff;
+    --_pt-l-menu-active-bg: #333333;
+    --_pt-d-menu-active-bg: #e0e0e0;
+    --_pt-l-menu-active-fg: #ffffff;
+    --_pt-d-menu-active-fg: #141414;
+    --_pt-l-scroll-track: #aaaaaa;
+    --_pt-d-scroll-track: #1a1a1a;
+    --_pt-l-scroll-thumb: #cccccc;
+    --_pt-d-scroll-thumb: #525252;
+    --_pt-l-scroll-thumb-hi: #ffffff;
+    --_pt-d-scroll-thumb-hi: #737373;
+    --_pt-l-scroll-thumb-lo: #777777;
+    --_pt-d-scroll-thumb-lo: #242424;
+    --pt-accent: var(--_pt-l-accent);
+    --pt-on-accent: var(--_pt-l-on-accent);
+    --pt-selection-bg: var(--_pt-l-selection-bg);
+    --pt-selection-fg: var(--_pt-l-selection-fg);
+    --pt-menu-active-bg: var(--_pt-l-menu-active-bg);
+    --pt-menu-active-fg: var(--_pt-l-menu-active-fg);
+    --pt-scroll-track: var(--_pt-l-scroll-track);
+    --pt-scroll-thumb: var(--_pt-l-scroll-thumb);
+    --pt-scroll-thumb-hi: var(--_pt-l-scroll-thumb-hi);
+    --pt-scroll-thumb-lo: var(--_pt-l-scroll-thumb-lo);
+    --pt-scroll-grip-v: repeating-linear-gradient(to bottom, var(--pt-scroll-glint) 0 1px, transparent 1px 2px) calc(50% - 3.5px) center / 1px 8px no-repeat, repeating-linear-gradient(to bottom, var(--pt-scroll-thumb-hi) 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center / 6px 8px no-repeat, repeating-linear-gradient(to bottom, transparent 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) calc(50% + 3.5px) center / 1px 8px no-repeat;
+    --pt-scroll-grip-h: repeating-linear-gradient(to right, var(--pt-scroll-glint) 0 1px, transparent 1px 2px) center calc(50% - 3.5px) / 8px 1px no-repeat, repeating-linear-gradient(to right, var(--pt-scroll-thumb-hi) 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center / 8px 6px no-repeat, repeating-linear-gradient(to right, transparent 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center calc(50% + 3.5px) / 8px 1px no-repeat;
+  }
+
+  :where([data-platinum-accent="lavender"]) {
+    --_pt-l-accent: #333399;
+    --_pt-d-accent: #b3b3ff;
+    --_pt-l-on-accent: #ffffff;
+    --_pt-d-on-accent: #141428;
+    --_pt-l-selection-bg: #ccccff;
+    --_pt-d-selection-bg: #3d3dad;
+    --_pt-l-selection-fg: #000000;
+    --_pt-d-selection-fg: #ffffff;
+    --_pt-l-menu-active-bg: #333399;
+    --_pt-d-menu-active-bg: #4b4bb8;
+    --_pt-l-menu-active-fg: #ffffff;
+    --_pt-d-menu-active-fg: #ffffff;
+    --_pt-l-scroll-track: #aaaaaa;
+    --_pt-d-scroll-track: #1a1a1a;
+    --_pt-l-scroll-thumb: #9999ff;
+    --_pt-d-scroll-thumb: #5c5c9e;
+    --_pt-l-scroll-thumb-hi: #ccccff;
+    --_pt-d-scroll-thumb-hi: #8585cc;
+    --_pt-l-scroll-thumb-lo: #333399;
+    --_pt-d-scroll-thumb-lo: #32325c;
+    --pt-accent: var(--_pt-l-accent);
+    --pt-on-accent: var(--_pt-l-on-accent);
+    --pt-selection-bg: var(--_pt-l-selection-bg);
+    --pt-selection-fg: var(--_pt-l-selection-fg);
+    --pt-menu-active-bg: var(--_pt-l-menu-active-bg);
+    --pt-menu-active-fg: var(--_pt-l-menu-active-fg);
+    --pt-scroll-track: var(--_pt-l-scroll-track);
+    --pt-scroll-thumb: var(--_pt-l-scroll-thumb);
+    --pt-scroll-thumb-hi: var(--_pt-l-scroll-thumb-hi);
+    --pt-scroll-thumb-lo: var(--_pt-l-scroll-thumb-lo);
+    --pt-scroll-grip-v: repeating-linear-gradient(to bottom, var(--pt-scroll-glint) 0 1px, transparent 1px 2px) calc(50% - 3.5px) center / 1px 8px no-repeat, repeating-linear-gradient(to bottom, var(--pt-scroll-thumb-hi) 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center / 6px 8px no-repeat, repeating-linear-gradient(to bottom, transparent 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) calc(50% + 3.5px) center / 1px 8px no-repeat;
+    --pt-scroll-grip-h: repeating-linear-gradient(to right, var(--pt-scroll-glint) 0 1px, transparent 1px 2px) center calc(50% - 3.5px) / 8px 1px no-repeat, repeating-linear-gradient(to right, var(--pt-scroll-thumb-hi) 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center / 8px 6px no-repeat, repeating-linear-gradient(to right, transparent 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center calc(50% + 3.5px) / 8px 1px no-repeat;
+  }
+
+  /* Single-layer fallback for engines without @scope, refined by @scope below for arbitrary nesting */
   @media (prefers-color-scheme: dark) {
-    :root:not([data-platinum-scheme="light"], [data-theme="platinum-light"]), [data-platinum]:not([data-platinum-scheme="light"], [data-theme="platinum-light"]) {
-    --pt-canvas: #181818;
-    --pt-window: #2c2c2c;
-    --pt-face: #3b3b3b;
-    --pt-face-hover: #474747;
-    --pt-pressed-bg: #161616;
-    --pt-pressed-fg: #ffffff;
-    --pt-paper: #1c1c1c;
-    --pt-code-bg: #161616;
-    --pt-ink: #eeeeee;
-    --pt-ink-muted: #c2c2c2;
-    --pt-frame: #080808;
-    --pt-border-subtle: #5c5c5c;
-    --pt-groove-dark: #141414;
-    --pt-groove-light: #4a4a4a;
-    --pt-scroll-glint: #888888;
-    --pt-tbox-lip: #444444;
-    --pt-tbox-polish: linear-gradient(135deg, #333 0% 18%, #3b3b3b 18% 32%, #444 32% 46%, #505050 46% 60%, #595959 60% 75%, #626262 75% 89%, #737373 89% 100%);
-    --pt-tbox-polish-pressed: linear-gradient(135deg, #111 0% 14%, #171717 14% 25%, #1e1e1e 25% 36%, #252525 36% 47%, #2c2c2c 47% 58%, #333 58% 69%, #3b3b3b 69% 81%, #414141 81% 92%, #494949 92% 100%);
-    --pt-pinstripe-hi: #525252;
-    --pt-pinstripe-lo: #1d1d1d;
-    --pt-danger: #ffbab4;
-    --pt-on-danger: #1c1c1c;
-    --pt-danger-soft: #3b1818;
-    --pt-success: #86efac;
-    --pt-on-success: #14261a;
-    --pt-success-soft: #1a3628;
-    --pt-warning: #fde047;
-    --pt-warning-soft: #36331e;
-    --pt-bevel-btn: inset 1px 1px 0 #4a4a4a, inset -1px -1px 0 #141414, inset 2px 2px 0 #666666, inset -2px -2px 0 #262626;
-    --pt-bevel-mini: inset 1px 1px 0 #666666, inset -1px -1px 0 #181818;
-    --pt-bevel-pressed: inset 1px 1px 0 #080808, inset -1px -1px 0 #3a3a3a, inset 2px 2px 0 #101010, inset -2px -2px 0 #262626;
-    --pt-bevel-sunken: inset 1px 1px 0 #0a0a0a, inset -1px -1px 0 #444444;
-    --pt-bevel-window: inset 1px 1px 0 #565656, inset -1px -1px 0 #181818;
-    --pt-bevel-strip: inset 0 1px 0 #525252, inset 0 -1px 0 #181818;
-    --pt-shadow-window: 2px 2px 0 #050505;
-    --pt-ring-default-btn: 0 0 0 2px #2c2c2c, 0 0 0 3px #080808;
-    --pt-accent: #8ec0ff;
-    --pt-on-accent: #101828;
-    --pt-selection-bg: #383838;
-    --pt-selection-fg: #ffffff;
-    --pt-menu-active-bg: #e0e0e0;
-    --pt-menu-active-fg: #141414;
-    --pt-scroll-track: #1a1a1a;
-    --pt-scroll-thumb: #525252;
-    --pt-scroll-thumb-hi: #737373;
-    --pt-scroll-thumb-lo: #242424;
-    --pt-scroll-grip-v: repeating-linear-gradient(to bottom, var(--pt-scroll-glint) 0 1px, transparent 1px 2px) calc(50% - 3.5px) center / 1px 8px no-repeat, repeating-linear-gradient(to bottom, var(--pt-scroll-thumb-hi) 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center / 6px 8px no-repeat, repeating-linear-gradient(to bottom, transparent 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) calc(50% + 3.5px) center / 1px 8px no-repeat;
-    --pt-scroll-grip-h: repeating-linear-gradient(to right, var(--pt-scroll-glint) 0 1px, transparent 1px 2px) center calc(50% - 3.5px) / 8px 1px no-repeat, repeating-linear-gradient(to right, var(--pt-scroll-thumb-hi) 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center / 8px 6px no-repeat, repeating-linear-gradient(to right, transparent 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center calc(50% + 3.5px) / 8px 1px no-repeat;
+    :where(:root):not([data-platinum-scheme="light"], [data-theme="platinum-light"], [data-platinum-scheme="dark"], [data-theme="platinum-dark"]) {
+      --pt-canvas: #181818;
+      --pt-window: #2c2c2c;
+      --pt-face: #3b3b3b;
+      --pt-face-hover: #474747;
+      --pt-pressed-bg: #161616;
+      --pt-pressed-fg: #ffffff;
+      --pt-paper: #1c1c1c;
+      --pt-code-bg: #161616;
+      --pt-ink: #eeeeee;
+      --pt-ink-muted: #c2c2c2;
+      --pt-frame: #080808;
+      --pt-border-subtle: #5c5c5c;
+      --pt-groove-dark: #141414;
+      --pt-groove-light: #4a4a4a;
+      --pt-scroll-glint: #888888;
+      --pt-tbox-lip: #444444;
+      --pt-tbox-polish: linear-gradient(135deg, #333 0% 18%, #3b3b3b 18% 32%, #444 32% 46%, #505050 46% 60%, #595959 60% 75%, #626262 75% 89%, #737373 89% 100%);
+      --pt-tbox-polish-pressed: linear-gradient(135deg, #111 0% 14%, #171717 14% 25%, #1e1e1e 25% 36%, #252525 36% 47%, #2c2c2c 47% 58%, #333 58% 69%, #3b3b3b 69% 81%, #414141 81% 92%, #494949 92% 100%);
+      --pt-pinstripe-hi: #525252;
+      --pt-pinstripe-lo: #1d1d1d;
+      --pt-danger: #ffbab4;
+      --pt-on-danger: #1c1c1c;
+      --pt-danger-soft: #3b1818;
+      --pt-success: #86efac;
+      --pt-on-success: #14261a;
+      --pt-success-soft: #1a3628;
+      --pt-warning: #fde047;
+      --pt-warning-soft: #36331e;
+      --pt-bevel-btn: inset 1px 1px 0 #4a4a4a, inset -1px -1px 0 #141414, inset 2px 2px 0 #666666, inset -2px -2px 0 #262626;
+      --pt-bevel-mini: inset 1px 1px 0 #666666, inset -1px -1px 0 #181818;
+      --pt-bevel-pressed: inset 1px 1px 0 #080808, inset -1px -1px 0 #3a3a3a, inset 2px 2px 0 #101010, inset -2px -2px 0 #262626;
+      --pt-bevel-sunken: inset 1px 1px 0 #0a0a0a, inset -1px -1px 0 #444444;
+      --pt-bevel-window: inset 1px 1px 0 #565656, inset -1px -1px 0 #181818;
+      --pt-bevel-strip: inset 0 1px 0 #525252, inset 0 -1px 0 #181818;
+      --pt-shadow-window: 2px 2px 0 #050505;
+      --pt-ring-default-btn: 0 0 0 2px #2c2c2c, 0 0 0 3px #080808;
+      --pt-accent: var(--_pt-d-accent);
+      --pt-on-accent: var(--_pt-d-on-accent);
+      --pt-selection-bg: var(--_pt-d-selection-bg);
+      --pt-selection-fg: var(--_pt-d-selection-fg);
+      --pt-menu-active-bg: var(--_pt-d-menu-active-bg);
+      --pt-menu-active-fg: var(--_pt-d-menu-active-fg);
+      --pt-scroll-track: var(--_pt-d-scroll-track);
+      --pt-scroll-thumb: var(--_pt-d-scroll-thumb);
+      --pt-scroll-thumb-hi: var(--_pt-d-scroll-thumb-hi);
+      --pt-scroll-thumb-lo: var(--_pt-d-scroll-thumb-lo);
+      --pt-scroll-grip-v: repeating-linear-gradient(to bottom, var(--pt-scroll-glint) 0 1px, transparent 1px 2px) calc(50% - 3.5px) center / 1px 8px no-repeat, repeating-linear-gradient(to bottom, var(--pt-scroll-thumb-hi) 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center / 6px 8px no-repeat, repeating-linear-gradient(to bottom, transparent 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) calc(50% + 3.5px) center / 1px 8px no-repeat;
+      --pt-scroll-grip-h: repeating-linear-gradient(to right, var(--pt-scroll-glint) 0 1px, transparent 1px 2px) center calc(50% - 3.5px) / 8px 1px no-repeat, repeating-linear-gradient(to right, var(--pt-scroll-thumb-hi) 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center / 8px 6px no-repeat, repeating-linear-gradient(to right, transparent 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center calc(50% + 3.5px) / 8px 1px no-repeat;
     }
-    [data-platinum-accent="lavender"]:not([data-platinum-scheme="light"], [data-theme="platinum-light"]) {
-    --pt-accent: #b3b3ff;
-    --pt-on-accent: #141428;
-    --pt-selection-bg: #3d3dad;
-    --pt-selection-fg: #ffffff;
-    --pt-menu-active-bg: #4b4bb8;
-    --pt-menu-active-fg: #ffffff;
-    --pt-scroll-track: #1a1a1a;
-    --pt-scroll-thumb: #5c5c9e;
-    --pt-scroll-thumb-hi: #8585cc;
-    --pt-scroll-thumb-lo: #32325c;
-    --pt-scroll-grip-v: repeating-linear-gradient(to bottom, var(--pt-scroll-glint) 0 1px, transparent 1px 2px) calc(50% - 3.5px) center / 1px 8px no-repeat, repeating-linear-gradient(to bottom, var(--pt-scroll-thumb-hi) 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center / 6px 8px no-repeat, repeating-linear-gradient(to bottom, transparent 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) calc(50% + 3.5px) center / 1px 8px no-repeat;
-    --pt-scroll-grip-h: repeating-linear-gradient(to right, var(--pt-scroll-glint) 0 1px, transparent 1px 2px) center calc(50% - 3.5px) / 8px 1px no-repeat, repeating-linear-gradient(to right, var(--pt-scroll-thumb-hi) 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center / 8px 6px no-repeat, repeating-linear-gradient(to right, transparent 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center calc(50% + 3.5px) / 8px 1px no-repeat;
+    @scope (:where(:root):not([data-platinum-scheme="light"], [data-theme="platinum-light"], [data-platinum-scheme="dark"], [data-theme="platinum-dark"])) to ([data-platinum-scheme="light"], [data-theme="platinum-light"], [data-platinum-scheme="dark"], [data-theme="platinum-dark"]) {
+      :where(:scope) {
+        --pt-canvas: #181818;
+        --pt-window: #2c2c2c;
+        --pt-face: #3b3b3b;
+        --pt-face-hover: #474747;
+        --pt-pressed-bg: #161616;
+        --pt-pressed-fg: #ffffff;
+        --pt-paper: #1c1c1c;
+        --pt-code-bg: #161616;
+        --pt-ink: #eeeeee;
+        --pt-ink-muted: #c2c2c2;
+        --pt-frame: #080808;
+        --pt-border-subtle: #5c5c5c;
+        --pt-groove-dark: #141414;
+        --pt-groove-light: #4a4a4a;
+        --pt-scroll-glint: #888888;
+        --pt-tbox-lip: #444444;
+        --pt-tbox-polish: linear-gradient(135deg, #333 0% 18%, #3b3b3b 18% 32%, #444 32% 46%, #505050 46% 60%, #595959 60% 75%, #626262 75% 89%, #737373 89% 100%);
+        --pt-tbox-polish-pressed: linear-gradient(135deg, #111 0% 14%, #171717 14% 25%, #1e1e1e 25% 36%, #252525 36% 47%, #2c2c2c 47% 58%, #333 58% 69%, #3b3b3b 69% 81%, #414141 81% 92%, #494949 92% 100%);
+        --pt-pinstripe-hi: #525252;
+        --pt-pinstripe-lo: #1d1d1d;
+        --pt-danger: #ffbab4;
+        --pt-on-danger: #1c1c1c;
+        --pt-danger-soft: #3b1818;
+        --pt-success: #86efac;
+        --pt-on-success: #14261a;
+        --pt-success-soft: #1a3628;
+        --pt-warning: #fde047;
+        --pt-warning-soft: #36331e;
+        --pt-bevel-btn: inset 1px 1px 0 #4a4a4a, inset -1px -1px 0 #141414, inset 2px 2px 0 #666666, inset -2px -2px 0 #262626;
+        --pt-bevel-mini: inset 1px 1px 0 #666666, inset -1px -1px 0 #181818;
+        --pt-bevel-pressed: inset 1px 1px 0 #080808, inset -1px -1px 0 #3a3a3a, inset 2px 2px 0 #101010, inset -2px -2px 0 #262626;
+        --pt-bevel-sunken: inset 1px 1px 0 #0a0a0a, inset -1px -1px 0 #444444;
+        --pt-bevel-window: inset 1px 1px 0 #565656, inset -1px -1px 0 #181818;
+        --pt-bevel-strip: inset 0 1px 0 #525252, inset 0 -1px 0 #181818;
+        --pt-shadow-window: 2px 2px 0 #050505;
+        --pt-ring-default-btn: 0 0 0 2px #2c2c2c, 0 0 0 3px #080808;
+      }
+      :where(:scope, [data-platinum-accent="gray"], [data-platinum-accent="lavender"]) {
+        --pt-accent: var(--_pt-d-accent);
+        --pt-on-accent: var(--_pt-d-on-accent);
+        --pt-selection-bg: var(--_pt-d-selection-bg);
+        --pt-selection-fg: var(--_pt-d-selection-fg);
+        --pt-menu-active-bg: var(--_pt-d-menu-active-bg);
+        --pt-menu-active-fg: var(--_pt-d-menu-active-fg);
+        --pt-scroll-track: var(--_pt-d-scroll-track);
+        --pt-scroll-thumb: var(--_pt-d-scroll-thumb);
+        --pt-scroll-thumb-hi: var(--_pt-d-scroll-thumb-hi);
+        --pt-scroll-thumb-lo: var(--_pt-d-scroll-thumb-lo);
+        --pt-scroll-grip-v: repeating-linear-gradient(to bottom, var(--pt-scroll-glint) 0 1px, transparent 1px 2px) calc(50% - 3.5px) center / 1px 8px no-repeat, repeating-linear-gradient(to bottom, var(--pt-scroll-thumb-hi) 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center / 6px 8px no-repeat, repeating-linear-gradient(to bottom, transparent 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) calc(50% + 3.5px) center / 1px 8px no-repeat;
+        --pt-scroll-grip-h: repeating-linear-gradient(to right, var(--pt-scroll-glint) 0 1px, transparent 1px 2px) center calc(50% - 3.5px) / 8px 1px no-repeat, repeating-linear-gradient(to right, var(--pt-scroll-thumb-hi) 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center / 8px 6px no-repeat, repeating-linear-gradient(to right, transparent 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center calc(50% + 3.5px) / 8px 1px no-repeat;
+      }
     }
   }
 
-  [data-platinum-scheme="light"], [data-theme="platinum-light"] {
+  :where([data-platinum-scheme="light"], [data-theme="platinum-light"]) {
     color-scheme: light;
     --pt-canvas: #bfbfbf;
     --pt-window: #cccccc;
@@ -185,21 +316,21 @@
     --pt-bevel-strip: inset 0 1px 0 #ffffff, inset 0 -1px 0 #999999;
     --pt-shadow-window: 2px 2px 0 #262626;
     --pt-ring-default-btn: 0 0 0 2px #cccccc, 0 0 0 3px #262626;
-    --pt-accent: #1d4496;
-    --pt-on-accent: #ffffff;
-    --pt-selection-bg: #b8b8b8;
-    --pt-selection-fg: #111111;
-    --pt-menu-active-bg: #333333;
-    --pt-menu-active-fg: #ffffff;
-    --pt-scroll-track: #aaaaaa;
-    --pt-scroll-thumb: #cccccc;
-    --pt-scroll-thumb-hi: #ffffff;
-    --pt-scroll-thumb-lo: #777777;
+    --pt-accent: var(--_pt-l-accent);
+    --pt-on-accent: var(--_pt-l-on-accent);
+    --pt-selection-bg: var(--_pt-l-selection-bg);
+    --pt-selection-fg: var(--_pt-l-selection-fg);
+    --pt-menu-active-bg: var(--_pt-l-menu-active-bg);
+    --pt-menu-active-fg: var(--_pt-l-menu-active-fg);
+    --pt-scroll-track: var(--_pt-l-scroll-track);
+    --pt-scroll-thumb: var(--_pt-l-scroll-thumb);
+    --pt-scroll-thumb-hi: var(--_pt-l-scroll-thumb-hi);
+    --pt-scroll-thumb-lo: var(--_pt-l-scroll-thumb-lo);
     --pt-scroll-grip-v: repeating-linear-gradient(to bottom, var(--pt-scroll-glint) 0 1px, transparent 1px 2px) calc(50% - 3.5px) center / 1px 8px no-repeat, repeating-linear-gradient(to bottom, var(--pt-scroll-thumb-hi) 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center / 6px 8px no-repeat, repeating-linear-gradient(to bottom, transparent 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) calc(50% + 3.5px) center / 1px 8px no-repeat;
     --pt-scroll-grip-h: repeating-linear-gradient(to right, var(--pt-scroll-glint) 0 1px, transparent 1px 2px) center calc(50% - 3.5px) / 8px 1px no-repeat, repeating-linear-gradient(to right, var(--pt-scroll-thumb-hi) 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center / 8px 6px no-repeat, repeating-linear-gradient(to right, transparent 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center calc(50% + 3.5px) / 8px 1px no-repeat;
   }
 
-  [data-platinum-scheme="dark"], [data-theme="platinum-dark"] {
+  :where([data-platinum-scheme="dark"], [data-theme="platinum-dark"]) {
     color-scheme: dark;
     --pt-canvas: #181818;
     --pt-window: #2c2c2c;
@@ -237,66 +368,133 @@
     --pt-bevel-strip: inset 0 1px 0 #525252, inset 0 -1px 0 #181818;
     --pt-shadow-window: 2px 2px 0 #050505;
     --pt-ring-default-btn: 0 0 0 2px #2c2c2c, 0 0 0 3px #080808;
-    --pt-accent: #8ec0ff;
-    --pt-on-accent: #101828;
-    --pt-selection-bg: #383838;
-    --pt-selection-fg: #ffffff;
-    --pt-menu-active-bg: #e0e0e0;
-    --pt-menu-active-fg: #141414;
-    --pt-scroll-track: #1a1a1a;
-    --pt-scroll-thumb: #525252;
-    --pt-scroll-thumb-hi: #737373;
-    --pt-scroll-thumb-lo: #242424;
+    --pt-accent: var(--_pt-d-accent);
+    --pt-on-accent: var(--_pt-d-on-accent);
+    --pt-selection-bg: var(--_pt-d-selection-bg);
+    --pt-selection-fg: var(--_pt-d-selection-fg);
+    --pt-menu-active-bg: var(--_pt-d-menu-active-bg);
+    --pt-menu-active-fg: var(--_pt-d-menu-active-fg);
+    --pt-scroll-track: var(--_pt-d-scroll-track);
+    --pt-scroll-thumb: var(--_pt-d-scroll-thumb);
+    --pt-scroll-thumb-hi: var(--_pt-d-scroll-thumb-hi);
+    --pt-scroll-thumb-lo: var(--_pt-d-scroll-thumb-lo);
     --pt-scroll-grip-v: repeating-linear-gradient(to bottom, var(--pt-scroll-glint) 0 1px, transparent 1px 2px) calc(50% - 3.5px) center / 1px 8px no-repeat, repeating-linear-gradient(to bottom, var(--pt-scroll-thumb-hi) 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center / 6px 8px no-repeat, repeating-linear-gradient(to bottom, transparent 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) calc(50% + 3.5px) center / 1px 8px no-repeat;
     --pt-scroll-grip-h: repeating-linear-gradient(to right, var(--pt-scroll-glint) 0 1px, transparent 1px 2px) center calc(50% - 3.5px) / 8px 1px no-repeat, repeating-linear-gradient(to right, var(--pt-scroll-thumb-hi) 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center / 8px 6px no-repeat, repeating-linear-gradient(to right, transparent 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center calc(50% + 3.5px) / 8px 1px no-repeat;
   }
 
-  [data-platinum-accent="lavender"] {
-    --pt-accent: #333399;
-    --pt-on-accent: #ffffff;
-    --pt-selection-bg: #ccccff;
-    --pt-selection-fg: #000000;
-    --pt-menu-active-bg: #333399;
-    --pt-menu-active-fg: #ffffff;
-    --pt-scroll-track: #aaaaaa;
-    --pt-scroll-thumb: #9999ff;
-    --pt-scroll-thumb-hi: #ccccff;
-    --pt-scroll-thumb-lo: #333399;
-    --pt-scroll-grip-v: repeating-linear-gradient(to bottom, var(--pt-scroll-glint) 0 1px, transparent 1px 2px) calc(50% - 3.5px) center / 1px 8px no-repeat, repeating-linear-gradient(to bottom, var(--pt-scroll-thumb-hi) 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center / 6px 8px no-repeat, repeating-linear-gradient(to bottom, transparent 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) calc(50% + 3.5px) center / 1px 8px no-repeat;
-    --pt-scroll-grip-h: repeating-linear-gradient(to right, var(--pt-scroll-glint) 0 1px, transparent 1px 2px) center calc(50% - 3.5px) / 8px 1px no-repeat, repeating-linear-gradient(to right, var(--pt-scroll-thumb-hi) 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center / 8px 6px no-repeat, repeating-linear-gradient(to right, transparent 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center calc(50% + 3.5px) / 8px 1px no-repeat;
+  @scope (:where([data-platinum-scheme="light"], [data-theme="platinum-light"])) to ([data-platinum-scheme="light"], [data-theme="platinum-light"], [data-platinum-scheme="dark"], [data-theme="platinum-dark"]) {
+    :where(:scope) {
+      color-scheme: light;
+      --pt-canvas: #bfbfbf;
+      --pt-window: #cccccc;
+      --pt-face: #dddddd;
+      --pt-face-hover: #e8e8e8;
+      --pt-pressed-bg: #666666;
+      --pt-pressed-fg: #ffffff;
+      --pt-paper: #ffffff;
+      --pt-code-bg: #f5f5f5;
+      --pt-ink: #222222;
+      --pt-ink-muted: #4d4d4d;
+      --pt-frame: #262626;
+      --pt-border-subtle: #8c8c8c;
+      --pt-groove-dark: #888888;
+      --pt-groove-light: #ffffff;
+      --pt-scroll-glint: #eeeeee;
+      --pt-tbox-lip: #999999;
+      --pt-tbox-polish: linear-gradient(135deg, #999 0% 18%, #aaa 18% 32%, #bbb 32% 46%, #ccc 46% 60%, #ddd 60% 75%, #eee 75% 89%, #fff 89% 100%);
+      --pt-tbox-polish-pressed: linear-gradient(135deg, #444 0% 14%, #555 14% 25%, #666 25% 36%, #777 36% 47%, #888 47% 58%, #999 58% 69%, #aaa 69% 81%, #bbb 81% 92%, #ccc 92% 100%);
+      --pt-pinstripe-hi: #ffffff;
+      --pt-pinstripe-lo: #777777;
+      --pt-danger: #7a1010;
+      --pt-on-danger: #ffffff;
+      --pt-danger-soft: #fee2e2;
+      --pt-success: #235c1e;
+      --pt-on-success: #ffffff;
+      --pt-success-soft: #dcfce7;
+      --pt-warning: #78350f;
+      --pt-warning-soft: #ffffcc;
+      --pt-bevel-btn: inset 1px 1px 0 #eeeeee, inset -1px -1px 0 #777777, inset 2px 2px 0 #ffffff, inset -2px -2px 0 #aaaaaa;
+      --pt-bevel-mini: inset 1px 1px 0 #ffffff, inset -1px -1px 0 #808080;
+      --pt-bevel-pressed: inset 1px 1px 0 #444444, inset -1px -1px 0 #888888, inset 2px 2px 0 #555555, inset -2px -2px 0 #777777;
+      --pt-bevel-sunken: inset 1px 1px 0 #808080, inset -1px -1px 0 #f4f4f4;
+      --pt-bevel-window: inset 1px 1px 0 #ffffff, inset -1px -1px 0 #8e8e8e;
+      --pt-bevel-strip: inset 0 1px 0 #ffffff, inset 0 -1px 0 #999999;
+      --pt-shadow-window: 2px 2px 0 #262626;
+      --pt-ring-default-btn: 0 0 0 2px #cccccc, 0 0 0 3px #262626;
+    }
+    :where(:scope, [data-platinum-accent="gray"], [data-platinum-accent="lavender"]) {
+      --pt-accent: var(--_pt-l-accent);
+      --pt-on-accent: var(--_pt-l-on-accent);
+      --pt-selection-bg: var(--_pt-l-selection-bg);
+      --pt-selection-fg: var(--_pt-l-selection-fg);
+      --pt-menu-active-bg: var(--_pt-l-menu-active-bg);
+      --pt-menu-active-fg: var(--_pt-l-menu-active-fg);
+      --pt-scroll-track: var(--_pt-l-scroll-track);
+      --pt-scroll-thumb: var(--_pt-l-scroll-thumb);
+      --pt-scroll-thumb-hi: var(--_pt-l-scroll-thumb-hi);
+      --pt-scroll-thumb-lo: var(--_pt-l-scroll-thumb-lo);
+      --pt-scroll-grip-v: repeating-linear-gradient(to bottom, var(--pt-scroll-glint) 0 1px, transparent 1px 2px) calc(50% - 3.5px) center / 1px 8px no-repeat, repeating-linear-gradient(to bottom, var(--pt-scroll-thumb-hi) 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center / 6px 8px no-repeat, repeating-linear-gradient(to bottom, transparent 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) calc(50% + 3.5px) center / 1px 8px no-repeat;
+      --pt-scroll-grip-h: repeating-linear-gradient(to right, var(--pt-scroll-glint) 0 1px, transparent 1px 2px) center calc(50% - 3.5px) / 8px 1px no-repeat, repeating-linear-gradient(to right, var(--pt-scroll-thumb-hi) 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center / 8px 6px no-repeat, repeating-linear-gradient(to right, transparent 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center calc(50% + 3.5px) / 8px 1px no-repeat;
+    }
   }
 
-  :is([data-platinum-scheme="light"], [data-theme="platinum-light"])[data-platinum-accent="lavender"], [data-platinum-scheme="light"] [data-platinum-accent="lavender"] {
-    --pt-accent: #333399;
-    --pt-on-accent: #ffffff;
-    --pt-selection-bg: #ccccff;
-    --pt-selection-fg: #000000;
-    --pt-menu-active-bg: #333399;
-    --pt-menu-active-fg: #ffffff;
-    --pt-scroll-track: #aaaaaa;
-    --pt-scroll-thumb: #9999ff;
-    --pt-scroll-thumb-hi: #ccccff;
-    --pt-scroll-thumb-lo: #333399;
-    --pt-scroll-grip-v: repeating-linear-gradient(to bottom, var(--pt-scroll-glint) 0 1px, transparent 1px 2px) calc(50% - 3.5px) center / 1px 8px no-repeat, repeating-linear-gradient(to bottom, var(--pt-scroll-thumb-hi) 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center / 6px 8px no-repeat, repeating-linear-gradient(to bottom, transparent 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) calc(50% + 3.5px) center / 1px 8px no-repeat;
-    --pt-scroll-grip-h: repeating-linear-gradient(to right, var(--pt-scroll-glint) 0 1px, transparent 1px 2px) center calc(50% - 3.5px) / 8px 1px no-repeat, repeating-linear-gradient(to right, var(--pt-scroll-thumb-hi) 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center / 8px 6px no-repeat, repeating-linear-gradient(to right, transparent 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center calc(50% + 3.5px) / 8px 1px no-repeat;
+  @scope (:where([data-platinum-scheme="dark"], [data-theme="platinum-dark"])) to ([data-platinum-scheme="light"], [data-theme="platinum-light"], [data-platinum-scheme="dark"], [data-theme="platinum-dark"]) {
+    :where(:scope) {
+      color-scheme: dark;
+      --pt-canvas: #181818;
+      --pt-window: #2c2c2c;
+      --pt-face: #3b3b3b;
+      --pt-face-hover: #474747;
+      --pt-pressed-bg: #161616;
+      --pt-pressed-fg: #ffffff;
+      --pt-paper: #1c1c1c;
+      --pt-code-bg: #161616;
+      --pt-ink: #eeeeee;
+      --pt-ink-muted: #c2c2c2;
+      --pt-frame: #080808;
+      --pt-border-subtle: #5c5c5c;
+      --pt-groove-dark: #141414;
+      --pt-groove-light: #4a4a4a;
+      --pt-scroll-glint: #888888;
+      --pt-tbox-lip: #444444;
+      --pt-tbox-polish: linear-gradient(135deg, #333 0% 18%, #3b3b3b 18% 32%, #444 32% 46%, #505050 46% 60%, #595959 60% 75%, #626262 75% 89%, #737373 89% 100%);
+      --pt-tbox-polish-pressed: linear-gradient(135deg, #111 0% 14%, #171717 14% 25%, #1e1e1e 25% 36%, #252525 36% 47%, #2c2c2c 47% 58%, #333 58% 69%, #3b3b3b 69% 81%, #414141 81% 92%, #494949 92% 100%);
+      --pt-pinstripe-hi: #525252;
+      --pt-pinstripe-lo: #1d1d1d;
+      --pt-danger: #ffbab4;
+      --pt-on-danger: #1c1c1c;
+      --pt-danger-soft: #3b1818;
+      --pt-success: #86efac;
+      --pt-on-success: #14261a;
+      --pt-success-soft: #1a3628;
+      --pt-warning: #fde047;
+      --pt-warning-soft: #36331e;
+      --pt-bevel-btn: inset 1px 1px 0 #4a4a4a, inset -1px -1px 0 #141414, inset 2px 2px 0 #666666, inset -2px -2px 0 #262626;
+      --pt-bevel-mini: inset 1px 1px 0 #666666, inset -1px -1px 0 #181818;
+      --pt-bevel-pressed: inset 1px 1px 0 #080808, inset -1px -1px 0 #3a3a3a, inset 2px 2px 0 #101010, inset -2px -2px 0 #262626;
+      --pt-bevel-sunken: inset 1px 1px 0 #0a0a0a, inset -1px -1px 0 #444444;
+      --pt-bevel-window: inset 1px 1px 0 #565656, inset -1px -1px 0 #181818;
+      --pt-bevel-strip: inset 0 1px 0 #525252, inset 0 -1px 0 #181818;
+      --pt-shadow-window: 2px 2px 0 #050505;
+      --pt-ring-default-btn: 0 0 0 2px #2c2c2c, 0 0 0 3px #080808;
+    }
+    :where(:scope, [data-platinum-accent="gray"], [data-platinum-accent="lavender"]) {
+      --pt-accent: var(--_pt-d-accent);
+      --pt-on-accent: var(--_pt-d-on-accent);
+      --pt-selection-bg: var(--_pt-d-selection-bg);
+      --pt-selection-fg: var(--_pt-d-selection-fg);
+      --pt-menu-active-bg: var(--_pt-d-menu-active-bg);
+      --pt-menu-active-fg: var(--_pt-d-menu-active-fg);
+      --pt-scroll-track: var(--_pt-d-scroll-track);
+      --pt-scroll-thumb: var(--_pt-d-scroll-thumb);
+      --pt-scroll-thumb-hi: var(--_pt-d-scroll-thumb-hi);
+      --pt-scroll-thumb-lo: var(--_pt-d-scroll-thumb-lo);
+      --pt-scroll-grip-v: repeating-linear-gradient(to bottom, var(--pt-scroll-glint) 0 1px, transparent 1px 2px) calc(50% - 3.5px) center / 1px 8px no-repeat, repeating-linear-gradient(to bottom, var(--pt-scroll-thumb-hi) 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center / 6px 8px no-repeat, repeating-linear-gradient(to bottom, transparent 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) calc(50% + 3.5px) center / 1px 8px no-repeat;
+      --pt-scroll-grip-h: repeating-linear-gradient(to right, var(--pt-scroll-glint) 0 1px, transparent 1px 2px) center calc(50% - 3.5px) / 8px 1px no-repeat, repeating-linear-gradient(to right, var(--pt-scroll-thumb-hi) 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center / 8px 6px no-repeat, repeating-linear-gradient(to right, transparent 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center calc(50% + 3.5px) / 8px 1px no-repeat;
+    }
   }
 
-  :is([data-platinum-scheme="dark"], [data-theme="platinum-dark"])[data-platinum-accent="lavender"], [data-platinum-scheme="dark"] [data-platinum-accent="lavender"], [data-platinum-accent="lavender"] [data-platinum-scheme="dark"] {
-    --pt-accent: #b3b3ff;
-    --pt-on-accent: #141428;
-    --pt-selection-bg: #3d3dad;
-    --pt-selection-fg: #ffffff;
-    --pt-menu-active-bg: #4b4bb8;
-    --pt-menu-active-fg: #ffffff;
-    --pt-scroll-track: #1a1a1a;
-    --pt-scroll-thumb: #5c5c9e;
-    --pt-scroll-thumb-hi: #8585cc;
-    --pt-scroll-thumb-lo: #32325c;
-    --pt-scroll-grip-v: repeating-linear-gradient(to bottom, var(--pt-scroll-glint) 0 1px, transparent 1px 2px) calc(50% - 3.5px) center / 1px 8px no-repeat, repeating-linear-gradient(to bottom, var(--pt-scroll-thumb-hi) 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center / 6px 8px no-repeat, repeating-linear-gradient(to bottom, transparent 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) calc(50% + 3.5px) center / 1px 8px no-repeat;
-    --pt-scroll-grip-h: repeating-linear-gradient(to right, var(--pt-scroll-glint) 0 1px, transparent 1px 2px) center calc(50% - 3.5px) / 8px 1px no-repeat, repeating-linear-gradient(to right, var(--pt-scroll-thumb-hi) 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center / 8px 6px no-repeat, repeating-linear-gradient(to right, transparent 0 1px, var(--pt-scroll-thumb-lo) 1px 2px) center calc(50% + 3.5px) / 8px 1px no-repeat;
-  }
-
-  [data-platinum-density="comfortable"] {
+  :where([data-platinum-density="comfortable"]) {
     --pt-control-h: 32px;
     --pt-control-h-sm: 24px;
     --pt-icon-size: 15px;

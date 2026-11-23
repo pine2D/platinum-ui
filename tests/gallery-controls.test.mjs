@@ -166,4 +166,245 @@ describe("Platinum controls in Chromium", { skip: !playwright && "Playwright una
     assert.equal(await hasFocus(host.getByRole("button", { name: "Next" })), true);
     assert.equal(await copiedTrigger.getAttribute("aria-expanded"), "false");
   });
+
+  it("styles customizable <select> picker, multi-row listbox, disabled marks, [hidden], nested @scope islands, strict scoped.css, and forced-colors radio", async t => {
+    const page = await browser.newPage({ viewport: { width: 1180, height: 900 } });
+    t.after(() => page.close());
+    await page.goto(gallery.href);
+
+    // 1. Window 2 customizable <select>: stable width across options + Platinum ::picker(select)
+    const sel = page.locator("select.pt-select").first();
+    const w0 = (await sel.boundingBox()).width;
+    await sel.selectOption({ index: 1 });
+    const w1 = (await sel.boundingBox()).width;
+    await sel.selectOption({ index: 2 });
+    const w2 = (await sel.boundingBox()).width;
+    assert.equal(w0, w1);
+    assert.equal(w1, w2);
+    await sel.click();
+    const pickerStyle = await sel.evaluate(el => {
+      const pcs = getComputedStyle(el, "::picker(select)");
+      return {
+        open: el.matches(":open"),
+        pickerBg: pcs.backgroundColor,
+        pickerBorder: pcs.borderTopColor,
+        pickerRadius: pcs.borderTopLeftRadius
+      };
+    });
+    assert.equal(pickerStyle.open, true);
+    assert.equal(pickerStyle.pickerBg, "rgb(221, 221, 221)");
+    assert.equal(pickerStyle.pickerBorder, "rgb(38, 38, 38)");
+    assert.equal(pickerStyle.pickerRadius, "0px");
+    await page.keyboard.press("Escape");
+
+    // 2. Window 3 interactive listbox (click + keyboard ArrowDown/End) & user input preserved across language switch
+    const searchInput = page.locator('[data-i18n-value="searchVal"]');
+    await searchInput.fill("custom user query");
+    await page.locator('[data-set-lang="zh-CN"]').click();
+    assert.equal(await searchInput.inputValue(), "custom user query");
+    assert.equal(await sel.getAttribute("aria-label"), "模型提供方");
+
+    const listbox = page.locator("#demo-listbox");
+    await listbox.locator("#demo-opt-3").click();
+    assert.equal(await listbox.locator("#demo-opt-3").getAttribute("aria-selected"), "true");
+    assert.equal(await listbox.locator("#demo-opt-1").getAttribute("aria-selected"), "false");
+    const opt3Colors = await listbox.locator("#demo-opt-3").evaluate(el => ({
+      rowFg: getComputedStyle(el).color,
+      metaFg: getComputedStyle(el.querySelector(".demo-list-meta")).color
+    }));
+    assert.equal(opt3Colors.metaFg, opt3Colors.rowFg);
+    await page.keyboard.press("End");
+    assert.equal(await listbox.locator("#demo-opt-7").getAttribute("aria-selected"), "true");
+
+    // 3. Direct .check() on .pt-switch-input (#toggle-inactive) & narrow 320px swatch non-overflow
+    await page.locator("#toggle-inactive").check();
+    assert.equal(await page.locator("#demo-windows > .pt-window").first().getAttribute("data-inactive"), "true");
+    await page.locator("#toggle-inactive").uncheck();
+    await page.setViewportSize({ width: 320, height: 700 });
+    const swatchOverflow = await page.evaluate(() =>
+      [...document.querySelectorAll(".swatch-card")].some(c => c.scrollWidth > c.clientWidth + 1)
+    );
+    assert.equal(swatchOverflow, false);
+
+    // 4. Strict platinum-scoped.css isolation + nested dark->light+lavender @scope + [hidden] + prose pressed link + disabled marks
+    const p2 = await browser.newPage();
+    t.after(() => p2.close());
+    await p2.setContent(`<!doctype html>
+      <html data-platinum-scheme="dark" data-platinum-controls="win">
+      <body>
+        <div id="out-win" class="pt-window"><button id="out-tbox" class="pt-tbox pt-tbox-close"></button></div>
+        <section id="mount-root" class="pt-window" data-platinum data-platinum-scheme="dark" data-platinum-accent="lavender" data-platinum-density="comfortable">
+          <section id="nested-bare-mount" data-platinum><button class="pt-btn">Sub</button></section>
+          <div id="inner-light" data-platinum-scheme="light">
+            <div class="pt-prose">
+              <a id="prose-btn" href="#x" class="pt-btn" aria-pressed="true">Act</a>
+              <div id="hid-code-head" class="pt-code-window-head" hidden>sh</div>
+            </div>
+            <input id="dis-chk" type="checkbox" class="pt-checkbox" checked disabled />
+            <input id="hid-chk" type="checkbox" class="pt-checkbox" hidden />
+            <button id="hid-mi" class="pt-menu-item" hidden>Hidden Item</button>
+            <button id="btn-hid-kbd" class="pt-btn">Save<kbd id="hid-kbd" hidden>Esc</kbd></button>
+            <label id="rtl-sw" class="pt-switch" dir="rtl" style="width:160px;justify-content:space-between">
+              <input id="rtl-sw-in" type="checkbox" class="pt-switch-input" />
+              <span id="rtl-sw-tr" class="pt-switch-track"></span>
+              <span>RTL</span>
+            </label>
+            <span id="hid-sw-tr" class="pt-switch-track" hidden></span>
+            <input id="aria-dis-field" class="pt-field" aria-disabled="true" value="Readonly" />
+            <select id="dis-sel" class="pt-select" disabled><option>Disabled</option></select>
+            <select id="aria-dis-sel" class="pt-select" aria-disabled="true"><option>Aria Disabled</option></select>
+            <select id="dis-multi" class="pt-select" multiple disabled><option>A</option><option>B</option></select>
+            <select id="sel-01" class="pt-select" size="01"><option>One</option><option>Two</option></select>
+            <select id="sel-oops" class="pt-select" size="oops"><option>One</option><option>Two</option></select>
+            <select id="sel-m1" class="pt-select" multiple size="1"><option>One</option><option>Two</option></select>
+            <select id="multi-sel" class="pt-select" multiple><option>A</option><option>B</option><option>C</option></select>
+            <select id="listbox-3" class="pt-select" size="3"><option selected>Alpha</option><option>Beta</option><option>Gamma</option></select>
+            <button id="after-lb" class="pt-btn">After</button>
+          </div>
+        </section>
+        <select id="self-mount-sel" data-platinum><option>Self</option></select>
+        <input id="self-mount-rng" type="range" data-platinum value="40" />
+      </body></html>`);
+    await p2.addStyleTag({ path: cssPath("platinum-scoped") });
+
+    // Unfocused listbox selection must produce a visible pixel change when moving from row 0 to row 1
+    await p2.locator("#after-lb").focus();
+    const lbBefore = await p2.locator("#listbox-3").screenshot();
+    await p2.locator("#listbox-3").selectOption({ index: 1 });
+    await p2.locator("#after-lb").focus();
+    const lbAfter = await p2.locator("#listbox-3").screenshot();
+    assert.notDeepEqual(lbBefore, lbAfter);
+
+    // Focusable aria-disabled field must show a keyboard focus outline
+    await p2.locator("#aria-dis-field").focus();
+    await p2.keyboard.press("Shift+Tab");
+    await p2.keyboard.press("Tab");
+
+    const audit = await p2.evaluate(() => {
+      const cs = id => getComputedStyle(document.getElementById(id));
+      const rect = id => document.getElementById(id).getBoundingClientRect();
+      const swIn = rect("rtl-sw-in"), swTr = rect("rtl-sw-tr");
+      return {
+        htmlOrder: getComputedStyle(document.documentElement).getPropertyValue("--pt-tb-order-close").trim(),
+        outWinBg: cs("out-win").backgroundColor,
+        mountWinBg: cs("mount-root").backgroundColor,
+        mountAccent: cs("mount-root").getPropertyValue("--pt-accent").trim(),
+        nestedBareWin: cs("nested-bare-mount").getPropertyValue("--pt-window").trim(),
+        nestedBareAccent: cs("nested-bare-mount").getPropertyValue("--pt-accent").trim(),
+        nestedBareCtrlH: cs("nested-bare-mount").getPropertyValue("--pt-control-h").trim(),
+        innerLightWin: cs("inner-light").getPropertyValue("--pt-window").trim(),
+        innerLightAccent: cs("inner-light").getPropertyValue("--pt-accent").trim(),
+        proseBtnFg: cs("prose-btn").color,
+        proseBtnBg: cs("prose-btn").backgroundColor,
+        disChkMark: getComputedStyle(document.getElementById("dis-chk"), "::after").borderLeftColor,
+        disChkBg: cs("dis-chk").backgroundColor,
+        disSel: [cs("dis-sel").backgroundColor, cs("dis-sel").boxShadow, cs("dis-sel").cursor],
+        ariaDisSel: [cs("aria-dis-sel").backgroundColor, cs("aria-dis-sel").boxShadow, cs("aria-dis-sel").cursor],
+        disMulti: [cs("dis-multi").backgroundColor, cs("dis-multi").boxShadow, cs("dis-multi").cursor],
+        ariaFieldOutline: cs("aria-dis-field").outlineStyle,
+        sel01H: rect("sel-01").height,
+        selOopsH: rect("sel-oops").height,
+        selM1H: rect("sel-m1").height,
+        rtlOverlap: Math.max(0, Math.min(swIn.right, swTr.right) - Math.max(swIn.left, swTr.left)),
+        hidChkH: rect("hid-chk").height,
+        hidMiH: rect("hid-mi").height,
+        hidKbdW: rect("hid-kbd").width,
+        hidCodeH: rect("hid-code-head").height,
+        hidSwTrH: rect("hid-sw-tr").height,
+        selfSelApp: cs("self-mount-sel").appearance,
+        selfRngApp: cs("self-mount-rng").appearance,
+        multiSelH: rect("multi-sel").height
+      };
+    });
+    assert.equal(audit.htmlOrder, "");
+    assert.equal(audit.outWinBg, "rgba(0, 0, 0, 0)");
+    assert.equal(audit.mountWinBg, "rgb(44, 44, 44)");
+    assert.equal(audit.mountAccent, "#b3b3ff");
+    assert.equal(audit.nestedBareWin, "#2c2c2c");
+    assert.equal(audit.nestedBareAccent, "#b3b3ff");
+    assert.equal(audit.nestedBareCtrlH, "32px");
+    assert.equal(audit.innerLightWin, "#cccccc");
+    assert.equal(audit.innerLightAccent, "#333399");
+    assert.equal(audit.proseBtnFg, "rgb(255, 255, 255)");
+    assert.equal(audit.proseBtnBg, "rgb(102, 102, 102)");
+    assert.equal(audit.disChkMark, "rgb(77, 77, 77)");
+    assert.equal(audit.disChkBg, "rgb(204, 204, 204)");
+    assert.deepEqual(audit.disSel, ["rgb(204, 204, 204)", "none", "not-allowed"]);
+    assert.deepEqual(audit.ariaDisSel, ["rgb(204, 204, 204)", "none", "not-allowed"]);
+    assert.deepEqual(audit.disMulti, ["rgb(204, 204, 204)", "none", "not-allowed"]);
+    assert.equal(audit.ariaFieldOutline, "solid");
+    assert.ok(audit.sel01H <= 34);
+    assert.ok(audit.selOopsH <= 34);
+    assert.ok(audit.selM1H <= 34);
+    assert.ok(audit.rtlOverlap >= 24);
+    assert.equal(audit.hidChkH, 0);
+    assert.equal(audit.hidMiH, 0);
+    assert.equal(audit.hidKbdW, 0);
+    assert.equal(audit.hidCodeH, 0);
+    assert.equal(audit.hidSwTrH, 0);
+    assert.equal(audit.selfSelApp, "base-select");
+    assert.equal(audit.selfRngApp, "none");
+    assert.ok(audit.multiSelH >= 60);
+
+    // 5. Electron <main data-window-focused="false">, nested active child .pt-window, and pre-@scope single-layer fallback
+    const pFocus = await browser.newPage();
+    t.after(() => pFocus.close());
+    await pFocus.setContent(`<!doctype html><html data-platinum><body>
+      <main id="elec-shell" data-window-focused="false">
+        <header id="elec-tb" class="pt-titlebar pt-titlebar--draggable">
+          <button id="elec-close" class="pt-tbox pt-tbox-close"></button>
+          <span class="pt-titlebar-label">Electron Shell</span>
+        </header>
+      </main>
+      <div id="outer-inact" class="pt-window" data-window-focused="false">
+        <header id="outer-tb" class="pt-titlebar"><span class="pt-titlebar-label">Outer</span></header>
+        <div class="pt-window-body">
+          <div id="inner-act" class="pt-window">
+            <header id="inner-tb" class="pt-titlebar"><span class="pt-titlebar-label">Inner Active</span></header>
+          </div>
+        </div>
+      </div>
+      <div id="dark-island" data-platinum-scheme="dark"></div>
+    </body></html>`);
+    await pFocus.addStyleTag({ path: cssPath("platinum") });
+    const focusAudit = await pFocus.evaluate(() => ({
+      elecStripes: getComputedStyle(document.getElementById("elec-tb")).backgroundImage,
+      elecCloseVis: getComputedStyle(document.getElementById("elec-close")).visibility,
+      outerStripes: getComputedStyle(document.getElementById("outer-tb")).backgroundImage,
+      innerStripes: getComputedStyle(document.getElementById("inner-tb")).backgroundImage
+    }));
+    assert.equal(focusAudit.elecStripes, "none");
+    assert.equal(focusAudit.elecCloseVis, "hidden");
+    assert.equal(focusAudit.outerStripes, "none");
+    assert.notEqual(focusAudit.innerStripes, "none");
+
+    // Simulate pre-@scope engine by stripping CSSScopeRule instances from CSSOM
+    const fallbackAudit = await pFocus.evaluate(() => {
+      const purgeScopes = list => {
+        for (let i = list.length - 1; i >= 0; i--) {
+          const r = list[i];
+          if (r.constructor.name === "CSSScopeRule") list.deleteRule(i);
+          else if (r.cssRules) purgeScopes(r.cssRules);
+        }
+      };
+      for (const sheet of document.styleSheets) purgeScopes(sheet);
+      return {
+        darkWin: getComputedStyle(document.getElementById("dark-island")).getPropertyValue("--pt-window").trim(),
+        outerStripes: getComputedStyle(document.getElementById("outer-tb")).backgroundImage
+      };
+    });
+    assert.equal(fallbackAudit.darkWin, "#2c2c2c");
+    assert.equal(fallbackAudit.outerStripes, "none");
+
+    // 6. Forced-colors radio dot stays distinguishable between unchecked and checked
+    const p3 = await browser.newPage();
+    t.after(() => p3.close());
+    await p3.emulateMedia({ forcedColors: "active" });
+    await p3.setContent(`<!doctype html><div data-platinum><input id="r" type="radio" class="pt-radio"></div>`);
+    await p3.addStyleTag({ path: cssPath("platinum") });
+    const offPng = await p3.locator("#r").screenshot();
+    await p3.locator("#r").check();
+    const onPng = await p3.locator("#r").screenshot();
+    assert.notDeepEqual(offPng, onPng);
+  });
 });

@@ -1,6 +1,6 @@
 // Both the original and implementation keep the guest's English labels.
 const id = new URLSearchParams(location.search).get("id") ?? "finder-active";
-const sample = window.PLATINUM_REFERENCE.samples.find(entry => entry.id === id);
+const sample = window.PLATINUM_REFERENCE?.samples?.find(entry => entry.id === id);
 const specimen = document.getElementById("specimen");
 if (!sample) {
   specimen.textContent = "Unknown Mac OS 9.0 sample.";

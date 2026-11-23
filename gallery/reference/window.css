@@ -59,6 +59,8 @@ html, body {
   --pt-window: #ddd;
   --pt-frame: #555;
   --pt-bevel-window: none;
+  border-color: #555;
+  box-shadow: none;
 }
 
 .sample-window[data-inactive="true"] .pt-titlebar {

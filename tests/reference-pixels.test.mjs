@@ -241,7 +241,14 @@ describe('Historical window screenshots at DPR 1', {
         assert.equal(await page.locator('html').getAttribute('lang'), 'zh-CN');
         assert.equal(await page.locator('#samples article').count(), 1);
         assert.equal(await page.locator('#sample-select option').count(), manifest.samples.length);
-        await page.locator('#sample-select').selectOption('1');
+        await page.locator('#sample-select').focus();
+        await page.keyboard.press('Space');
+        await page.keyboard.press('ArrowDown');
+        await page.keyboard.press('Escape');
+        assert.equal(await page.locator('#sample-select').inputValue(), '0');
+        await page.keyboard.press('Space');
+        await page.keyboard.press('ArrowDown');
+        await page.keyboard.press('Enter');
         assert.equal(new URL(page.url()).searchParams.get('id'), manifest.samples[1].id);
         await page.getByRole('button', { name: '上一项', exact: true }).click();
         assert.equal(new URL(page.url()).searchParams.get('id'), manifest.samples[0].id);
@@ -269,6 +276,20 @@ describe('Historical window screenshots at DPR 1', {
         });
         await page.reload();
         assert.equal(await page.locator('html').getAttribute('lang'), 'zh-CN');
+      }
+
+      // Malformed manifest ({} / { samples: null }) must degrade cleanly with zero uncaught errors and disabled controls
+      for (const payload of ['window.PLATINUM_REFERENCE = {};', 'window.PLATINUM_REFERENCE = { samples: null };']) {
+        const badPage = await browser.newPage();
+        const pageErrors = [];
+        badPage.on('pageerror', err => pageErrors.push(err.message));
+        await badPage.route('**/samples.js', route => route.fulfill({ contentType: 'text/javascript', body: payload }));
+        await badPage.goto(pagesURL);
+        assert.deepEqual(pageErrors, []);
+        assert.equal(await badPage.locator('#next').isDisabled(), true);
+        assert.equal(await badPage.locator('#previous').isDisabled(), true);
+        assert.equal(await badPage.locator('#sample-select').isDisabled(), true);
+        await badPage.close();
       }
     } finally {
       await page.close();
