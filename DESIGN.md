@@ -38,7 +38,7 @@
 
 1. **零偏色金属底盘（`R = G = B`）**：无论浅色银灰（`#bfbfbf` → `#cccccc` → `#dddddd` → `#ffffff`）还是深色碳黑金属（`#181818` → `#2c2c2c` → `#3b3b3b` → `#1c1c1c`），所有结构灰阶严禁掺入蓝紫冷偏色。
 2. **禁止泛紫令**：即便在 `lavender` 变体下，紫色也**严格限定**在焦点/链接、文本选区、菜单激活底与滚动条滑块 5 个语义槽位；所有按钮（含默认主按钮 `.pt-btn-primary`）、标签芯片（`.pt-chip`）、代码块和普通列表行悬停一律保持纯粹中性铂金灰。
-3. **主按钮靠双环结构而非彩色填充表达主次**：默认主按钮 `.pt-btn-primary` 保持 `--pt-face` 银灰表面与高对比文字，通过外圈 `--pt-ring-default-btn`（自身 `1px` 黑框 + `2px` 灰槽 + `1px` 外黑环）复刻 Mac OS 9 HIG Default Push Button。
+3. **主按钮靠双环结构而非彩色填充表达主次**：默认主按钮 `.pt-btn-primary` 保持 `--pt-face` 银灰表面与高对比文字，通过外圈 `--pt-ring-default-btn`（自身 `1px` 黑框 + `2px` 槽 + `1px` 外黑环；浅色槽贴框为 `#aaa`，外侧左上 `#ddd`、右下 `#777`）复刻 Mac OS 9 HIG Default Push Button。
 4. **全象限 WCAG AA 硬门**：`--pt-ink`、`--pt-ink-muted`、`--pt-accent`、`--pt-danger`、`--pt-success`、`--pt-warning` 在 `paper`、`window`、`face`、`face-hover` 四种底面上，以及 `pressed`、`selection`、`menu-active` 成对前背景在 `(light, dark) × (gray, lavender)` 全部组合下均须 `>= 4.5:1`。
 
 ---
